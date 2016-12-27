@@ -1,0 +1,11 @@
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+
+composer.lock
+
+/vendor/
+
+*.yml
+!config_example.yml
+!routes_example.yml

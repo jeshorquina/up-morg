@@ -1,0 +1,19 @@
+system: 
+    base_url: http://localhost
+    log_threshold: 4 # All messages
+    csrf_protection: TRUE
+    csrf_token_name: csrf_token 
+    csrf_cookie_name: csrf_cookie 
+
+database:
+    query_builder: TRUE
+    active_group: default
+    groups:
+        default: 
+            hostname: localhost
+            username: root
+            password: qwerty123
+            database: upmorg
+
+application:
+    
