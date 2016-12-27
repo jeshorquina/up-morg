@@ -1,0 +1,20 @@
+{
+	"description": "UP MOrg's Task, Finance, and Availability Management System",
+	"name": "jeshorquina/up-morg",
+	"type": "project",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.3.0",
+		"symfony/yaml": "^3.2"
+	},
+	"autoload": {
+        "psr-4": {
+			"Jesh\\Core\\": "application/core/",
+			"Jesh\\Controllers\\": "application/controllers/",
+			"Jesh\\Models\\": "application/models/",
+			"Jesh\\Operations\\": "application/operations/",
+			"Jesh\\Repository\\": "application/repository/"
+		},
+  		"classmap": ["system"]
+    }
+}
