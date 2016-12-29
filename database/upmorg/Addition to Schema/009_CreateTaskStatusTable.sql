@@ -1,0 +1,7 @@
+USE upmorg;
+
+CREATE TABLE IF NOT EXISTS `TaskStatus` (
+    `TaskStatusID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `Name` VARCHAR(50) NOT NULL,
+    PRIMARY KEY(`TaskStatusID`)
+);
