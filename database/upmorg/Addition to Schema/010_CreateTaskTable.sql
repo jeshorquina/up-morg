@@ -38,3 +38,4 @@ ALTER TABLE `Task`
 ADD CONSTRAINT FK_Task_Assignee
 FOREIGN KEY (`Assignee`)
 REFERENCES BatchMember(`BatchMemberID`);
+

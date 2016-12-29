@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `Committee` (
     `CommitteeHeadID` INT UNSIGNED NOT NULL,
     `CommitteeName` VARCHAR(50) NOT NULL,
     PRIMARY KEY (`CommitteeID`)
-); 
+);
 
 ALTER TABLE `Committee`
 ADD CONSTRAINT FK_Committee_CommitteeHeadID
