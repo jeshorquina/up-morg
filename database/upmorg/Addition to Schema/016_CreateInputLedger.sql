@@ -6,8 +6,10 @@ CREATE TABLE IF NOT EXISTS `LedgerInput` (
     `InputType` INT UNSIGNED NOT NULL,
     `Amount` INT UNSIGNED NOT NULL,
     `IsVerified` BOOLEAN NOT NULL,
-    PRIMARY KEY (`LedgerInputID`);
+    PRIMARY KEY (`LedgerInputID`)
 );
 
 ALTER TABLE `LedgerInput`
-ADD CONSTRAINT FK_LedgerInput_
+ADD CONSTRAINT FK_LedgerInput_BatchMemberID
+FOREIGN KEY (`BatchMemberID`)
+REFERENCES BatchMember(`BatchMemberID`);
