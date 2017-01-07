@@ -9,7 +9,9 @@
 	},
 	"autoload": {
         "psr-4": {
-			"Jesh\\Core\\": "application/core/",
+			"Jesh\\Core\\Helpers\\": "application/core/helpers",
+			"Jesh\\Core\\Interfaces\\": "application/core/interfaces",
+			"Jesh\\Core\\Wrappers\\": "application/core/wrappers",
 			"Jesh\\Controllers\\": "application/controllers/",
 			"Jesh\\Models\\": "application/models/",
 			"Jesh\\Operations\\": "application/operations/",

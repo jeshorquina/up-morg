@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$database_helper = new Jesh\Core\DatabaseHelper(FCPATH.'config.yml');
+$database_helper = new Jesh\Core\Helpers\DatabaseHelper(FCPATH.'config.yml');
 try
 {
 	$active_group 	= $database_helper->getDefaultActiveGroup();

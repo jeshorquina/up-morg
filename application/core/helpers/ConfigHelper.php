@@ -1,5 +1,5 @@
 <?php
-namespace Jesh\Core;
+namespace Jesh\Core\Helpers;
     
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;

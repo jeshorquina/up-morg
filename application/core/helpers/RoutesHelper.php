@@ -1,5 +1,5 @@
 <?php
-namespace Jesh\Core;
+namespace Jesh\Core\Helpers;
     
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 *
 * @author Jeshurun Orquina <jeshorquina@gmail.com>
 */
-class RoutesWrapper {
+class RoutesHelper {
 
     /**
     * Initializer for the wrapper.
