@@ -2,5 +2,5 @@
 namespace Jesh\Models;
 
 interface ModelInterface {
-    public function __construct(...$params);
+    public function __construct(...$params); //what
 }
