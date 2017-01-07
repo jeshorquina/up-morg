@@ -5,6 +5,19 @@ use \Jesh\Core\Wrappers\Controller;
 
 class PublicPagesController extends Controller {
 
+	private static $data;
+
+	public function __construct()
+	{
+		parent::__construct();
+        self::$data = array(
+			'csrf' => array(
+				'name' => $this->security->get_csrf_token_name(),
+				'hash' => $this->security->get_csrf_hash()
+			)
+		);
+	}
+
 	public function index()
 	{
 		self::view("public-pages/index.inc");
@@ -12,12 +25,11 @@ class PublicPagesController extends Controller {
 
 	public function Login()
 	{
-		$data = array(
-			'csrf' => array(
-				'name' => $this->security->get_csrf_token_name(),
-				'hash' => $this->security->get_csrf_hash()
-			)
-		);
-		self::view("public-pages/login.inc", $data);
+		self::view("public-pages/login.inc", self::$data);
+	}
+
+	public function Signup()
+	{
+		self::view("public-pages/signup.inc", self::$data);
 	}
 }

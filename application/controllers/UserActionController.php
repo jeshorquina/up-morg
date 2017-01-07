@@ -19,13 +19,36 @@ class UserActionController extends Controller {
         $username = $this->input->post("username");
         $password = $this->input->post("password");
 
-        if(self::$operations->ExistingUsername($username))
+        if(!self::$operations->ExistingUsername($username))
         {
-            if(self::$operations->MatchingPassword($username, $password))
-            {
-                echo "Hello";
-            }
+            return -1;
         }
+
+        if(!self::$operations->MatchingPassword($username, $password))
+        {
+            return -1;
+        }
+
+        return 0;
 	}
-    
+
+    public function Signup()
+    {
+        $first_name         = $this->input->post("first_name");
+        $middle_name        = $this->input->post("middle_name");
+        $last_name          = $this->input->post("last_name");
+        $email              = $this->input->post("email");
+        $phone              = $this->input->post("phone");
+        $first_password     = $this->input->post("first_password");
+        $second_password    = $this->input->post("second_password");
+
+        if(!self::$operations->IsRegistrationDataValid($first_name, $middle_name, 
+                                                        $last_name, $email, $phone, 
+                                                        $first_password, $second_password))
+        {
+            return -1;
+        }
+
+        echo "tralala";
+    }
 }
