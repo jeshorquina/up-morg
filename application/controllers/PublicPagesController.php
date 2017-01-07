@@ -7,6 +7,6 @@ class PublicPagesController extends Controller {
 
 	public function index()
 	{
-		self::view("homepage.php");
+		self::view("public-pages/index.php");
 	}
 }
