@@ -7,6 +7,17 @@ class PublicPagesController extends Controller {
 
 	public function index()
 	{
-		self::view("public-pages/index.php");
+		self::view("public-pages/index.inc");
+	}
+
+	public function Login()
+	{
+		$data = array(
+			'csrf' => array(
+				'name' => $this->security->get_csrf_token_name(),
+				'hash' => $this->security->get_csrf_hash()
+			)
+		);
+		self::view("public-pages/login.inc", $data);
 	}
 }

@@ -1,7 +1,7 @@
 <?php 
 namespace Jesh\Models;
 
-use \Jesh\Models\ModelInterface;
+use \Jesh\Core\Interfaces\ModelInterface;
 
 class BatchModel implements ModelInterface {
     

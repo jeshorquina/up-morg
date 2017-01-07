@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $composer_autoload = FCPATH . 'vendor/autoload.php';
 require_once $composer_autoload;
 
-$config_helper = New Jesh\Core\ConfigHelper(FCPATH.'config.yml');
+$config_helper = New Jesh\Core\Helpers\ConfigHelper(FCPATH.'config.yml');
 
 /*
 |--------------------------------------------------------------------------
