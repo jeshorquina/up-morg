@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use \Jesh\Controllers\Controller;
+use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Operations\UserActionOperations;
 
 class UserActionController extends Controller {

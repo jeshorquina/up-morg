@@ -1,5 +1,5 @@
 <?php
-namespace Jesh\Controllers;
+namespace Jesh\Core\Wrappers;
 
 use \CI_Controller;
 
