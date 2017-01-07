@@ -17,7 +17,7 @@ abstract class Repository extends CI_Model {
         unset($this->db);
     }
 
-    protected function insert($table_name, ModelInterface $object)
+    protected function insert($table_name, ModelInterface $object) //why protected
     {
         $this->db->insert($table_name, $object);
     }
