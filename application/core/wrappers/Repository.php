@@ -2,7 +2,7 @@
 namespace Jesh\Core\Wrappers;
 
 use CI_Model;
-use \Jesh\Models\ModelInterface;
+use \Jesh\Core\Interfaces\ModelInterface;
 
 abstract class Repository extends CI_Model {
 
