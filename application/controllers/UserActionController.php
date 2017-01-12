@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Operations\UserActionOperations;
+use \Jesh\Models\MemberModel;
 
 class UserActionController extends Controller {
 
@@ -49,6 +50,18 @@ class UserActionController extends Controller {
             return -1;
         }
 
-        echo "tralala";
+        $first_password = better_crypt($first_password);
+
+        //echo "Hello";
+        self::$operations->CreateMember(
+            new MemberModel(
+                $first_name, 
+                $middle_name, 
+                $last_name, 
+                $email,
+                $phone,
+                $first_password
+            )
+        );
     }
 }
