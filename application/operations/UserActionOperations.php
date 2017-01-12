@@ -2,6 +2,7 @@
 namespace Jesh\Operations;
 
 use \Jesh\Repository\UserActionOperationsRepository;
+use \Jesh\Models\MemberModel;
 
 class UserActionOperations {
 
@@ -19,7 +20,14 @@ class UserActionOperations {
 
     public function MatchingPassword($username, $password) 
     {   
-        return self::$repository->GetPassword($username) === $password;
+        $password_from_db = self::$repository->GetPassword($username);
+        //echo $password_from_db;
+        if(crypt($password, $password_from_db) == $password_from_db)
+        {
+            echo "password is correct";
+        }
+        else echo "incorrect password <br>";
+        //return self::$repository->GetPassword($username) === $password;
     }
     
     public function IsRegistrationDataValid($first_name, $middle_name, $last_name, 
@@ -34,6 +42,41 @@ class UserActionOperations {
         $first_password     = filter_var($first_password, FILTER_SANITIZE_STRING);
         $second_password    = filter_var($second_password, FILTER_SANITIZE_STRING);
 
+        if($first_name == '')
+        {
+            return -1;
+        }
+
+        if($middle_name == '')
+        {
+            return -1;
+        }
+
+        if($last_name == '')
+        {
+            return -1;
+        }
+
+        if($email_address == '')
+        {
+            return -1;
+        }
+
+        if($phone_number == '')
+        {
+            return -1;
+        }
+
+        if($first_password == '')
+        {
+            return -1;
+        }
+
+        if($second_password == '')
+        {
+            return -1;
+        }
+        
         if(!filter_var($email_address, FILTER_VALIDATE_EMAIL))
         {
             return false;
@@ -45,5 +88,10 @@ class UserActionOperations {
         }
 
         return true;
+    }
+
+    public function CreateMember(MemberModel $member)
+    {
+        self::$repository->InsertMemberToDatabase($member);
     }
 }
