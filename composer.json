@@ -4,7 +4,7 @@
 	"type": "project",
 	"license": "MIT",
 	"require": {
-		"php": ">=5.3.0",
+		"php": ">=5.5.0",
 		"symfony/yaml": "^3.2"
 	},
 	"autoload": {
@@ -13,6 +13,7 @@
 			"Jesh\\Core\\Interfaces\\": "application/core/interfaces",
 			"Jesh\\Core\\Wrappers\\": "application/core/wrappers",
 			"Jesh\\Controllers\\": "application/controllers/",
+			"Jesh\\Helpers\\": "application/helpers/",
 			"Jesh\\Models\\": "application/models/",
 			"Jesh\\Operations\\": "application/operations/",
 			"Jesh\\Repository\\": "application/repository/"

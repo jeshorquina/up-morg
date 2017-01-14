@@ -36,7 +36,7 @@ abstract class Repository extends CI_Model {
 
     protected function Insert($table_name, ModelInterface $object)
     {
-        $this->db->insert($table_name, $object);
+        return $this->db->insert($table_name, $object);
     }
 
     protected function Delete()
