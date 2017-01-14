@@ -1,8 +1,11 @@
 <?php
 namespace Jesh\Operations;
 
-use \Jesh\Repository\UserActionOperationsRepository;
+use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Http;
+
 use \Jesh\Models\MemberModel;
+use \Jesh\Repository\UserActionOperationsRepository;
 
 class UserActionOperations {
 
@@ -15,25 +18,18 @@ class UserActionOperations {
 
     public function ExistingUsername($username)
     {
-        return self::$repository->GetIsUsernameExists($username);
+        return self::$repository->GetUsernameExists($username);
     }
 
     public function MatchingPassword($username, $password) 
-    {   
-        $password_from_db = self::$repository->GetPassword($username);
-        //echo $password_from_db;
-        if(crypt($password, $password_from_db) == $password_from_db)
-        {
-            echo "password is correct";
-        }
-        else echo "incorrect password <br>";
-        //return self::$repository->GetPassword($username) === $password;
+    {
+        return Security::CheckPassword($password, self::$repository->GetPassword($username));
     }
     
-    public function IsRegistrationDataValid($first_name, $middle_name, $last_name, 
+    public function ValidateRegistrationData($first_name, $middle_name, $last_name, 
                                             $email_address, $phone_number, 
                                             $first_password, $second_password)
-    { 
+    {
         $first_name         = filter_var($first_name, FILTER_SANITIZE_STRING);
         $middle_name        = filter_var($middle_name, FILTER_SANITIZE_STRING);
         $last_name          = filter_var($last_name, FILTER_SANITIZE_STRING);
@@ -42,56 +38,76 @@ class UserActionOperations {
         $first_password     = filter_var($first_password, FILTER_SANITIZE_STRING);
         $second_password    = filter_var($second_password, FILTER_SANITIZE_STRING);
 
-        if($first_name == '')
+        $validation_array = array();
+        $validation_array["status"] = true;
+
+        if(strlen($first_name) === 0)
         {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["first_name"] = "Empty first name.";
         }
 
-        if($middle_name == '')
+        if(strlen($last_name) === 0)
         {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["last_name"] = "Empty last name.";
         }
 
-        if($last_name == '')
+        if(strlen($email_address) === 0)
         {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["email_address"] = "Empty email address.";
         }
 
-        if($email_address == '')
+        if(strlen($phone_number) === 0)
         {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["phone_number"] = "Empty phone number.";
         }
 
-        if($phone_number == '')
+        if(strlen($first_password) === 0)
         {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["first_password"] = "Empty password.";
         }
 
-        if($first_password == '')
+        if(strlen($second_password) === 0)
         {
-            return -1;
-        }
-
-        if($second_password == '')
-        {
-            return -1;
+            $validation_array["status"] = false;
+            $validation_array["data"]["second_password"] = "Empty confirm password.";
         }
         
         if(!filter_var($email_address, FILTER_VALIDATE_EMAIL))
         {
-            return false;
+            $validation_array["status"] = false;
+            $validation_array["data"]["email_address"] = "Invalid email.";
         }
 
         if($first_password !== $second_password)
         {
-            return false;
+            $validation_array["status"] = false;
+            $validation_array["data"]["password"] = "Passwords do not match.";
         }
 
-        return true;
+       // $validation_array["data"] = json_encode($validation_array["data"]);
+        return $validation_array;
     }
 
     public function CreateMember(MemberModel $member)
     {
-        self::$repository->InsertMemberToDatabase($member);
+        if(self::$repository->InsertMemberToDatabase($member))
+        {
+            return array(
+                "status" => Http::CREATED,
+                "message" => "Member successfully created."
+            );
+        }
+        else 
+        {
+            return array(
+                "status" => Http::INTERNAL_SERVER_ERROR,
+                "message" => "Member has not been created."
+            );
+        }
     }
 }

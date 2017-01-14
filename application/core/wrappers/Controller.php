@@ -5,7 +5,7 @@ use \CI_Controller;
 
 class Controller extends CI_Controller {
 
-    protected function view($page, $data = NULL)
+    protected function RenderView($page, $data = NULL)
     {
         $this->load->view($page, $data);
     }
