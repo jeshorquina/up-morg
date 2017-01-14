@@ -1,0 +1,15 @@
+'index':
+    controller: PublicPagesController
+'login':
+    controller: PublicPagesController
+    function: Login
+'signup':
+    controller: PublicPagesController
+    function: signup
+
+'action/login':
+    controller: UserActionController
+    function: Login
+'action/signup':
+    controller: UserActionController
+    function: Signup
