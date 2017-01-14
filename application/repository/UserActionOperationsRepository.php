@@ -6,18 +6,26 @@ use \Jesh\Models\MemberModel;
 
 class UserActionOperationsRepository extends Repository {
 
-    public function GetIsUsernameExists($username)
+    public function GetUsernameExists($username)
     {
         return self::Find("Member", "EmailAddress", $username);
     }
 
     public function GetPassword($username)
     {
-        return self::Get("Member", "Password", array("EmailAddress" => $username))[0]["Password"];
+        $array = self::Get("Member", "Password", array("EmailAddress" => $username));
+        if(sizeof($array) === 1)
+        {
+            return $array[0]["Password"];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public function InsertMemberToDatabase(MemberModel $member)
     {
-        self::Insert("Member", $member);
+        return self::Insert("Member", $member);
     }
 }
