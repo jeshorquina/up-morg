@@ -7,5 +7,4 @@ composer.lock
 /vendor/
 
 *.yml
-!config_example.yml
-!routes_example.yml
+!routes.yml
