@@ -7,7 +7,6 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Http;
 
 use \Jesh\Models\MemberModel;
-use \Jesh\Operations\UserActionOperations;
 
 class UserActionController extends Controller {
 
@@ -17,41 +16,53 @@ class UserActionController extends Controller {
     {
         parent::__construct();
 
-        $this->operations = new UserActionOperations;
+        $this->operations = self::InitializeOperations("UserActionOperations");
     }
 
-	public function Login()
-	{
+    public function Login()
+    {
         $username = Http::Request(Http::POST, "username");
         $password = Http::Request(Http::POST, "password");
 
+        // add validation here (just like in sign-up)
+
         if(!$this->operations->ExistingUsername($username))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, "Username does not exist!");
+            Http::Response(Http::UNPROCESSABLE_ENTITY, "Non-existent user!");
         }
         else if(!$this->operations->MatchingPassword($username, $password))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, "Password does not match!");
+            Http::Response(Http::UNPROCESSABLE_ENTITY, "Incorrect password!");
         }
         else 
         {
+            // Create session data that will 
+            // expire in 1 day (i.e. create
+            // a helper, e.g. Session.php)
+
             Http::Response(Http::OK, "Logged in!");
         }
-	}
+    }
 
     public function Signup()
     {
-        $first_name         = Http::Request(Http::POST, "first_name");
-        $middle_name        = Http::Request(Http::POST, "middle_name");
-        $last_name          = Http::Request(Http::POST, "last_name");
-        $email              = Http::Request(Http::POST, "email");
-        $phone              = Http::Request(Http::POST, "phone");
-        $first_password     = Http::Request(Http::POST, "first_password");
-        $second_password    = Http::Request(Http::POST, "second_password");
+        $first_name      = Http::Request(Http::POST, "first_name");
+        $middle_name     = Http::Request(Http::POST, "middle_name");
+        $last_name       = Http::Request(Http::POST, "last_name");
+        $email           = Http::Request(Http::POST, "email");
+        $phone           = Http::Request(Http::POST, "phone");
+        $first_password  = Http::Request(Http::POST, "first_password");
+        $second_password = Http::Request(Http::POST, "second_password");
 
         $validation = $this->operations->ValidateRegistrationData(
-            $first_name, $middle_name, $last_name, 
-            $email, $phone, $first_password, $second_password
+            array(
+                "first_name"      => $first_name,
+                "last_name"       => $last_name,
+                "email_address"   => $email,
+                "phone_number"    => $phone,
+                "first_password"  => $first_password,
+                "second_password" => $second_password
+            )
         );
 
         if($validation["status"] === false)
@@ -62,15 +73,21 @@ class UserActionController extends Controller {
         {
             $response = $this->operations->CreateMember(
                 new MemberModel(
-                    $first_name, 
-                    $middle_name, 
-                    $last_name, 
+                    $first_name,
+                    $middle_name,
+                    $last_name,
                     $email,
                     $phone,
                     Security::GenerateHash($first_password)
                 )
             );
-            Http::Response($response["status"], $response["message"]);
+
+            Http::Response(
+                ($response["status"] === true) ? 
+                    Http::CREATED : 
+                    Http::INTERNAL_SERVER_ERROR,
+                $response["data"]
+            );
         }
     }
 }
