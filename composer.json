@@ -8,7 +8,7 @@
 		"symfony/yaml": "^3.2"
 	},
 	"autoload": {
-        "psr-4": {
+		"psr-4": {
 			"Jesh\\Core\\Helpers\\": "application/core/helpers",
 			"Jesh\\Core\\Interfaces\\": "application/core/interfaces",
 			"Jesh\\Core\\Wrappers\\": "application/core/wrappers",
@@ -18,6 +18,8 @@
 			"Jesh\\Operations\\": "application/operations/",
 			"Jesh\\Repository\\": "application/repository/"
 		},
-  		"classmap": ["system"]
-    }
+		"classmap": [
+			"system"
+		]
+	}
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Core\Wrappers;
 
-use CI_Model;
+use \CI_Model;
 use \Jesh\Core\Interfaces\ModelInterface;
 
 abstract class Repository extends CI_Model {
@@ -46,6 +46,6 @@ abstract class Repository extends CI_Model {
 
     protected function Update()
     {
-
+        
     }
 }
