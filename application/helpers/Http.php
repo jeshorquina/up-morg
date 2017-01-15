@@ -3,8 +3,8 @@ namespace Jesh\Helpers;
 
 Class Http {
     
-    const GET  = 1;
-    const POST = 2;
+    const GET  = INPUT_GET;
+    const POST = INPUT_POST;
 
     const OK                    = 200;
     const CREATED               = 201;
@@ -17,15 +17,22 @@ Class Http {
         switch($type)
         {
             case self::GET:
-                return $_GET[$key];
             case self::POST:
-                return $_POST[$key];
+                return self::GetPreparedValue($type, $key);
             default:
                 throw new \Exception("HTTP Method not supported.");
         }
     }
 
-    public static function Response($status, $message)
+    private static function GetPreparedValue($type, $key)
+    {
+         // we do not filter input unless put in database 
+         // (i.e. sql injection) or used as a 
+         // browser output (i.e. XSS)
+        return filter_input($type, $key, FILTER_DEFAULT);
+    }
+
+    public static function Response($status, $mixed)
     {
         $array = array();
         switch($status)
@@ -48,12 +55,12 @@ Class Http {
             default:
                 throw new \Exception("HTTP Status not supported.");
         }
-        $array["message"] = $message;
+        $array["data"] = $mixed;
 
-        self::SendJSON($status, $array);
+        self::SendJSONResponse($status, $array);
     }
 
-    private static function SendJSON($status, $array)
+    private static function SendJSONResponse($status, $array)
     {
         // set response status code
         http_response_code($status);
