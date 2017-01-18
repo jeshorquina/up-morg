@@ -27,12 +27,12 @@ class MemberModel implements ModelInterface {
      *               $param[5] = Password;     
      */
      public function __construct(...$params){
-         $this->FirstName = $params[0];
-         $this->MiddleName = $params[1];
-         $this->LastName = $params[2];
+         $this->FirstName    = $params[0];
+         $this->MiddleName   = $params[1];
+         $this->LastName     = $params[2];
          $this->EmailAddress = $params[3];
-         $this->PhoneNumber = $params[4];
-         $this->Password = $params[5];
+         $this->PhoneNumber  = $params[4];
+         $this->Password     = $params[5];
      }
 
 }
