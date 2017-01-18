@@ -14,7 +14,7 @@ class BatchModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = AcadYear
+     *               $param[0] = AcadYear;
      */ 
     public function __construct(...$params){
         $this->AcadYear = $params[0];
