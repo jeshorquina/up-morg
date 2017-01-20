@@ -25,6 +25,35 @@ class UserActionOperations {
     {
         return Security::CheckPassword($password, self::$repository->GetPassword($username));
     }
+
+    public function ValidateLoginData($email_address, $password)
+    {
+        $email_address = filter_var($email_address, FILTER_SANITIZE_EMAIL);
+        $password      = filter_var($password, FILTER_SANITIZE_STRING);
+
+        $validation_array = array();
+        $validation_array["status"] = true;
+
+        if(strlen($email_address) === 0)
+        {
+            $validation_array["status"] = false;
+            $validation_array["data"]["email_address"] = "Empty username.";
+        } 
+
+        if(strlen($email_address) === 0)
+        {
+            $validation_array["status"] = false;
+            $validation_array["data"]["password"] = "Empty password.";
+        }      
+
+        if(!filter_var($email_address, FILTER_VALIDATE_EMAIL))
+        {
+            $validation_array["status"] = false;
+            $validation_array["data"]["email_address"] = "Invalid username. Please enter your registered email address.";
+        }
+
+        return $validation_array;
+    }
     
     public function ValidateRegistrationData($registration_data)
     {

@@ -39,13 +39,17 @@ abstract class Repository extends CI_Model {
         return $this->db->insert($table_name, $object);
     }
 
-    protected function Delete()
+    protected function Delete($table_name, $column_name, $value)
     {
-        
+        $this->db->where($column_name, $value);
+        return $this->db->delete($table_name);
     }
 
-    protected function Update()
+    protected function Update($table_name, $column_name, $value, $data)
     {
-        
+        $this->db->select($column_name);
+        $this->db->from($table_name);
+        $this->db->where($column_name, $value);
+        return $this->db->update($table_name, $data);
     }
 }
