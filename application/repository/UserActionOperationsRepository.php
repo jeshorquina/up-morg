@@ -28,4 +28,22 @@ class UserActionOperationsRepository extends Repository {
     {
         return self::Insert("Member", $member);
     }
+
+    public function UpdateMemberInDatabase($member_id)
+    {
+        $data = array(
+            'FirstName'     => $this->input->post('FirstName'),
+            'MiddleName'    => $this->input->post('MiddleName'),
+            'LastName'      => $this->input->post('LastName'),
+            'EmailAddress'  => $this->input->post('EmailAddress'),
+            'PhoneNumber'   => $this->input->post('PhoneNumber'),
+            'Password'      => $this->input->post('Password')
+        );
+        return self::Update("Member", "MemberID", $member_id, $data);
+    }
+
+    public function DeleteMemberFromDatabase($member_id)
+    {
+        return self::Delete("Member", "MemberID", $member_id);
+    }
 }
