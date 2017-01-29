@@ -23,27 +23,25 @@ class TaskModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = TaskID;
-     *               $param[1] = ParentTaskID;
-     *               $param[2] = TaskStatusID;
-     *               $param[3] = EventID;
-     *               $param[4] = Reporter;
-     *               $param[5] = Assignee;
-     *               $param[6] = TaskTitle;
-     *               $param[7] = TaskDescription;
-     *               $param[8] = TaskDeadline;
-     *               $param[9] = Timestamp;
+     *               $param[0] = ParentTaskID;
+     *               $param[1] = TaskStatusID;
+     *               $param[2] = EventID;
+     *               $param[3] = Reporter;
+     *               $param[4] = Assignee;
+     *               $param[5] = TaskTitle;
+     *               $param[6] = TaskDescription;
+     *               $param[7] = TaskDeadline;
+     *               $param[8] = Timestamp;
      */ 
      public function __construct(...$params){
-        $this->TaskID          = $params[0];
-        $this->ParentTaskID    = $params[1];
-        $this->TaskStatusID    = $params[2];
-        $this->EventID         = $params[3];
-        $this->Reporter        = $params[4];
-        $this->Assignee        = $params[5];
-        $this->TaskTitle       = $params[6];
-        $this->TaskDescription = $params[7];
-        $this->TaskDeadline    = $params[8];
-        $this->Timestamp       = $params[9]; 
+        $this->ParentTaskID    = $params[0];
+        $this->TaskStatusID    = $params[1];
+        $this->EventID         = $params[2];
+        $this->Reporter        = $params[3];
+        $this->Assignee        = $params[4];
+        $this->TaskTitle       = $params[5];
+        $this->TaskDescription = $params[6];
+        $this->TaskDeadline    = $params[7];
+        $this->Timestamp       = $params[8]; 
      }
 }
