@@ -15,11 +15,9 @@ class MemberTypeModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = MemberTypeID;
-     *               $param[1] = MemberType;
+     *               $param[0] = MemberType;
      */ 
     public function __construct(...$params){
-        $this->MemberTypeID = $params[0];
-        $this->MemberType   = $params[1];
+        $this->MemberType   = $params[0];
     }
 }

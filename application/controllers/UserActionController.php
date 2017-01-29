@@ -42,13 +42,25 @@ class UserActionController extends Controller {
             }
             else 
             {
-                self::RenderView('user-pages/index.inc');
-                //Http::Response(Http::OK, "Logged in!");
+                $this->operations->SetLoggedInState($username);
+                Http::Response(Http::OK, "Successfully logged in.");
             }
         }
 
         
 	}
+
+    public function Logout()
+    {
+        if($this->operations->SetLoggedOutState())
+        {
+            Http::Response(HTTP::OK, "Successfully logged out.");
+        }
+        else 
+        {
+            Http::Response(Http::INTERNAL_SERVER_ERROR, "Something went wrong.");
+        }
+    }
 
     public function Signup()
     {
@@ -79,12 +91,14 @@ class UserActionController extends Controller {
         {
             $response = $this->operations->CreateMember(
                 new MemberModel(
-                    $first_name,
-                    $middle_name,
-                    $last_name,
-                    $email,
-                    $phone,
-                    Security::GenerateHash($first_password)
+                    array(
+                        "FirstName" => $first_name,
+                        "MiddleName" => $middle_name,
+                        "LastName" => $last_name,
+                        "EmailAddress" => $email,
+                        "PhoneNumber" => $phone,
+                        "Password" => Security::GenerateHash($first_password),
+                    )
                 )
             );
 

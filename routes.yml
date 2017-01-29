@@ -10,6 +10,12 @@
 'action/login':
     controller: UserActionController
     function: Login
+'action/logout':
+    controller: UserActionController
+    function: Logout
 'action/signup':
     controller: UserActionController
     function: Signup
+
+'home':
+    controller: UserPagesController

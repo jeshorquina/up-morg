@@ -16,13 +16,11 @@ class CommitteePermissionModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = CommitteePermissionID;
-     *               $param[1] = CommitteeID;
-     *               $param[2] = MemberTypeID;
+     *               $param[0] = CommitteeID;
+     *               $param[1] = MemberTypeID;
      */ 
      public function __construct(...$params){
-         $this->CommitteePermissionID = $params[0];
-         $this->CommitteeID           = $params[1];
-         $this->MemberTypeID          = $params[2];
+         $this->CommitteeID           = $params[0];
+         $this->MemberTypeID          = $params[1];
      }
 }

@@ -18,17 +18,15 @@ class LedgerInputModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = LedgerInputID;
-     *               $param[1] = BatchMemberID;
-     *               $param[2] = InputType;
-     *               $param[3] = Amount;
-     *               $param[4] = IsVerified;
+     *               $param[0] = BatchMemberID;
+     *               $param[1] = InputType;
+     *               $param[2] = Amount;
+     *               $param[3] = IsVerified;
      */ 
     public function __construct(...$params){
-        $this->LedgerInputID = $params[0];
-        $this->BatchMemberID = $params[1];
-        $this->InputType     = $params[2];
-        $this->Amount        = $params[3];
-        $this->IsVerified    = $params[4];
+        $this->BatchMemberID = $params[0];
+        $this->InputType     = $params[1];
+        $this->Amount        = $params[2];
+        $this->IsVerified    = $params[3];
         }
 }

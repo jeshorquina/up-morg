@@ -4,21 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Session;
 
 class PublicPagesController extends Controller {
 
     public function __construct()
     {
         parent::__construct();
-        
-        // if logged in
-            // redirect to the logged in homepage route
-        // end if
+
+        if(Session::Find("user_data")) 
+		{
+            self::Redirect("home/");
+        }
     }
 
     public function index()
     {
-        self::RenderView("public-pages/index.html.inc");
+		self::RenderView("public-pages/index.html.inc");
     }
 
     public function Login()

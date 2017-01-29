@@ -2,6 +2,7 @@
 namespace Jesh\Operations;
 
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
@@ -54,7 +55,29 @@ class UserActionOperations {
 
         return $validation_array;
     }
-    
+
+    public function SetLoggedInState($username)
+    {
+        $member = $this->repository->GetMemberData($username);
+        Session::Set("user_data", json_encode(
+            array(
+                "id"            => $member->MemberID,
+                "first_name"    => $member->FirstName,
+                "middle_name"   => $member->MiddleName,
+                "last_name"     => $member->LastName,
+                "email_address" => $username,
+                "phone_number"  => $member->PhoneNumber
+            )
+        ));
+    }
+
+    public function SetLoggedOutState()
+    {
+        Session::End();
+        
+        return true;
+    }
+
     public function ValidateRegistrationData($registration_data)
     {
         $validation = new ValidationDataBuilder;
