@@ -15,11 +15,10 @@ class BatchMemberModel implements ModelInterface {
      * Constructs the database model
      *
      * @param $param Array An array containing the 
-     *               following:
-     *               $param[0] = BatchMemberID;  
-     *               $param[1] = BatchID;
-     *               $param[2] = MemberID;
-     *               $param[3] = MemberTypeID;
+     *               following: 
+     *               $param[0] = BatchID;
+     *               $param[1] = MemberID;
+     *               $param[2] = MemberTypeID;
      */
      public function __construct(...$params){
          $this->BatchMemberID = $params[0];

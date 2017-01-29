@@ -13,37 +13,44 @@ class UserActionOperationsRepository extends Repository {
 
     public function GetPassword($username)
     {
-        $array = self::Get("Member", "Password", array("EmailAddress" => $username));
-        if(sizeof($array) === 1)
+        $member_records = self::Get(
+            "Member", "Password", array("EmailAddress" => $username)
+        );
+
+        if(sizeof($member_records) === 0)
         {
-            return $array[0]["Password"];
+            return null;
+        }
+        else if(sizeof($member_records) === 1)
+        {
+            return $member_records[0]["Password"];
         }
         else
         {
-            return null;
+            throw new \Exception("There are multiple users with the same email address.");
+        }
+    }
+
+    public function GetMemberData($username)
+    {
+        $member_records = self::Get(
+            "Member", 
+            "MemberID, FirstName, MiddleName, LastName, PhoneNumber", 
+            array("EmailAddress" => $username)
+        );
+
+        if(sizeof($member_records) === 1)
+        {
+            return new MemberModel($member_records[0]);
+        }
+        else
+        {
+            throw new \Exception("There are multiple users with the same email address.");
         }
     }
 
     public function InsertMemberToDatabase(MemberModel $member)
     {
         return self::Insert("Member", $member);
-    }
-
-    public function UpdateMemberInDatabase($member_id)
-    {
-        $data = array(
-            'FirstName'     => $this->input->post('FirstName'),
-            'MiddleName'    => $this->input->post('MiddleName'),
-            'LastName'      => $this->input->post('LastName'),
-            'EmailAddress'  => $this->input->post('EmailAddress'),
-            'PhoneNumber'   => $this->input->post('PhoneNumber'),
-            'Password'      => $this->input->post('Password')
-        );
-        return self::Update("Member", "MemberID", $member_id, $data);
-    }
-
-    public function DeleteMemberFromDatabase($member_id)
-    {
-        return self::Delete("Member", "MemberID", $member_id);
     }
 }

@@ -2,5 +2,5 @@
 namespace Jesh\Core\Interfaces;
 
 interface ModelInterface {
-    public function __construct(...$params);
+    public function __construct($array);
 }

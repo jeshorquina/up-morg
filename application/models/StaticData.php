@@ -16,13 +16,11 @@ class StaticDataModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = StaticDataID;
-     *               $param[1] = Name;
-     *               $param[2] = Value;
+     *               $param[0] = Name;
+     *               $param[1] = Value;
      */ 
     public function __construct(...$params){
-        $this->StaticDataID = $params[0];
-        $this->Name         = $params[1];
-        $this->Value        = $params[2];
+        $this->Name         = $params[0];
+        $this->Value        = $params[1];
     }
 }

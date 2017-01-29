@@ -20,4 +20,10 @@ class Controller extends CI_Controller {
         // name representing the class
         return new $class_name;
     }
+
+    protected function Redirect($uri)
+    {
+        header("Location: " . base_url($uri));
+        exit();
+    }
 }

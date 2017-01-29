@@ -21,23 +21,21 @@ class EventModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = EventID;
-     *               $param[1] = EventOwner;
-     *               $param[2] = EventName;
-     *               $param[3] = EventDescription;
-     *               $param[4] = EventDate;
-     *               $param[5] = EventTime;
-     *               $param[6] = Timestamp;
-     *               $param[7] = IsPublic;
+     *               $param[0] = EventOwner;
+     *               $param[1] = EventName;
+     *               $param[2] = EventDescription;
+     *               $param[3] = EventDate;
+     *               $param[4] = EventTime;
+     *               $param[5] = Timestamp;
+     *               $param[6] = IsPublic;
      */ 
      public function __construct(...$params){
-         $this->EventID          = $params[0];
-         $this->EventOwner       = $params[1];
-         $this->EventName        = $params[2];
-         $this->EventDescription = $params[3];
-         $this->EventDate        = $params[4];
-         $this->EventTime        = $params[5];
-         $this->Timestamp        = $params[6];
-         $this->IsPublic         = $params[7];
+         $this->EventOwner       = $params[0];
+         $this->EventName        = $params[1];
+         $this->EventDescription = $params[2];
+         $this->EventDate        = $params[3];
+         $this->EventTime        = $params[4];
+         $this->Timestamp        = $params[5];
+         $this->IsPublic         = $params[6];
      }
 }

@@ -16,13 +16,11 @@ class TaskSubscriberModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = TasksubscriberID;
-     *               $param[1] = TaskID;
-     *               $param[2] = BatchMemberID;
+     *               $param[0] = TaskID;
+     *               $param[1] = BatchMemberID;
      */ 
      public function __construct(...$params){
-         $this->TaskSubscriberID = $params[0];
-         $this->TaskID           = $params[1];
-         $this->BatchMemberID    = $params[2];
+         $this->TaskID           = $params[0];
+         $this->BatchMemberID    = $params[1];
      }
 }

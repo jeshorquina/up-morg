@@ -18,17 +18,15 @@ class TaskCommentModel implements ModelInterface {
      * @param $param Array An array containing the 
      *               following:
      *
-     *               $param[0] = TaskCommentID;
-     *               $param[1] = TaskID;
-     *               $param[2] = TaskSubscriberID;
-     *               $param[3] = Comment;
-     *               $param[4] = Timestamp;
+     *               $param[0] = TaskID;
+     *               $param[1] = TaskSubscriberID;
+     *               $param[2] = Comment;
+     *               $param[3] = Timestamp;
      */ 
      public function __construct(...$params){
-         $this->TaskCommentID    = $params[0];
-         $this->TaskID           = $params[1];
-         $this->TaskSubscriberID = $params[2];
-         $this->Comment          = $params[3];
-         $this->Timestamp        = $params[4];
+         $this->TaskID           = $params[0];
+         $this->TaskSubscriberID = $params[1];
+         $this->Comment          = $params[2];
+         $this->Timestamp        = $params[3];
      }
 }
