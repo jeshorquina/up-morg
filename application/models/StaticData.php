@@ -10,17 +10,11 @@ class StaticDataModel implements ModelInterface {
     public $Name;
     public $Value;
 
-    /**
-     * Constructs the database model
-     *
-     * @param $param Array An array containing the 
-     *               following:
-     *
-     *               $param[0] = Name;
-     *               $param[1] = Value;
-     */ 
-    public function __construct(...$params){
-        $this->Name         = $params[0];
-        $this->Value        = $params[1];
+    public function __construct($array)
+    {    
+        foreach($array as $key => $value)
+        {
+            $this->$key = $value;
+        }
     }
 }
