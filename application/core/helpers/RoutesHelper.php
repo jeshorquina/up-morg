@@ -11,8 +11,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
 *
 * @author Jeshurun Orquina <jeshorquina@gmail.com>
 */
-class RoutesHelper {
-
+class RoutesHelper 
+{
     /**
     * Initializer for the wrapper.
     *
@@ -29,7 +29,8 @@ class RoutesHelper {
         {
             $routes = self::readFromFile();
 
-            foreach($routes as $route_name => $route_properties) {
+            foreach($routes as $route_name => $route_properties) 
+            {
                 $route_name = self::mutateRouteName($route_name);
                 $route[$route_name] = self::getRouteHandler($route_name, $route_properties);
             }
@@ -67,14 +68,17 @@ class RoutesHelper {
      */
     private static function mutateRouteName($route_name)
     {
-        if(strtolower($route_name) === 'index') {
+        if(strtolower($route_name) === 'index') 
+        {
             return 'default_controller';
         }
 
-        if(substr($route_name, -1) == '/') {
+        if(substr($route_name, -1) == '/') 
+        {
             return substr($route_name, 0, -1);
         }
-        else {
+        else 
+        {
             return $route_name;
         }
     }
@@ -134,10 +138,12 @@ class RoutesHelper {
     private static function appendControllerToRoute(&$route_value, $value)
     {
         $controller = APPPATH.'controllers/'.$value.'.php';
-        if(file_exists($controller)) {
+        if(file_exists($controller)) 
+        {
             $route_value = $value;
         }
-        else { 
+        else 
+        { 
             throw new \Exception("No controller found: $controller");
         }
     }
@@ -158,10 +164,12 @@ class RoutesHelper {
         require_once FCPATH.'system/core/Controller.php';
         require_once APPPATH.'controllers/'.$route_value.'.php';
 
-        if((new \ReflectionClass($route_value))->hasMethod($value)) {  
+        if((new \ReflectionClass($route_value))->hasMethod($value)) 
+        {  
             $route_value = sprintf('%s/%s', $route_value, $value);
         }
-        else {
+        else 
+        {
             throw new \Exception("No function found: $value");
         }
     }

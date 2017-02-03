@@ -8,8 +8,8 @@ use \Jesh\Helpers\Http;
 
 use \Jesh\Models\MemberModel;
 
-class UserActionController extends Controller {
-
+class UserActionController extends Controller 
+{
     private $operations;
 
     public function __construct()
@@ -102,12 +102,18 @@ class UserActionController extends Controller {
                 )
             );
 
-            Http::Response(
-                ($response["status"] === true) ? 
-                    Http::CREATED : 
-                    Http::INTERNAL_SERVER_ERROR,
-                $response["data"]
-            );
+            if(!$response)
+            {
+                Http::Response(Http::INTERNAL_SERVER_ERROR, "Unable to create new member.");
+            }
+            else if(!$this->operations->SetLoggedInState($email))
+            {
+                Http::Response(Http::INTERNAL_SERVER_ERROR, "Unable to create session data for log in.");
+            }
+            else
+            {
+                Http::Response(Http::CREATED, "Member successfully created.");
+            }
         }
     }
 }

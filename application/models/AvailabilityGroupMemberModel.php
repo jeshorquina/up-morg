@@ -3,8 +3,8 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class AvailabilityGroupMemberModel implements ModelInterface {
-
+class AvailabilityGroupMemberModel implements ModelInterface
+{
     public $AvailabilityGroupMemberID;
     public $AvailabilityMemberID;
     public $AvailabilityGroupID;

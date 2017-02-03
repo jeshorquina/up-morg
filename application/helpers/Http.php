@@ -1,8 +1,7 @@
 <?php 
 namespace Jesh\Helpers;
 
-Class Http {
-    
+Class Http{
     const GET  = INPUT_GET;
     const POST = INPUT_POST;
 

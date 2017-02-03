@@ -6,13 +6,13 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class PublicPagesController extends Controller {
-
+class PublicPagesController extends Controller 
+{
     public function __construct()
     {
         parent::__construct();
 
-        if(Session::Find("user_data")) 
+        if(Session::Find("user_data")) //kapag may nireturn, mareredirect sa homepage
 		{
             self::Redirect("home/");
         }

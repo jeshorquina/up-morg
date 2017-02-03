@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class BatchMemberModel implements ModelInterface {
-
+class BatchMemberModel implements ModelInterface
+{
     public $BatchMemberID;
     public $BatchID;
     public $MemberID;

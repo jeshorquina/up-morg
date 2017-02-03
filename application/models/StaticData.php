@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class StaticDataModel implements ModelInterface {
-
+class StaticDataModel implements ModelInterface
+{
     public $StaticDataID;
     public $Name;
     public $Value;

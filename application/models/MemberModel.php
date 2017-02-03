@@ -3,8 +3,8 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class MemberModel implements ModelInterface {
-
+class MemberModel implements ModelInterface
+{
     public $MemberID;
     public $FirstName;
     public $MiddleName;
