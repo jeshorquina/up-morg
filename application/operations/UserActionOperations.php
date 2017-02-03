@@ -17,6 +17,20 @@ class UserActionOperations
         $this->repository = new UserActionOperationsRepository;
     }
 
+    public function ValidateLoginData($username, $password)
+    {
+        $validation = new ValidationDataBuilder;
+
+        $validation->CheckString("username", $username);
+        $validation->CheckString("password", $password);
+        $validation->CheckEmail("username", $username);
+                
+        return array(
+            "status"  => $validation->GetStatus(),
+            "message" => $validation->GetValidationData()
+        );
+    }
+
     public function ExistingUsername($username)
     {
         return $this->repository->GetUsernameExists($username);
@@ -24,41 +38,15 @@ class UserActionOperations
 
     public function MatchingPassword($username, $password) 
     {
-        return Security::CheckPassword($password, self::$repository->GetPassword($username));
-    }
-
-    public function ValidateLoginData($email_address, $password)
-    {
-        $email_address = filter_var($email_address, FILTER_SANITIZE_EMAIL);
-        $password      = filter_var($password, FILTER_SANITIZE_STRING);
-
-        $validation_array = array();
-        $validation_array["status"] = true;
-
-        if(strlen($email_address) === 0)
-        {
-            $validation_array["status"] = false;
-            $validation_array["data"]["email_address"] = "Empty username.";
-        } 
-
-        if(strlen($email_address) === 0)
-        {
-            $validation_array["status"] = false;
-            $validation_array["data"]["password"] = "Empty password.";
-        }      
-
-        if(!filter_var($email_address, FILTER_VALIDATE_EMAIL))
-        {
-            $validation_array["status"] = false;
-            $validation_array["data"]["email_address"] = "Invalid username. Please enter your registered email address.";
-        }
-
-        return $validation_array;
+        return Security::CheckPassword($password, 
+            $this->repository->GetPassword($username)
+        );
     }
 
     public function SetLoggedInState($username)
     {
         $member = $this->repository->GetMemberData($username);
+
         return Session::Set("user_data", json_encode(
             array(
                 "id"            => $member->MemberID,
@@ -73,16 +61,14 @@ class UserActionOperations
 
     public function SetLoggedOutState()
     {
-        Session::End();
-        
-        return true;
+        return Session::End();
     }
 
     public function ValidateRegistrationData($registration_data)
     {
         $validation = new ValidationDataBuilder;
 
-        foreach($registration_data as $name => $value) 
+        foreach($registration_data as $name => $value)
         {
             if(strtolower(gettype($value)) === "string") 
             {
@@ -95,8 +81,8 @@ class UserActionOperations
         }
         
         return array(
-            "status" => $validation->GetStatus(),
-            "data"   => $validation->GetValidationData()
+            "status"  => $validation->GetStatus(),
+            "message" => $validation->GetValidationData()
         );
     }
 

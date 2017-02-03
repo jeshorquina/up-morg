@@ -1,7 +1,8 @@
 <?php 
 namespace Jesh\Helpers;
 
-Class Http{
+Class Http
+{
     const GET  = INPUT_GET;
     const POST = INPUT_POST;
 
@@ -10,6 +11,8 @@ Class Http{
     const BAD_REQUEST           = 400;
     const UNPROCESSABLE_ENTITY  = 422;
     const INTERNAL_SERVER_ERROR = 500;
+
+    const TYPE_JSON = 'Content-type: application/json; charset=utf-8';
 
     public static function Request($type, $key)
     {
@@ -31,44 +34,16 @@ Class Http{
         return filter_input($type, $key, FILTER_DEFAULT);
     }
 
-    public static function Response($status, $mixed)
-    {
-        $array = array();
-        switch($status)
-        {
-            case self::INTERNAL_SERVER_ERROR:
-                $array["status"] = "(500) INTERNAL SERVER ERROR";
-                break;
-            case self::UNPROCESSABLE_ENTITY:
-                $array["status"] = "(422) UNPROCESSABLE ENTITY";
-                break;
-            case self::BAD_REQUEST:
-                $array["status"] = "(400) BAD REQUEST";
-                break;
-            case self::CREATED:
-                $array["status"] = "(201) CREATED";
-                break;
-            case self::OK:
-                $array["status"] = "(200) OK";
-                break;
-            default:
-                throw new \Exception("HTTP Status not supported.");
-        }
-        $array["data"] = $mixed;
-
-        self::SendJSONResponse($status, $array);
-    }
-
-    private static function SendJSONResponse($status, $array)
+    public static function Response($status, $mixed, $type = self::TYPE_JSON)
     {
         // set response status code
         http_response_code($status);
-        
+
         // set headers
-        header('Content-type: application/json');
-        
+        header($type);
+
         // Set body
-        echo json_encode($array);
+        echo json_encode($mixed);
 
         // Exit
         exit();

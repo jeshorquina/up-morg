@@ -1,5 +1,4 @@
 <?php
-
 namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;

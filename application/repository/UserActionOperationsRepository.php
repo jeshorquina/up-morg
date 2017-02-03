@@ -45,7 +45,7 @@ class UserActionOperationsRepository extends Repository
         }
         else
         {
-            throw new \Exception("There are multiple users with the same email address.");
+            throw new \Exception("An account with that e-mail address already exists.");
         }
     }
 

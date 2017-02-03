@@ -16,11 +16,16 @@ abstract class Repository extends CI_Model {
         unset($this->db);
     }
 
-    protected function Get($table_name, $column_name, $condition_array)
+    protected function Get(
+        $table_name, $column_name, 
+        $condition_array = array(), $order_array = array())
     {
         $this->db->select($column_name);
         foreach($condition_array as $column => $value) {
             $this->db->where($column, $value);   
+        }
+        foreach($order_array as $column => $order) {
+            $this->db->order_by($column, $order);
         }
         $query = $this->db->get($table_name);
         return $query->result_array();   
@@ -45,11 +50,11 @@ abstract class Repository extends CI_Model {
         return $this->db->delete($table_name);
     }
 
-    protected function Update($table_name, $column_name, $value, $data)
+    protected function Update($table_name, $condition_array, $update_array)
     {
-        $this->db->select($column_name);
-        $this->db->from($table_name);
-        $this->db->where($column_name, $value);
-        return $this->db->update($table_name, $data);
+        foreach($condition_array as $column => $value) {
+            $this->db->where($column, $value); 
+        }
+        return $this->db->update($table_name, $update_array);
     }
 }

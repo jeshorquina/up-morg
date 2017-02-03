@@ -1,21 +1,100 @@
 'index':
-    controller: PublicPagesController
+    controller: IndexController
+
+# **************************************************
+# Pages - Public pages
+# **************************************************
 'login':
+    directory: pages
     controller: PublicPagesController
     function: Login
 'signup':
+    directory: pages
     controller: PublicPagesController
-    function: signup
-
-'action/login':
-    controller: UserActionController
-    function: Login
-'action/logout':
-    controller: UserActionController
-    function: Logout
-'action/signup':
-    controller: UserActionController
     function: Signup
 
+# **************************************************
+# API - Public pages
+# **************************************************
+'action/login':
+    directory: api
+    controller: PublicPagesActionController
+    function: Login
+'action/logout':
+    directory: api
+    controller: PublicPagesActionController
+    function: Logout
+'action/signup':
+    directory: api
+    controller: PublicPagesActionController
+    function: Signup
+
+
+# **************************************************
+# Pages - Admin pages
+# **************************************************
+'admin/home':
+    directory: pages
+    controller: SystemAdministratorController
+    function: Home
+'admin/login':
+    directory: pages
+    controller: SystemAdministratorController
+    function: Access
+'admin/change-password':
+    directory: pages
+    controller: SystemAdministratorController
+    function: EditPassword
+'admin/manage/batch':
+    directory: pages
+    controller: SystemAdministratorController
+    function: ManageBatch
+
+# **************************************************
+# API - Admin pages
+# **************************************************
+'action/admin/access':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: Login
+'action/admin/change-password':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: UpdatePassword
+'action/admin/display-batches':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: GetBatches
+'action/admin/add-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: CreateBatch
+'action/admin/delete-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: DeleteBatch
+
+
+# **************************************************
+# Pages - User pages
+# **************************************************
 'home':
+    directory: pages
     controller: UserPagesController
+    function: Home
+'task-manager':
+    directory: pages
+    controller: UserPagesController
+    function: TaskManager
+'availability-tracker':
+    directory: pages
+    controller: UserPagesController
+    function: AvailabilityTracker
+'calendar':
+    directory: pages
+    controller: UserPagesController
+    function: Calendar
+'finance-tracker':
+    directory: pages
+    controller: UserPagesController
+    function: FinanceTracker

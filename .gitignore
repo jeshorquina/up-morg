@@ -4,6 +4,8 @@ application/logs/*
 
 composer.lock
 
+/node_modules/
+/.vscode/
 /vendor/
 
 *.yml
