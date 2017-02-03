@@ -12,7 +12,7 @@ class PublicPagesController extends Controller
     {
         parent::__construct();
 
-        if(Session::Find("user_data")) //kapag may nireturn, mareredirect sa homepage
+        if(Session::Find("user_data"))
 		{
             self::Redirect("home/");
         }

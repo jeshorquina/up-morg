@@ -19,3 +19,22 @@
 
 'home':
     controller: UserPagesController
+'admin/home':
+    controller: SystemAdministratorController
+    function: Home
+'admin/login':
+    controller: SystemAdministratorController
+    function: Access
+'admin/editpassword':
+    controller: SystemAdministratorController
+    function: EditPassword
+'admin/manage/batch':
+    controller: SystemAdministratorController
+    function: ManageBatch
+'action/admin/access':
+    controller: SystemAdministratorController
+    function: Login
+'action/admin/editpassword':
+    controller: SystemAdministratorController
+    function: UpdatePassword
+
