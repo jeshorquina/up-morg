@@ -11,8 +11,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
 *
 * @author Jeshurun Orquina <jeshorquina@gmail.com>
 */
-class DatabaseHelper {
-
+class DatabaseHelper 
+{
     const DSN           = '';
     const HOSTNAME      = 'localhost';
     const USERNAME      = '';
@@ -41,10 +41,12 @@ class DatabaseHelper {
     */
     public function __construct($config_file)
     {
-        try {
+        try 
+        {
             self::$config_array = Yaml::parse(file_get_contents($config_file))["database"];
         }
-        catch (ParseException $e) {
+        catch (ParseException $e) 
+        {
             printf("Unable to parse the YAML String: %s", $e->getMessage());
         }
     }
@@ -55,11 +57,14 @@ class DatabaseHelper {
     *
     * @return String A String containing the default active group
     */
-    public function getDefaultActiveGroup() {
-        if (array_key_exists('active_group', self::$config_array)) {
+    public function getDefaultActiveGroup() 
+    {
+        if (array_key_exists('active_group', self::$config_array)) 
+        {
             return self::$config_array['active_group'];
         }
-        else {
+        else 
+        {
             return 'default';
         }
     }
@@ -72,10 +77,12 @@ class DatabaseHelper {
     */
     public function isQueryBuilderEnabled()
     {
-        if (array_key_exists('query_builder', self::$config_array)) {
+        if (array_key_exists('query_builder', self::$config_array)) 
+        {
             return (bool) self::$config_array['query_builder'];
         }
-        else {
+        else 
+        {
             return TRUE;
         }
     }
@@ -90,27 +97,36 @@ class DatabaseHelper {
     */
     public function buildGroups()
     {
-        if(sizeof(self::$config_array["groups"]) === 0) {
+        if(sizeof(self::$config_array["groups"]) === 0) 
+        {
             throw new \Exception("No database group defined.");
         }        
-        if(!array_key_exists('default', self::$config_array["groups"])) {
+        else if(!array_key_exists('default', self::$config_array["groups"])) 
+        {
             throw new \Exception("No default database group defined.");
         }
+        else 
+        {
+            $constants = (New \ReflectionClass(get_class()))->getConstants();
 
-        $constants = (New \ReflectionClass(get_class()))->getConstants();
-        $db = array();
-        foreach(self::$config_array["groups"] as $group_name => $group_properties) {
-            $db[$group_name] = self::populateArrayWithDefaultValues();
-            foreach($group_properties as $group_key => $group_value) {
-                if(array_key_exists(strtoupper($group_key), $constants)) {
-                    $db[$group_name][strtolower($group_key)] = $group_value;
-                }
-                else {
-                    throw new \Exception("Could not define custom database group property.");
+            $db = array();
+            foreach(self::$config_array["groups"] as $group_name => $group_properties) 
+            {
+                $db[$group_name] = self::populateArrayWithDefaultValues();
+                foreach($group_properties as $group_key => $group_value) 
+                {
+                    if(array_key_exists(strtoupper($group_key), $constants)) 
+                    {
+                        $db[$group_name][strtolower($group_key)] = $group_value;
+                    }
+                    else 
+                    {
+                        throw new \Exception("Could not define custom database group property.");
+                    }
                 }
             }
+            return $db;
         }
-        return $db;
     }
 
     /**
@@ -123,7 +139,8 @@ class DatabaseHelper {
     private static function populateArrayWithDefaultValues()
     {
         $array = array();
-        foreach((New \ReflectionClass(get_class()))->getConstants() as $constant_key => $constant_value) {
+        foreach((New \ReflectionClass(get_class()))->getConstants() as $constant_key => $constant_value) 
+        {
             $array[strtolower($constant_key)] = $constant_value;
         }
         return $array;

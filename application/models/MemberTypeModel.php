@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class MemberTypeModel implements ModelInterface {
-
+class MemberTypeModel implements ModelInterface
+{
     public $MemberTypeID;
     public $MemberType;
 

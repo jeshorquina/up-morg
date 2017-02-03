@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class TaskStatusModel implements ModelInterface {
-
+class TaskStatusModel implements ModelInterface
+{
     public $TaskStatusID;
     public $Name;
 

@@ -3,8 +3,8 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class BatchModel implements ModelInterface {
-    
+class BatchModel implements ModelInterface
+{
     public $BatchID;
     public $AcadYear;
 

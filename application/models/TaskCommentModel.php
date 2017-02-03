@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class TaskCommentModel implements ModelInterface {
-
+class TaskCommentModel implements ModelInterface
+{
     public $TaskCommentID;
     public $TaskID;
     public $TaskSubscriberID;

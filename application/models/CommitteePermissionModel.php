@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class CommitteePermissionModel implements ModelInterface {
-
+class CommitteePermissionModel implements ModelInterface 
+{
     public $CommitteePermissionID;
     public $CommitteeID;
     public $MemberTypeID;

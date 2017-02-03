@@ -1,8 +1,8 @@
 <?php
 namespace Jesh\Helpers;
 
-Class Session {
-
+Class Session
+{
     public static function Get($key)
     {
         self::Open();
@@ -17,9 +17,11 @@ Class Session {
         self::Open();
         $_SESSION[$key] = $value;
         self::Close();
+
+        return true;
     }
 
-    public static function Find($key)
+    public static function Find($key) //tinitignan kung may existing session na siya
     {
         self::Open();
         $value = isset($_SESSION[$key]);
@@ -31,7 +33,7 @@ Class Session {
     public static function Delete($key)
     {
         self::Open();
-        unset($_SESSION[$key]);
+        unset($_SESSION[$key]); //Free registered session
         self::Close();
     }
 
@@ -40,7 +42,7 @@ Class Session {
         self::Open();
         $_SESSION = array();
 
-        if (ini_get("session.use_cookies")) {
+        if (ini_get("session.use_cookies")) { // ???
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
                 $params["path"], $params["domain"],
@@ -55,7 +57,7 @@ Class Session {
         if(!isset($_SESSION)) 
         { 
             session_start();
-            session_regenerate_id(true);
+            session_regenerate_id(true); //Update the current session id with a newly generated one
         }
     }
 

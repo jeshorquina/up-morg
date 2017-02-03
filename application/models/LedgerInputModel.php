@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class LedgerInputModel implements ModelInterface {
-
+class LedgerInputModel implements ModelInterfaces
+{
     public $LedgerInputID;
     public $BatchMemberID;
     public $InputType;

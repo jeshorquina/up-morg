@@ -8,8 +8,8 @@ use \Jesh\Helpers\ValidationDataBuilder;
 use \Jesh\Models\MemberModel;
 use \Jesh\Repository\UserActionOperationsRepository;
 
-class UserActionOperations {
-
+class UserActionOperations
+{
     private $repository;
 
     public function __construct()
@@ -59,7 +59,7 @@ class UserActionOperations {
     public function SetLoggedInState($username)
     {
         $member = $this->repository->GetMemberData($username);
-        Session::Set("user_data", json_encode(
+        return Session::Set("user_data", json_encode(
             array(
                 "id"            => $member->MemberID,
                 "first_name"    => $member->FirstName,
