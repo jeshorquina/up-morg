@@ -4,9 +4,8 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class AvailabilityGroupModel implements ModelInterface {
-    
-    public $AvailabilityGroupID;
+class AvailabilityGroupModel implements ModelInterface
+{
     public $FrontmanID;
     public $Groupname;
 

@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class TaskSubscriberModel implements ModelInterface {
-
+class TaskSubscriberModel implements ModelInterface
+{
     public $TaskSubscriberID;
     public $TaskID;
     public $BatchMemberID;

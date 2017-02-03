@@ -3,8 +3,8 @@ namespace Jesh\Helpers;
 
 use \CI_Security;
 
-Class Security {
-    
+Class Security
+{  
     public static function GenerateHash($input)
     {
         return password_hash($input, PASSWORD_BCRYPT);

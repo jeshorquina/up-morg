@@ -4,8 +4,8 @@ namespace Jesh\Models;
 
 use Jesh\Core\Models\ModelInterface;
 
-class EventModel implements ModelInterface {
-
+class EventModel implements ModelInterface
+{
     public $EventID;
     public $EventOwner;
     public $EventName;

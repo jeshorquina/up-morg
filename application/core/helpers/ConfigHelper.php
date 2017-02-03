@@ -11,8 +11,8 @@ use Symfony\Component\Yaml\Exception\ParseException;
 *
 * @author Jeshurun Orquina <jeshorquina@gmail.com>
 */
-class ConfigHelper {
-
+class ConfigHelper 
+{
     const BASE_URL                  = '';
     const INDEX_PAGE                = 'index.php';
     const URI_PROTOCOL              = 'REQUEST_URI';
@@ -70,10 +70,12 @@ class ConfigHelper {
     */
     public function __construct($config_file)
     {
-        try {
+        try 
+        {
             self::$config_array = Yaml::parse(file_get_contents($config_file))["system"];
         }
-        catch (ParseException $e) {
+        catch (ParseException $e) 
+        {
             printf("Unable to parse the YAML String: %s", $e->getMessage());
         }
     }
@@ -88,14 +90,17 @@ class ConfigHelper {
     */
     public function getConfig($config_key)
     {
-        if(array_key_exists(strtolower($config_key), self::$config_array)) {
+        if(array_key_exists(strtolower($config_key), self::$config_array)) 
+        {
             return self::$config_array[strtolower($config_key)];
         }
 
-        try {
+        try 
+        {
             return self::getDefaultValue($config_key);
         }
-        catch(\Exception $e) {
+        catch(\Exception $e) 
+        {
             printf("Unable to prepare configs: %s", $e->getMessage());
         }
     }
@@ -113,8 +118,10 @@ class ConfigHelper {
     */
     private static function getDefaultValue($config_key)
     {
-        foreach((New \ReflectionClass(get_class()))->getConstants() as $constant_name => $constant_value) {
-            if(strtolower($config_key) === strtolower($constant_name)) {
+        foreach((New \ReflectionClass(get_class()))->getConstants() as $constant_name => $constant_value) 
+        {
+            if(strtolower($config_key) === strtolower($constant_name)) 
+            {
                 return $constant_value;
             }
         }

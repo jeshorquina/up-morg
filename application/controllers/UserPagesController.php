@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
-class UserPagesController extends Controller {
-
+class UserPagesController extends Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
