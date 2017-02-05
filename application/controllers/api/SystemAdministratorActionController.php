@@ -7,7 +7,7 @@ use \Jesh\Helpers\Http;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class SystemAdministratorController extends Controller
+class SystemAdministratorActionController extends Controller
 {
     public function __construct()
     {
@@ -16,27 +16,22 @@ class SystemAdministratorController extends Controller
         $this->operations = self::InitializeOperations("SystemAdministratorOperations");
     }
 
-    public function Access()
+    public function GetBatches()
     {
-		self::RenderView(
-            "admin-pages/login.html.inc",
-            Security::GetCSRFData()
-            );
+        $batches = $this->operations->GetBatches();
+        Http::Response(Http::OK, $batches);
+        
     }
 
-    public function EditPassword()
+    public function GetBatchInformation()
     {
-        self::RenderView(
-            "admin-pages/editpassword.html.inc",
-            Security::GetCSRFData()
-            );
-    }
-    
-    public function Home()
-    {
-        self::RenderView("admin-pages/index.html.inc");
+
     }
 
+    public function GetMembers()
+    {
+        
+    }    
     public function Login()
     {
         $password = Http::Request(Http::POST, "password");
@@ -48,11 +43,6 @@ class SystemAdministratorController extends Controller
         {
             Http::Response(Http::OK, "Successfully logged in.");
         }
-    }
-
-    public function ManageBatch()
-    {
-        self::RenderView("admin-pages/managebatch.html.inc");
     }
 
     public function UpdatePassword()

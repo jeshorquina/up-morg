@@ -10,7 +10,7 @@
 
     <body>
         <h2>login</h2>
-        <form method="POST" action="<?=base_url("action/admin/editpassword")?>">
+        <form method="POST" action="<?=base_url("action/admin/change-password")?>">
         <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
         <input name="old_password" type="password" class="form-control" placeholder="Enter old password">
         <br>

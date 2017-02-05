@@ -13,7 +13,15 @@ class SystemAdministratorOperationsRepository extends Repository
             "Value", 
             array("Name" => "SystemAdminPassword")
         );
-        return $record[0]["Value"];
+        
+        if(sizeof($record) === 1)
+        {
+            return $record[0]["Value"];
+        }
+        else 
+        {
+            throw new \Exception("No record for system admin password found");
+        }
     }
 
     public function UpdatePassword($password)
@@ -23,5 +31,15 @@ class SystemAdministratorOperationsRepository extends Repository
             array("Name" => "SystemAdminPassword"), 
             array("Value" => $password)
         );
+    }
+
+    public function GetBatches()
+    {
+        return self::Get("Batch", "*");
+    }
+
+    public function GetMembers()
+    {
+        return self::Get("Member", "MemberID, FirstName, MiddleName, LastName");
     }
 }

@@ -20,6 +20,11 @@ class SystemAdministratorOperations
         return $this->repository->UpdatePassword(Security::GenerateHash($password));
     }
 
+    public function GetBatches()
+    {
+        return $this->repository->GetBatches();
+    }
+
     public function MatchingPassword($password)
     {
         return Security::CheckPassword($password, $this->repository->GetPassword());
