@@ -27,24 +27,23 @@ class RoutesHelper
     {
         try 
         {
-            $routes = self::readFromFile();
-
+            $routes = self::ReadFromFile();
             foreach($routes as $route_name => $route_properties) 
             {
-                $route_name = self::mutateRouteName($route_name);
-                $route[$route_name] = self::getRouteHandler($route_name, $route_properties);
+                $route_name = self::MutateRouteName($route_name);
+                $route[$route_name] = self::GetRouteHandler($route_name, $route_properties);
             }
         } 
         catch (ParseException $e) 
         {
-            printf("Unable to parse the YAML String: %s", $e->getMessage());
+            printf("Unable to parse the YAML String: %s", $e->GetMessage());
         }
         catch (\Exception $e) 
         {
-            printf("Unable to prepare routes: %s", $e->getMessage());
+            printf("Unable to prepare routes: %s", $e->GetMessage());
         }
         
-        self::handleUndefinedRoutes($route);
+        self::HandleUndefinedRoutes($route);
     }
 
     /**
@@ -54,19 +53,19 @@ class RoutesHelper
      * @param String $routes_file A String containing the filename of the routes file
      * @return array The array obtained from the YAML file
      */
-    private static function readFromFile($routes_file = 'routes.yml')
+    private static function ReadFromFile($routes_file = 'routes.yml')
     {
-        return Yaml::parse(file_get_contents(FCPATH.$routes_file));
+        return Yaml::parse(file_Get_contents(FCPATH.$routes_file));
     }
 
     /**
      * Mutates the route name into a processable
      * String by the CodeIgniter routing.
      * 
-     * @param String $route_name A String containing the route name to be mutated
-     * @return String The mutated route name
+     * @param String $route_name A String containing the route name to be Mutated
+     * @return String The Mutated route name
      */
-    private static function mutateRouteName($route_name)
+    private static function MutateRouteName($route_name)
     {
         if(strtolower($route_name) === 'index') 
         {
@@ -94,7 +93,7 @@ class RoutesHelper
      *
      * @throws Exception If the config file contains invalid route parameter
      */
-    private static function getRouteHandler(&$route_name, $route_properties)
+    private static function GetRouteHandler(&$route_name, $route_properties)
     {
         try
         {
@@ -103,19 +102,23 @@ class RoutesHelper
             {
                 switch(strtolower($key)) 
                 {
+                    case 'directory':
+                        self::AppendDirectoryToRoute($route_value, $value);
+                        break;
                     case 'controller':
-                        self::appendControllerToRoute($route_value, $value);
+                        self::AppendControllerToRoute($route_value, $value);
                         break;
                     case 'function':
-                        self::appendFunctionToRoute($route_value, $value);
+                        self::AppendFunctionToRoute($route_value, $value);
                         break;
                     case 'parameter':
-                        self::appendParameterToRoute($route_name, $route_value, $value);
+                        self::AppendParameterToRoute($route_name, $route_value, $value);
                         break;
                     default:
                         throw New Exception("Cannot define custom route parameter: $key");
                 }
             }
+
             return $route_value;
         }
         catch(\Exception $e) 
@@ -124,23 +127,34 @@ class RoutesHelper
         }
     }
 
+    private static function AppendDirectoryToRoute(&$route_value, $value)
+    {
+        if(file_exists(APPPATH.'controllers/'.$value))
+        {
+            $route_value = $value;
+        }
+        else 
+        {
+            throw new \Exception("No directory found: $directory");
+        }
+    }
+
     /**
-     * Validates controller and appends to the 
+     * Validates controller and Appends to the 
      * route value when validated.
      *
      * @param String &$route_value A referenced String for the route value
-     * @param String $value A String containing the value to append
+     * @param String $value A String containing the value to Append
      *
-     * @return String A String containing the appended value
+     * @return String A String containing the Appended value
      *
      * @throws Exception If the controller is not found
      */
-    private static function appendControllerToRoute(&$route_value, $value)
+    private static function AppendControllerToRoute(&$route_value, $value)
     {
-        $controller = APPPATH.'controllers/'.$value.'.php';
-        if(file_exists($controller)) 
+        if(file_exists(APPPATH.'controllers/'.sprintf('%s/%s', $route_value, $value).'.php')) 
         {
-            $route_value = $value;
+            $route_value = sprintf('%s/%s', $route_value, $value);
         }
         else 
         { 
@@ -149,22 +163,31 @@ class RoutesHelper
     }
 
     /**
-     * Validates the function and appends to 
+     * Validates the function and Appends to 
      * the route value when validated.
      *
      * @param String &$route_value A referenced String for the route value
-     * @param String $value A String containing the value to append
+     * @param String $value A String containing the value to Append
      *
-     * @return String A String containing the appended value
+     * @return String A String containing the Appended value
      *
      * @throws Exception If the function is not found
      */
-    private static function appendFunctionToRoute(&$route_value, $value)
+    private static function AppendFunctionToRoute(&$route_value, $value)
     {
-        require_once FCPATH.'system/core/Controller.php';
         require_once APPPATH.'controllers/'.$route_value.'.php';
 
-        if((new \ReflectionClass($route_value))->hasMethod($value)) 
+        $controller = '';
+        if(strpos($route_value, '/') !== FALSE) 
+        {
+            $controller = substr($route_value, strpos($route_value, '/') + 1);
+        }
+        else
+        {
+            $controller = $route_value;
+        }
+
+        if((new \ReflectionClass($controller))->hasMethod($value)) 
         {  
             $route_value = sprintf('%s/%s', $route_value, $value);
         }
@@ -175,18 +198,18 @@ class RoutesHelper
     }
 
     /**
-     * Validates the parameter and appends to 
+     * Validates the parameter and Appends to 
      * the route value when validated.
      *
      * @param String &$route_name A referenced String for the route name
      * @param String &$route_value A referenced String for the route value
-     * @param String $value A String containing the value to append
+     * @param String $value A String containing the value to Append
      *
-     * @return String A String containing the appended value
+     * @return String A String containing the Appended value
      *
      * @throws Exception If the parameter is not a supported parameter
      */
-    private static function appendParameterToRoute(&$route_name, &$route_value, $value)
+    private static function AppendParameterToRoute(&$route_name, &$route_value, $value)
     {
         switch(strtolower($value))
         {
@@ -208,7 +231,7 @@ class RoutesHelper
      *
      * @param Array &$route A referenced Array for the CI route variable
      */
-    private static function handleUndefinedRoutes(&$route)
+    private static function HandleUndefinedRoutes(&$route)
     {
         $route['(:any)'] = 'errors/show_404';
     }

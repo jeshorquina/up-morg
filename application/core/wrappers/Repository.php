@@ -16,7 +16,7 @@ abstract class Repository extends CI_Model {
         unset($this->db);
     }
 
-    protected function Get($table_name, $column_name, $condition_array)
+    protected function Get($table_name, $column_name, $condition_array = array())
     {
         $this->db->select($column_name);
         foreach($condition_array as $column => $value) {

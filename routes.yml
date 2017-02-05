@@ -1,40 +1,58 @@
+# Pages- Public pages
 'index':
+    directory: pages
     controller: PublicPagesController
 'login':
+    directory: pages
     controller: PublicPagesController
     function: Login
 'signup':
+    directory: pages
     controller: PublicPagesController
-    function: signup
+    function: Signup
 
+# API - User access
 'action/login':
+    directory: api
     controller: UserActionController
     function: Login
 'action/logout':
+    directory: api
     controller: UserActionController
     function: Logout
 'action/signup':
+    directory: api
     controller: UserActionController
     function: Signup
 
-'home':
-    controller: UserPagesController
+# Pages - Admin pages
 'admin/home':
+    directory: pages
     controller: SystemAdministratorController
     function: Home
 'admin/login':
+    directory: pages
     controller: SystemAdministratorController
     function: Access
-'admin/editpassword':
+'admin/change-password':
+    directory: pages
     controller: SystemAdministratorController
     function: EditPassword
 'admin/manage/batch':
+    directory: pages
     controller: SystemAdministratorController
     function: ManageBatch
-'action/admin/access':
-    controller: SystemAdministratorController
-    function: Login
-'action/admin/editpassword':
-    controller: SystemAdministratorController
-    function: UpdatePassword
 
+# API - Admin pages
+'action/admin/access':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: Login
+'action/admin/change-password':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: UpdatePassword
+'action/admin/display-batches':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: GetBatches
