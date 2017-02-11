@@ -127,6 +127,17 @@ class RoutesHelper
         }
     }
 
+    /**
+     * Validates the directory and Appends to the 
+     * route value when validated.
+     *
+     * @param String &$route_value A referenced String for the route value
+     * @param String $value A String containing the value to Append
+     *
+     * @return String A String containing the Appended value
+     *
+     * @throws Exception If the controller is not found
+     */
     private static function AppendDirectoryToRoute(&$route_value, $value)
     {
         if(file_exists(APPPATH.'controllers/'.$value))
@@ -152,14 +163,26 @@ class RoutesHelper
      */
     private static function AppendControllerToRoute(&$route_value, $value)
     {
-        if(file_exists(APPPATH.'controllers/'.sprintf('%s/%s', $route_value, $value).'.php')) 
+        $dir = APPPATH.'controllers/';
+
+        if(trim($route_value) === "")
         {
-            $route_value = sprintf('%s/%s', $route_value, $value);
+            if(file_exists($dir.$value.'.php'))
+            {
+                $route_value = $value;
+                return;
+            }
         }
-        else 
-        { 
-            throw new \Exception("No controller found: $controller");
+        else
+        {
+            if(file_exists($dir.sprintf('%s/%s', $route_value, $value).'.php'))
+            {
+                $route_value = sprintf('%s/%s', $route_value, $value);
+                return;
+            }
         }
+
+        throw new \Exception("No controller found: $controller");
     }
 
     /**

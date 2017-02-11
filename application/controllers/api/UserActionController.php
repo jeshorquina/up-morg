@@ -92,12 +92,12 @@ class UserActionController extends Controller
             $response = $this->operations->CreateMember(
                 new MemberModel(
                     array(
-                        "FirstName" => $first_name,
-                        "MiddleName" => $middle_name,
-                        "LastName" => $last_name,
+                        "FirstName"    => $first_name,
+                        "MiddleName"   => $middle_name,
+                        "LastName"     => $last_name,
                         "EmailAddress" => $email,
-                        "PhoneNumber" => $phone,
-                        "Password" => Security::GenerateHash($first_password),
+                        "PhoneNumber"  => $phone,
+                        "Password"     => Security::GenerateHash($first_password),
                     )
                 )
             );
