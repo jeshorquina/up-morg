@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS `Member` (
     `LastName` VARCHAR(50) NOT NULL,
     `EmailAddress` VARCHAR(50) NOT NULL,
     `PhoneNumber` VARCHAR(50),
-    `Password` VARCHAR(50) NOT NULL,
+    `Password` VARCHAR(60) NOT NULL,
     PRIMARY KEY(`MemberID`)
 );

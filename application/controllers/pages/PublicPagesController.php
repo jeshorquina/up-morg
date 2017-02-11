@@ -18,11 +18,6 @@ class PublicPagesController extends Controller
         }
     }
 
-    public function index()
-    {
-		self::RenderView("public-pages/index.html.inc");
-    }
-
     public function Login()
     {
         self::RenderView(
