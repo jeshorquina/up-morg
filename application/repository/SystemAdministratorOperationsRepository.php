@@ -49,4 +49,14 @@ class SystemAdministratorOperationsRepository extends Repository
     {
         return self::Insert("Batch", $batch);
     }
+
+    public function DeleteBatch($value)
+    {
+        return self::Delete("Batch", "BatchID", $value);
+    }
+
+    public function ExistingBatch($value)
+    {
+        return self::Find("Batch", "BatchID", $value);
+    }
 }

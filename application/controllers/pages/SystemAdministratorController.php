@@ -40,18 +40,15 @@ class SystemAdministratorController extends Controller
 
     public function ManageBatch()
     {
-        //self::RenderView(
-        //    "admin-pages/managebatch.html.inc", 
-        //    array(
-        //        "batches" => $this->operations->GetBatches()
-        //    )
-        //);
-
-         self::RenderView(
-            "admin-pages/managebatch.html.inc",
-            Security::GetCSRFData()
-            );
-            
+        self::RenderView(
+            "admin-pages/managebatch.html.inc", 
+            array_merge(
+                array(
+                    "batches" => $this->operations->GetBatches()
+                ),
+                Security::GetCSRFData()
+            )
+        );  
     }
 
 }
