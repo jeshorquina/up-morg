@@ -33,30 +33,7 @@ Class Http{
 
     public static function Response($status, $mixed)
     {
-        $array = array();
-        switch($status)
-        {
-            case self::INTERNAL_SERVER_ERROR:
-                $array["status"] = "(500) INTERNAL SERVER ERROR";
-                break;
-            case self::UNPROCESSABLE_ENTITY:
-                $array["status"] = "(422) UNPROCESSABLE ENTITY";
-                break;
-            case self::BAD_REQUEST:
-                $array["status"] = "(400) BAD REQUEST";
-                break;
-            case self::CREATED:
-                $array["status"] = "(201) CREATED";
-                break;
-            case self::OK:
-                $array["status"] = "(200) OK";
-                break;
-            default:
-                throw new \Exception("HTTP Status not supported.");
-        }
-        $array["data"] = $mixed;
-
-        self::SendJSONResponse($status, $array);
+        self::SendJSONResponse($status, $mixed);
     }
 
     private static function SendJSONResponse($status, $array)

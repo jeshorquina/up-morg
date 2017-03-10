@@ -16,12 +16,12 @@ Class ValidationDataBuilder
     {
         if(strtolower(gettype($data)) !== "string") 
         {
-            throw new \Exception(sprintf("Input type incorrect for %s.", $name));
+            throw new \Exception(sprintf("Input type incorrect for %s", $name));
         }
         else if(strlen($data) === 0) 
         {
-            $this->valid                = false;
-            $this->array["data"][$name] = sprintf("Empty %s.", $name);
+            $this->valid   = false;
+            $this->array[$name] = sprintf("Empty %s", $name);
             return true;
         }
         else 
@@ -34,8 +34,8 @@ Class ValidationDataBuilder
     {
         if($data1 !== $data2) 
         {
-            $this->valid                = false;
-            $this->array["data"][$name] = sprintf("Not equal %s.", $name);
+            $this->valid   = false;
+            $this->array[$name] = sprintf("Not equal %s", $name);
             return false;
         }
         else 
@@ -46,17 +46,16 @@ Class ValidationDataBuilder
 
     public function CheckEmail($name, $email)
     {
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+        if(strlen($email) !== 0) 
         {
-            $this->valid                = false;
-            $this->array["data"][$name] = "Invalid email.";
-
-            return false;
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                $this->valid   = false;
+                $this->array[$name] = sprintf("Invalid %s", $name);
+                return false;
+            }
         }
-        else 
-        {
-            return true;
-        }
+        return true;
     }
 
     public function GetStatus()

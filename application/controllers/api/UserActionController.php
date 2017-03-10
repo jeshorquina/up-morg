@@ -28,26 +28,34 @@ class UserActionController extends Controller
 
         if($validation["status"] === false)
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                $validation["message"]
+            );
+        }
+        else if(!$this->operations->ExistingUsername($username))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array("username" => "Username does not exist!")
+            );
+        }
+        else if(!$this->operations->MatchingPassword($username, $password))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array("password" => "Password does not match!")
+            );
         }
         else 
         {
-            if(!$this->operations->ExistingUsername($username))
-            {
-                Http::Response(Http::UNPROCESSABLE_ENTITY, "Username does not exist!");
-            }
-            else if(!$this->operations->MatchingPassword($username, $password))
-            {
-                Http::Response(Http::UNPROCESSABLE_ENTITY, "Password does not match!");
-            }
-            else 
-            {
-                $this->operations->SetLoggedInState($username);
-                Http::Response(Http::OK, "Successfully logged in.");
-            }
+            $this->operations->SetLoggedInState($username);
+            Http::Response(Http::OK, array(
+                    "message"      => "Successfully logged in.",
+                    "redirect_url" => base_url("home")
+                )
+            );
         }
-
-        
 	}
 
     public function Logout()
