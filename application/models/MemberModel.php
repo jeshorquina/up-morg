@@ -1,10 +1,10 @@
-<?php 
+<?php
 namespace Jesh\Models;
 
-use \Jesh\Models\ModelInterface;
+use \Jesh\Core\Interfaces\ModelInterface;
 
-class MemberModel implements ModelInterface {
-
+class MemberModel implements ModelInterface
+{
     public $MemberID;
     public $FirstName;
     public $MiddleName;
@@ -13,4 +13,11 @@ class MemberModel implements ModelInterface {
     public $PhoneNumber;
     public $Password;
 
+    public function __construct($array)
+    {    
+        foreach($array as $key => $value)
+        {
+            $this->$key = $value;
+        }
+    }
 }

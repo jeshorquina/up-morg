@@ -1,0 +1,66 @@
+'index':
+    controller: IndexController
+
+# Pages- Public pages
+'login':
+    directory: pages
+    controller: PublicPagesController
+    function: Login
+'signup':
+    directory: pages
+    controller: PublicPagesController
+    function: Signup
+
+# API - User access
+'action/login':
+    directory: api
+    controller: UserActionController
+    function: Login
+'action/logout':
+    directory: api
+    controller: UserActionController
+    function: Logout
+'action/signup':
+    directory: api
+    controller: UserActionController
+    function: Signup
+
+# Pages - Admin pages
+'admin/home':
+    directory: pages
+    controller: SystemAdministratorController
+    function: Home
+'admin/login':
+    directory: pages
+    controller: SystemAdministratorController
+    function: Access
+'admin/change-password':
+    directory: pages
+    controller: SystemAdministratorController
+    function: EditPassword
+'admin/manage/batch':
+    directory: pages
+    controller: SystemAdministratorController
+    function: ManageBatch
+
+# API - Admin pages
+'action/admin/access':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: Login
+'action/admin/change-password':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: UpdatePassword
+'action/admin/display-batches':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: GetBatches
+'action/admin/add-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: CreateBatch
+'action/admin/delete-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: DeleteBatch

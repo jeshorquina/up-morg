@@ -4,8 +4,9 @@ application/logs/*
 
 composer.lock
 
+/node_modules/
+/.vscode/
 /vendor/
 
 *.yml
-!config_example.yml
-!routes_example.yml
+!routes.yml
