@@ -8,8 +8,8 @@ Class ValidationDataBuilder
 
     public function __construct()
     {
-        $this->valid         = true;
-        $this->array["data"] = array();
+        $this->valid = true;
+        $this->array = array();
     }
 
     public function CheckString($name, $data)

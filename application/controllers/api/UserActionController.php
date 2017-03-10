@@ -93,7 +93,7 @@ class UserActionController extends Controller
 
         if($validation["status"] === false)
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
         else 
         {

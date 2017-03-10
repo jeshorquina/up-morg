@@ -6,7 +6,7 @@
 
     /** 
      * TODO: Create a Signup function for SignupController that will do 
-     * validation and calling of endpoint asyncronously. See Login 
+     * validation and calling of endpoint asynchronously. See Login 
      * Controller JS for more details
     */
 

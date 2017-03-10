@@ -80,8 +80,8 @@ class UserActionOperations
         }
         
         return array(
-            "status" => $validation->GetStatus(),
-            "data"   => $validation->GetValidationData()
+            "status"  => $validation->GetStatus(),
+            "message" => $validation->GetValidationData()
         );
     }
 
