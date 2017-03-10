@@ -7,6 +7,8 @@ use \Jesh\Helpers\Http;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
+use \Jesh\Models\BatchModel;
+
 class SystemAdministratorActionController extends Controller
 {
     public function __construct()
@@ -16,11 +18,41 @@ class SystemAdministratorActionController extends Controller
         $this->operations = self::InitializeOperations("SystemAdministratorOperations");
     }
 
+    public function CreateBatch()
+    {
+        $academic_year = Http::Request(Http::POST, "academic_year");
+
+        $validation = $this->operations->CheckAcadYearFormat($academic_year);
+
+        if(!$validation)
+        {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, "Wrong format.");
+        }
+        else 
+        {
+            $response = $this->operations->CreateBatch(
+                new BatchModel(
+                    array(
+                        "AcadYear" => $academic_year
+                    )
+                )
+            );
+            
+            if(!$response)
+            {
+                Http::Response(Http::INTERNAL_SERVER_ERROR, "Unable to create new batch.");
+            }
+            else
+            {
+                Http::Response(Http::CREATED, "New batch successfully created.");
+            }
+        }
+    }
+
     public function GetBatches()
     {
         $batches = $this->operations->GetBatches();
         Http::Response(Http::OK, $batches);
-        
     }
 
     public function GetBatchInformation()

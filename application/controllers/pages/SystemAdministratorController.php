@@ -9,6 +9,14 @@ use \Jesh\Helpers\Session;
 
 class SystemAdministratorController extends Controller
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->operations = self::InitializeOperations("SystemAdministratorOperations");
+    }
+
     public function Access()
     {
 		self::RenderView(
@@ -32,11 +40,18 @@ class SystemAdministratorController extends Controller
 
     public function ManageBatch()
     {
-        self::RenderView(
-            "admin-pages/managebatch.html.inc", 
-            array(
-                "hi" => "hello"
-            )
-        );
+        //self::RenderView(
+        //    "admin-pages/managebatch.html.inc", 
+        //    array(
+        //        "batches" => $this->operations->GetBatches()
+        //    )
+        //);
+
+         self::RenderView(
+            "admin-pages/managebatch.html.inc",
+            Security::GetCSRFData()
+            );
+            
     }
+
 }

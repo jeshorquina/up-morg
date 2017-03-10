@@ -10,9 +10,14 @@
     <body>
         <h1>Batch Management</h1>
         <h3>Existing Batches</h3>
-        <?= $hi ?>
+        <? foreach($batches as $value) ?>
         <h3>Add New Batch</h3>
-        <form method="POST" action="<?=base_url("action/admin/addbatch")?>">
+        <form method="POST" action="<?=base_url("action/admin/add-batch")?>">
+        <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+        Input academic year (ex. 2017-2018): <input type="text" class="form-control" pattern="[0-9]{4}-[0-9]{4}" name="academic_year">
+        <button class="btn btn-info" type="submit">
+            <i class="fa fa-lock"></i> SUBMIT
+        </button>
         </form>
     </body>
 </html>

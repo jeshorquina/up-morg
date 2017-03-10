@@ -4,6 +4,8 @@ namespace Jesh\Repository;
 use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Models\StaticData;
 
+use \Jesh\Models\BatchModel;
+
 class SystemAdministratorOperationsRepository extends Repository
 {
     public function GetPassword()
@@ -41,5 +43,10 @@ class SystemAdministratorOperationsRepository extends Repository
     public function GetMembers()
     {
         return self::Get("Member", "MemberID, FirstName, MiddleName, LastName");
+    }
+
+    public function InsertBatchToDatabase(Batchmodel $batch)
+    {
+        return self::Insert("Batch", $batch);
     }
 }
