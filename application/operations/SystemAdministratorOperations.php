@@ -5,6 +5,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
+use \Jesh\Models\BatchModel;
 use \Jesh\Models\MemberModel;
 use \Jesh\Repository\SystemAdministratorOperationsRepository;
 
@@ -47,5 +48,21 @@ class SystemAdministratorOperations
             "status" => $validation->GetStatus(),
             "data"   => $validation->GetValidationData()
         );
+    }
+
+    public function CreateBatch(Batchmodel $batch)
+    {
+        return $this->repository->InsertBatchToDatabase($batch);
+
+    }
+
+    public function CheckAcadYearFormat($input)
+    {
+        $regex = "/[0-9]{4}-[0-9]{4}/";
+        if(preg_match($regex, $input, $match))
+        {
+            return true;
+        }
+        return false;
     }
 }

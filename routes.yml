@@ -56,3 +56,7 @@
     directory: api
     controller: SystemAdministratorActionController
     function: GetBatches
+'action/admin/add-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: CreateBatch
