@@ -7,6 +7,6 @@ class IndexController extends Controller
 {
     public function index()
     {
-        self::RenderView("public-pages/index.html.inc");
+        self::Redirect("login");
     }
 }

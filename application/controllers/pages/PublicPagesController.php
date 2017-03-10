@@ -13,7 +13,7 @@ class PublicPagesController extends Controller
         parent::__construct();
 
         if(Session::Find("user_data"))
-		{
+        {
             self::Redirect("home/");
         }
     }
