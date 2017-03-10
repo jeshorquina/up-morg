@@ -60,3 +60,7 @@
     directory: api
     controller: SystemAdministratorActionController
     function: CreateBatch
+'action/admin/delete-batch':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: DeleteBatch

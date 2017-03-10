@@ -10,7 +10,22 @@
     <body>
         <h1>Batch Management</h1>
         <h3>Existing Batches</h3>
-        <? foreach($batches as $value) ?>
+        <form method="POST" action="<?=base_url("action/admin/delete-batch")?>">
+            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+            <table>
+                <tbody>
+                    <?php foreach($batches as $value) { ?>
+                    <tr>
+                        <td><input type="checkbox" name="batch_id" class="form-control" value="<?= $value['BatchID'] ?>"></td>
+                        <td><?= $value['AcadYear'] ?></td>
+                    </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+            <button class="btn btn-info" type="submit">
+                <i class="fa fa-lock"></i> DELETE
+            </button>
+        </form>
         <h3>Add New Batch</h3>
         <form method="POST" action="<?=base_url("action/admin/add-batch")?>">
         <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">

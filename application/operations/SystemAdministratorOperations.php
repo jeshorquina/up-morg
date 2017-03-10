@@ -56,6 +56,11 @@ class SystemAdministratorOperations
 
     }
 
+    public function ExistingBatch($value)
+    {
+        return $this->repository->ExistingBatch($value);
+    }
+
     public function CheckAcadYearFormat($input)
     {
         $regex = "/[0-9]{4}-[0-9]{4}/";
@@ -64,5 +69,10 @@ class SystemAdministratorOperations
             return true;
         }
         return false;
+    }
+
+    public function DeleteBatch($value)
+    {
+        return $this->repository->DeleteBatch($value);
     }
 }
