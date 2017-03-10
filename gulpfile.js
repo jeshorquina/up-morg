@@ -26,6 +26,7 @@ gulp
             .pipe(gulp.dest('public/css/'));
     })
     .task('final:scripts', function () {
+
         gulp.src([
             'resources/assets/js/libraries/domHelper.js',
             'resources/assets/js/libraries/alertFactory.js',
@@ -38,6 +39,7 @@ gulp
             .pipe(js_minify())
             .pipe(sourcemaps.write("/"))
             .pipe(gulp.dest('public/js/'));
+
         gulp.src([
             'resources/assets/js/libraries/domHelper.js',
             'resources/assets/js/libraries/alertFactory.js',

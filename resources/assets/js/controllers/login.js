@@ -18,7 +18,7 @@
     if (ValidateLoginData(username, password)) {
 
       var endpoint = source + "action/login";
-      var data     = new FormData(form);
+      var data = new FormData(form);
 
       HttpHelper.Post(endpoint, data, LoginCallback);
     }
