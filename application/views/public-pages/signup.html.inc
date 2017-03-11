@@ -4,11 +4,16 @@
 <head>
     <meta charset="utf-8">
     <title>UP Morg - Signup</title>
+    <link rel="stylesheet" href="<?=base_url('public/app.css')?>" />
 </head>
 
 <body>
-    <h2>login</h2>
-    <form method="POST" action="<?=base_url("action/signup")?>">
+
+    <div id="notifications"></div>
+    
+    <h2>Sign Up</h2>
+    
+    <form id="signup-form" data-source="<?=base_url()?>">
 
         <div>
             <h4>Name</h4>
@@ -33,6 +38,8 @@
         <input type="submit">
 
     </form>
+
+    <script src="<?=base_url('public/js/signup.js');?>"></script>
 </body>
 
 </html>

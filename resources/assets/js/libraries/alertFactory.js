@@ -1,10 +1,10 @@
 (function (DomHelper, AlertFactory) {
 
-  AlertFactory.GenerateDangerAlert = function (container, data, clearHtml) {
+  AlertFactory.GenerateDangerAlert = function (container, clearHtml, data) {
     GenerateAlert(container, data, "alert-danger", clearHtml);
   }
 
-  AlertFactory.GenerateSuccessAlert = function (container, data, clearHtml) {
+  AlertFactory.GenerateSuccessAlert = function (container, clearHtml, data) {
     GenerateAlert(container, data, "alert-success", clearHtml);
   }
 

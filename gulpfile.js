@@ -37,6 +37,18 @@ gulp
             .pipe(sourcemaps.init())
             .pipe(js_minify())
             .pipe(sourcemaps.write("/"))
-            .pipe(gulp.dest('public/js/'))
+            .pipe(gulp.dest('public/js/'));
+        gulp.src([
+            'resources/assets/js/libraries/domHelper.js',
+            'resources/assets/js/libraries/alertFactory.js',
+            'resources/assets/js/libraries/httpHelper.js',
+            'resources/assets/js/libraries/urlHelper.js',
+            'resources/assets/js/controllers/signup.js'
+        ])
+            .pipe(concat('signup.js'))
+            .pipe(sourcemaps.init())
+            .pipe(js_minify())
+            .pipe(sourcemaps.write("/"))
+            .pipe(gulp.dest('public/js/'));
     });
 
