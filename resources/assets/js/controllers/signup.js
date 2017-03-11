@@ -49,25 +49,39 @@
 
         if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
             if (data['first_name'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['first_name']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['first_name']
+                );
             }
             if (data['middle_name'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['middle_name']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['middle_name']
+                );
             }
             if (data['last_name'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['last_name']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['last_name']
+                );
             }
             if (data['email_address'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['email_address']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['email_address']
+                );
             }
             if (data['phone_number'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['phone_number']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['phone_number']
+                );
             }
             if (data['first_password'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['first_password']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['first_password']
+                );
             }
             if (data['second_password'] != undefined) {
-                AlertFactory.GenerateDangerAlert(container, false, data['second_password']);
+                AlertFactory.GenerateDangerAlert(
+                    container, false, data['second_password']
+                );
             }
         }
         else if (status == HttpHelper.CREATED) {
