@@ -25,4 +25,36 @@ class UserPagesController extends Controller
             Security::GetCSRFData()
         );
     }
+
+    public function TaskManager()
+    {
+        self::RenderView(
+            "user-pages/task-manager.html.inc", 
+            Security::GetCSRFData()
+        );
+    }
+
+    public function AvailabilityTracker()
+    {
+        self::RenderView(
+            "user-pages/availability-tracker.html.inc", 
+            Security::GetCSRFData()
+        );
+    }
+
+    public function Calendar()
+    {
+        self::RenderView(
+            "user-pages/calendar.html.inc", 
+            Security::GetCSRFData()
+        );
+    }
+
+    public function FinanceTracker()
+    {
+        self::RenderView(
+            "user-pages/finance-tracker.html.inc", 
+            Security::GetCSRFData()
+        );
+    }
 }

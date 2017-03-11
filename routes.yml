@@ -16,6 +16,22 @@
     directory: pages
     controller: UserPagesController
     function: Home
+'task-manager':
+    directory: pages
+    controller: UserPagesController
+    function: TaskManager
+'availability-tracker':
+    directory: pages
+    controller: UserPagesController
+    function: AvailabilityTracker
+'calendar':
+    directory: pages
+    controller: UserPagesController
+    function: Calendar
+'finance-tracker':
+    directory: pages
+    controller: UserPagesController
+    function: FinanceTracker
 
 # API - User access
 'action/login':
