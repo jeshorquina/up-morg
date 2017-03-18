@@ -12,49 +12,69 @@ class UserPagesController extends Controller
     {
         parent::__construct();
 
-        if(Session::Find("user_data"))
+        if(!Session::Find("user_data"))
         {
-            self::Redirect("home/");
+            self::Redirect("/");
         }
+
+        self::SetHeader(
+            array(
+                "user-pages/templates/header.html.inc",
+                "user-pages/templates/nav.html.inc"
+            )
+        );
+        self::SetFooter(
+            "user-pages/templates/footer.html.inc"
+        );
     }
 
     public function Home()
     {
-        self::RenderView(
-            "user-pages/home.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("user-pages/home.html.inc");
+        self::RenderView(array(
+            "page" => array(
+                "title" => "Home"
+            )
+        ));
     }
 
     public function TaskManager()
     {
-        self::RenderView(
-            "user-pages/task-manager.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("user-pages/task-manager.html.inc");
+        self::RenderView(array(
+            "page" => array(
+                "title" => "Task Manager"
+            )
+        ));
     }
 
     public function AvailabilityTracker()
     {
-        self::RenderView(
-            "user-pages/availability-tracker.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("user-pages/availability-tracker.html.inc");
+        self::RenderView(array(
+            "page" => array(
+                "title" => "Availability Tracker"
+            )
+        ));
     }
 
     public function Calendar()
     {
-        self::RenderView(
-            "user-pages/calendar.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("user-pages/calendar.html.inc");
+        self::RenderView(array(
+            "page" => array(
+                "title" => "Calendar"
+            )
+        ));
     }
 
     public function FinanceTracker()
     {
-        self::RenderView(
-            "user-pages/finance-tracker.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("user-pages/finance-tracker.html.inc");
+        self::RenderView(array(
+            "page" => array(
+                "title" => "Finance Tracker"
+            )
+        ));
     }
 }

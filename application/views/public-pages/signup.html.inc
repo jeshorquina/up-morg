@@ -13,7 +13,7 @@
     
     <h2>Sign Up</h2>
     
-    <form id="signup-form" data-source="<?=base_url()?>">
+    <form id="signup-form" method="post" data-source="<?= base_url() ?>">
 
         <div>
             <h4>Name</h4>

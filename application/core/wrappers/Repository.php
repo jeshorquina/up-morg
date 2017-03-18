@@ -16,11 +16,16 @@ abstract class Repository extends CI_Model {
         unset($this->db);
     }
 
-    protected function Get($table_name, $column_name, $condition_array = array())
+    protected function Get(
+        $table_name, $column_name, 
+        $condition_array = array(), $order_array = array())
     {
         $this->db->select($column_name);
         foreach($condition_array as $column => $value) {
             $this->db->where($column, $value);   
+        }
+        foreach($order_array as $column => $order) {
+            $this->db->order_by($column, $order);
         }
         $query = $this->db->get($table_name);
         return $query->result_array();   

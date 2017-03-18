@@ -38,12 +38,15 @@ class UserActionOperations
 
     public function MatchingPassword($username, $password) 
     {
-        return Security::CheckPassword($password, $this->repository->GetPassword($username));
+        return Security::CheckPassword($password, 
+            $this->repository->GetPassword($username)
+        );
     }
 
     public function SetLoggedInState($username)
     {
         $member = $this->repository->GetMemberData($username);
+
         return Session::Set("user_data", json_encode(
             array(
                 "id"            => $member->MemberID,
@@ -58,9 +61,7 @@ class UserActionOperations
 
     public function SetLoggedOutState()
     {
-        Session::End();
-        
-        return true;
+        return Session::End();
     }
 
     public function ValidateRegistrationData($registration_data)

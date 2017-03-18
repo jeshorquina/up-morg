@@ -35,14 +35,21 @@ class SystemAdministratorOperationsRepository extends Repository
         );
     }
 
-    public function GetBatches()
+    public function GetBatches($order)
     {
-        return self::Get("Batch", "*");
+        return self::Get(
+            "Batch", "*", 
+            array(), 
+            array("AcadYear" => $order)
+        );
     }
 
     public function GetMembers()
     {
-        return self::Get("Member", "MemberID, FirstName, MiddleName, LastName");
+        return self::Get(
+            "Member", 
+            "MemberID, FirstName, MiddleName, LastName"
+        );
     }
 
     public function InsertBatchToDatabase(Batchmodel $batch)
@@ -50,13 +57,18 @@ class SystemAdministratorOperationsRepository extends Repository
         return self::Insert("Batch", $batch);
     }
 
-    public function DeleteBatch($value)
+    public function DeleteBatchByID($value)
     {
         return self::Delete("Batch", "BatchID", $value);
     }
 
-    public function ExistingBatch($value)
+    public function ExistingBatchByID($value)
     {
         return self::Find("Batch", "BatchID", $value);
+    }
+
+    public function ExistingBatchByYear($value)
+    {
+        return self::Find("Batch", "AcadYear", $value);
     }
 }

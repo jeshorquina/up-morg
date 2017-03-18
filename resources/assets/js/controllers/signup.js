@@ -85,7 +85,7 @@
             }
         }
         else if (status == HttpHelper.CREATED) {
-            AlertFactory.GenerateSuccessAlert(container, data.message, true);
+            AlertFactory.GenerateSuccessAlert(container, true, data.message);
             UrlHelper.Redirect(data.redirect_url, 1000);
         }
     }
