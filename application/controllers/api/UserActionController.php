@@ -112,15 +112,24 @@ class UserActionController extends Controller
 
             if(!$response)
             {
-                Http::Response(Http::INTERNAL_SERVER_ERROR, "Unable to create new member.");
+                Http::Response(
+                    Http::INTERNAL_SERVER_ERROR, 
+                    "Unable to create new member."
+                );
             }
             else if(!$this->operations->SetLoggedInState($email))
             {
-                Http::Response(Http::INTERNAL_SERVER_ERROR, "Unable to create session data for log in.");
+                Http::Response(
+                    Http::INTERNAL_SERVER_ERROR, 
+                    "Unable to create session data for log in."
+                );
             }
             else
             {
-                Http::Response(Http::CREATED, "Member successfully created.");
+                Http::Response(
+                    Http::CREATED, 
+                    "Member successfully created."
+                );
             }
         }
     }

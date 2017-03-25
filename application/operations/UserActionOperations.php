@@ -67,7 +67,7 @@ class UserActionOperations
     {
         $validation = new ValidationDataBuilder;
 
-        foreach($registration_data as $name => $value) 
+        foreach($registration_data as $name => $value)
         {
             if(strtolower(gettype($value)) === "string") 
             {

@@ -1,7 +1,8 @@
 <?php 
 namespace Jesh\Helpers;
 
-Class Http{
+Class Http
+{
     const GET  = INPUT_GET;
     const POST = INPUT_POST;
 
@@ -10,6 +11,8 @@ Class Http{
     const BAD_REQUEST           = 400;
     const UNPROCESSABLE_ENTITY  = 422;
     const INTERNAL_SERVER_ERROR = 500;
+
+    const TYPE_JSON = 'Content-type: application/json';
 
     public static function Request($type, $key)
     {
@@ -31,19 +34,14 @@ Class Http{
         return filter_input($type, $key, FILTER_DEFAULT);
     }
 
-    public static function Response($status, $mixed)
-    {
-        self::SendJSONResponse($status, $mixed);
-    }
-
-    private static function SendJSONResponse($status, $array)
+    public static function Response($status, $mixed, $type = self::TYPE_JSON)
     {
         // set response status code
         http_response_code($status);
-        
+
         // set headers
-        header('Content-type: application/json');
-        
+        header();
+
         // Set body
         echo json_encode($array);
 

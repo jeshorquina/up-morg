@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=5.5.0",
-		"symfony/yaml": "^3.2"
+		"symfony/yaml": "^3.2",
+		"friendsofphp/php-cs-fixer": "^2.1"
 	},
 	"autoload": {
 		"psr-4": {
