@@ -1,7 +1,6 @@
 (function (UrlHelper) {
 
   UrlHelper.Redirect = function (url, delay) {
-
     setTimeout(function () {
       window.location = url;
     }, delay);

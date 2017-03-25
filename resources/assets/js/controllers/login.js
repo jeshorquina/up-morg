@@ -26,7 +26,7 @@
 
   function ValidateLoginData(username, password) {
 
-    // TODO: Validate the username and password sematics-wise
+    // TODO: Validate the username and password semantics-wise
 
     return true;
   }
@@ -52,5 +52,7 @@
 
 })(
   AlertFactory, HttpHelper, UrlHelper,
-  this.LoginController = (this.LoginController == undefined) ? {} : this.LoginController
+  this.LoginController = (
+    this.LoginController == undefined
+  ) ? {} : this.LoginController
   );
