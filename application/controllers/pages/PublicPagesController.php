@@ -16,17 +16,39 @@ class PublicPagesController extends Controller
         {
             self::Redirect("home/");
         }
+
+        self::SetHeader(
+            array(
+                "public-pages/templates/header.html.inc",
+                "public-pages/templates/nav.html.inc"
+            )
+        );
+        self::SetFooter("public-pages/templates/footer.html.inc");
     }
 
     public function Login()
     {
         self::SetBody("public-pages/login.html.inc");
-        self::RenderView(Security::GetCSRFData());
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Log In"
+                ) 
+            )
+        ));
     }
 
     public function Signup()
     {
         self::SetBody("public-pages/signup.html.inc");
-        self::RenderView(Security::GetCSRFData());
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Sign Up"
+                )
+            )
+        ));
     }
 }

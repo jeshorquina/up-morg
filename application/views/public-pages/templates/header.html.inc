@@ -9,3 +9,5 @@
 </head>
 
 <body>
+
+    <div id="notifications"></div>

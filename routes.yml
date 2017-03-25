@@ -8,7 +8,7 @@
     directory: pages
     controller: PublicPagesController
     function: Login
-'signup':
+'sign-up':
     directory: pages
     controller: PublicPagesController
     function: Signup

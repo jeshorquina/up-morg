@@ -30,51 +30,46 @@ class UserPagesController extends Controller
 
     public function Home()
     {
+        $view_data = array();
+        $view_data["page"]["title"] = "Home";
+
         self::SetBody("user-pages/home.html.inc");
-        self::RenderView(array(
-            "page" => array(
-                "title" => "Home"
-            )
-        ));
+        self::RenderView($view_data);
     }
 
     public function TaskManager()
     {
+        $view_data = array();
+        $view_data["page"]["title"] = "Task Manager";
+
         self::SetBody("user-pages/task-manager.html.inc");
-        self::RenderView(array(
-            "page" => array(
-                "title" => "Task Manager"
-            )
-        ));
+        self::RenderView($view_data);
     }
 
     public function AvailabilityTracker()
     {
+        $view_data = array();
+        $view_data["page"]["title"] = "Availability Tracker";
+
         self::SetBody("user-pages/availability-tracker.html.inc");
-        self::RenderView(array(
-            "page" => array(
-                "title" => "Availability Tracker"
-            )
-        ));
+        self::RenderView($view_data);
     }
 
     public function Calendar()
     {
+        $view_data = array();
+        $view_data["page"]["title"] = "Calendar";
+
         self::SetBody("user-pages/calendar.html.inc");
-        self::RenderView(array(
-            "page" => array(
-                "title" => "Calendar"
-            )
-        ));
+        self::RenderView($view_data);
     }
 
     public function FinanceTracker()
     {
+        $view_data = array();
+        $view_data["page"]["title"] = "Finance Tracker";
+
         self::SetBody("user-pages/finance-tracker.html.inc");
-        self::RenderView(array(
-            "page" => array(
-                "title" => "Finance Tracker"
-            )
-        ));
+        self::RenderView($view_data);
     }
 }
