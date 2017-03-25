@@ -11,6 +11,12 @@
     controller: PublicPagesController
     function: Signup
 
+# Pages - User pages
+'home':
+    directory: pages
+    controller: UserPagesController
+    function: Home
+
 # API - User access
 'action/login':
     directory: api

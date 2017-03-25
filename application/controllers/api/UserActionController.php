@@ -126,9 +126,10 @@ class UserActionController extends Controller
             }
             else
             {
-                Http::Response(
-                    Http::CREATED, 
-                    "Member successfully created."
+                Http::Response(Http::CREATED, array(
+                        "message"      => "Member successfully created.",
+                        "redirect_url" => base_url("home")
+                    )
                 );
             }
         }

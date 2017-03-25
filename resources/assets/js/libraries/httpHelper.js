@@ -2,6 +2,7 @@
 
   HttpHelper.UNPROCESSABLE_ENTITY = 422;
   HttpHelper.OK = 200;
+  HttpHelper.CREATED = 201;
 
   HttpHelper.Get = function (endpoint, calback) {
     callEndpoint(endpoint, "GET", "", callback);

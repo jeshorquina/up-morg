@@ -18,7 +18,7 @@
     if (ValidateLoginData(username, password)) {
 
       var endpoint = source + "action/login";
-      var data = new FormData(form);
+      var data     = new FormData(form);
 
       HttpHelper.Post(endpoint, data, LoginCallback);
     }
@@ -38,14 +38,14 @@
 
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
       if (data['username'] != undefined) {
-        AlertFactory.GenerateDangerAlert(container, data['username'], true);
+        AlertFactory.GenerateDangerAlert(container, true, data['username']);
       }
       if (data['password'] != undefined) {
-        AlertFactory.GenerateDangerAlert(container, data['password'], false);
+        AlertFactory.GenerateDangerAlert(container, false, data['password']);
       }
     }
     else if (status == HttpHelper.OK) {
-      AlertFactory.GenerateSuccessAlert(container, data.message, true);
+      AlertFactory.GenerateSuccessAlert(container, true, data.message);
       UrlHelper.Redirect(data.redirect_url, 1000);
     }
   }
