@@ -16,24 +16,51 @@ class SystemAdministratorOperations
         $this->repository = new SystemAdministratorOperationsRepository;
     }
 
-    public function ChangePassword($password)
+    public function SetLoggedInState()
     {
-        return $this->repository->UpdatePassword(Security::GenerateHash($password));
+        return Session::Set("admin_data", "TRUE");
+    }
+
+    public function SetLoggedOutState()
+    {
+        return Session::End();
     }
 
     public function GetBatches()
     {
-        return $this->repository->GetBatches();
+        return $this->repository->GetBatches("DESC");
     }
 
-    public function MatchingPassword($password)
+    public function CheckAcadYearFormat($input)
     {
-        return Security::CheckPassword($password, $this->repository->GetPassword());
+        return filter_var(
+            preg_match("/[0-9]{4}-[0-9]{4}/", $input), 
+            FILTER_VALIDATE_BOOLEAN
+        );
     }
 
-    public function ValidateInput($input_data)
+    public function ExistingBatchByID($batch_id)
     {
+        return $this->repository->ExistingBatchByID($batch_id);
+    }
 
+    public function ExistingBatchByYear($acad_year)
+    {
+        return $this->repository->ExistingBatchByYear($acad_year);
+    }
+
+    public function CreateBatch(Batchmodel $batch)
+    {
+        return $this->repository->InsertBatchToDatabase($batch);
+    }
+
+    public function DeleteBatch($batch_id)
+    {
+        return $this->repository->DeleteBatchByID($batch_id);
+    }
+
+    public function ValidateUpdatePasswordData($input_data)
+    {
         $validation = new ValidationDataBuilder;
 
         foreach($input_data as $name => $value) 
@@ -50,29 +77,14 @@ class SystemAdministratorOperations
         );
     }
 
-    public function CreateBatch(Batchmodel $batch)
+    public function MatchingPassword($password)
     {
-        return $this->repository->InsertBatchToDatabase($batch);
-
+        return Security::CheckPassword($password, $this->repository->GetPassword());
     }
 
-    public function ExistingBatch($value)
+    public function ChangePassword($password)
     {
-        return $this->repository->ExistingBatch($value);
+        return $this->repository->UpdatePassword(Security::GenerateHash($password));
     }
 
-    public function CheckAcadYearFormat($input)
-    {
-        $regex = "/[0-9]{4}-[0-9]{4}/";
-        if(preg_match($regex, $input, $match))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public function DeleteBatch($value)
-    {
-        return $this->repository->DeleteBatch($value);
-    }
 }

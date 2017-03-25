@@ -11,7 +11,7 @@ class PublicPagesController extends Controller
     public function __construct()
     {
         parent::__construct();
-
+  
         if(Session::Find("user_data"))
         {
             self::Redirect("home/");
@@ -20,17 +20,13 @@ class PublicPagesController extends Controller
 
     public function Login()
     {
-        self::RenderView(
-            "public-pages/login.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("public-pages/login.html.inc");
+        self::RenderView(Security::GetCSRFData());
     }
 
     public function Signup()
     {
-        self::RenderView(
-            "public-pages/signup.html.inc", 
-            Security::GetCSRFData()
-        );
+        self::SetBody("public-pages/signup.html.inc");
+        self::RenderView(Security::GetCSRFData());
     }
 }

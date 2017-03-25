@@ -24,10 +24,10 @@ Class Session
     public static function Find($key)
     {
         self::Open();
-        $value = isset($_SESSION[$key]);
+        $isset = isset($_SESSION[$key]);
         self::Close();
 
-        return $value;
+        return $isset;
     }
 
     public static function Delete($key)
@@ -36,7 +36,7 @@ Class Session
         unset($_SESSION[$key]);
         self::Close();
 
-        return self::Find($key);
+        return !self::Find($key);
     }
 
     public static function End()
@@ -52,6 +52,8 @@ Class Session
             );
         }
         session_destroy();
+
+        return session_status() === PHP_SESSION_NONE;
     }
 
     private static function Open()

@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
-use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Http;
+use \Jesh\Helpers\Security;
 
 use \Jesh\Models\MemberModel;
 
-class UserActionController extends Controller 
+class PublicPagesActionController extends Controller 
 {
     private $operations;
 
@@ -64,7 +64,7 @@ class UserActionController extends Controller
         {
             Http::Response(HTTP::OK, "Successfully logged out.");
         }
-        else 
+        else
         {
             Http::Response(Http::INTERNAL_SERVER_ERROR, "Something went wrong.");
         }
