@@ -1,17 +1,14 @@
 (function (DomHelper, AlertFactory) {
 
-  AlertFactory.GenerateDangerAlert = function (container, clearHtml, data) {
-    GenerateAlert(container, data, "alert-danger", clearHtml);
+  AlertFactory.GenerateDangerAlert = function (container, data) {
+    GenerateAlert(container, data, "alert-danger");
   }
 
-  AlertFactory.GenerateSuccessAlert = function (container, clearHtml, data) {
-    GenerateAlert(container, data, "alert-success", clearHtml);
+  AlertFactory.GenerateSuccessAlert = function (container, data) {
+    GenerateAlert(container, data, "alert-success");
   }
 
-  function GenerateAlert(container, value, type, clearHtml) {
-    if (clearHtml) {
-      DomHelper.ClearHTML(container);
-    }
+  function GenerateAlert(container, value, type) {
     DomHelper.AppendHTML(container, CreateAlert(value, type));
   }
 

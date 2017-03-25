@@ -7,7 +7,7 @@
     });
 }
 
-(function (AlertFactory, HttpHelper, UrlHelper, LoginController) {
+(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginController) {
 
   LoginController.Login = function (source) {
 
@@ -36,22 +36,33 @@
     var data = JSON.parse(responseText);
     var container = document.getElementById("notifications");
 
+    DomHelper.ClearHTML(container);
+
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
-      if (data['username'] != undefined) {
-        AlertFactory.GenerateDangerAlert(container, true, data['username']);
-      }
-      if (data['password'] != undefined) {
-        AlertFactory.GenerateDangerAlert(container, false, data['password']);
-      }
+
+      AlertFactory.GenerateDangerAlert(
+        container, "Could not log in. Please check validation errors."
+      );
+
+      ["username", "password"].forEach(function (value) {
+        DomHelper.RemoveClass(value, "input-error");
+        DomHelper.ClearHTML(value + "-error");
+      });
+
+      Object.keys(data).forEach(function (value) {
+        DomHelper.AddClass(value, "input-error");
+        DomHelper.InnerHTML(value + "-error", data[value]);
+      });
     }
     else if (status == HttpHelper.OK) {
-      AlertFactory.GenerateSuccessAlert(container, true, data.message);
+
+      AlertFactory.GenerateSuccessAlert(container, data.message);
       UrlHelper.Redirect(data.redirect_url, 1000);
     }
   }
 
 })(
-  AlertFactory, HttpHelper, UrlHelper,
+  DomHelper, AlertFactory, HttpHelper, UrlHelper,
   this.LoginController = (
     this.LoginController == undefined
   ) ? {} : this.LoginController

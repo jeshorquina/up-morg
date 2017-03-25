@@ -1,0 +1,22 @@
+[
+    {
+        "name": "login.js",
+        "src": [
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/controllers/login.js"
+        ]
+    },
+    {
+        "name": "signup.js",
+        "src": [
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/controllers/signup.js"
+        ]
+    }
+]
