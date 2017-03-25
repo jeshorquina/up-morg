@@ -11,7 +11,7 @@ class PublicPagesController extends Controller
     public function __construct()
     {
         parent::__construct();
-
+  
         if(Session::Find("user_data"))
         {
             self::Redirect("home/");
