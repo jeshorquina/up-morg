@@ -16,7 +16,7 @@ class PublicPagesActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("UserActionOperations");
+        $this->operations = self::InitializeOperations("PublicPagesActionOperations");
     }
 
     public function Login()
@@ -84,8 +84,8 @@ class PublicPagesActionController extends Controller
             array(
                 "first_name"      => $first_name,
                 "last_name"       => $last_name,
-                "email_address"   => $email,
-                "phone_number"    => $phone,
+                "email"           => $email,
+                "phone"           => $phone,
                 "first_password"  => $first_password,
                 "second_password" => $second_password
             )
@@ -94,6 +94,21 @@ class PublicPagesActionController extends Controller
         if($validation["status"] === false)
         {
             Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
+        }
+        else if($this->operations->ExistingUsername($email)) {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "email" => "Email is already registered!",
+                )
+            );
+        }
+        else if($first_password !== $second_password) {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "first_password" => "Passwords do not match!",
+                    "second_password" => "Passwords do not match!"
+                )
+            );
         }
         else 
         {
@@ -113,15 +128,17 @@ class PublicPagesActionController extends Controller
             if(!$response)
             {
                 Http::Response(
-                    Http::INTERNAL_SERVER_ERROR, 
-                    "Unable to create new member."
+                    Http::INTERNAL_SERVER_ERROR, array(
+                        "message" => "Unable to create new member."
+                    )
                 );
             }
             else if(!$this->operations->SetLoggedInState($email))
             {
                 Http::Response(
-                    Http::INTERNAL_SERVER_ERROR, 
-                    "Unable to create session data for log in."
+                    Http::INTERNAL_SERVER_ERROR, array(
+                        "message" => "Unable to create session data for log in."
+                    )
                 );
             }
             else

@@ -1,0 +1,27 @@
+$width-page: 1000px;
+
+$color-success: #2ecc71;
+$color-danger: #e74c3c;
+
+$color-background: #fafafa;
+$color-background-inverted: #2f2626;
+
+$color-text: #2f2626;
+$color-text-inverted: #fafafa;
+
+$color-text-secondary: #555;
+
+$font-stack: Helvetica, sans-serif;
+
+@mixin box-shadow($spread) {
+    -webkit-box-shadow: 0px 0px $spread 0px #eee;
+    -moz-box-shadow:    0px 0px $spread 0px #eee;
+    box-shadow:         0px 0px $spread 0px #eee;
+}
+
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}

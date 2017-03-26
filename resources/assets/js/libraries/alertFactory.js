@@ -13,7 +13,11 @@
   }
 
   function CreateAlert(message, type) {
-    return "<div class='alert " + type + "'>" + message + "</div>";
+    return "<div class='alert " + type + "'>"
+      + "<div class='alert-content'>"
+      + message
+      + "</div>"
+      + "</div>";
   }
 
 })(

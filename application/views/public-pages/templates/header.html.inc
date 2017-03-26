@@ -6,8 +6,9 @@
     <title>
         <?= $page["title"] ?>
     </title>
+    <link rel="stylesheet" href="<?= $page['stylesheet'] ?>">
 </head>
 
 <body>
 
-    <div id="notifications"></div>
+    <div id="notifications" class="sticky"></div>

@@ -1,5 +1,6 @@
 (function (HttpHelper) {
 
+  HttpHelper.INTERNAL_SERVER_ERROR = 500;
   HttpHelper.UNPROCESSABLE_ENTITY = 422;
   HttpHelper.OK = 200;
   HttpHelper.CREATED = 201;

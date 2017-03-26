@@ -33,7 +33,8 @@ class PublicPagesController extends Controller
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Log In"
+                    "title" => "Log In",
+                    "stylesheet" => base_url("public/css/login.css")
                 ) 
             )
         ));
@@ -46,7 +47,8 @@ class PublicPagesController extends Controller
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Sign Up"
+                    "title" => "Sign Up",
+                    "stylesheet" => base_url("public/css/signup.css")
                 )
             )
         ));

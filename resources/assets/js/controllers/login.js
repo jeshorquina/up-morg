@@ -38,25 +38,28 @@
 
     DomHelper.ClearHTML(container);
 
+    ["username", "password"].forEach(function (value) {
+      DomHelper.RemoveClass(value, "form-input-error");
+      DomHelper.ClearHTML(value + "-error");
+    });
+
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
       AlertFactory.GenerateDangerAlert(
         container, "Could not log in. Please check validation errors."
       );
-
-      ["username", "password"].forEach(function (value) {
-        DomHelper.RemoveClass(value, "input-error");
-        DomHelper.ClearHTML(value + "-error");
-      });
+      window.scrollTo(0, 0);
 
       Object.keys(data).forEach(function (value) {
-        DomHelper.AddClass(value, "input-error");
+        DomHelper.AddClass(value, "form-input-error");
         DomHelper.InnerHTML(value + "-error", data[value]);
       });
     }
     else if (status == HttpHelper.OK) {
 
       AlertFactory.GenerateSuccessAlert(container, data.message);
+      window.scrollTo(0, 0);
+
       UrlHelper.Redirect(data.redirect_url, 1000);
     }
   }

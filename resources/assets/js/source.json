@@ -2,6 +2,8 @@
     {
         "name": "login.js",
         "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
@@ -12,6 +14,8 @@
     {
         "name": "signup.js",
         "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",

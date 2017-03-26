@@ -4,7 +4,7 @@ namespace Jesh\Repository;
 use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Models\MemberModel;
 
-class UserActionOperationsRepository extends Repository
+class PublicPagesActionOperationsRepository extends Repository
 {
     public function GetUsernameExists($username)
     {
