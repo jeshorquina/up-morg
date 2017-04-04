@@ -6,7 +6,7 @@ use \Jesh\Models\StaticData;
 
 use \Jesh\Models\BatchModel;
 
-class SystemAdministratorOperationsRepository extends Repository
+class SystemAdministratorActionOperationsRepository extends Repository
 {
     public function GetPassword()
     {

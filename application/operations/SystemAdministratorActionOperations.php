@@ -7,13 +7,13 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\BatchModel;
 use \Jesh\Models\MemberModel;
-use \Jesh\Repository\SystemAdministratorOperationsRepository;
+use \Jesh\Repository\SystemAdministratorActionOperationsRepository;
 
-class SystemAdministratorOperations
+class SystemAdministratorActionOperations
 {
     public function __construct()
     {
-        $this->repository = new SystemAdministratorOperationsRepository;
+        $this->repository = new SystemAdministratorActionOperationsRepository;
     }
 
     public function SetLoggedInState()

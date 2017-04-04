@@ -16,7 +16,7 @@ class SystemAdministratorActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("SystemAdministratorOperations");
+        $this->operations = self::InitializeOperations("SystemAdministratorActionOperations");
     }
 
     public function Login()

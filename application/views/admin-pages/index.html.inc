@@ -10,7 +10,7 @@
 
     <body style="background-color: pink;">
         <ul>
-            <li><a href="<?=base_url('admin/editpassword')?>">Edit Password</a></li>
+            <li><a href="<?=base_url('admin/change-password')?>">Edit Password</a></li>
             <li><a href="<?=base_url('admin/manage/batch')?>">Batch Management</a></li>
             <!--li><a href="<?=base_url('admin/managefrontman')?>">1st Frontman Management</a></li-->
     </body>

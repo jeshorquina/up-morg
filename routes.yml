@@ -98,3 +98,12 @@
     directory: pages
     controller: UserPagesController
     function: FinanceTracker
+
+
+# **************************************************
+# API - Task Manager Pages
+# **************************************************
+'action/task-manager/add-task':
+    directory: api
+    controller: TaskManagerActionController
+    function: AddTask

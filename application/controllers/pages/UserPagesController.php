@@ -43,7 +43,15 @@ class UserPagesController extends Controller
         $view_data["page"]["title"] = "Task Manager";
 
         self::SetBody("user-pages/task-manager.html.inc");
-        self::RenderView($view_data);
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Task Manager",
+                    "stylesheet" => base_url("public/css/signup.css")
+                )
+            )
+        ));
     }
 
     public function AvailabilityTracker()

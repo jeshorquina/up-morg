@@ -14,12 +14,12 @@
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
             <table>
                 <tbody>
-                    <!--?php foreach($batches as $value) { ?>
-                    <tr>
+                    <!--? // php foreach($batches as $value) { ?-->
+                    <!--tr>
                         <td><input type="checkbox" name="batch_id" class="form-control" value="<?= $value['BatchID'] ?>"></td>
                         <td><?= $value['AcadYear'] ?></td>
-                    </tr>
-                    <?php } ?-->
+                    </tr-->
+                    <!-- ?php // } ?-->
                 </tbody>
             </table>
             <button class="btn btn-info" type="submit">
