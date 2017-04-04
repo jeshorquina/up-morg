@@ -40,7 +40,6 @@ class UserPagesController extends Controller
     public function TaskManager()
     {
         $view_data = array();
-        $view_data["page"]["title"] = "Task Manager";
 
         self::SetBody("user-pages/task-manager.html.inc");
         self::RenderView(array_merge(
@@ -75,9 +74,16 @@ class UserPagesController extends Controller
     public function FinanceTracker()
     {
         $view_data = array();
-        $view_data["page"]["title"] = "Finance Tracker";
 
         self::SetBody("user-pages/finance-tracker.html.inc");
-        self::RenderView($view_data);
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Finance Tracker",
+                    "stylesheet" => base_url("public/css/signup.css")
+                )
+            )
+        ));
     }
 }

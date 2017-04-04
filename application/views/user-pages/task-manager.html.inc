@@ -90,20 +90,29 @@ Sort by: <select name="category" required>
 </table>
 <a href="#committeetasks">Show task archive</a>
 <h3>Completed Reported Tasks</h3>
-
-<table style="border: 1px solid black;" sortable>
-    <tr>
-      <th style="border: 1px solid black;" >Title</th>
-      <th style="border: 1px solid black;" >Date Submitted</th>
-      <th style="border: 1px solid black;" >Reporter</th>
-      <th style="border: 1px solid black;" >Accept</th>
-      <th style="border: 1px solid black;" >Decline</th>
-    </tr>
-    <tr>
-      <td style="border: 1px solid black;" ><a href="#expandtask">Upload Lineup Of Bands</a></td>
-      <td style="border: 1px solid black;" >04-29-2017</td>
-      <td style="border: 1px solid black;" >Production Committee Member</td>
-      <td style="border: 1px solid black;" ><input type="radio" name="feedback" selected></td>
-      <td style="border: 1px solid black;" ><input type="radio" name="feedback"></td>
-    </tr>
-</table>
+<form>
+  <table style="border: 1px solid black;" sortable>
+      <tr>
+        <th style="border: 1px solid black;" >Title</th>
+        <th style="border: 1px solid black;" >Date Submitted</th>
+        <th style="border: 1px solid black;" >Reporter</th>
+        <th style="border: 1px solid black;" >Accept</th>
+        <th style="border: 1px solid black;" >Decline</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black;" ><a href="#expandtask">Upload Lineup Of Bands</a></td>
+        <td style="border: 1px solid black;" >04-29-2017</td>
+        <td style="border: 1px solid black;" >Production Committee Member</td>
+        <td style="border: 1px solid black;" >
+          <button class="btn btn-info" type="submit">
+            <i class="fa fa-lock"></i> Accept
+          </button>
+        </td>
+        <td style="border: 1px solid black;" >
+          <button class="btn btn-info" type="submit">
+            <i class="fa fa-lock"></i> Decline
+          </button>
+        </td>
+      </tr>
+  </table>
+</form>

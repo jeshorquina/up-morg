@@ -107,3 +107,15 @@
     directory: api
     controller: TaskManagerActionController
     function: AddTask
+
+# **************************************************
+# API - Finance Tracker Pages
+# **************************************************
+'action/finance-tracker/add-debit-credit':
+    directory: api
+    controller: FinanceTrackerActionController
+    function: AddDebitCredit
+'action/finance-tracker/verify-balance':
+    directory: api
+    controller: FinanceTrackerActionController
+    function: VerifyBalance
