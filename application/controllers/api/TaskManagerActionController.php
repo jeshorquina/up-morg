@@ -34,7 +34,7 @@ class TaskManagerActionController extends Controller
         
         if($validation["status"] === true)
         {
-            if($this->operations->CheckDateFormat($task_deadline_month, $task_deadline_day, $task_deadline_year))
+            if(checkdate($task_deadline_month, $task_deadline_day, $task_deadline_year))
             {
                 $task_deadline = $task_deadline_year . "-" . $task_deadline_month . "-" . $task_deadline_year;
                 $response = $this->operations->AddTask(
@@ -66,16 +66,28 @@ class TaskManagerActionController extends Controller
                 Http::Response(Http::INTERNAL_SERVER_ERROR, 
                         "Invalid date. Unable to add task."
                     );
-            }
-            
+            } 
         }
         else
         {
             Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
-        
 
+    }
+
+    public function AcceptTask()
+    {
+
+    }
+
+    public function DeclineTask()
+    {
         
+    }
+
+    public function SubmitTask()
+    {
+
     }
 
 }

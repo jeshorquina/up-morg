@@ -34,5 +34,6 @@
             <i class="fa fa-lock"></i> SUBMIT
         </button>
         </form>
+        <h3>Pending Membership Requests</h3>
     </body>
 </html>

@@ -2,6 +2,11 @@
 <h3>Ledger</h3>
 <form method="post" action="action/finance-tracker/verify-balance">
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+    Filter by: <select name="type">
+                    <option></option>
+                    <option>Debit</option>
+                    <option>Credit</option>
+               </select>
     <table style="text-align: center;">
         <tr>
             <th>Date</th>
@@ -30,7 +35,12 @@
             </td>
         </tr>
     </table>
-
+</form>
+<form method="POST" action="<?=base_url("finance-tracker/generate-statement")?>">
+    <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+    <button class="btn btn-info" type="submit">
+        <i class="fa fa-lock"></i> Generate Financial Statement
+    </button>
 </form>
 <h3>Add Debit/Credit</h3>
 <form method="POST" action="<?=base_url("action/finance-tracker/add-debit-credit")?>">

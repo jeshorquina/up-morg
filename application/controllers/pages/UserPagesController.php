@@ -56,19 +56,33 @@ class UserPagesController extends Controller
     public function AvailabilityTracker()
     {
         $view_data = array();
-        $view_data["page"]["title"] = "Availability Tracker";
 
         self::SetBody("user-pages/availability-tracker.html.inc");
-        self::RenderView($view_data);
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Availability Tracker",
+                    "stylesheet" => base_url("public/css/signup.css")
+                )
+            )
+        ));
     }
 
     public function Calendar()
     {
         $view_data = array();
-        $view_data["page"]["title"] = "Calendar";
 
         self::SetBody("user-pages/calendar.html.inc");
-        self::RenderView($view_data);
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Calendar",
+                    "stylesheet" => base_url("public/css/signup.css")
+                )
+            )
+        ));
     }
 
     public function FinanceTracker()

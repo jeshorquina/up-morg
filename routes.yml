@@ -107,6 +107,18 @@
     directory: api
     controller: TaskManagerActionController
     function: AddTask
+'action/task-manager/submit-task':
+    directory: api
+    controller: TaskManagerActionController
+    function: SubmitTask
+
+# **************************************************
+# Pages - Task Manager Pages
+# **************************************************
+'task-manager/full-task':
+    directory: pages
+    controller: TaskManagerController
+    function: FullTask
 
 # **************************************************
 # API - Finance Tracker Pages
@@ -119,3 +131,47 @@
     directory: api
     controller: FinanceTrackerActionController
     function: VerifyBalance
+'action/finance-tracker/approve-statement':
+    directory: api
+    controller: FinanceTrackerActionController
+    function: ApproveStatement
+
+# **************************************************
+# Pages - Finance Tracker Pages
+# **************************************************
+'finance-tracker/generate-statement':
+    directory: pages
+    controller: FinanceTrackerController
+    function: GenerateStatement
+
+# **************************************************
+# API - Availability Tracker Pages
+# **************************************************
+'action/availability-tracker/update-schedule':
+    directory: api
+    controller: AvailabilityTrackerActionController
+    function: UpdateSchedule
+'action/availability-tracker/delete-group':
+    directory: api
+    controller: AvailabilityTrackerActionController
+    function: DeleteGroup
+'action/availability-tracker/create-new-group':
+    directory: api
+    controller: AvailabilityTrackerActionController
+    function: CreateNewGroup
+
+# **************************************************
+# Pages - Availability Tracker Pages
+# **************************************************
+'availability-tracker/add-custom-group':
+    directory: pages
+    controller: AvailabilityTrackerController
+    function: AddCustomGroup
+
+# **************************************************
+# API - Calendar Pages
+# **************************************************
+'action/calendar/add-event':
+    directory: api
+    controller: CalendarActionController
+    function: AddEvent

@@ -63,4 +63,9 @@ class FinanceTrackerActionController extends Controller
             echo "Unable to verify balance.";
         }
     }
+
+    public function ApproveStatement()
+    {
+        
+    }
 }

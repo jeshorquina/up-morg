@@ -37,7 +37,7 @@ Sort by: <select name="category" required>
     </tr>
     <tr>
       <td style="border: 1px solid black;" ><input type="checkbox"></td>
-      <td style="border: 1px solid black;" ><a href="#expandtask">Sample Title</a></td>
+      <td style="border: 1px solid black;" ><a href="<?=base_url("task-manager/full-task")?>">Sample Title</a></td>
       <td style="border: 1px solid black;" >04-29-2017</td>
       <td style="border: 1px solid black;" >First Frontman</td>
       <td style="border: 1px solid black;" >Finance Committee Head</td>
@@ -63,7 +63,7 @@ Sort by: <select name="category" required>
     </tr>
     <tr>
       <td style="border: 1px solid black;" ><input type="checkbox"></td>
-      <td style="border: 1px solid black;" ><a href="#expandtask">Upload Event Photos</a></td>
+      <td style="border: 1px solid black;" ><a href="<?=base_url("task-manager/full-task")?>">Upload Event Photos</a></td>
       <td style="border: 1px solid black;" >04-29-2017</td>
       <td style="border: 1px solid black;" >First Frontman</td>
       <td style="border: 1px solid black;" >Documentation Committee Head</td>
@@ -81,7 +81,7 @@ Sort by: <select name="category" required>
     </tr>
     <tr>
       <td style="border: 1px solid black;" ><input type="checkbox"></td>
-      <td style="border: 1px solid black;" ><a href="#expandtask">Upload Lineup Of Bands</a></td>
+      <td style="border: 1px solid black;" ><a href="<?=base_url("task-manager/full-task")?>">Upload Lineup Of Bands</a></td>
       <td style="border: 1px solid black;" >04-29-2017</td>
       <td style="border: 1px solid black;" >First Frontman</td>
       <td style="border: 1px solid black;" >Production Committee Member</td>
@@ -100,7 +100,7 @@ Sort by: <select name="category" required>
         <th style="border: 1px solid black;" >Decline</th>
       </tr>
       <tr>
-        <td style="border: 1px solid black;" ><a href="#expandtask">Upload Lineup Of Bands</a></td>
+        <td style="border: 1px solid black;" ><a href="<?=base_url("task-manager/full-task")?>">Upload Lineup Of Bands</a></td>
         <td style="border: 1px solid black;" >04-29-2017</td>
         <td style="border: 1px solid black;" >Production Committee Member</td>
         <td style="border: 1px solid black;" >
