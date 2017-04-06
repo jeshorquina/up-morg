@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Session;
 
 use \Jesh\Models\TaskModel;
 
@@ -32,22 +33,34 @@ class TaskManagerActionController extends Controller
         $validation = $this->operations->ValidateTaskData($task_title, $task_description, $task_assignee,
                                                           $task_deadline_month, $task_deadline_day, $task_deadline_year);
         
+        $user_data = json_decode(Session::Get("user_data"), true);
+        $user = $user_data["email_address"];
+        
+
         if($validation["status"] === true)
         {
             if(checkdate($task_deadline_month, $task_deadline_day, $task_deadline_year))
             {
                 $task_deadline = $task_deadline_year . "-" . $task_deadline_month . "-" . $task_deadline_year;
+                
+                $get_id = $this->operations->GetMemberID($user);
+                $assignee = $get_id[0]["MemberID"];
+
+                $get_status = $this->operations->GetTaskStatus(0);
+                $status = $get_status[0]["TaskStatusID"];
+
                 $response = $this->operations->AddTask(
                     new TaskModel(
-                        array("Assignee" => (int)$task_assignee,
+                        array("Assignee" => $assignee,
                             "TaskTitle" => $task_title,
                             "TaskDescription" => $task_description,
                             "Deadline" => $task_deadline,
-                            "TaskStatusID" => 0,
-                            "Reporter" => "First Frontman",
+                            "TaskStatusID" => $status,
+                            "Reporter" => $assignee,
                             "Timestamp" => "1970-01-01 00:00:01")
                     )
                 );
+
                 if(!$response) 
                 {
                     Http::Response(Http::INTERNAL_SERVER_ERROR, 

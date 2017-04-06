@@ -16,4 +16,14 @@ class UserActionOperations
     {
         $this->repository = new UserActionOperationsRepository;
     }
+
+    public function GetBatches()
+    {
+        return $this->repository->GetBatches("DESC");
+    }
+
+    public function GetMembers()
+    {
+        return $this->repository->GetMembers("DESC");
+    }
 }

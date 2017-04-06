@@ -12,6 +12,8 @@ class UserPagesController extends Controller
     {
         parent::__construct();
 
+        $this->operations = self::InitializeOperations("UserActionOperations");
+
         if(!Session::Find("user_data"))
         {
             self::Redirect("/");
@@ -40,14 +42,17 @@ class UserPagesController extends Controller
     public function TaskManager()
     {
         $view_data = array();
+        $member = 0;
 
         self::SetBody("user-pages/task-manager.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
+            $members = $this->operations->GetMembers(),
             array(
                 "page" => array(
                     "title" => "Task Manager",
-                    "stylesheet" => base_url("public/css/signup.css")
+                    "stylesheet" => base_url("public/css/signup.css"),
+                    "members" => $this->operations->GetMembers()
                 )
             )
         ));

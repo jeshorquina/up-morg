@@ -16,6 +16,16 @@ class TaskManagerActionOperations
         $this->repository = new TaskManagerActionOperationsRepository;
     }
 
+    public function GetMemberID($username)
+    {
+        return $this->repository->GetMemberID($username);
+    }
+
+    public function GetTaskStatus($value)
+    {
+        return $this->repository->GetTaskStatus($value);
+    }
+
     public function AddTask(Taskmodel $task)
     {
         return $this->repository->AddTask($task);

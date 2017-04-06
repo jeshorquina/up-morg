@@ -5,13 +5,12 @@
     <input type="text" class="form-control" name="task_title" placeholder="Task Title" required><br>
     <textarea name="task_description" placeholder="Task Description" class="form-control" rows="5" required>
     </textarea><br>
-    Assign to:  <select name="assignee" required>
-                    <option value=""></option>
-                    <option value=0>Anna</option>
-                    <option value=1>Bob</option>
-                    <option value=2>Claire</option>
-                    <option value=3>Diana</option>
-                </select><br>
+    Assign to: <? // php foreach($member as $members) { ?>
+                    <tr>
+                        <td><input type="checkbox" name="batch_id" class="form-control" value="<?= $members['MemberID'] ?>"></td>
+                        <td><?= $member['FirstName'] ?></td>
+                    </tr>
+                    <?php} ?>
     Deadline: <input type="text" class="form-control" name="task_deadline_month" pattern="[0-9]{2}" placeholder="mm" size="1" maxlength="2" required> -
               <input type="text" class="form-control" name="task_deadline_day" pattern="[0-9]{2}" placeholder="dd" size="1" maxlength="2" required> -
               <input type="text" class="form-control" name="task_deadline_year" pattern="[0-9]{4}" placeholder="yyyy" size="2" maxlength="4" required>

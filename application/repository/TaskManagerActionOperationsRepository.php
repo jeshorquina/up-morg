@@ -11,4 +11,14 @@ class TaskManagerActionOperationsRepository extends Repository
     {
         return self::Insert("Task", $task);
     }
+
+    public function GetMemberID($username)
+    {
+        return self::Get("Member", "MemberID", array("EmailAddress" => $username));
+    }
+
+    public function GetTaskStatus($value)
+    {
+        return self::Get("TaskStatus", "TaskStatusID", array("TaskStatusID" => $value));
+    }
 }
