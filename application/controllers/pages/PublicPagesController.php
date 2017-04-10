@@ -12,11 +12,25 @@ class PublicPagesController extends Controller
     {
         parent::__construct();
   
+        if($this->CheckAccess())
+        {
+            $this->SetTemplates();
+        }
+    }
+
+    private function CheckAccess()
+    {
         if(Session::Find("user_data"))
         {
             self::Redirect("home/");
         }
 
+        // if no redirection is done
+        return true;
+    }
+
+    private function SetTemplates()
+    {
         self::SetHeader(
             array(
                 "public-pages/templates/header.html.inc",
@@ -24,6 +38,30 @@ class PublicPagesController extends Controller
             )
         );
         self::SetFooter("public-pages/templates/footer.html.inc");
+    }
+
+    private function GetNavigationLinks()
+    {
+        return array(
+            array(
+                "name" => "Login",
+                "url" => self::GetBaseURL('login')
+            ),
+            array(
+                "name" => "Sign Up",
+                "url" => self::GetBaseURL('sign-up')
+            )
+        );
+    }
+
+    private function GetPageURLs($stylesheet, $script)
+    {
+        return array(
+            "base" => self::GetBaseURL(),
+            "index" => self::GetBaseURL(),
+            "stylesheet" => self::GetBaseURL($stylesheet),
+            "script" => self::GetBaseURL($script),
+        );
     }
 
     public function Login()
@@ -34,7 +72,11 @@ class PublicPagesController extends Controller
             array(
                 "page" => array(
                     "title" => "Log In",
-                    "stylesheet" => base_url("public/css/login.css")
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/public/login.css",
+                        "public/js/public/login.js"
+                    )
                 ) 
             )
         ));
@@ -48,7 +90,11 @@ class PublicPagesController extends Controller
             array(
                 "page" => array(
                     "title" => "Sign Up",
-                    "stylesheet" => base_url("public/css/signup.css")
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/public/signup.css",
+                        "public/js/public/signup.js"
+                    )
                 )
             )
         ));

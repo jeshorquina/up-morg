@@ -1,29 +1,33 @@
 .nav {
-  background-color: #2f2626;
+  background-color: #24292e;
   color: #fafafa;
-  padding: 0.75rem 1.25rem; }
+  padding: 0.75rem 0; }
   .nav a {
     color: #fafafa;
     text-decoration: none; }
   .nav .nav-content {
     margin: 0 auto;
+    width: 100% !important;
     max-width: 1000px;
-    overflow: hidden; }
-    .nav .nav-content .left-content,
+    overflow: hidden;
+    display: -webkit-flex;
+    display: flex; }
     .nav .nav-content .right-content {
-      width: 50%; }
-    .nav .nav-content .left-content {
-      float: left; }
-    .nav .nav-content .right-content {
-      float: right;
-      text-align: right; }
+      margin: 0 0 0 1rem;
+      flex-grow: 1;
+      display: -webkit-flex;
+      display: flex; }
     .nav .nav-content .item {
-      display: inline-block;
-      margin: 0 0.5rem; }
+      margin: auto 0.5rem; }
     .nav .nav-content .button {
       background: transparent;
       border: 1px solid #fafafa;
       color: #fafafa; }
       .nav .nav-content .button:hover, .nav .nav-content .button:focus {
         background: #fafafa;
-        color: #2f2626; }
+        color: #24292e; }
+    .nav .nav-content .align-right {
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -webkit-justify-content: flex-end;
+      justify-content: flex-end; }

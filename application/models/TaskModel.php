@@ -14,7 +14,6 @@ class TaskModel implements ModelInterface
     public $TaskTitle;
     public $TaskDescription;
     public $TaskDeadline;
-    public $Timestamp;
 
     public function __construct($array)
     {    

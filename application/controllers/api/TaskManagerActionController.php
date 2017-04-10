@@ -34,7 +34,7 @@ class TaskManagerActionController extends Controller
                                                           $task_deadline_month, $task_deadline_day, $task_deadline_year);
         
         $user_data = json_decode(Session::Get("user_data"), true);
-        $user = $user_data["email_address"];
+        $user_id = $user_data["id"];
         
 
         if($validation["status"] === true)
@@ -42,29 +42,29 @@ class TaskManagerActionController extends Controller
             if(checkdate($task_deadline_month, $task_deadline_day, $task_deadline_year))
             {
                 $task_deadline = $task_deadline_year . "-" . $task_deadline_month . "-" . $task_deadline_year;
-                
-                $get_id = $this->operations->GetMemberID($user);
-                $assignee = $get_id[0]["MemberID"];
+       
+                $reporter = $user_id;
 
                 $get_status = $this->operations->GetTaskStatus(0);
                 $status = $get_status[0]["TaskStatusID"];
 
-                $response = $this->operations->AddTask(
-                    new TaskModel(
-                        array("Assignee" => $assignee,
+                $array = array(
+                            "TaskStatusID" => (int) $status,
+                            "Reporter" => (int) $reporter,
+                            "Assignee" => (int) $task_assignee,
                             "TaskTitle" => $task_title,
                             "TaskDescription" => $task_description,
-                            "Deadline" => $task_deadline,
-                            "TaskStatusID" => $status,
-                            "Reporter" => $assignee,
-                            "Timestamp" => "1970-01-01 00:00:01")
-                    )
+                            "TaskDeadline" => $task_deadline
+                        );
+
+                $response = $this->operations->AddTask(
+                    new TaskModel($array)
                 );
 
                 if(!$response) 
                 {
                     Http::Response(Http::INTERNAL_SERVER_ERROR, 
-                        "Unable to add task."
+                        "Unable to add task." . json_encode($array)
                     );
                 }
                 else 

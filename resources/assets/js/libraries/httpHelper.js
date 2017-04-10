@@ -5,7 +5,7 @@
   HttpHelper.OK = 200;
   HttpHelper.CREATED = 201;
 
-  HttpHelper.Get = function (endpoint, calback) {
+  HttpHelper.Get = function (endpoint, callback) {
     callEndpoint(endpoint, "GET", "", callback);
   }
 

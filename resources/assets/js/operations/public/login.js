@@ -1,15 +1,6 @@
-{
-  document
-    .getElementById("login-form")
-    .addEventListener("submit", function (event) {
-      event.preventDefault();
-      LoginController.Login(this.getAttribute("data-source"));
-    });
-}
+(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginOperations) {
 
-(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginController) {
-
-  LoginController.Login = function (source) {
+  LoginOperations.Login = function (source) {
 
     var form = document.getElementById("login-form");
     var username = form.elements["username"].value;
@@ -50,9 +41,12 @@
       );
       window.scrollTo(0, 0);
 
-      Object.keys(data).forEach(function (value) {
-        DomHelper.AddClass(value, "form-input-error");
-        DomHelper.InnerHTML(value + "-error", data[value]);
+      Object.keys(data).forEach(function (id) {
+        if (id === 'password') {
+          DomHelper.InputValue(id, "");
+        }
+        DomHelper.AddClass(id, "form-input-error");
+        DomHelper.InnerHTML(id + "-error", data[id]);
       });
     }
     else if (status == HttpHelper.OK) {
@@ -66,7 +60,7 @@
 
 })(
   DomHelper, AlertFactory, HttpHelper, UrlHelper,
-  this.LoginController = (
-    this.LoginController == undefined
-  ) ? {} : this.LoginController
+  this.LoginOperations = (
+    this.LoginOperations == undefined
+  ) ? {} : this.LoginOperations
   );

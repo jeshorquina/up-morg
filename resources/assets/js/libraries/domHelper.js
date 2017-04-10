@@ -1,43 +1,49 @@
 (function (DomHelper) {
 
-  DomHelper.AddClass = function (el, className) {
+  DomHelper.AddClass = function (element, className) {
 
-    el = checkEl(el);
-    if (!el.classList.contains(className)) {
-      el.classList.add(className);
+    element = checkEl(element);
+    if (!element.classList.contains(className)) {
+      element.classList.add(className);
     }
   }
 
-  DomHelper.RemoveClass = function (el, className) {
+  DomHelper.RemoveClass = function (element, className) {
 
-    el = checkEl(el);
-    if (el.classList.contains(className)) {
-      el.classList.remove(className);
+    element = checkEl(element);
+    if (element.classList.contains(className)) {
+      element.classList.remove(className);
     }
   }
 
-  DomHelper.ClearHTML = function (el) {
+  DomHelper.ClearHTML = function (element) {
 
-    el = checkEl(el);
-    el.innerHTML = "";
+    element = checkEl(element);
+    element.innerHTML = "";
   }
 
-  DomHelper.AppendHTML = function (el, addition) {
+  DomHelper.AppendHTML = function (element, addition) {
 
-    el = checkEl(el);
-    el.innerHTML = el.innerHTML + addition;
+    element = checkEl(element);
+    element.innerHTML = element.innerHTML + addition;
   }
 
-  DomHelper.InnerHTML = function (el, value) {
+  DomHelper.InnerHTML = function (element, value) {
 
-    el = checkEl(el);
+    element = checkEl(element);
 
-    DomHelper.ClearHTML(el);
-    DomHelper.AppendHTML(el, value);
+    DomHelper.ClearHTML(element);
+    DomHelper.AppendHTML(element, value);
   }
 
-  function checkEl(el) {
-    return (typeof el == 'string') ? document.getElementById(el) : el;
+  DomHelper.InputValue = function (element, value) {
+
+    element = checkEl(element);
+    element.value = value;
+  }
+
+  function checkEl(element) {
+    return (typeof element == 'string') ? document.getElementById(element) : element;
   }
 
 })(this.DomHelper = (this.DomHelper == undefined) ? {} : this.DomHelper);

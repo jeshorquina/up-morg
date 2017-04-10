@@ -11,7 +11,6 @@ class EventModel implements ModelInterface
     public $EventDescription;
     public $EventDate;
     public $EventTime;
-    public $Timestamp;
     public $IsPublic;
 
    public function __construct($array)

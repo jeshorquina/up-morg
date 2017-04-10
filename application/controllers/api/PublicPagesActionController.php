@@ -44,7 +44,7 @@ class PublicPagesActionController extends Controller
         {
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, 
-                array("password" => "Password does not match!")
+                array("password" => "Password is incorrect. Try again!")
             );
         }
         else 
@@ -52,7 +52,7 @@ class PublicPagesActionController extends Controller
             $this->operations->SetLoggedInState($username);
             Http::Response(Http::OK, array(
                     "message"      => "Successfully logged in.",
-                    "redirect_url" => base_url("home")
+                    "redirect_url" => self::GetBaseURL("home")
                 )
             );
         }
@@ -62,11 +62,18 @@ class PublicPagesActionController extends Controller
     {
         if($this->operations->SetLoggedOutState())
         {
-            Http::Response(HTTP::OK, "Successfully logged out.");
+            Http::Response(
+                HTTP::FOUND,
+                "Successfully logged out.",
+                "Location: " . self::GetBaseURL()
+            );
         }
         else
         {
-            Http::Response(Http::INTERNAL_SERVER_ERROR, "Something went wrong.");
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                "Something went wrong."
+            );
         }
     }
 
@@ -145,7 +152,7 @@ class PublicPagesActionController extends Controller
             {
                 Http::Response(Http::CREATED, array(
                         "message"      => "Member successfully created.",
-                        "redirect_url" => base_url("home")
+                        "redirect_url" => self::GetBaseURL("home")
                     )
                 );
             }

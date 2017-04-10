@@ -11,13 +11,29 @@
         padding: 0.75rem 1.25rem;
     }
 
+    &-primary {
+        background-color: darken($color-background, 15%);
+
+        &:hover, &:focus {
+            background-color: darken($color-background, 15% + $button-hover-darken-percentage);
+        }
+    }
+
     &-success {
         background-color: $color-success;
         color: $color-text-inverted;
+
+        &:hover, &:focus {
+            background-color: darken($color-success, $button-hover-darken-percentage);
+        }
     }
 
     &-danger {
         background-color: $color-danger;
         color: $color-text-inverted;
+
+        &:hover, &:focus {
+            background-color: darken($color-danger, $button-hover-darken-percentage);
+        }
     }
 }

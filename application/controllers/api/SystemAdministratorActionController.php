@@ -26,14 +26,19 @@ class SystemAdministratorActionController extends Controller
         if(!$this->operations->MatchingPassword($password))
         {
             Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "Password does not match!"
+                array(
+                    "message" => "Password does not match!"
+                )
             );
         }
         else 
         {
             $this->operations->SetLoggedInState();
             Http::Response(Http::OK, 
-                "Successfully logged in."
+                array(
+                    "message" => "Successfully logged in.",
+                    "redirect_url" => self::GetBaseURL('admin')
+                )
             );
         }
     }
@@ -42,15 +47,41 @@ class SystemAdministratorActionController extends Controller
     {
         if($this->operations->SetLoggedOutState())
         {
-            Http::Response(HTTP::OK, "Successfully logged out.");
+            Http::Response(
+                HTTP::FOUND,
+                "Successfully logged out.",
+                "Location: " . self::GetBaseURL('admin')
+            );
         }
         else
         {
-            Http::Response(Http::INTERNAL_SERVER_ERROR, "Something went wrong.");
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                "Something went wrong."
+            );
         }
     }
 
-    public function CreateBatch()
+    public function GetBatches()
+    {
+        $batches = $this->operations->GetBatches();
+        if($batches) 
+        {
+            Http::Response(Http::OK, $batches);
+        }
+        else 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                array(
+                    "message" => "Something went wrong. 
+                    Please refresh your browser."
+                )    
+            );
+        }
+    } 
+
+    public function AddBatch()
     {
         $academic_year = Http::Request(Http::POST, "academic_year");
 
@@ -87,11 +118,6 @@ class SystemAdministratorActionController extends Controller
         }
     }
 
-    public function GetBatches()
-    {
-        Http::Response(Http::OK, $this->operations->GetBatches());
-    } 
-
     public function DeleteBatch()
     {
         $batch_id = Http::Request(Http::POST, "batch_id");
@@ -116,48 +142,60 @@ class SystemAdministratorActionController extends Controller
         }
     }
 
-    public function UpdatePassword()
+    public function ChangePassword()
     {
-        $old_password     = Http::Request(Http::POST, "old_password");
-        $new_password     = Http::Request(Http::POST, "new_password");
-        $confirm_password = Http::Request(Http::POST, "confirm_password");
+        $old_password     = Http::Request(Http::POST, "old-password");
+        $new_password     = Http::Request(Http::POST, "new-password");
+        $confirm_password = Http::Request(Http::POST, "confirm-password");
 
          $validation = $this->operations->ValidateUpdatePasswordData(
             array(
-                "old_password" => $old_password,
-                "new_password" => $new_password,
-                "confirm_password" => $confirm_password,
+                "old-password" => $old_password,
+                "new-password" => $new_password,
+                "confirm-password" => $confirm_password,
             )    
         );
         
         if($validation["status"] === false)
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                $validation["data"]
-            );
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
         }
         else if($new_password !== $confirm_password)
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "New password does not match confirm password!"
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "new-password" => "Passwords does not match!",
+                    "confirm-password" => "Passwords does not match!"
+                )
             );
         }
         else if(!$this->operations->MatchingPassword($old_password))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "Old password does not match password in record."
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "old-password" => "Invalid old password provided."
+                )
             );
         }
         else if(!$this->operations->ChangePassword($new_password))
         {
-            Http::Response(Http::INTERNAL_SERVER_ERROR, 
-                "Password has not been changed."
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                array(
+                    "message" => "Something went wrong. Password not changed."
+                )
             );
         }
         else 
         {
-            Http::Response(Http::OK, 
-                "Password has successfully been changed."
+            Http::Response(
+                Http::OK, 
+                array(
+                    "message" => "Password has successfully been changed.",
+                    "redirect_url" => self::GetBaseURL("action/admin/logout")
+                )
             );
         }
     }

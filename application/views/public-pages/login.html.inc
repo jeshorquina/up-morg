@@ -27,5 +27,3 @@
     </form>
 
 </div>
-
-<script src="<?=base_url('public/js/login.js');?>"></script>

@@ -8,11 +8,10 @@ Class Http
 
     const OK                    = 200;
     const CREATED               = 201;
+    const FOUND                 = 302;
     const BAD_REQUEST           = 400;
     const UNPROCESSABLE_ENTITY  = 422;
     const INTERNAL_SERVER_ERROR = 500;
-
-    const TYPE_JSON = 'Content-type: application/json; charset=utf-8';
 
     public static function Request($type, $key)
     {
@@ -34,18 +33,25 @@ Class Http
         return filter_input($type, $key, FILTER_DEFAULT);
     }
 
-    public static function Response($status, $mixed, $type = self::TYPE_JSON)
+    public static function Response($status, $mixed, $headers = array())
     {
-        // set response status code
         http_response_code($status);
 
-        // set headers
-        header($type);
-
-        // Set body
+        if(strtolower(gettype($headers)) !== "string")
+        {
+            foreach($headers as $header)
+            {
+                header($header);
+            }
+        }
+        else
+        {
+            header($headers);
+        }
+        
+        header('Content-type: application/json; charset=utf-8');
         echo json_encode($mixed);
 
-        // Exit
         exit();
     }
 }

@@ -26,7 +26,7 @@ class SystemAdministratorActionOperationsRepository extends Repository
         }
     }
 
-    public function UpdatePassword($password)
+    public function ChangePassword($password)
     {
         return self::Update(
             "StaticData", 

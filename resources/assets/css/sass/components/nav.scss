@@ -3,7 +3,7 @@
 .nav {
     background-color: $color-background-inverted;
     color: $color-text-inverted;
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 0;
 
     & a {
         color: $color-text-inverted;
@@ -12,26 +12,21 @@
 
     & &-content {
         margin: 0 auto;
+        width: 100% !important;
         max-width: $width-page;
         overflow: hidden;
 
-        & .left-content,
-        & .right-content {
-            width: 50%;
-        }
-
-        & .left-content {
-            float: left;
-        }
+        @include display-flex();
 
         & .right-content {
-            float: right;
-            text-align: right;
+            margin: 0 0 0 1rem;
+            flex-grow: 1;
+            @include display-flex();
+
         }
 
         & .item {
-            display: inline-block;
-            margin: 0 0.5rem;
+            margin: auto 0.5rem;
         }
 
         & .button {
@@ -43,6 +38,13 @@
                 background: $color-text-inverted;
                 color: $color-text;
             }
+        }
+
+        & .align-right {
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
         }
     }
 }

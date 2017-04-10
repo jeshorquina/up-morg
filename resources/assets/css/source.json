@@ -1,6 +1,6 @@
 [
     {
-        "name": "login.css",
+        "name": "public/login.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/stickyfill.css",
@@ -11,11 +11,11 @@
             "resources/assets/css/components/cards.css",
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/login.css"
+            "resources/assets/css/pages/public/login.css"
         ]
     },
     {
-        "name": "signup.css",
+        "name": "public/signup.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/stickyfill.css",
@@ -26,7 +26,59 @@
             "resources/assets/css/components/cards.css",
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/signup.css"
+            "resources/assets/css/pages/public/signup.css"
+        ]
+    },
+    {
+        "name": "admin/login.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/pages/admin/login.css"
+        ]
+    },
+    {
+        "name": "admin/index.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/nav.css"
+        ]
+    },
+    {
+        "name": "admin/password.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/admin/password.css"
+        ]
+    },
+    {
+        "name": "admin/batch.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/admin/batch.css"
         ]
     }
 ]

@@ -7,8 +7,8 @@
     }
 
     & .form-input {
-        background: $color-background;
-        border: 1px solid #aeaeae;
+        background: lighten($color-background, 100%);
+        border: 1px solid darken($color-background, 20%);
         border-radius: 0.25rem;
         display: block;
         padding: 0.5rem 0.75rem;

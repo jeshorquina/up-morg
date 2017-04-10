@@ -9,6 +9,7 @@ class CalendarActionOperationsRepository extends Repository
 {
     public function AddEvent(Eventmodel $event)
     {
-        return Self::Insert("Event", $event);
+        return self::Insert("Event", $event);
     }
+
 }

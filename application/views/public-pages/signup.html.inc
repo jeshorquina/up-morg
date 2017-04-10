@@ -67,5 +67,3 @@
     </form>
 
 </div>
-
-<script src="<?=base_url('public/js/signup.js');?>"></script>

@@ -86,9 +86,14 @@ class Controller extends CI_Controller {
         return new $class_name;
     }
 
-    protected function Redirect($uri)
+    protected function GetBaseURL($uri = "")
     {
-        header("Location: " . base_url($uri));
+        return base_url($uri);
+    }
+
+    protected function Redirect($uri = "")
+    {
+        header("Location: " . $this->GetBaseURL($uri));
         exit();
     }
 }

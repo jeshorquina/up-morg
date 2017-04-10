@@ -33,18 +33,18 @@
 # **************************************************
 # Pages - Admin pages
 # **************************************************
-'admin/home':
+'admin':
     directory: pages
     controller: SystemAdministratorController
     function: Home
 'admin/login':
     directory: pages
     controller: SystemAdministratorController
-    function: Access
-'admin/change-password':
+    function: Login
+'admin/account/password':
     directory: pages
     controller: SystemAdministratorController
-    function: EditPassword
+    function: ChangePassword
 'admin/manage/batch':
     directory: pages
     controller: SystemAdministratorController
@@ -53,23 +53,27 @@
 # **************************************************
 # API - Admin pages
 # **************************************************
-'action/admin/access':
+'action/admin/login':
     directory: api
     controller: SystemAdministratorActionController
     function: Login
-'action/admin/change-password':
+'action/admin/logout':
     directory: api
     controller: SystemAdministratorActionController
-    function: UpdatePassword
-'action/admin/display-batches':
+    function: Logout
+'action/admin/account/password/change':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: ChangePassword
+'action/admin/manage/batch':
     directory: api
     controller: SystemAdministratorActionController
     function: GetBatches
-'action/admin/add-batch':
+'action/admin/manage/batch/add':
     directory: api
     controller: SystemAdministratorActionController
-    function: CreateBatch
-'action/admin/delete-batch':
+    function: AddBatch
+'action/admin/manage/batch/delete':
     directory: api
     controller: SystemAdministratorActionController
     function: DeleteBatch

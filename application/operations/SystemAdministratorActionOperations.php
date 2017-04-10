@@ -84,7 +84,7 @@ class SystemAdministratorActionOperations
 
     public function ChangePassword($password)
     {
-        return $this->repository->UpdatePassword(Security::GenerateHash($password));
+        return $this->repository->ChangePassword(Security::GenerateHash($password));
     }
 
 }
