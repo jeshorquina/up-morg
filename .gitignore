@@ -7,6 +7,11 @@ composer.lock
 /node_modules/
 /.vscode/
 /vendor/
+/public/
+/resources/assets/css/
+!/resources/assets/css/sass/
+!/resources/assets/css/vendor/
+!/resources/assets/css/source.json
 
 *.yml
 !routes.yml
