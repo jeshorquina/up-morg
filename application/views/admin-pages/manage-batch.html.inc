@@ -8,6 +8,8 @@
 
         <hr>
 
+        <ul id="batch-list"> </ul>
+
         <form method="POST" action="<?=base_url('action/admin/delete-batch')?>">
 
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">

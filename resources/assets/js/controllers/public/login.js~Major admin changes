@@ -1,6 +1,15 @@
-(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginOperations) {
+{
+  document
+    .getElementById("login-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      LoginController.Login(this.getAttribute("data-source"));
+    });
+}
 
-  LoginOperations.Login = function (source) {
+(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginController) {
+
+  LoginController.Login = function (source) {
 
     var form = document.getElementById("login-form");
     var username = form.elements["username"].value;
@@ -60,7 +69,7 @@
 
 })(
   DomHelper, AlertFactory, HttpHelper, UrlHelper,
-  this.LoginOperations = (
-    this.LoginOperations == undefined
-  ) ? {} : this.LoginOperations
+  this.LoginController = (
+    this.LoginController == undefined
+  ) ? {} : this.LoginController
   );

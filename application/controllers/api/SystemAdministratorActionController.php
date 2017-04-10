@@ -120,7 +120,7 @@ class SystemAdministratorActionController extends Controller
 
     public function DeleteBatch()
     {
-        $batch_id = Http::Request(Http::POST, "batch_id");
+        $batch_id = Http::Request(Http::POST, "batch-id");
 
         if(!$this->operations->ExistingBatchByID($batch_id)) 
         {
