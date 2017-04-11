@@ -6,29 +6,22 @@
 
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
     <input type="text" class="form-control" name="task_title" placeholder="Task Title" required>
-    
+
     <br>
 
     <textarea name="task_description" placeholder="Task Description" class="form-control" rows="5" required>
-        
-    </textarea><br> Assign to:
-    <? php foreach($member as $members) { ?>
-        <tr>
-            <td><input type="checkbox" name="batch_id" class="form-control" value="<?= $members['MemberID'] ?>"></td>
-            <td>
-                <?= $member['FirstName'] ?>
-            </td>
-        </tr>
-        <?php } ?> Deadline: <input type="text" class="form-control" name="task_deadline_month" pattern="[0-9]{2}" placeholder="mm"
-            size="1" maxlength="2" required> -
-        <input type="text" class="form-control" name="task_deadline_day" pattern="[0-9]{2}" placeholder="dd" size="1" maxlength="2"
-            required> -
-        <input type="text" class="form-control" name="task_deadline_year" pattern="[0-9]{4}" placeholder="yyyy" size="2" maxlength="4"
-            required>
-        <br> Subscribers: <input type="text" class="form-control" name="task_subscribers" placeholder="Type name here"><br>
-        <button class="btn btn-info" type="submit">
-                <i class="fa fa-lock"></i> ADD TASK
-              </button>
+
+    </textarea><br> Assign to: <input type="text" class="form-control" name="task_assignee" placeholder="Task Assignee"
+        required><br> Deadline: <input type="text" class="form-control" name="task_deadline_month" pattern="[0-9]{2}" placeholder="mm"
+        size="1" maxlength="2" required> -
+    <input type="text" class="form-control" name="task_deadline_day" pattern="[0-9]{2}" placeholder="dd" size="1" maxlength="2"
+        required> -
+    <input type="text" class="form-control" name="task_deadline_year" pattern="[0-9]{4}" placeholder="yyyy" size="2" maxlength="4"
+        required>
+    <br> Subscribers: <input type="text" class="form-control" name="task_subscribers" placeholder="Type name here"><br>
+    <button class="btn btn-info" type="submit">
+        <i class="fa fa-lock"></i> ADD TASK
+    </button>
 </form>
 <h3>My Tasks</h3>
 Sort by: <select name="category" required>

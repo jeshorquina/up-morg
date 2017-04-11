@@ -41,30 +41,28 @@ class TaskManagerActionController extends Controller
         {
             if(checkdate($task_deadline_month, $task_deadline_day, $task_deadline_year))
             {
-                $task_deadline = $task_deadline_year . "-" . $task_deadline_month . "-" . $task_deadline_year;
-       
-                $reporter = $user_id;
-
+                $task_deadline = $task_deadline_year . "-" . $task_deadline_month . "-" . $task_deadline_day;
+                
                 $get_status = $this->operations->GetTaskStatus(0);
                 $status = $get_status[0]["TaskStatusID"];
 
-                $array = array(
+                $response = $this->operations->AddTask(
+                    new TaskModel(
+                        array(
                             "TaskStatusID" => (int) $status,
-                            "Reporter" => (int) $reporter,
+                            "Reporter" => (int) $user_id,
                             "Assignee" => (int) $task_assignee,
                             "TaskTitle" => $task_title,
                             "TaskDescription" => $task_description,
                             "TaskDeadline" => $task_deadline
-                        );
-
-                $response = $this->operations->AddTask(
-                    new TaskModel($array)
+                        )
+                    )
                 );
 
                 if(!$response) 
                 {
                     Http::Response(Http::INTERNAL_SERVER_ERROR, 
-                        "Unable to add task." . json_encode($array)
+                        "Unable to add task."
                     );
                 }
                 else 

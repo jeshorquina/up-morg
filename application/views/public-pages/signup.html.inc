@@ -1,6 +1,6 @@
 <div class="container">
 
-    <form id="signup-form" class="card signup-card" method="post" data-source="<?= base_url() ?>">
+    <form id="signup-form" class="card signup-card" method="post">
 
         <h2 class="text-center">Sign Up</h2>
 
@@ -62,7 +62,7 @@
 
         <hr>
 
-        <input type="submit" value="Sign up now!" class="button button-success button-larger">
+        <input type="submit" value="Sign up now!" class="button button-success button-large">
 
     </form>
 

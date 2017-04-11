@@ -1,5 +1,6 @@
 <div class="flex-container">
-    <form id="login-form" class="flex-item form-group" data-source="<?=base_url()?>">
+    <form id="login-form" class="flex-item form-group">
+
         <h2 class="text-center">Admin Log-in</h2>
         <hr>
         <input type="password" id="password" name="password" placeholder="Password" class="form-input">
