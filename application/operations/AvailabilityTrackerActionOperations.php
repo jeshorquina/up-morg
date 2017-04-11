@@ -22,4 +22,14 @@ class AvailabilityTrackerActionOperations
     {
         return $this->repository->UpdateSchedule($availability);
     }
+
+    public function ExistingSchedule($user_id)
+    {
+        return $this->repository->ExistingSchedule($user_id);
+    }
+
+    public function UpdateExistingSchedule(AvailabilityMembermodel $availability, $user_id)
+    {
+        return $this->repository->UpdateExistingSchedule($availability, $user_id);
+    }
 }

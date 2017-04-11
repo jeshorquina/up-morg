@@ -45,8 +45,14 @@ class AvailabilityTrackerActionController extends Controller
                 "SundayVector" => $sunday 
             )
         );
+        if($this->operations->ExistingSchedule($user_id))
+        {
+            $response = $this->operations->UpdateExistingSchedule($availability, $user_id);
+        }
+        else{
+            $response = $this->operations->UpdateSchedule($availability);
+        }
 
-        $response = $this->operations->UpdateSchedule($availability);
 
         if(!$response)
         {

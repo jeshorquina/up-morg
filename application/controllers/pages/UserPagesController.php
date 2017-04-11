@@ -94,11 +94,20 @@ class UserPagesController extends Controller
 
     public function Home()
     {
-        $view_data = array();
-        $view_data["page"]["title"] = "Home";
-
         self::SetBody("user-pages/home.html.inc");
-        self::RenderView($view_data);
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Home",
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        ""
+                    )
+                ) 
+            )
+        ));  
     }
 
     public function AvailabilityTracker()
