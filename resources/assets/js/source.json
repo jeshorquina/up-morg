@@ -1,0 +1,67 @@
+[
+    {
+        "name": "public/login.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/public/login.js",
+            "resources/assets/js/controllers/public/login.js"
+        ]
+    },
+    {
+        "name": "public/signup.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/public/signup.js",
+            "resources/assets/js/controllers/public/signup.js"
+        ]
+    },
+    {
+        "name": "admin/login.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/admin/login.js",
+            "resources/assets/js/controllers/admin/login.js"
+        ]
+    },
+    {
+        "name": "admin/password.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/admin/password.js",
+            "resources/assets/js/controllers/admin/password.js"
+        ]
+    },
+    {
+        "name": "admin/batch.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/admin/batch.js",
+            "resources/assets/js/controllers/admin/batch.js"
+        ]
+    }
+]

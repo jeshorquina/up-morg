@@ -83,7 +83,7 @@ class SystemAdministratorActionController extends Controller
 
     public function AddBatch()
     {
-        $academic_year = Http::Request(Http::POST, "academic_year");
+        $academic_year = Http::Request(Http::POST, "academic-year");
 
         if(!$this->operations->CheckAcadYearFormat($academic_year))
         {

@@ -1,0 +1,21 @@
+* {
+  box-sizing: border-box; }
+
+body {
+  background: #fafafa;
+  font-family: Roboto, Helvetica, Arial; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 1.25rem; }
+
+hr {
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #d5d5d5;
+  margin: 1.25rem 0; }
+
+.container {
+  margin: 0 auto;
+  max-width: 1000px; }

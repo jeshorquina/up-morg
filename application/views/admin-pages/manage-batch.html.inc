@@ -10,14 +10,6 @@
 
         <ul id="batch-list"> </ul>
 
-        <form method="POST" action="<?=base_url('action/admin/delete-batch')?>">
-
-            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
-
-            <input type="submit" value="Delete" class="button button-primary">
-
-        </form>
-
     </div>
 
     <div class="card">
@@ -26,11 +18,13 @@
 
         <hr>
 
-        <form method="POST" action="<?=base_url('action/admin/add-batch')?>">
+        <form id="add-batch-form">
 
-            <input type="text" class="form-control" pattern="[0-9]{4}-[0-9]{4}" name="academic_year">
+            Input academic year (ex. 2017-2018):
 
-            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>"> Input academic year (ex. 2017-2018):
+            <input type="text" class="form-control" pattern="[0-9]{4}-[0-9]{4}" name="academic-year" id="batch-academic-year">
+
+            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>"> 
 
             <input type="submit" value="Add" class="button button-primary">
 

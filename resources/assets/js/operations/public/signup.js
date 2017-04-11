@@ -1,15 +1,6 @@
-{
-  document
-    .getElementById("signup-form")
-    .addEventListener("submit", function (event) {
-      event.preventDefault();
-      SignupController.Signup(this.getAttribute("data-source"));
-    });
-}
+(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, SignupOperations) {
 
-(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, LoginController) {
-
-  SignupController.Signup = function (source) {
+  SignupOperations.Signup = function (source) {
     var form = document.getElementById("signup-form");
 
     var first_name = form.elements["first_name"].value;
@@ -84,7 +75,7 @@
 
 })(
   DomHelper, AlertFactory, HttpHelper, UrlHelper,
-  this.SignupController = (
-    this.SignupController == undefined
-  ) ? {} : this.SignupController
+  this.SignupOperations = (
+    this.SignupOperations == undefined
+  ) ? {} : this.SignupOperations
   );

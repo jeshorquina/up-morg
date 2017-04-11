@@ -2,7 +2,7 @@
 
 <h3>Add Task</h3>
 
-<form method="POST" action="<?=base_url(" action/task-manager/add-task ")?>">
+<form method="POST" action="<?=base_url("action/task-manager/add-task")?>">
 
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
     <input type="text" class="form-control" name="task_title" placeholder="Task Title" required>
