@@ -63,5 +63,18 @@
             "resources/assets/js/operations/admin/batch.js",
             "resources/assets/js/controllers/admin/batch.js"
         ]
+    },
+    {
+        "name": "admin/batch-details.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/admin/batch-details.js",
+            "resources/assets/js/controllers/admin/batch-details.js"
+        ]
     }
 ]

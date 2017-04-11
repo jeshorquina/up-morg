@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\BatchModel;
 
@@ -16,7 +17,9 @@ class SystemAdministratorActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("SystemAdministratorActionOperations");
+        $this->operations = self::InitializeOperations(
+            "SystemAdministratorActionOperations"
+        );
     }
 
     public function Login()
@@ -25,8 +28,8 @@ class SystemAdministratorActionController extends Controller
         
         if(!$this->operations->MatchingPassword($password))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                array(
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
                     "message" => "Password does not match!"
                 )
             );
@@ -34,8 +37,8 @@ class SystemAdministratorActionController extends Controller
         else 
         {
             $this->operations->SetLoggedInState();
-            Http::Response(Http::OK, 
-                array(
+            Http::Response(
+                Http::OK, array(
                     "message" => "Successfully logged in.",
                     "redirect_url" => self::GetBaseURL('admin')
                 )
@@ -45,38 +48,42 @@ class SystemAdministratorActionController extends Controller
 
     public function Logout()
     {
-        if($this->operations->SetLoggedOutState())
+        if(!$this->operations->SetLoggedOutState())
         {
             Http::Response(
-                HTTP::FOUND,
-                "Successfully logged out.",
-                "Location: " . self::GetBaseURL('admin')
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Could not log out. Please try again."
+                )
             );
         }
         else
         {
             Http::Response(
-                Http::INTERNAL_SERVER_ERROR, 
-                "Something went wrong."
+                HTTP::FOUND, array(
+                    "message" => "Successfully logged out."
+                ),
+                "Location: " . self::GetBaseURL('admin')
             );
         }
     }
 
     public function GetBatches()
     {
-        $batches = $this->operations->GetBatches();
-        if($batches) 
+        if(!$batches = $this->operations->GetBatches()) 
         {
-            Http::Response(Http::OK, $batches);
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to get batches. Please try again."
+                )    
+            );
         }
         else 
         {
             Http::Response(
-                Http::INTERNAL_SERVER_ERROR, 
-                array(
-                    "message" => "Something went wrong. 
-                    Please refresh your browser."
-                )    
+                Http::OK, array(
+                    "message" => "Batches successfully retrieved.",
+                    "data" => $batches
+                )
             );
         }
     } 
@@ -87,57 +94,127 @@ class SystemAdministratorActionController extends Controller
 
         if(!$this->operations->CheckAcadYearFormat($academic_year))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "Batch input is of wrong format."
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => "Batch input is of wrong format."
+                )
             );
         }
         else if($this->operations->ExistingBatchByYear($academic_year))
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "Batch already exists"
-            );
-        }
-        else{
-            $response = $this->operations->CreateBatch(
-                new BatchModel(
-                    array("AcadYear" => $academic_year)
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => "Batch already exists"
                 )
             );
-            if(!$response) 
-            {
-                Http::Response(Http::INTERNAL_SERVER_ERROR, 
-                    "Unable to create new batch."
-                );
-            }
-            else 
-            {
-                Http::Response(Http::CREATED, 
-                    "New batch successfully created."
-                );
-            }
+        }
+        else if(!$response = $this->operations->CreateBatch(
+            new BatchModel(
+                array("AcadYear" => $academic_year)
+            )
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to create new batch."
+                )
+            );
+        }
+        elseif(!$batches = $this->operations->GetBatches())
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to get batches. Please try again."
+                )    
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => "Successfully added batch.",
+                    "data" => $batches
+                )
+            );
         }
     }
 
+    public function ActivateBatch()
+    {
+        $batch_id = Http::Request(Http::POST, "batch-id");
+
+        if(!$this->operations->HasFirstFrontman($batch_id))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Please select first frontman before activating batch."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->ActivateBatch($batch_id)) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to activate batch. PLease try again."
+                )
+            );
+        }
+        else if(!$batches = $this->operations->GetBatches())
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to get batches. Please try again."
+                )
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Successfully activated batch.",
+                    "data" => $batches
+                )
+            );
+        }
+    }
+    
     public function DeleteBatch()
     {
         $batch_id = Http::Request(Http::POST, "batch-id");
 
         if(!$this->operations->ExistingBatchByID($batch_id)) 
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, 
-                "Batch selected is no longer present in database."
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => "Batch selected is not present in database."
+                )
             );
         }
         else if(!$this->operations->DeleteBatch($batch_id))
         {
-            Http::Response(Http::INTERNAL_SERVER_ERROR, 
-                "Unable to delete selected batch."
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to delete selected batch."
+                )
             );
         }
-        else
+        elseif(!$batches = $this->operations->GetBatches())
         {
-            Http::Response(Http::OK, 
-                "Successfully deleted batch."
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to get batches. Please try again."
+                )    
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Successfully deleted batch.",
+                    "data" => $batches
+                )
             );
         }
     }
@@ -163,8 +240,7 @@ class SystemAdministratorActionController extends Controller
         else if($new_password !== $confirm_password)
         {
             Http::Response(
-                Http::UNPROCESSABLE_ENTITY, 
-                array(
+                Http::UNPROCESSABLE_ENTITY, array(
                     "new-password" => "Passwords does not match!",
                     "confirm-password" => "Passwords does not match!"
                 )
@@ -173,8 +249,7 @@ class SystemAdministratorActionController extends Controller
         else if(!$this->operations->MatchingPassword($old_password))
         {
             Http::Response(
-                Http::UNPROCESSABLE_ENTITY, 
-                array(
+                Http::UNPROCESSABLE_ENTITY, array(
                     "old-password" => "Invalid old password provided."
                 )
             );
@@ -182,8 +257,7 @@ class SystemAdministratorActionController extends Controller
         else if(!$this->operations->ChangePassword($new_password))
         {
             Http::Response(
-                Http::INTERNAL_SERVER_ERROR, 
-                array(
+                Http::INTERNAL_SERVER_ERROR, array(
                     "message" => "Something went wrong. Password not changed."
                 )
             );
@@ -191,8 +265,7 @@ class SystemAdministratorActionController extends Controller
         else 
         {
             Http::Response(
-                Http::OK, 
-                array(
+                Http::OK, array(
                     "message" => "Password has successfully been changed.",
                     "redirect_url" => self::GetBaseURL("action/admin/logout")
                 )

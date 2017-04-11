@@ -31,11 +31,13 @@ abstract class Repository extends CI_Model {
         return $query->result_array();   
     }
 
-    protected function Find($table_name, $column_name, $value)
+    protected function Find($table_name, $column_name, $condition_array)
     {
         $this->db->select($column_name);
         $this->db->from($table_name);
-        $this->db->where($column_name, $value);
+        foreach($condition_array as $column => $value) {
+            $this->db->where($column, $value);   
+        }
         return ($this->db->count_all_results() > 0);
     }
 

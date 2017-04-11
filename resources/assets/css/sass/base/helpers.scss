@@ -6,14 +6,36 @@
 
     &-top {
         &-small {
-            margin-top: 0.5rem;
+            margin-top: 0.5rem !important;
         }
         &-medium {
-            margin-top: 1.25rem;
+            margin-top: 1.25rem !important;
         }
         &-large {
-            margin-top: 2.5rem;
+            margin-top: 2.5rem !important;
         }
     }
 
+    &-right {
+        &-small {
+            margin-right: 0.5rem !important;
+        }
+        &-medium {
+            margin-top: 1.25rem !important;
+        }
+        &-large {
+            margin-top: 2.5rem !important;
+        }
+    }
+}
+
+.float {
+    &-right {
+        float: right;
+    }
+}
+
+.clearfix {
+    clear: both;
+    overflow: auto;
 }

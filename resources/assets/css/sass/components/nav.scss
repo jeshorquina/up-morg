@@ -4,6 +4,7 @@
     background-color: $color-background-inverted;
     color: $color-text-inverted;
     padding: 0.75rem 0;
+    z-index: 99999999;
 
     & a {
         color: $color-text-inverted;

@@ -21,9 +21,4 @@ class UserActionOperations
     {
         return $this->repository->GetBatches("DESC");
     }
-
-    public function GetMembers()
-    {
-        return $this->repository->GetMembers("DESC");
-    }
 }

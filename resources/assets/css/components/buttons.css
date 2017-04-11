@@ -1,22 +1,63 @@
 .button {
-  border: none;
+  border: 1px solid transparent;
   border-radius: 0.25rem;
   color: #24292e;
   margin: 0 0 0.5rem;
   padding: 0.5rem 1rem; }
-  .button-larger {
+  .button-small {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem; }
+  .button-large {
     padding: 0.75rem 1.25rem; }
   .button-primary {
     background-color: #d4d4d4; }
     .button-primary:hover, .button-primary:focus {
       background-color: #bababa; }
+  .button-info {
+    background-color: #0275d8;
+    color: #fafafa; }
+    .button-info:hover, .button-info:focus {
+      background-color: #025aa5; }
+      .button-info:hover:disabled, .button-info:focus:disabled {
+        background-color: #0275d8; }
+    .button-info-border {
+      background-color: transparent;
+      color: #0275d8;
+      border-color: #0275d8; }
+      .button-info-border:hover, .button-info-border:focus {
+        background-color: #0275d8;
+        color: #fafafa; }
+        .button-info-border:hover:disabled, .button-info-border:focus:disabled {
+          background-color: #0275d8; }
   .button-success {
     background-color: #2ecc71;
     color: #fafafa; }
     .button-success:hover, .button-success:focus {
       background-color: #25a25a; }
+      .button-success:hover:disabled, .button-success:focus:disabled {
+        background-color: #2ecc71; }
+    .button-success-border {
+      background-color: transparent;
+      color: #2ecc71;
+      border-color: #2ecc71; }
+      .button-success-border:hover, .button-success-border:focus {
+        background-color: #2ecc71;
+        color: #fafafa; }
+        .button-success-border:hover:disabled, .button-success-border:focus:disabled {
+          background-color: #2ecc71; }
   .button-danger {
     background-color: #e74c3c;
     color: #fafafa; }
     .button-danger:hover, .button-danger:focus {
       background-color: #d62c1a; }
+      .button-danger:hover:disabled, .button-danger:focus:disabled {
+        background-color: #e74c3c; }
+    .button-danger-border {
+      background-color: transparent;
+      color: #e74c3c;
+      border-color: #e74c3c; }
+      .button-danger-border:hover, .button-danger-border:focus {
+        background-color: #e74c3c;
+        color: #fafafa; }
+        .button-danger-border:hover:disabled, .button-danger-border:focus:disabled {
+          background-color: #e74c3c; }

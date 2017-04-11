@@ -11,9 +11,7 @@ class SystemAdministratorActionOperationsRepository extends Repository
     public function GetPassword()
     {
         $record = self::Get(
-            "StaticData", 
-            "Value", 
-            array("Name" => "SystemAdminPassword")
+            "StaticData", "Value", array("Name" => "SystemAdminPassword")
         );
         
         if(sizeof($record) === 1)
@@ -38,17 +36,21 @@ class SystemAdministratorActionOperationsRepository extends Repository
     public function GetBatches($order)
     {
         return self::Get(
-            "Batch", "*", 
-            array(), 
-            array("AcadYear" => $order)
+            "Batch", "*", array(), array("AcadYear" => $order)
         );
+    }
+
+    public function GetActiveBatch()
+    {
+        return self::Get(
+            "StaticData", "Value", array("Name" => "ActiveBatch")
+        )[0]["Value"];
     }
 
     public function GetMembers()
     {
         return self::Get(
-            "Member", 
-            "MemberID, FirstName, MiddleName, LastName"
+            "Member", "MemberID, FirstName, MiddleName, LastName"
         );
     }
 
@@ -57,18 +59,54 @@ class SystemAdministratorActionOperationsRepository extends Repository
         return self::Insert("Batch", $batch);
     }
 
-    public function DeleteBatchByID($value)
+    public function GetFirstFrontmanTypeID()
     {
-        return self::Delete("Batch", "BatchID", $value);
+        return self::Get(
+            "MemberType", "MemberTypeID", array(
+                "MemberType" => "First Frontman"
+            )
+        )[0]["MemberTypeID"];
     }
 
-    public function ExistingBatchByID($value)
+    public function HasFirstFrontman($frontman_type_id, $batch_id)
     {
-        return self::Find("Batch", "BatchID", $value);
+        return self::Find(
+            "BatchMember", "BatchID", array(
+                "BatchID" => $batch_id,
+                "MemberTypeID" => $frontman_type_id
+            )
+        );
     }
 
-    public function ExistingBatchByYear($value)
+    public function UpdateActiveBatch($batch_id)
     {
-        return self::Find("Batch", "AcadYear", $value);
+        return self::Update(
+            "StaticData", 
+            array("Name" => "ActiveBatch"), 
+            array("Value" => $batch_id)
+        );
+    }
+
+    public function DeleteBatchByID($batch_id)
+    {
+        return self::Delete("Batch", "BatchID", $batch_id);
+    }
+
+    public function ExistingBatchByID($batch_id)
+    {
+        return self::Find(
+            "Batch", "BatchID", array(
+                "BatchID" => $batch_id
+            )
+        );
+    }
+
+    public function ExistingBatchByYear($acad_year)
+    {
+        return self::Find(
+            "Batch", "AcadYear", array(
+                "AcadYear" => $acad_year
+            )
+        );
     }
 }

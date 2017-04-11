@@ -8,7 +8,13 @@ class PublicPagesActionOperationsRepository extends Repository
 {
     public function GetUsernameExists($username)
     {
-        return self::Find("Member", "EmailAddress", $username);
+        return self::Find(
+            "Member", 
+            "EmailAddress", 
+            array(
+                "EmailAddress" => $username
+            )
+        );
     }
 
     public function GetPassword($username)

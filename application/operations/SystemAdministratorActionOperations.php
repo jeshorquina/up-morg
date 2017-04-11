@@ -28,15 +28,32 @@ class SystemAdministratorActionOperations
 
     public function GetBatches()
     {
-        return $this->repository->GetBatches("DESC");
+        $activeBatch = $this->repository->GetActiveBatch();
+
+        $batches = array();
+        foreach($this->repository->GetBatches("DESC") as $batch)
+        {
+            $batch["IsActive"] = ($batch["BatchID"] == $activeBatch);
+            $batches[] = $batch;
+        }
+        return (sizeof($batches) != 0) ? $batches : false;
     }
 
     public function CheckAcadYearFormat($input)
     {
-        return filter_var(
+        $isValidFormat = filter_var(
             preg_match("/[0-9]{4}-[0-9]{4}/", $input), 
             FILTER_VALIDATE_BOOLEAN
         );
+
+        if($isValidFormat) 
+        {
+            $years = explode("-", $input);
+            return (int)$years[1] - (int)$years[0] == 1;
+        }
+        else {
+            return false;
+        }
     }
 
     public function ExistingBatchByID($batch_id)
@@ -52,6 +69,18 @@ class SystemAdministratorActionOperations
     public function CreateBatch(Batchmodel $batch)
     {
         return $this->repository->InsertBatchToDatabase($batch);
+    }
+
+    public function HasFirstFrontman($batch_id)
+    {
+        return $this->repository->HasFirstFrontman(
+            $this->repository->GetFirstFrontmanTypeID(), $batch_id
+        );
+    }
+
+    public function ActivateBatch($batch_id)
+    {
+        return $this->repository->UpdateActiveBatch($batch_id);
     }
 
     public function DeleteBatch($batch_id)

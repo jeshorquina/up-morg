@@ -1,13 +1,18 @@
 @import "../base/variables.scss";
 
 .button {
-    border: none;
+    border: 1px solid transparent;
     border-radius: 0.25rem;
     color: $color-text;
     margin: 0 0 0.5rem;
     padding: 0.5rem 1rem;
 
-    &-larger {
+    &-small {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    &-large {
         padding: 0.75rem 1.25rem;
     }
 
@@ -19,12 +24,59 @@
         }
     }
 
+    &-info {
+        background-color: $color-info;
+        color: $color-text-inverted;
+
+        &:hover, &:focus {
+            background-color: darken($color-info, $button-hover-darken-percentage);
+            
+            &:disabled {
+                background-color: $color-info;
+            }
+        }
+
+        &-border {
+            background-color: transparent;
+            color: $color-info;
+            border-color: $color-info; 
+
+            &:hover, &:focus {
+                background-color: $color-info;
+                color: $color-text-inverted;
+                
+                &:disabled {
+                    background-color: $color-info;
+                }
+            }
+        }
+    }
+
     &-success {
         background-color: $color-success;
         color: $color-text-inverted;
 
         &:hover, &:focus {
             background-color: darken($color-success, $button-hover-darken-percentage);
+            
+            &:disabled {
+                background-color: $color-success;
+            }
+        }
+
+        &-border {
+            background-color: transparent;
+            color: $color-success;
+            border-color: $color-success; 
+
+            &:hover, &:focus {
+                background-color: $color-success;
+                color: $color-text-inverted;
+                
+                &:disabled {
+                    background-color: $color-success;
+                }
+            }
         }
     }
 
@@ -34,6 +86,25 @@
 
         &:hover, &:focus {
             background-color: darken($color-danger, $button-hover-darken-percentage);
+            
+            &:disabled {
+                background-color: $color-danger;
+            }
+        }
+
+        &-border {
+            background-color: transparent;
+            color: $color-danger;
+            border-color: $color-danger; 
+
+            &:hover, &:focus {
+                background-color: $color-danger;
+                color: $color-text-inverted;
+                
+                &:disabled {
+                    background-color: $color-danger;
+                }
+            }
         }
     }
 }

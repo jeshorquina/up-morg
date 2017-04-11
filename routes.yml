@@ -45,10 +45,15 @@
     directory: pages
     controller: SystemAdministratorController
     function: ChangePassword
-'admin/manage/batch':
+'admin/batch':
     directory: pages
     controller: SystemAdministratorController
-    function: ManageBatch
+    function: Batch
+'admin/batch/details':
+    directory: pages
+    controller: SystemAdministratorController
+    function: BatchDetails
+    parameter: number
 
 # **************************************************
 # API - Admin pages
@@ -65,15 +70,19 @@
     directory: api
     controller: SystemAdministratorActionController
     function: ChangePassword
-'action/admin/manage/batch':
+'action/admin/batch':
     directory: api
     controller: SystemAdministratorActionController
     function: GetBatches
-'action/admin/manage/batch/add':
+'action/admin/batch/add':
     directory: api
     controller: SystemAdministratorActionController
     function: AddBatch
-'action/admin/manage/batch/delete':
+'action/admin/batch/activate':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: ActivateBatch
+'action/admin/batch/delete':
     directory: api
     controller: SystemAdministratorActionController
     function: DeleteBatch

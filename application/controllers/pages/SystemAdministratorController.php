@@ -50,12 +50,12 @@ class SystemAdministratorController extends Controller
     {
         return array(
             array(
-                "name" => "Change Password",
-                "url" => self::GetBaseURL('admin/account/password')
+                "name" => "Manage Batch",
+                "url" => self::GetBaseURL('admin/batch')
             ),
             array(
-                "name" => "Manage Batch",
-                "url" => self::GetBaseURL('admin/manage/batch')
+                "name" => "Change Password",
+                "url" => self::GetBaseURL('admin/account/password')
             ),
             array(
                 "name" => "Logout",
@@ -64,11 +64,11 @@ class SystemAdministratorController extends Controller
         );
     }
 
-    private function GetPageURLs($stylesheet, $script, $index = '')
+    private function GetPageURLs($stylesheet, $script)
     {
         return array(
             "base" => self::GetBaseURL(),
-            "index" => self::GetBaseURL($index),
+            "index" => self::GetBaseURL("admin"),
             "stylesheet" => self::GetBaseURL($stylesheet),
             "script" => self::GetBaseURL($script),
         );
@@ -90,24 +90,48 @@ class SystemAdministratorController extends Controller
             )
         ));
     }
-    
+
     public function Home()
     {
+        self::Redirect("admin/batch");
+    }
+
+    public function Batch()
+    {
         self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetBody("admin-pages/index.html.inc");
-        self::RenderView(
+        self::SetBody("admin-pages/batch.html.inc");
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Admin - Home",
+                    "title" => "Admin - Batch Management",
                     "nav" => $this->GetNavigationLinks(),
                     "urls" => $this->GetPageURLs(
-                        "public/css/admin/index.css",
-                        "public/js/admin/index.js",
-                        "admin"
+                        "public/css/admin/batch.css",
+                        "public/js/admin/batch.js"
                     )
                 ) 
             )
-        );
+        ));  
+    }
+
+    public function BatchDetails()
+    {
+        self::SetHeader("admin-pages/templates/nav.html.inc");
+        self::SetBody("admin-pages/batch-details.html.inc");
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Admin - Batch Details",
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch-details.css",
+                        "public/js/admin/batch-details.js"
+                    )
+                ) 
+            )
+        ));  
     }
 
     public function ChangePassword()
@@ -122,32 +146,11 @@ class SystemAdministratorController extends Controller
                     "nav" => $this->GetNavigationLinks(),
                     "urls" => $this->GetPageURLs(
                         "public/css/admin/password.css",
-                        "public/js/admin/password.js",
-                        "admin"
+                        "public/js/admin/password.js"
                     )
                 ) 
             )
         ));
-    }
-
-    public function ManageBatch()
-    {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetBody("admin-pages/manage-batch.html.inc");
-        self::RenderView(array_merge(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Admin - Manage Batch",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/admin/batch.css",
-                        "public/js/admin/batch.js",
-                        "admin"
-                    )
-                ) 
-            )
-        ));  
     }
 
 }

@@ -1,0 +1,1 @@
+INSERT INTO upmorg.StaticData (`Name`, `Value`) VALUES ('ActiveBatch', 1)

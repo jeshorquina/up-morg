@@ -51,6 +51,31 @@
     element.value = value;
   }
 
+  DomHelper.CreateElement = function (element, attributes, innerHTML) {
+
+    var el = document.createElement(element);
+
+    if (typeof attributes != "undefined") {
+      Object.keys(attributes).forEach(function (keys) {
+        el.setAttribute(keys, attributes[keys]);
+      });
+    }
+
+    if (typeof innerHTML != "undefined") {
+      if (Array.isArray(innerHTML)) {
+        DomHelper.ClearContent(el)
+        innerHTML.forEach(function (value) {
+          DomHelper.AppendContent(el, value);
+        })
+      }
+      else {
+        DomHelper.InsertContent(el, innerHTML);
+      }
+    }
+
+    return el;
+  }
+
   function appendHTML(element, addition) {
 
     element = mutateEl(element);

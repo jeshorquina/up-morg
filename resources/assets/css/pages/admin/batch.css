@@ -1,2 +1,32 @@
 .card {
-  margin: 2rem 0; }
+  margin: 3rem auto;
+  width: 100%; }
+
+form#add-batch-form {
+  border: 1px solid #d5d5d5;
+  border-bottom: none;
+  padding: 0.5rem 1rem;
+  width: 100%; }
+  form#add-batch-form .form-group {
+    position: relative; }
+    form#add-batch-form .form-group input {
+      margin: 0; }
+    form#add-batch-form .form-group input[type=text] {
+      width: 100%; }
+    form#add-batch-form .form-group input[type=submit] {
+      bottom: 0;
+      height: 100%;
+      position: absolute;
+      right: 0; }
+
+ul#batch-list .batch-entry {
+  display: table;
+  width: 100%; }
+  ul#batch-list .batch-entry:nth-child(2n) {
+    background-color: #fbfbfb; }
+  ul#batch-list .batch-entry .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  ul#batch-list .batch-entry .table-cell {
+    display: table-cell;
+    vertical-align: middle; }
