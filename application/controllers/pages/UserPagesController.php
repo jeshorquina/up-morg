@@ -12,22 +12,84 @@ class UserPagesController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("UserActionOperations");
+        if($this->CheckAccess()) 
+        {
+            $this->SetTemplates();
+        }
+    }
 
+    private function CheckAccess()
+    {
         if(!Session::Find("user_data"))
         {
             self::Redirect("/");
         }
+        return true;
+    }
 
-        self::SetHeader(
+    private function SetTemplates()
+    {
+        self::SetHeader("public-pages/templates/header.html.inc");
+        self::SetHeader("public-pages/templates/nav.html.inc");
+        self::SetFooter("public-pages/templates/footer.html.inc");
+    }
+
+    private function GetNavigationLinks()
+    {
+        return array(
             array(
-                "user-pages/templates/header.html.inc",
-                "user-pages/templates/nav.html.inc"
+                "name" => "Home",
+                "url" => self::GetBaseURL('home')
+            ),
+            array(
+                "name" => "Task Manager",
+                "url" => self::GetBaseURL('task-manager')
+            ),
+            array(
+                "name" => "Availability Tracker",
+                "url" => self::GetBaseURL('availability-tracker')
+            ),
+            array(
+                "name" => "Calendar",
+                "url" => self::GetBaseURL('calendar')
+            ),
+            array(
+                "name" => "Finance Tracker",
+                "url" => self::GetBaseURL('finance-tracker')
+            ),
+            array(
+                "name" => "Logout",
+                "url" => self::GetBaseURL('logout')
             )
         );
-        self::SetFooter(
-            "user-pages/templates/footer.html.inc"
+    }
+
+    private function GetPageURLs($stylesheet, $script)
+    {
+        return array(
+            "base" => self::GetBaseURL(),
+            "index" => self::GetBaseURL(),
+            "stylesheet" => self::GetBaseURL($stylesheet),
+            "script" => self::GetBaseURL($script),
         );
+    }
+
+    public function TaskManager()
+    {
+        self::SetBody("user-pages/task-manager.html.inc");
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Task Manager",
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        "public/js/user-pages/task.js"
+                    )
+                ) 
+            )
+        ));  
     }
 
     public function Home()
@@ -39,70 +101,57 @@ class UserPagesController extends Controller
         self::RenderView($view_data);
     }
 
-    public function TaskManager()
-    {
-        $view_data = array();
-        $member = 0;
-
-        self::SetBody("user-pages/task-manager.html.inc");
-        self::RenderView(array_merge(
-            Security::GetCSRFData(),
-            $members = $this->operations->GetMembers(),
-            array(
-                "page" => array(
-                    "title" => "Task Manager",
-                    "stylesheet" => base_url("public/css/signup.css"),
-                    "members" => $this->operations->GetMembers()
-                )
-            )
-        ));
-    }
-
     public function AvailabilityTracker()
     {
-        $view_data = array();
-
         self::SetBody("user-pages/availability-tracker.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
                 "page" => array(
                     "title" => "Availability Tracker",
-                    "stylesheet" => base_url("public/css/signup.css")
-                )
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        "public/js/user-pages/availability.js"
+                    )
+                ) 
             )
-        ));
+        ));  
     }
 
     public function Calendar()
     {
-        $view_data = array();
-
         self::SetBody("user-pages/calendar.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
                 "page" => array(
                     "title" => "Calendar",
-                    "stylesheet" => base_url("public/css/signup.css")
-                )
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        "public/js/user-pages/calendar.js"
+                    )
+                ) 
             )
-        ));
+        ));  
     }
 
     public function FinanceTracker()
     {
-        $view_data = array();
-
         self::SetBody("user-pages/finance-tracker.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
                 "page" => array(
                     "title" => "Finance Tracker",
-                    "stylesheet" => base_url("public/css/signup.css")
-                )
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        "public/js/user-pages/finance.js"
+                    )
+                ) 
             )
-        ));
+        ));  
     }
 }

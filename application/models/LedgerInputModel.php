@@ -3,7 +3,7 @@ namespace Jesh\Models;
 
 use \Jesh\Core\Interfaces\ModelInterface;
 
-class LedgerInputModel implements ModelInterfaces
+class LedgerInputModel implements ModelInterface
 {
     public $LedgerInputID;
     public $BatchMemberID;

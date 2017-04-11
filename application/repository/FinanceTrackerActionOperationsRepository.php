@@ -3,6 +3,8 @@ namespace Jesh\Repository;
 
 use \Jesh\Core\Wrappers\Repository;
 
+use \Jesh\Models\LedgerInputModel;
+
 class FinanceTrackerActionOperationsRepository extends Repository
 {
     public function GetBalance()
@@ -22,4 +24,19 @@ class FinanceTrackerActionOperationsRepository extends Repository
     {
         return Self::Update("StaticData", array("Name" => "Balance"), array("Value" => $new_balance));
     }
+
+    public function AddDebitCredit(LedgerInputModel $input)
+    {
+        return Self::Insert("LedgerInput", $input);
+    }
+
+     public function GetLedgerEntries($order)
+    {
+        return self::Get(
+            "LedgerInput", "*", 
+            array(), 
+            array("LedgerInputID" => $order)
+        );
+    }
+    
 }

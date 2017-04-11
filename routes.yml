@@ -148,14 +148,6 @@
     function: SubmitTask
 
 # **************************************************
-# Pages - Task Manager Pages
-# **************************************************
-'task-manager/full-task':
-    directory: pages
-    controller: TaskManagerController
-    function: FullTask
-
-# **************************************************
 # API - Finance Tracker Pages
 # **************************************************
 'action/finance-tracker/add-debit-credit':
@@ -170,14 +162,10 @@
     directory: api
     controller: FinanceTrackerActionController
     function: ApproveStatement
-
-# **************************************************
-# Pages - Finance Tracker Pages
-# **************************************************
-'finance-tracker/generate-statement':
-    directory: pages
-    controller: FinanceTrackerController
-    function: GenerateStatement
+'action/finance-tracker/get-ledger-entries':
+    directory: api
+    controller: FinanceTrackerActionController
+    function: GetLedgerEntries
 
 # **************************************************
 # API - Availability Tracker Pages
@@ -194,14 +182,6 @@
     directory: api
     controller: AvailabilityTrackerActionController
     function: CreateNewGroup
-
-# **************************************************
-# Pages - Availability Tracker Pages
-# **************************************************
-'availability-tracker/add-custom-group':
-    directory: pages
-    controller: AvailabilityTrackerController
-    function: AddCustomGroup
 
 # **************************************************
 # API - Calendar Pages

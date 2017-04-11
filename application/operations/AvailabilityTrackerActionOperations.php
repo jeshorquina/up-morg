@@ -7,12 +7,19 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Repository\AvailabilityTrackerActionOperationsRepository;
 
-use \Jesh\Models\TaskModel;
+use \Jesh\Models\AvailabilityMemberModel;
 
 class AvailabilityTrackerActionOperations
 {
+    private $repository;
+
     public function __construct()
     {
         $this->repository = new AvailabilityTrackerActionOperationsRepository;
+    }
+
+    public function UpdateSchedule(AvailabilityMembermodel $availability)
+    {
+        return $this->repository->UpdateSchedule($availability);
     }
 }

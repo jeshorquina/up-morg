@@ -5,6 +5,9 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Session;
+
+use \Jesh\Models\LedgerInputModel;
 
 class FinanceTrackerActionController extends Controller 
 {
@@ -20,26 +23,60 @@ class FinanceTrackerActionController extends Controller
     public function AddDebitCredit()
     {
         $amount_string = Http::Request(Http::POST, "amount");
-        $type = Http::Request(Http::POST, "type");
+        $type = (int) Http::Request(Http::POST, "type");
         
         $amount = floatval($amount_string);
 
         $balance = $this->operations->GetBalance();
         $temp_balance = $balance;
 
-        if($type == "debit")
+        $user_data = json_decode(Session::Get("user_data"), true);
+        $user_id = $user_data["id"];
+
+        $array = array(
+            "BatchMemberID" => (int) $user_id,
+            "InputType" => (int) $type,
+            "Amount" => $amount,
+            "IsVerified" => 0
+                );
+        $response = $this->operations->AddDebitCredit(
+            new LedgerInputModel(
+                $array
+            )
+        );
+
+        if(!$response)
         {
-            $temp_balance = $balance + $amount;
-            echo "You have added a debit of " . $amount . "php. The temporary balance is now " . $temp_balance . "php. 
-            The changes will reflect in the ledger once your input has been verified.";
+            Http::Response(Http::INTERNAL_SERVER_ERROR, 
+                "Unable to add ledger input." . json_encode($array)
+            );
         }
         else
         {
-            $temp_balance = $balance - $amount;
-            echo "You have added a crebit of " . $amount . "php. The temporary balance is now " . $temp_balance . "php. 
-            The changes will reflect in the ledger once your input has been verified.";
-        } 
+            Http::Response(Http::CREATED, 
+                "Ledger input successfully added."
+            );
+        }
     }
+
+    public function GetLedgerEntries()
+    {
+        $entries = $this->operations->GetLedgerEntries();
+        if($entries) 
+        {
+            Http::Response(Http::OK, $entries);
+        }
+        else 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                array(
+                    "message" => "Something went wrong. 
+                    Please refresh your browser."
+                )    
+            );
+        }
+    } 
 
     public function VerifyBalance()
     {

@@ -78,5 +78,57 @@
             "resources/assets/js/operations/admin/batch-details.js",
             "resources/assets/js/controllers/admin/batch-details.js"
         ]
+    },
+    {
+        "name": "user-pages/task.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/user-pages/task.js",
+            "resources/assets/js/controllers/user-pages/task.js"
+        ]
+    },
+    {
+        "name": "user-pages/calendar.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/user-pages/calendar.js",
+            "resources/assets/js/controllers/user-pages/calendar.js"
+        ]
+    },
+    {
+        "name": "user-pages/finance.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/user-pages/finance.js",
+            "resources/assets/js/controllers/user-pages/finance.js"
+        ]
+    },
+    {
+        "name": "user-pages/availability.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/operations/user-pages/availability.js",
+            "resources/assets/js/controllers/user-pages/availability.js"
+        ]
     }
 ]

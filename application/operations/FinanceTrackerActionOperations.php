@@ -7,6 +7,8 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Repository\FinanceTrackerActionOperationsRepository;
 
+use \Jesh\Models\LedgerInputModel;
+
 class FinanceTrackerActionOperations
 {
 
@@ -23,5 +25,15 @@ class FinanceTrackerActionOperations
     public function UpdateBalance($new_balance)
     {
         return $this->repository->UpdateBalance($new_balance);
+    }
+
+    public function AddDebitCredit(LedgerInputModel $input)
+    {
+        return $this->repository->AddDebitCredit($input);
+    }
+
+    public function GetLedgerEntries()
+    {
+        return $this->repository->GetLedgerEntries("DESC");
     }
 }

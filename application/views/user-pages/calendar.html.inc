@@ -12,7 +12,7 @@ Filter:
 <!-- Clicking on event will display event details -->
 Calendar goes here.
 <h3>Add Event</h3>
-<form method="POST" action="<?=base_url("action/calendar/add-event")?>">
+<form id="add-event-form">
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
     <input type="text" name="event_name" placeholder="Event Name" required><br>
     <textarea name="event_description" placeholder="Event Description" class="form-control" rows="5" required>
@@ -27,7 +27,5 @@ Calendar goes here.
     Event Type: <input type="radio" class="form-control" name="event_type" value="0" checked> Private
                 <input type="radio" class="form-control" name="event_type" value="1"> Public
                 <br>
-     <button class="btn btn-info" type="submit">
-        <i class="fa fa-lock"></i> Add Event
-    </button>
+     <input type="submit" value="add event">
 </form>

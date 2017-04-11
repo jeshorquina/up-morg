@@ -1,11 +1,15 @@
 <h2>Availability Tracker</h2>
-<form method="POST" action="<?=base_url("action/availability-tracker/update-schedule")?>">
+<form id="update-schedule-form">
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
     <h3>My Availability</h3>
-    Tracker goes here.<br>
-    <button class="btn btn-info" type="submit">
-        <i class="fa fa-lock"></i> Save changes
-    </button>
+    <input type="text" name="monday-availability" pattern="[0,1]{96}" placeholder="Monday" size="96" maxlength="96"><br>
+    <input type="text" name="tuesday-availability" pattern="[0,1]{96}" placeholder="Tuesday" size="96" maxlength="96"><br>
+    <input type="text" name="wednesday-availability" pattern="[0,1]{96}" placeholder="Wednesday" size="96" maxlength="96"><br>
+    <input type="text" name="thursday-availability" pattern="[0,1]{96}" placeholder="Thursday" size="96" maxlength="96"><br>
+    <input type="text" name="friday-availability" pattern="[0,1]{96}" placeholder="Friday" size="96" maxlength="96"><br>
+    <input type="text" name="saturday-availability" pattern="[0,1]{96}" placeholder="Saturday" size="96" maxlength="96"><br>
+    <input type="text" name="sunday-availability" pattern="[0,1]{96}" placeholder="Sunday" size="96" maxlength="96"><br>
+    <input type="submit" id="update-schedule" value="save schedule">
 </form>
 <h3>Batch Availability</h3>
 Whole batch availability (for 1st front only)
