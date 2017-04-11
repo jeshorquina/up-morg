@@ -37,13 +37,13 @@
     var data = JSON.parse(responseText);
     var container = document.getElementById("notifications");
 
-    DomHelper.ClearHTML(container);
+    DomHelper.ClearContent(container);
 
     ['first_name', 'middle_name', 'last_name',
       'email', 'phone', 'first_password',
       'second_password'].forEach(function (value) {
         DomHelper.RemoveClass(value, "form-input-error");
-        DomHelper.ClearHTML(value + "-error");
+        DomHelper.ClearContent(value + "-error");
       });
 
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
@@ -53,10 +53,9 @@
       );
       window.scrollTo(0, 0);
 
-      Object.keys(data).forEach(function (value) {
-        console.log(value);
-        DomHelper.AddClass(value, "form-input-error");
-        DomHelper.InnerHTML(value + "-error", data[value].replace(/_/g, " "));
+      Object.keys(data).forEach(function (id) {
+        DomHelper.AddClass(id, "form-input-error");
+        DomHelper.InsertContent(id + "-error", data[id].replace(/_/g, " "));
       });
     }
     else if (status == HttpHelper.INTERNAL_SERVER_ERROR) {

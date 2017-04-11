@@ -9,7 +9,7 @@
   }
 
   function GenerateAlert(container, value, type) {
-    DomHelper.AppendHTML(container, CreateAlert(value, type));
+    DomHelper.InsertContent(container, CreateAlert(value, type));
   }
 
   function CreateAlert(message, type) {

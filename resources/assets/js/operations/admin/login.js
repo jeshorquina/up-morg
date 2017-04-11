@@ -26,7 +26,7 @@
     var data = JSON.parse(responseText);
     var container = document.getElementById("notifications");
 
-    DomHelper.ClearHTML(container);
+    DomHelper.ClearContent(container);
     DomHelper.RemoveClass("password", "form-input-error");
 
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {

@@ -27,11 +27,11 @@
     var data = JSON.parse(responseText);
     var container = document.getElementById("notifications");
 
-    DomHelper.ClearHTML(container);
+    DomHelper.ClearContent(container);
 
     ["username", "password"].forEach(function (value) {
       DomHelper.RemoveClass(value, "form-input-error");
-      DomHelper.ClearHTML(value + "-error");
+      DomHelper.ClearContent(value + "-error");
     });
 
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
@@ -46,7 +46,7 @@
           DomHelper.InputValue(id, "");
         }
         DomHelper.AddClass(id, "form-input-error");
-        DomHelper.InnerHTML(id + "-error", data[id]);
+        DomHelper.InsertContent(id + "-error", data[id]);
       });
     }
     else if (status == HttpHelper.OK) {
