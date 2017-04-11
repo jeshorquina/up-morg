@@ -1,5 +1,9 @@
 .card {
   margin: 3rem auto;
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
+=======
+  max-width: 700px;
+>>>>>>> FInalizing batch management
   width: 100%; }
 
 form#add-batch-form {
@@ -22,9 +26,17 @@ form#add-batch-form {
 ul#batch-list .batch-entry {
   display: table;
   width: 100%; }
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
   ul#batch-list .batch-entry .button {
     margin: 0;
     margin-left: 0.5rem; }
+=======
+  ul#batch-list .batch-entry:nth-child(2n) {
+    background-color: #fbfbfb; }
+  ul#batch-list .batch-entry .button {
+    margin-bottom: 0;
+    margin-top: 0; }
+>>>>>>> FInalizing batch management
   ul#batch-list .batch-entry .table-cell {
     display: table-cell;
     vertical-align: middle; }

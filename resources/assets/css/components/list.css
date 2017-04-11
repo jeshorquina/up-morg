@@ -1,14 +1,21 @@
 .list {
   border: 1px solid #d5d5d5;
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
+=======
+  border-bottom: none;
+>>>>>>> FInalizing batch management
   list-style-type: none;
   margin: 0;
   padding: 0; }
   .list li {
     border-bottom: 1px solid #d5d5d5;
     padding: 0.5rem 1rem; }
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
   .list li:last-child {
     border-bottom: none; }
   .list .list-header {
     background-color: #efefef; }
   .list.list-strips li:nth-child(2n) {
     background-color: #fbfbfb; }
+=======
+>>>>>>> FInalizing batch management

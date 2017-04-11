@@ -22,6 +22,16 @@ hr {
     margin: 1.25rem 0;
 }
 
+input[type=button]:focus, input[type=button]:hover,
+input[type=submit]:focus, input[type=submit]:hover,
+button:focus, button:hover {
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
 .container {
     margin: 0 auto;
     max-width: $width-page;

@@ -5,8 +5,12 @@
   margin: 0 0 0.5rem;
   padding: 0.5rem 1rem; }
   .button-small {
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
     font-size: 0.9rem;
     padding: 0.3rem 0.6rem; }
+=======
+    padding: 0.2rem 0.5rem; }
+>>>>>>> FInalizing batch management
   .button-large {
     padding: 0.75rem 1.25rem; }
   .button-primary {
@@ -20,6 +24,7 @@
       background-color: #025aa5; }
       .button-info:hover:disabled, .button-info:focus:disabled {
         background-color: #0275d8; }
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
     .button-info-border {
       background-color: transparent;
       color: #0275d8;
@@ -29,6 +34,8 @@
         color: #fafafa; }
         .button-info-border:hover:disabled, .button-info-border:focus:disabled {
           background-color: #0275d8; }
+=======
+>>>>>>> FInalizing batch management
   .button-success {
     background-color: #2ecc71;
     color: #fafafa; }
@@ -36,6 +43,7 @@
       background-color: #25a25a; }
       .button-success:hover:disabled, .button-success:focus:disabled {
         background-color: #2ecc71; }
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
     .button-success-border {
       background-color: transparent;
       color: #2ecc71;
@@ -45,6 +53,8 @@
         color: #fafafa; }
         .button-success-border:hover:disabled, .button-success-border:focus:disabled {
           background-color: #2ecc71; }
+=======
+>>>>>>> FInalizing batch management
   .button-danger {
     background-color: #e74c3c;
     color: #fafafa; }
@@ -52,6 +62,7 @@
       background-color: #d62c1a; }
       .button-danger:hover:disabled, .button-danger:focus:disabled {
         background-color: #e74c3c; }
+<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
     .button-danger-border {
       background-color: transparent;
       color: #e74c3c;
@@ -61,3 +72,5 @@
         color: #fafafa; }
         .button-danger-border:hover:disabled, .button-danger-border:focus:disabled {
           background-color: #e74c3c; }
+=======
+>>>>>>> FInalizing batch management

@@ -108,6 +108,67 @@
     }
   }
 
+  function GetBatchRow(batchEntry) {
+
+    var span = DomHelper.CreateElement(
+      "span", { "class": "table-cell" }, [
+        "Batch ", DomHelper.CreateElement(
+          "strong", {}, batchEntry.AcadYear
+        )
+      ]
+    );
+
+    var input, makeActive = "";
+    if ((new Boolean(batchEntry.IsActive)) == true) {
+      input = DomHelper.CreateElement(
+        "input", {
+          "class": "button button-success float-right",
+          "type": "button",
+          "value": "Active Batch",
+          "disabled": "disabled"
+        }
+      )
+    }
+    else {
+      input = DomHelper.CreateElement(
+        "button", {
+          "class": "button button-danger delete-batch-button float-right",
+          "data-batch-id": batchEntry.BatchID,
+        }, DomHelper.CreateElement(
+          "strong", {}, "X"
+        )
+      );
+
+      makeActive = DomHelper.CreateElement(
+        "button", {
+          "class": "button button-info activate-batch-button float-right"
+        }, "Activate"
+      )
+    }
+
+    return DomHelper.CreateElement(
+      "li", { "class": "batch-entry clearfix" }, [span, input, makeActive]
+    );
+  }
+
+  function BatchEntryProcessCallback(status, responseText, controllerCallback) {
+
+    var response = JSON.parse(responseText);
+    var container = document.getElementById("notifications");
+
+    window.scrollTo(0, 0);
+
+    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
+
+      AlertFactory.GenerateSuccessAlert(container, response.message);
+      RenderBatchesCallback(status, responseText, controllerCallback);
+    }
+    else {
+
+      AlertFactory.GenerateDangerAlert(container, response.message);
+    }
+  }
+
   function FillBatchList(batches) {
 
     var batchContainer = document.getElementById("batch-list");
