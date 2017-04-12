@@ -192,11 +192,23 @@ class SystemAdministratorActionController extends Controller
                 )
             );
         }
+        else if($this->operations->IsActiveBatch($batch_id))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => "Could not delete batch. Batch selected is 
+                    the current active batch."
+                )
+            );
+        }
         else if(!$this->operations->DeleteBatch($batch_id))
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to delete selected batch."
+                    "message" => StringHelper::NoBreakString(
+                        "Unable to delete selected batch. Make sure batch 
+                        doesn't have any members."
+                    )
                 )
             );
         }

@@ -2,6 +2,19 @@
   DomHelper, AlertFactory, HttpHelper, UrlHelper, BatchDetailsOperations
 ) {
 
+  BatchDetailsOperations.RenderBatchDetailsPage = function (
+    source, controllerCallback
+  ) {
+
+    var batchDetailsContainer = document.getElementById("batch-details-container");
+    var batchID = batchDetailsContainer.getAttribute("data-batch-id");
+    var endpoint = source + "action/admin/batch/details/" + batchID;
+
+    HttpHelper.Get(endpoint, function (status, responseText) {
+      RenderBatchDetailsCallback(status, responseText, controllerCallback);
+    });
+  }
+
   BatchDetailsOperations.DeleteBatch = function (
     source, batchID, csrfObject
   ) {
@@ -30,6 +43,12 @@
     HttpHelper.Post(endpoint, data, function (status, responseText) {
 
     });
+  }
+
+  function RenderBatchDetailsCallback(
+    status, responseText, controllerCallback
+  ) {
+    alert(responseText);
   }
 
 })(

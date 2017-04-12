@@ -83,6 +83,11 @@ class SystemAdministratorActionOperations
         return $this->repository->UpdateActiveBatch($batch_id);
     }
 
+    public function IsActiveBatch($batch_id)
+    {
+        return $this->repository->GetActiveBatch() == $batch_id;
+    }
+
     public function DeleteBatch($batch_id)
     {
         return $this->repository->DeleteBatchByID($batch_id);

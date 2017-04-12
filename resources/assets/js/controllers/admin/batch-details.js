@@ -21,4 +21,10 @@
     )
   }
 
+  var controllerCallback = function () {
+
+  }
+
+  BatchDetailsOperations.RenderBatchDetailsPage(source, controllerCallback)
+
 })(BatchDetailsOperations);

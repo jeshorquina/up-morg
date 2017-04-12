@@ -13,6 +13,7 @@ composer.lock
 !/resources/assets/css/source.json
 !/resources/assets/js/
 /public/
+!/public/fonts/
 
 *.yml
 !routes.yml

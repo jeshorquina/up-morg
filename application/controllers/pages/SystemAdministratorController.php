@@ -115,7 +115,7 @@ class SystemAdministratorController extends Controller
         ));  
     }
 
-    public function BatchDetails()
+    public function BatchDetails($batch_id)
     {
         self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetBody("admin-pages/batch-details.html.inc");
@@ -128,6 +128,9 @@ class SystemAdministratorController extends Controller
                     "urls" => $this->GetPageURLs(
                         "public/css/admin/batch-details.css",
                         "public/js/admin/batch-details.js"
+                    ),
+                    "details" => array(
+                        "batch_id" => $batch_id
                     )
                 ) 
             )

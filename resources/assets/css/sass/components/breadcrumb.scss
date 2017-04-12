@@ -1,0 +1,10 @@
+.breadcrumb {
+
+    .crumb::after {
+        content: " > ";
+    }
+
+    .crumb:last-child::after{
+        content: "";
+    }
+}
