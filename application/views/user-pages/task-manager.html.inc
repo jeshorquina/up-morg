@@ -28,20 +28,14 @@
                 <option value="reporter">Reporter</option>
             </select><br>
     <table style="border: 1px solid black;" sortable>
-        <tr>
-            <td style="border: 1px solid black;"></td>
+        <thead>
             <th style="border: 1px solid black;">Title</th>
             <th style="border: 1px solid black;">Deadline</th>
             <th style="border: 1px solid black;">Reporter</th>
-            <th style="border: 1px solid black;">Assignee</th>
-        </tr>
-        <tr>
-            <td style="border: 1px solid black;"><input type="checkbox"></td>
-            <td style="border: 1px solid black;"><a href="<?=base_url(" task-manager/full-task ")?>">Sample Title</a></td>
-            <td style="border: 1px solid black;">04-29-2017</td>
-            <td style="border: 1px solid black;">First Frontman</td>
-            <td style="border: 1px solid black;">Finance Committee Head</td>
-        </tr>
+            <th style="border: 1px solid black;">Status</th>
+        </thead>
+        <tbody id="current-user-tasks-body">
+
         </tbody>
     </table>
     <a href="#mytasks">Show task archive</a>
@@ -89,31 +83,18 @@
         </tbody>
     </table>
     <a href="#committeetasks">Show task archive</a>
-    <h3>Completed Reported Tasks</h3>
+    <h3>Reported Tasks</h3>
     <form>
         <table style="border: 1px solid black;" sortable>
-            <tr>
+            <thead>
                 <th style="border: 1px solid black;">Title</th>
-                <th style="border: 1px solid black;">Date Submitted</th>
-                <th style="border: 1px solid black;">Reporter</th>
-                <th style="border: 1px solid black;">Accept</th>
-                <th style="border: 1px solid black;">Decline</th>
-            </tr>
-            <tr>
-                <td style="border: 1px solid black;"><a href="<?=base_url(" task-manager/full-task ")?>">Upload Lineup Of Bands</a></td>
-                <td style="border: 1px solid black;">04-29-2017</td>
-                <td style="border: 1px solid black;">Production Committee Member</td>
-                <td style="border: 1px solid black;">
-                    <button class="btn btn-info" type="submit">
-                <i class="fa fa-lock"></i> Accept
-            </button>
-                </td>
-                <td style="border: 1px solid black;">
-                    <button class="btn btn-info" type="submit">
-                <i class="fa fa-lock"></i> Decline
-            </button>
-                </td>
-            </tr>
+                <th style="border: 1px solid black;">Assignee</th>
+                <th style="border: 1px solid black;">Status</th>
+                <th style="border: 1px solid black;">Deadline</th>
+            </thead>
+            <tbody id="reported-tasks-body">
+
+            </tbody>
         </table>
     </form>
 </div>

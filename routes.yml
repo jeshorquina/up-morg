@@ -85,19 +85,11 @@
     directory: api
     controller: SystemAdministratorActionController
     function: AddBatch
-<<<<<<< 527c7bcf64ace782715bb89c3bfaf425cc9b0949
 'action/admin/batch/activate':
     directory: api
     controller: SystemAdministratorActionController
     function: ActivateBatch
 'action/admin/batch/delete':
-=======
-'action/admin/manage/batch/activate':
-    directory: api
-    controller: SystemAdministratorActionController
-    function: ActivateBatch
-'action/admin/manage/batch/delete':
->>>>>>> FInalizing batch management
     directory: api
     controller: SystemAdministratorActionController
     function: DeleteBatch

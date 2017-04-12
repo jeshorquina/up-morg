@@ -29,9 +29,9 @@ class UserPagesController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("public-pages/templates/header.html.inc");
-        self::SetHeader("public-pages/templates/nav.html.inc");
-        self::SetFooter("public-pages/templates/footer.html.inc");
+        self::SetHeader("user-pages/templates/header.html.inc");
+        self::SetHeader("user-pages/templates/nav.html.inc");
+        self::SetFooter("user-pages/templates/footer.html.inc");
     }
 
     private function GetNavigationLinks()
@@ -59,7 +59,7 @@ class UserPagesController extends Controller
             ),
             array(
                 "name" => "Logout",
-                "url" => self::GetBaseURL('logout')
+                "url" => self::GetBaseURL('action/logout')
             )
         );
     }

@@ -86,6 +86,52 @@ class TaskManagerActionController extends Controller
 
     }
 
+    public function GetCurrentUserTasks()
+    {
+        $user_data = json_decode(Session::Get("user_data"), true);
+        $user_id = $user_data["id"];
+
+        $tasks = $this->operations->GetCurrentUserTasks($user_id);
+
+        if($tasks !== false) 
+        {
+            Http::Response(Http::OK, $tasks);
+        }
+        else 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                array(
+                    "message" => "Something went wrong. 
+                    Please refresh your browser."
+                )    
+            );
+        }
+    }
+
+    public function GetReportedTasks()
+    {
+        $user_data = json_decode(Session::Get("user_data"), true);
+        $user_id = $user_data["id"];
+
+        $tasks = $this->operations->GetReportedTasks($user_id);
+
+        if($tasks !== false) 
+        {
+            Http::Response(Http::OK, $tasks);
+        }
+        else 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, 
+                array(
+                    "message" => "Something went wrong. 
+                    Please refresh your browser."
+                )    
+            );
+        }
+    }
+
     public function AcceptTask()
     {
 

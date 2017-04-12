@@ -35,7 +35,7 @@ class FinanceTrackerActionController extends Controller
 
         $array = array(
             "BatchMemberID" => (int) $user_id,
-            "InputType" => (int) $type,
+            "IsDebit" => (int) $type,
             "Amount" => $amount,
             "IsVerified" => 0
                 );
@@ -62,7 +62,7 @@ class FinanceTrackerActionController extends Controller
     public function GetLedgerEntries()
     {
         $entries = $this->operations->GetLedgerEntries();
-        if($entries) 
+        if($entries !== false) 
         {
             Http::Response(Http::OK, $entries);
         }
@@ -80,18 +80,31 @@ class FinanceTrackerActionController extends Controller
 
     public function VerifyBalance()
     {
-        $debit = Http::Request(Http::POST, "debit");
-        $credit = Http::Request(Http::POST, "credit");
-        $temp_balance = Http::Request(Http::POST, "temp_balance");
+        $debit = 0;
+        $credit = 0;
+
+        $id = Http::Request(Http::POST, "ledger-entry-id");
 
         $debit = floatval($debit);
         $credit = floatval($credit);
 
+        $ledger_entry = $this->operations->GetLedgerEntry($id);
+
+        $is_debit = $ledger_entry[0]["IsDebit"];
+        $amount = $ledger_entry[0]["Amount"];
+
         $balance = $this->operations->GetBalance();
 
-        $new_balance = $balance + $debit - $credit;
+        if($is_debit)
+        {
+            $new_balance = $balance + $amount;
+        }
+        else
+        {
+            $new_balance = $balance - $amount;
+        }
 
-        if($this->operations->UpdateBalance($new_balance))
+        if($this->operations->UpdateBalance($new_balance, $id))
         {
             echo "Your balance has been verified. Your new balance is " . $this->operations->GetBalance() . ".";
         }
