@@ -1,10 +1,30 @@
+@import "../base/variables.scss";
+
 .breadcrumb {
 
-    .crumb::after {
-        content: " > ";
+    a {
+        color: $color-info;
+        text-decoration: none;
+        
+        &:hover, &:focus {
+            color: darken($color-info, $button-hover-darken-percentage);
+            text-decoration: underline;
+        }
     }
 
-    .crumb:last-child::after{
-        content: "";
+    .crumb {
+        display: inline-block;
+        line-height: 1.5rem;
+
+        &::before {
+            content: "/";
+            display: inline-block;
+            padding: 0 0.25rem;
+        }
+
+        &:first-child::before{
+            content: "";
+            padding: 0rem;
+        }
     }
 }

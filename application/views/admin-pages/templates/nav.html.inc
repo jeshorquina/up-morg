@@ -1,3 +1,4 @@
+<?php if(array_key_exists("nav", $page)) { ?>
 <div class="nav sticky">
     <div class="nav-content">
         <div class="left-content">
@@ -14,3 +15,4 @@
         </div>
     </div>
 </div>
+<?php } ?>

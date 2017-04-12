@@ -5,9 +5,11 @@ use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Models\StaticData;
 
 use \Jesh\Models\BatchModel;
+use \Jesh\Models\BatchMemberModel;
 
 class SystemAdministratorActionOperationsRepository extends Repository
 {
+
     public function GetPassword()
     {
         $record = self::Get(
@@ -108,5 +110,24 @@ class SystemAdministratorActionOperationsRepository extends Repository
                 "AcadYear" => $acad_year
             )
         );
+    }
+
+    public function GetBatchAcadYear($batch_id)
+    {
+        return self::Get(
+            "Batch", "AcadYear", array(
+                "BatchID" => $batch_id
+            )
+        )[0]["AcadYear"];
+    }
+
+    public function AddMemberToBatch(BatchMemberModel $batch_member)
+    {
+        return self::Insert("BatchMember", $batch_member);
+    }
+
+    public function RemoveBatchMember($batch_member_id)
+    {
+        return self::Delete("BatchMember", "BatchMemberID", $batch_member_id);
     }
 }

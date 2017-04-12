@@ -25,7 +25,7 @@ class SystemAdministratorController extends Controller
         {
             if(Session::Find("admin_data"))
             {
-                self::Redirect("admin/home");
+                self::Redirect("admin");
             }
         }
         else 
@@ -43,6 +43,7 @@ class SystemAdministratorController extends Controller
     private function SetTemplates()
     {
         self::SetHeader("admin-pages/templates/header.html.inc");
+        self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetFooter("admin-pages/templates/footer.html.inc");
     }
 
@@ -52,6 +53,10 @@ class SystemAdministratorController extends Controller
             array(
                 "name" => "Manage Batch",
                 "url" => self::GetBaseURL('admin/batch')
+            ),
+            array(
+                "name" => "Manage Members",
+                "url" => self::GetBaseURL('admin/members')
             ),
             array(
                 "name" => "Change Password",
@@ -98,7 +103,6 @@ class SystemAdministratorController extends Controller
 
     public function Batch()
     {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetBody("admin-pages/batch.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
@@ -117,7 +121,6 @@ class SystemAdministratorController extends Controller
 
     public function BatchDetails($batch_id)
     {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetBody("admin-pages/batch-details.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
@@ -137,9 +140,13 @@ class SystemAdministratorController extends Controller
         ));  
     }
 
+    public function BatchCommitteeDetails($batch_id, $committee_name)
+    {
+        
+    }
+
     public function ChangePassword()
     {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetBody("admin-pages/change-password.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),

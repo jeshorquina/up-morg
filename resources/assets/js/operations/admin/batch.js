@@ -1,4 +1,7 @@
-(function (DomHelper, AlertFactory, HttpHelper, UrlHelper, BatchOperations) {
+(function (
+  DomHelper, HttpHelper, UrlHelper, AlertFactory,
+  BatchFactory, BatchOperations
+) {
 
   BatchOperations.RenderBatches = function (source, controllerCallback) {
 
@@ -8,23 +11,19 @@
     });
   }
 
-  BatchOperations.ActivateBatch = function (
-    source, batchID, csrfObject, controllerCallback
-  ) {
+  BatchOperations.AddBatch = function (source, controllerCallback) {
 
-    var data = new FormData();
-    data.append("batch-id", batchID);
-    data.append(csrfObject.name, csrfObject.value);
+    var endpoint = source + "action/admin/batch/add";
+    var form = document.getElementById("add-batch-form");
 
-    var endpoint = source + "action/admin/batch/activate";
+    var data = new FormData(form);
 
     HttpHelper.Post(endpoint, data, function (status, responseText) {
-      BatchEntryProcessCallback(status, responseText, controllerCallback);
+      AddBatchCallback(status, responseText, controllerCallback);
     });
   }
 
   BatchOperations.EditBatch = function (source, batchID) {
-
     UrlHelper.Redirect(source + "admin/batch/details/" + batchID);
   }
 
@@ -39,109 +38,39 @@
     var endpoint = source + "action/admin/batch/delete";
 
     HttpHelper.Post(endpoint, data, function (status, responseText) {
-      BatchEntryProcessCallback(status, responseText, controllerCallback);
+      DeleteBatchCallback(status, responseText, controllerCallback);
     });
   }
 
-  BatchOperations.AddBatch = function (source, controllerCallback) {
+  BatchOperations.ActivateBatch = function (
+    source, batchID, csrfObject, controllerCallback
+  ) {
 
-    var endpoint = source + "action/admin/batch/add";
-    var form = document.getElementById("add-batch-form");
+    var data = new FormData();
+    data.append("batch-id", batchID);
+    data.append(csrfObject.name, csrfObject.value);
 
-    var data = new FormData(form);
+    var endpoint = source + "action/admin/batch/activate";
 
     HttpHelper.Post(endpoint, data, function (status, responseText) {
-      if (status == HttpHelper.CREATED) {
-        DomHelper.InputValue("batch-academic-year", "");
-      }
-      BatchEntryProcessCallback(status, responseText, controllerCallback);
+      ActivateBatchCallback(status, responseText, controllerCallback);
     });
   }
 
-  function RenderBatchesCallback(status, responseText, controllerCallback) {
+  function AddBatchCallback(status, responseText, controllerCallback) {
 
-    var response = JSON.parse(responseText);
-    var container = document.getElementById("notifications");
-
-    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
-
-      var batchContainer = document.getElementById("batch-list");
-      var batchList = response.data;
-
-      DomHelper.ClearContent(batchContainer);
-
-      for (var i = 0; i < batchList.length; i++) {
-
-        DomHelper.AppendContent(batchContainer, GetBatchRow(batchList[i]));
-        if (i == batchList.length - 1) {
-          controllerCallback();
-        }
-      }
+    if (status == HttpHelper.CREATED) {
+      DomHelper.InputValue("batch-academic-year", "");
     }
-    else {
-
-      window.scrollTo(0, 0);
-      AlertFactory.GenerateDangerAlert(container, response.message);
-    }
+    BatchEntryProcessCallback(status, responseText, controllerCallback);
   }
 
-  function GetBatchRow(batchEntry) {
+  function DeleteBatchCallback(status, responseText, controllerCallback) {
+    BatchEntryProcessCallback(status, responseText, controllerCallback);
+  }
 
-    var span = DomHelper.CreateElement(
-      "span", { "class": "table-cell" }, [
-        "Batch ", DomHelper.CreateElement(
-          "strong", {}, batchEntry.AcadYear
-        )
-      ]
-    );
-
-    var activeButton;
-    if ((new Boolean(batchEntry.IsActive)) == true) {
-
-      activeButton = DomHelper.CreateElement(
-        "button", {
-          "class": "button button-success button-small no-hover float-right",
-          "disabled": "disabled"
-        }, "Active Batch"
-      );
-    }
-    else {
-
-      activeButton = DomHelper.CreateElement(
-        "button", {
-          "class": "button button-success-border button-small activate-batch-button float-right",
-          "data-batch-id": batchEntry.BatchID,
-        }, "Activate"
-      )
-    }
-
-    var editButton = DomHelper.CreateElement(
-      "button", {
-        "class": "button button-info-border button-small edit-batch-button float-right",
-        "data-batch-id": batchEntry.BatchID,
-      }, DomHelper.CreateElement(
-        "span", {
-          "class": "icon-pencil"
-        }
-      )
-    );
-
-    var deleteButton = DomHelper.CreateElement(
-      "button", {
-        "class": "button button-danger-border button-small delete-batch-button float-right",
-        "data-batch-id": batchEntry.BatchID
-      }, DomHelper.CreateElement(
-        "span", {
-          "class": "icon-trashcan"
-        }
-      )
-    )
-
-    return DomHelper.CreateElement(
-      "li", {
-        "class": "batch-entry clearfix"
-      }, [span, deleteButton, editButton, activeButton]
-    );
+  function ActivateBatchCallback(status, responseText, controllerCallback) {
+    BatchEntryProcessCallback(status, responseText, controllerCallback);
   }
 
   function BatchEntryProcessCallback(status, responseText, controllerCallback) {
@@ -153,17 +82,47 @@
 
     if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
 
-      AlertFactory.GenerateSuccessAlert(container, response.message);
       RenderBatchesCallback(status, responseText, controllerCallback);
+      AlertFactory.GenerateSuccessAlert(container, response.message);
     }
     else {
-
       AlertFactory.GenerateDangerAlert(container, response.message);
     }
   }
 
+  function RenderBatchesCallback(status, responseText, controllerCallback) {
+
+    var response = JSON.parse(responseText);
+
+    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
+
+      FillBatchList(response.data);
+      controllerCallback();
+    }
+    else {
+
+      window.scrollTo(0, 0);
+      AlertFactory.GenerateDangerAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
+  }
+
+  function FillBatchList(batches) {
+
+    var batchContainer = document.getElementById("batch-list");
+
+    DomHelper.ClearContent(batchContainer);
+
+    batches.forEach(function (batchEntry) {
+      DomHelper.AppendContent(
+        batchContainer, BatchFactory.CreateBatchRow(batchEntry)
+      );
+    });
+  }
+
 })(
-  DomHelper, AlertFactory, HttpHelper, UrlHelper,
+  DomHelper, HttpHelper, UrlHelper, AlertFactory, BatchFactory,
   this.BatchOperations = (
     this.BatchOperations == undefined
   ) ? {} : this.BatchOperations

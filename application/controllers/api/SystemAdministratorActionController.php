@@ -8,6 +8,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\BatchModel;
+use \Jesh\Models\BatchMemberModel;
 
 class SystemAdministratorActionController extends Controller
 {
@@ -63,6 +64,60 @@ class SystemAdministratorActionController extends Controller
                     "message" => "Successfully logged out."
                 ),
                 "Location: " . self::GetBaseURL('admin')
+            );
+        }
+    }
+
+    public function ChangePassword()
+    {
+        $old_password     = Http::Request(Http::POST, "old-password");
+        $new_password     = Http::Request(Http::POST, "new-password");
+        $confirm_password = Http::Request(Http::POST, "confirm-password");
+
+         $validation = $this->operations->ValidateUpdatePasswordData(
+            array(
+                "old-password" => $old_password,
+                "new-password" => $new_password,
+                "confirm-password" => $confirm_password,
+            )    
+        );
+        
+        if($validation["status"] === false)
+        {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
+        }
+        else if($new_password !== $confirm_password)
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "new-password" => "Passwords does not match!",
+                    "confirm-password" => "Passwords does not match!"
+                )
+            );
+        }
+        else if(!$this->operations->MatchingPassword($old_password))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "old-password" => "Invalid old password provided."
+                )
+            );
+        }
+        else if(!$this->operations->ChangePassword($new_password))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Something went wrong. Password not changed."
+                )
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Password has successfully been changed.",
+                    "redirect_url" => self::GetBaseURL("action/admin/logout")
+                )
             );
         }
     }
@@ -231,46 +286,16 @@ class SystemAdministratorActionController extends Controller
         }
     }
 
-    public function ChangePassword()
+    public function GetBatchDetails($batch_id) 
     {
-        $old_password     = Http::Request(Http::POST, "old-password");
-        $new_password     = Http::Request(Http::POST, "new-password");
-        $confirm_password = Http::Request(Http::POST, "confirm-password");
-
-         $validation = $this->operations->ValidateUpdatePasswordData(
-            array(
-                "old-password" => $old_password,
-                "new-password" => $new_password,
-                "confirm-password" => $confirm_password,
-            )    
-        );
-        
-        if($validation["status"] === false)
-        {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
-        }
-        else if($new_password !== $confirm_password)
-        {
-            Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "new-password" => "Passwords does not match!",
-                    "confirm-password" => "Passwords does not match!"
-                )
-            );
-        }
-        else if(!$this->operations->MatchingPassword($old_password))
-        {
-            Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "old-password" => "Invalid old password provided."
-                )
-            );
-        }
-        else if(!$this->operations->ChangePassword($new_password))
+        if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Something went wrong. Password not changed."
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare batch details. Please refresh
+                        browser."
+                    )
                 )
             );
         }
@@ -278,8 +303,108 @@ class SystemAdministratorActionController extends Controller
         {
             Http::Response(
                 Http::OK, array(
-                    "message" => "Password has successfully been changed.",
-                    "redirect_url" => self::GetBaseURL("action/admin/logout")
+                    "message" => "Batch details successfully processed.",
+                    "data" => $batch_details
+                )
+            );
+        }
+        
+    }
+
+    public function AddBatchMember($batch_id)
+    {
+        $member_id = Http::Request(Http::POST, "member-id");
+
+        if($this->operations->MemberInBatch($batch_id, $member_id)) 
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Member is already in batch."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AddMemberToBatch(
+            new BatchMemberModel(
+                array(
+                    "BatchID" => $batch_id,
+                    "MemberID" => $member_id
+                )
+            )
+        )) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not add member to batch. Please try again."
+                    )
+                )
+            );
+        }
+        else if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare batch details. Please refresh
+                        browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => "Member successfully added to batch.",
+                    "data" => $batch_details
+                )
+            );
+        }
+    }
+
+    public function RemoveMemberFromBatch($batch_id)
+    {
+        $batch_member_id = Http::Request(Http::POST, "batch-member-id");
+
+        if(!$this->operations->BatchMemberInBatch($batch_member_id)) 
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Member is not in batch. Nothing to remove."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->RemoveMemberFromBatch($batch_member_id))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not remove member from batch. Please try again."
+                    )
+                )
+            );
+        }
+        else if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare batch details. Please refresh
+                        browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => "Member successfully removed from batch.",
+                    "data" => $batch_details
                 )
             );
         }

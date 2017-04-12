@@ -1,0 +1,37 @@
+@import "../base/variables.scss";
+
+.table {
+    border: 1px solid $color-border;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+
+    td, th {
+        border-bottom: 1px solid $color-border;
+        border-right: 1px solid $color-border;
+        padding: 0.5rem 0.25rem;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    thead tr {
+        td, th {
+            background-color: lighten($color-border, 10%);    
+        }
+    }
+
+    tbody tr {
+        &:last-child {
+            td, th {
+                border-bottom: none;
+            }
+        }
+        &:nth-child(2n) {
+            td, th {
+                background-color: lighten($color-border, 15%);
+            }
+        }
+    }
+}

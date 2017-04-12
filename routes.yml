@@ -54,6 +54,13 @@
     controller: SystemAdministratorController
     function: BatchDetails
     parameter: number
+'admin/batch/details/(:num)':
+    directory: pages
+    controller: SystemAdministratorController
+    function: BatchCommitteeDetails
+    parent: number
+    parameter: any
+
 
 # **************************************************
 # API - Admin pages
@@ -86,6 +93,21 @@
     directory: api
     controller: SystemAdministratorActionController
     function: DeleteBatch
+'action/admin/batch/details':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: GetBatchDetails
+    parameter: number
+'action/admin/batch/details/add':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: AddBatchMember
+    parameter: number
+'action/admin/batch/details/remove':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: RemoveMemberFromBatch
+    parameter: number
 
 
 # **************************************************

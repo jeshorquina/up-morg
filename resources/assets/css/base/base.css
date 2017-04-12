@@ -16,15 +16,6 @@ hr {
   border-color: #d5d5d5;
   margin: 1.25rem 0; }
 
-input[type=button]:focus, input[type=button]:hover,
-input[type=submit]:focus, input[type=submit]:hover,
-button:focus, button:hover {
-  cursor: pointer; }
-  input[type=button]:focus:disabled, input[type=button]:hover:disabled,
-  input[type=submit]:focus:disabled, input[type=submit]:hover:disabled,
-  button:focus:disabled, button:hover:disabled {
-    cursor: not-allowed; }
-
 .container {
   margin: 0 auto;
   max-width: 1000px; }

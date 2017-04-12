@@ -22,8 +22,6 @@ form#add-batch-form {
 ul#batch-list .batch-entry {
   display: table;
   width: 100%; }
-  ul#batch-list .batch-entry:nth-child(2n) {
-    background-color: #fbfbfb; }
   ul#batch-list .batch-entry .button {
     margin: 0;
     margin-left: 0.5rem; }

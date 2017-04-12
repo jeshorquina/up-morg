@@ -5,9 +5,9 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/operations/public/login.js",
             "resources/assets/js/controllers/public/login.js"
         ]
@@ -18,9 +18,9 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/operations/public/signup.js",
             "resources/assets/js/controllers/public/signup.js"
         ]
@@ -31,9 +31,9 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/operations/admin/login.js",
             "resources/assets/js/controllers/admin/login.js"
         ]
@@ -44,9 +44,9 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/operations/admin/password.js",
             "resources/assets/js/controllers/admin/password.js"
         ]
@@ -57,9 +57,10 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/batch.js",
             "resources/assets/js/operations/admin/batch.js",
             "resources/assets/js/controllers/admin/batch.js"
         ]
@@ -70,9 +71,10 @@
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/alertFactory.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/batch-details.js",
             "resources/assets/js/operations/admin/batch-details.js",
             "resources/assets/js/controllers/admin/batch-details.js"
         ]

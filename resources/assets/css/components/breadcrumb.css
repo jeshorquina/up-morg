@@ -1,5 +1,17 @@
-.breadcrumb .crumb::after {
-  content: " > "; }
+.breadcrumb a {
+  color: #0275d8;
+  text-decoration: none; }
+  .breadcrumb a:hover, .breadcrumb a:focus {
+    color: #025aa5;
+    text-decoration: underline; }
 
-.breadcrumb .crumb:last-child::after {
-  content: ""; }
+.breadcrumb .crumb {
+  display: inline-block;
+  line-height: 1.5rem; }
+  .breadcrumb .crumb::before {
+    content: "/";
+    display: inline-block;
+    padding: 0 0.25rem; }
+  .breadcrumb .crumb:first-child::before {
+    content: "";
+    padding: 0rem; }

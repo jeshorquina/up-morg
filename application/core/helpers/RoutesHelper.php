@@ -55,7 +55,7 @@ class RoutesHelper
      */
     private static function ReadFromFile($routes_file = 'routes.yml')
     {
-        return Yaml::parse(file_Get_contents(FCPATH.$routes_file));
+        return Yaml::parse(file_get_contents(FCPATH.$routes_file));
     }
 
     /**
@@ -98,6 +98,7 @@ class RoutesHelper
         try
         {
             $route_value = '';
+            $has_parent = false;
             foreach($route_properties as $key => $value) 
             {
                 switch(strtolower($key)) 
@@ -111,8 +112,12 @@ class RoutesHelper
                     case 'function':
                         self::AppendFunctionToRoute($route_value, $value);
                         break;
+                    case 'parent':
+                        self::AppendParentParameterToRoute($route_value, $value);
+                        $has_parent = true;
+                        break;
                     case 'parameter':
-                        self::AppendParameterToRoute($route_name, $route_value, $value);
+                        self::AppendParameterToRoute($route_name, $route_value, $value, $has_parent);
                         break;
                     default:
                         throw New Exception("Cannot define custom route parameter: $key");
@@ -220,6 +225,12 @@ class RoutesHelper
         }
     }
 
+
+    private static function AppendParentParameterToRoute(&$route_value, $value)
+    {
+        $route_value = sprintf('%s/%s', $route_value, '$1');
+    }
+
     /**
      * Validates the parameter and Appends to 
      * the route value when validated.
@@ -232,8 +243,11 @@ class RoutesHelper
      *
      * @throws Exception If the parameter is not a supported parameter
      */
-    private static function AppendParameterToRoute(&$route_name, &$route_value, $value)
-    {
+    private static function AppendParameterToRoute(
+        &$route_name, &$route_value, $value, $has_parent = false
+    ) {
+        $key = (!$has_parent) ? '$1' : '$2';
+
         switch(strtolower($value))
         {
             case 'number':
@@ -245,7 +259,8 @@ class RoutesHelper
             default:
                 throw new \Exception("No supported parameter of type: $value");
         }
-        $route_value = sprintf('%s/%s', $route_value, '$1');
+
+        $route_value = sprintf('%s/%s', $route_value, $key);
     }
 
     /**

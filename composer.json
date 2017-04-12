@@ -17,7 +17,9 @@
 			"Jesh\\Helpers\\": "application/helpers/",
 			"Jesh\\Models\\": "application/models/",
 			"Jesh\\Operations\\": "application/operations/",
-			"Jesh\\Repository\\": "application/repository/"
+			"Jesh\\Operations\\Helpers\\": "application/operations/helpers/",
+			"Jesh\\Repository\\": "application/repository/",
+			"Jesh\\Repository\\Helpers\\": "application/repository/helpers/"
 		},
 		"classmap": [
 			"system"
