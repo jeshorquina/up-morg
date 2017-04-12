@@ -1,0 +1,23 @@
+.card {
+  margin: 3rem auto;
+  width: 100%; }
+
+#name-search-bar-container {
+  border: 1px solid #d5d5d5;
+  border-bottom: none;
+  padding: 0.5rem 1rem;
+  width: 100%; }
+  #name-search-bar-container input {
+    margin: 0; }
+  #name-search-bar-container input[type=text] {
+    width: 100%; }
+
+#member-list li {
+  display: table;
+  width: 100%; }
+  #member-list li .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  #member-list li .table-cell {
+    display: table-cell;
+    vertical-align: middle; }

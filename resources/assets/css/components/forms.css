@@ -1,3 +1,17 @@
+input, select, textarea, button {
+  outline: none !important; }
+  input:focus, input:hover, select:focus, select:hover, textarea:focus, textarea:hover, button:focus, button:hover {
+    outline: none !important; }
+
+input[type=button]:focus, input[type=button]:hover,
+input[type=submit]:focus, input[type=submit]:hover,
+button:focus, button:hover {
+  cursor: pointer; }
+  input[type=button]:focus:disabled, input[type=button]:hover:disabled,
+  input[type=submit]:focus:disabled, input[type=submit]:hover:disabled,
+  button:focus:disabled, button:hover:disabled {
+    cursor: not-allowed; }
+
 .form-group-margin {
   margin: 0.5rem 0 1rem; }
 

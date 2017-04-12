@@ -95,9 +95,64 @@
             "resources/assets/css/components/buttons.css",
             "resources/assets/css/components/cards.css",
             "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/batch-details.css"
+        ]
+    },
+    {
+        "name": "admin/batch-details-committee.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/admin/batch-details-committee.css"
+        ]
+    },
+    {
+        "name": "admin/member.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/admin/member.css"
+        ]
+    },
+    {
+        "name": "admin/member-details.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/admin/member-details.css"
         ]
     }
 ]

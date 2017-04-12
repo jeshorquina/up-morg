@@ -6,7 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class PublicPagesController extends Controller 
+class LoggedOutPagesController extends Controller 
 {
     public function __construct()
     {

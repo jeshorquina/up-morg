@@ -4,11 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
-use \Jesh\Helpers\Security;
 
-use \Jesh\Models\MemberModel;
+use \Jesh\Operations\LoggedOut\LoggedOutActionOperations;
 
-class PublicPagesActionController extends Controller 
+class LoggedOutActionController extends Controller 
 {
     private $operations;
 
@@ -16,7 +15,7 @@ class PublicPagesActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("PublicPagesActionOperations");
+        $this->operations = new LoggedOutActionOperations;
     }
 
     public function Login()
@@ -120,16 +119,8 @@ class PublicPagesActionController extends Controller
         else 
         {
             $response = $this->operations->CreateMember(
-                new MemberModel(
-                    array(
-                        "FirstName"    => $first_name,
-                        "MiddleName"   => $middle_name,
-                        "LastName"     => $last_name,
-                        "EmailAddress" => $email,
-                        "PhoneNumber"  => $phone,
-                        "Password"     => Security::GenerateHash($first_password),
-                    )
-                )
+                $first_name, $middle_name, $last_name, 
+                $email, $phone, $first_password
             );
 
             if(!$response)

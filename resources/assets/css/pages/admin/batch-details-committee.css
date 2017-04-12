@@ -1,0 +1,45 @@
+.card {
+  margin: 3rem 0; }
+
+.member-position {
+  color: #555; }
+
+#modify-frontmen-form select {
+  width: 100%; }
+
+#add-committee-member-form {
+  width: 100%; }
+  #add-committee-member-form .form-group {
+    position: relative; }
+    #add-committee-member-form .form-group input, #add-committee-member-form .form-group select {
+      margin: 0; }
+    #add-committee-member-form .form-group select {
+      cursor: text;
+      width: 100%;
+      z-index: 99; }
+    #add-committee-member-form .form-group input[type=submit] {
+      bottom: 0;
+      height: 100%;
+      position: absolute;
+      right: 0; }
+
+.list .list-header {
+  display: table;
+  position: relative;
+  width: 100%; }
+  .list .list-header .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  .list .list-header .table-cell {
+    display: table-cell;
+    vertical-align: middle; }
+
+#committee-member-list li {
+  display: table;
+  width: 100%; }
+  #committee-member-list li .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  #committee-member-list li .table-cell {
+    display: table-cell;
+    vertical-align: middle; }

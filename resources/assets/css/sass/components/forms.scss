@@ -1,5 +1,22 @@
 @import "../base/variables.scss";
 
+input, select, textarea, button {
+    outline: none !important;
+    &:focus, &:hover {
+        outline: none !important;
+    }
+}
+
+input[type=button]:focus, input[type=button]:hover,
+input[type=submit]:focus, input[type=submit]:hover,
+button:focus, button:hover {
+    cursor: pointer;
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
 .form-group {
 
     &-margin {

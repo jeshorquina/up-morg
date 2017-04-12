@@ -17,7 +17,11 @@
 			"Jesh\\Helpers\\": "application/helpers/",
 			"Jesh\\Models\\": "application/models/",
 			"Jesh\\Operations\\": "application/operations/",
-			"Jesh\\Repository\\": "application/repository/"
+			"Jesh\\Operations\\Admin\\": "application/operations/admin/",
+			"Jesh\\Operations\\Helpers\\": "application/operations/helpers/",
+			"Jesh\\Operations\\LoggedOut\\": "application/operations/public/",
+			"Jesh\\Repository\\": "application/repository/",
+			"Jesh\\Repository\\Helpers\\": "application/repository/helpers/"
 		},
 		"classmap": [
 			"system"

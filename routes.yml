@@ -5,28 +5,28 @@
 # Pages - Public pages
 # **************************************************
 'login':
-    directory: pages
-    controller: PublicPagesController
+    directory: pages/public
+    controller: LoggedOutPagesController
     function: Login
 'sign-up':
-    directory: pages
-    controller: PublicPagesController
+    directory: pages/public
+    controller: LoggedOutPagesController
     function: Signup
 
 # **************************************************
 # API - Public pages
 # **************************************************
 'action/login':
-    directory: api
-    controller: PublicPagesActionController
+    directory: api/public
+    controller: LoggedOutActionController
     function: Login
 'action/logout':
-    directory: api
-    controller: PublicPagesActionController
+    directory: api/public
+    controller: LoggedOutActionController
     function: Logout
 'action/signup':
-    directory: api
-    controller: PublicPagesActionController
+    directory: api/public
+    controller: LoggedOutActionController
     function: Signup
 
 
@@ -34,59 +34,140 @@
 # Pages - Admin pages
 # **************************************************
 'admin':
-    directory: pages
-    controller: SystemAdministratorController
+    directory: pages/admin
+    controller: AdminPageController
     function: Home
 'admin/login':
-    directory: pages
-    controller: SystemAdministratorController
+    directory: pages/admin
+    controller: AdminPageController
     function: Login
 'admin/account/password':
-    directory: pages
-    controller: SystemAdministratorController
+    directory: pages/admin
+    controller: AdminPageController
     function: ChangePassword
+
 'admin/batch':
-    directory: pages
-    controller: SystemAdministratorController
+    directory: pages/admin
+    controller: BatchPageController
     function: Batch
 'admin/batch/details':
-    directory: pages
-    controller: SystemAdministratorController
+    directory: pages/admin
+    controller: BatchPageController
     function: BatchDetails
     parameter: number
+'admin/batch/details/(:num)':
+    directory: pages/admin
+    controller: BatchPageController
+    function: BatchCommitteeDetails
+    parent: number
+    parameter: any
+
+'admin/member':
+    directory: pages/admin
+    controller: MemberPageController
+    function: Member
+'admin/member/details/':
+    directory: pages/admin
+    controller: MemberPageController
+    function: MemberDetails
+    parameter: number
+
 
 # **************************************************
 # API - Admin pages
 # **************************************************
 'action/admin/login':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: AdminActionController
     function: Login
 'action/admin/logout':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: AdminActionController
     function: Logout
 'action/admin/account/password/change':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: AdminActionController
     function: ChangePassword
+
 'action/admin/batch':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: BatchActionController
     function: GetBatches
 'action/admin/batch/add':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: BatchActionController
     function: AddBatch
 'action/admin/batch/activate':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: BatchActionController
     function: ActivateBatch
 'action/admin/batch/delete':
-    directory: api
-    controller: SystemAdministratorActionController
+    directory: api/admin
+    controller: BatchActionController
     function: DeleteBatch
+'action/admin/batch/details':
+    directory: api/admin
+    controller: BatchActionController
+    function: GetBatchDetails
+    parameter: number
+'action/admin/batch/details/add':
+    directory: api/admin
+    controller: BatchActionController
+    function: AddBatchMember
+    parameter: number
+'action/admin/batch/details/remove':
+    directory: api/admin
+    controller: BatchActionController
+    function: RemoveMemberFromBatch
+    parameter: number
+'action/admin/batch/details/(:num)':
+    directory: api/admin
+    controller: BatchActionController
+    function: GetBatchCommitteeDetails
+    parent: number
+    parameter: any
+'action/admin/batch/details/(:num)/modify/frontman':
+    directory: api/admin
+    controller: BatchActionController
+    function: ModifyFrontmen
+    parent: number
+'action/admin/batch/details/(:num)/add/member/':
+    directory: api/admin
+    controller: BatchActionController
+    function: AddBatchCommitteeMember
+    parent: number
+    parameter: any
+'action/admin/batch/details/(:num)/remove/member/':
+    directory: api/admin
+    controller: BatchActionController
+    function: RemoveBatchCommitteeMember
+    parent: number
+    parameter: any
+'action/admin/batch/details/(:num)/make-committee-head/':
+    directory: api/admin
+    controller: BatchActionController
+    function: UpdateBatchCommitteeHead
+    parent: number
+    parameter: any
 
+'action/admin/member':
+    directory: api/admin
+    controller: MemberActionController
+    function: GetMembers
+'action/admin/member/delete':
+    directory: api/admin
+    controller: MemberActionController
+    function: DeleteMember
+'action/admin/member/details':
+    directory: api/admin
+    controller: MemberActionController
+    function: GetMemberDetails
+    parameter: number
+'action/admin/member/details/modify':
+    directory: api/admin
+    controller: MemberActionController
+    function: ModifyMemberDetails
+    parameter: number
 
 # **************************************************
 # Pages - User pages

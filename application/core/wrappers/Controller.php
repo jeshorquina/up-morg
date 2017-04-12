@@ -75,17 +75,6 @@ class Controller extends CI_Controller {
         }
     }
 
-    protected function InitializeOperations($class_name)
-    {
-        // initialize operations class in
-        // a variable with namespace
-        $class_name = "\\Jesh\\Operations\\" . trim($class_name);
-
-        // return new instance of the variable
-        // name representing the class
-        return new $class_name;
-    }
-
     protected function GetBaseURL($uri = "")
     {
         return base_url($uri);

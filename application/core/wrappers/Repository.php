@@ -17,18 +17,25 @@ abstract class Repository extends CI_Model {
     }
 
     protected function Get(
-        $table_name, $column_name, 
-        $condition_array = array(), $order_array = array())
+        $table_name, $column_name, $conditions = array(), $orders = array())
     {
         $this->db->select($column_name);
-        foreach($condition_array as $column => $value) {
+        foreach($conditions as $column => $value) {
             $this->db->where($column, $value);   
         }
-        foreach($order_array as $column => $order) {
+        foreach($orders as $column => $order) {
             $this->db->order_by($column, $order);
         }
         $query = $this->db->get($table_name);
-        return $query->result_array();   
+
+        if($query === false)
+        {
+            throw new \Exception($this->db->last_query());
+        }
+        else
+        {
+            return $query->result_array();
+        }
     }
 
     protected function Find($table_name, $column_name, $condition_array)
@@ -52,11 +59,22 @@ abstract class Repository extends CI_Model {
         return $this->db->delete($table_name);
     }
 
-    protected function Update($table_name, $condition_array, $update_array)
+    protected function Update(
+        $table_name, $condition_array, ModelInterface $object
+    )
     {
         foreach($condition_array as $column => $value) {
             $this->db->where($column, $value); 
         }
-        return $this->db->update($table_name, $update_array);
+
+        foreach($object as $key => $value)
+        {
+            if(!isset($object->$key))
+            {
+                unset($object->$key);
+            }
+        }
+
+        return $this->db->update($table_name, $object);
     }
 }

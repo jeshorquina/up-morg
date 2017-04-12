@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Models;
 
-use \Jesh\Core\Models\ModelInterface;
+use \Jesh\Core\Interfaces\ModelInterface;
 
 class TaskStatusModel implements ModelInterface
 {

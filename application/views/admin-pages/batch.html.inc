@@ -14,7 +14,7 @@
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
         </form>
 
-        <ul id="batch-list" class="list"></ul>
+        <ul id="batch-list" class="list list-strips"></ul>
 
     </div>
 

@@ -1,3 +1,43 @@
 .card {
   margin: 3rem auto;
   width: 100%; }
+
+.member-position {
+  color: #555; }
+
+#add-member-form {
+  width: 100%; }
+  #add-member-form .form-group {
+    position: relative; }
+    #add-member-form .form-group input, #add-member-form .form-group select {
+      margin: 0; }
+    #add-member-form .form-group select {
+      cursor: text;
+      width: 100%;
+      z-index: 99; }
+    #add-member-form .form-group input[type=submit] {
+      bottom: 0;
+      height: 100%;
+      position: absolute;
+      right: 0; }
+
+.list .list-header {
+  display: table;
+  position: relative;
+  width: 100%; }
+  .list .list-header .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  .list .list-header .table-cell {
+    display: table-cell;
+    vertical-align: middle; }
+
+#unassigned li {
+  display: table;
+  width: 100%; }
+  #unassigned li .button {
+    margin: 0;
+    margin-left: 0.5rem; }
+  #unassigned li .table-cell {
+    display: table-cell;
+    vertical-align: middle; }

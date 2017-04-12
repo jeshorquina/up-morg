@@ -1,0 +1,73 @@
+@import "../../base/variables.scss";
+
+.card {
+    margin: 3rem 0;
+}
+
+.member-position {
+    color: $color-text-secondary;
+}
+
+#modify-frontmen-form {
+    select {
+        width: 100%;
+    }
+}
+
+#add-committee-member-form {
+    width: 100%;
+
+    .form-group {
+        position: relative;
+
+        input, select {
+            margin: 0;
+        }
+        select {
+            cursor: text;
+            width: 100%;
+            z-index: 99;
+        }
+        input[type=submit] {
+            bottom: 0;
+            height: 100%;
+            position: absolute;
+            right: 0;
+        }
+    }
+}
+
+.list {
+    .list-header {
+        display: table;
+        position: relative;
+        width: 100%;
+        
+        .button {
+            margin: 0;
+            margin-left: 0.5rem;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+}
+
+#committee-member-list {
+    li {
+        display: table;
+        width: 100%;
+
+        .button {
+            margin: 0;
+            margin-left: 0.5rem;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+}

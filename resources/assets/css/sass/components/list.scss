@@ -2,13 +2,26 @@
 
 .list {
     border: 1px solid $color-border;
-    border-bottom: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
 
-    & li {
+    li {
         border-bottom: 1px solid $color-border;
         padding: 0.5rem 1rem;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    .list-header {
+        background-color: lighten($color-border, 10%);
+    }
+
+    &.list-strips {
+        li:nth-child(2n) {
+            background-color: lighten($color-border, 15%);
+        }
     }
 }

@@ -8,6 +8,7 @@ class CommitteeModel implements ModelInterface
     public $CommitteeID;
     public $CommitteeHeadID;
     public $CommitteeName;
+    public $IsApproved;
 
     public function __construct($array)
     {    

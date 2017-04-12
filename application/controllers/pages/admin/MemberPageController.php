@@ -5,8 +5,9 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\StringHelper;
 
-class SystemAdministratorController extends Controller
+class MemberPageController extends Controller
 {
 
     public function __construct()
@@ -25,7 +26,7 @@ class SystemAdministratorController extends Controller
         {
             if(Session::Find("admin_data"))
             {
-                self::Redirect("admin/home");
+                self::Redirect("admin");
             }
         }
         else 
@@ -43,6 +44,7 @@ class SystemAdministratorController extends Controller
     private function SetTemplates()
     {
         self::SetHeader("admin-pages/templates/header.html.inc");
+        self::SetHeader("admin-pages/templates/nav.html.inc");
         self::SetFooter("admin-pages/templates/footer.html.inc");
     }
 
@@ -52,6 +54,10 @@ class SystemAdministratorController extends Controller
             array(
                 "name" => "Manage Batch",
                 "url" => self::GetBaseURL('admin/batch')
+            ),
+            array(
+                "name" => "Manage Members",
+                "url" => self::GetBaseURL('admin/member')
             ),
             array(
                 "name" => "Change Password",
@@ -74,86 +80,47 @@ class SystemAdministratorController extends Controller
         );
     }
 
-    public function Login()
+    public function Member()
     {
-        self::SetBody("admin-pages/login.html.inc");
-		self::RenderView(array_merge(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Admin - Log In",
-                    "urls" => $this->GetPageURLs(
-                        "public/css/admin/login.css",
-                        "public/js/admin/login.js"
-                    )
-                )
-            )
-        ));
-    }
-
-    public function Home()
-    {
-        self::Redirect("admin/batch");
-    }
-
-    public function Batch()
-    {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetBody("admin-pages/batch.html.inc");
+        self::SetBody("admin-pages/member.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Admin - Batch Management",
+                    "title" => "Admin - Member Management",
                     "nav" => $this->GetNavigationLinks(),
                     "urls" => $this->GetPageURLs(
-                        "public/css/admin/batch.css",
-                        "public/js/admin/batch.js"
+                        "public/css/admin/member.css",
+                        "public/js/admin/member.js"
                     )
                 ) 
             )
         ));  
     }
 
-    public function BatchDetails($batch_id)
+    public function MemberDetails($member_id)
     {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetBody("admin-pages/batch-details.html.inc");
+        self::SetBody("admin-pages/member-details.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Admin - Batch Details",
+                    "title" => "Admin - Member Details",
                     "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/admin/batch-details.css",
-                        "public/js/admin/batch-details.js"
+                    "urls" => array_merge(
+                        $this->GetPageURLs(
+                            "public/css/admin/member-details.css",
+                            "public/js/admin/member-details.js"
+                        ),
+                        array(
+                            "member_details" => self::GetBaseURL("admin/member")
+                        )
                     ),
                     "details" => array(
-                        "batch_id" => $batch_id
+                        "member_id" => $member_id
                     )
                 ) 
             )
         ));  
     }
-
-    public function ChangePassword()
-    {
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetBody("admin-pages/change-password.html.inc");
-        self::RenderView(array_merge(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Admin - Change Password",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/admin/password.css",
-                        "public/js/admin/password.js"
-                    )
-                ) 
-            )
-        ));
-    }
-
 }

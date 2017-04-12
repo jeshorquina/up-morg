@@ -1,20 +1,21 @@
 <?php
-namespace Jesh\Operations;
+namespace Jesh\Operations\LoggedOut;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
-use \Jesh\Repository\PublicPagesActionOperationsRepository;
 
-class PublicPagesActionOperations
+use \Jesh\Operations\Helpers\MemberOperations;
+
+class LoggedOutActionOperations
 {
-    private $repository;
+    private $member;
 
     public function __construct()
     {
-        $this->repository = new PublicPagesActionOperationsRepository;
+        $this->member = new MemberOperations;
     }
 
     public function ValidateLoginData($username, $password)
@@ -33,28 +34,30 @@ class PublicPagesActionOperations
 
     public function ExistingUsername($username)
     {
-        return $this->repository->GetUsernameExists($username);
+        return $this->member->HasEmailAddress($username);
     }
 
     public function MatchingPassword($username, $password) 
     {
         return Security::CheckPassword($password, 
-            $this->repository->GetPassword($username)
+            $this->member->GetPasswordByEmailAddress($username)
         );
     }
 
     public function SetLoggedInState($username)
     {
-        $member = $this->repository->GetMemberData($username);
+        $member_details = $this->member->GetMember(
+            $this->member->GetMemberIDByEmailAddress($username)
+        );
 
         return Session::Set("user_data", json_encode(
             array(
-                "id"            => $member->MemberID,
-                "first_name"    => $member->FirstName,
-                "middle_name"   => $member->MiddleName,
-                "last_name"     => $member->LastName,
-                "email_address" => $username,
-                "phone_number"  => $member->PhoneNumber
+                "id"            => $member_details->MemberID, // should be batch member id
+                "first_name"    => $member_details->FirstName,
+                "middle_name"   => $member_details->MiddleName,
+                "last_name"     => $member_details->LastName,
+                "email_address" => $member_details->EmailAddress,
+                "phone_number"  => $member_details->PhoneNumber
             )
         ));
     }
@@ -81,20 +84,33 @@ class PublicPagesActionOperations
         );
     }
 
-    public function CreateMember(MemberModel $member)
+    public function CreateMember(
+        $first_name, $middle_name, $last_name, $email, $phone, $password
+    )
     {
-        if($this->repository->InsertMemberToDatabase($member))
+        $member_details = new MemberModel(
+            array(
+                "FirstName"    => $first_name,
+                "MiddleName"   => $middle_name,
+                "LastName"     => $last_name,
+                "EmailAddress" => $email,
+                "PhoneNumber"  => $phone,
+                "Password"     => Security::GenerateHash($password),
+            )
+        );
+
+        if(!$this->member->Add($member_details))
         {
             return array(
-                "status" => true,
-                "data" => "Member has been successfully created."
+                "status" => false,
+                "data" => "Member has not been successfully created."
             );
         }
         else
         {
             return array(
-                "status" => false,
-                "data" => "Member has not been successfully created."
+                "status" => true,
+                "data" => "Member has been successfully created."
             );
         }
     }

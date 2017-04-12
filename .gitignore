@@ -12,7 +12,7 @@ composer.lock
 !/resources/assets/css/vendor/
 !/resources/assets/css/source.json
 !/resources/assets/js/
-/public/
+/public/*
 !/public/fonts/
 
 *.yml
