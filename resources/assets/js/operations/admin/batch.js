@@ -1,6 +1,6 @@
 (function (
   DomHelper, HttpHelper, UrlHelper, AlertFactory,
-  BatchFactory, BatchOperations
+  MemberFactory, MemberOperations
 ) {
 
   BatchOperations.RenderBatches = function (source, controllerCallback) {

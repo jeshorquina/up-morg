@@ -60,6 +60,10 @@
     function: BatchCommitteeDetails
     parent: number
     parameter: any
+'admin/members':
+    directory: pages
+    controller: SystemAdministratorController
+    function: Member
 
 
 # **************************************************
@@ -108,6 +112,10 @@
     controller: SystemAdministratorActionController
     function: RemoveMemberFromBatch
     parameter: number
+'action/admin/members':
+    directory: api
+    controller: SystemAdministratorActionController
+    function: GetAllMembers
 
 
 # **************************************************

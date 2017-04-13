@@ -311,6 +311,27 @@ class SystemAdministratorActionController extends Controller
         
     }
 
+    public function GetAllMembers()
+    {
+        if(!$members = $this->operations->GetAllMembers()) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => "Unable to get members. Please try again."
+                )    
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Members successfully retrieved.",
+                    "data" => $members
+                )
+            );
+        }
+    }
+
     public function AddBatchMember($batch_id)
     {
         $member_id = Http::Request(Http::POST, "member-id");

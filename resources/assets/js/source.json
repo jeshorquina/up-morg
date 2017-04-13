@@ -130,5 +130,19 @@
             "resources/assets/js/operations/user-pages/availability.js",
             "resources/assets/js/controllers/user-pages/availability.js"
         ]
+    },
+    {
+        "name": "admin/member.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/admin/member.js",
+            "resources/assets/js/operations/admin/member.js",
+            "resources/assets/js/controllers/admin/member.js"
+        ]
     }
 ]

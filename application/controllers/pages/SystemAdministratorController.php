@@ -145,6 +145,24 @@ class SystemAdministratorController extends Controller
         
     }
 
+    public function Member()
+    {
+        self::SetBody("admin-pages/members.html.inc");
+        self::RenderView(array_merge(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Admin - Manage Members",
+                    "nav" => $this->GetNavigationLinks(),
+                    "urls" => $this->GetPageURLs(
+                        "public/css/admin/batch.css",
+                        "public/js/admin/member.js"
+                    )
+                ) 
+            )
+        ));  
+    }
+
     public function ChangePassword()
     {
         self::SetBody("admin-pages/change-password.html.inc");

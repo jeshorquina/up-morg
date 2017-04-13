@@ -56,6 +56,13 @@ class SystemAdministratorActionOperationsRepository extends Repository
         );
     }
 
+    public function GetAllMembers()
+    {
+        return self::Get(
+            "Member", "MemberID, FirstName, MiddleName, LastName, EmailAddress, PhoneNumber"
+        );
+    }
+
     public function InsertBatchToDatabase(Batchmodel $batch)
     {
         return self::Insert("Batch", $batch);

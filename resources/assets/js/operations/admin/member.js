@@ -1,6 +1,6 @@
 (function (
   DomHelper, HttpHelper, UrlHelper, AlertFactory,
-  BatchFactory, BatchOperations
+  MemberFactory, MemberOperations
 ) {
 
     MemberOperations.RenderMembers = function (source, controllerCallback) {
@@ -29,7 +29,7 @@
     }
   }
 
-  function FillMemberList(batches) {
+  function FillMemberList(members) {
 
     var memberContainer = document.getElementById("member-list");
 
@@ -43,7 +43,7 @@
   }
 
 })(
-  DomHelper, HttpHelper, UrlHelper, AlertFactory, BatchFactory,
+  DomHelper, HttpHelper, UrlHelper, AlertFactory, MemberFactory,
   this.MemberOperations = (
     this.MemberOperations == undefined
   ) ? {} : this.MemberOperations

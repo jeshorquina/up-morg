@@ -6,9 +6,19 @@
 
         <hr>
 
-        <ul id="member-list" class="list list-strips">
-            
-        </ul>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Email Address</th>
+                <th>Phone Number</th>
+            </thead>
+            <tbody id="member-list" class="">
+
+            </tbody>
+        </table>
 
     </div>
 

@@ -83,6 +83,24 @@ class SystemAdministratorActionOperations
         return (sizeof($batches) != 0) ? $batches : false;
     }
 
+    public function GetAllMembers()
+    {
+        $members = array();
+        foreach($this->repository->GetAllMembers() as $member)
+        {
+            $new_member["memberID"] = $member["MemberID"];
+            $new_member["firstName"] = $member["FirstName"];
+            $new_member["middleName"] = $member["MiddleName"];
+            $new_member["lastName"] = $member["LastName"];
+            $new_member["emailAddress"] = $member["EmailAddress"];
+            $new_member["phoneNumber"] = $member["PhoneNumber"];
+
+            $members[] = $new_member;
+        }
+
+        return (sizeof($members) != 0) ? $members : false;
+    }
+
     public function CheckAcadYearFormat($input)
     {
         $isValidFormat = filter_var(
