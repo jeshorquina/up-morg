@@ -1,6 +1,8 @@
 'index':
     controller: IndexController
 
+
+
 # **************************************************
 # Pages - Public pages
 # **************************************************
@@ -12,6 +14,8 @@
     directory: pages/public
     controller: LoggedOutPagesController
     function: Signup
+
+
 
 # **************************************************
 # API - Public pages
@@ -30,6 +34,7 @@
     function: Signup
 
 
+
 # **************************************************
 # Pages - Admin pages
 # **************************************************
@@ -45,6 +50,7 @@
     directory: pages/admin
     controller: AdminPageController
     function: ChangePassword
+
 
 'admin/batch':
     directory: pages/admin
@@ -62,6 +68,7 @@
     parent: number
     parameter: any
 
+
 'admin/member':
     directory: pages/admin
     controller: MemberPageController
@@ -71,6 +78,7 @@
     controller: MemberPageController
     function: MemberDetails
     parameter: number
+
 
 
 # **************************************************
@@ -88,6 +96,7 @@
     directory: api/admin
     controller: AdminActionController
     function: ChangePassword
+
 
 'action/admin/batch':
     directory: api/admin
@@ -150,6 +159,7 @@
     parent: number
     parameter: any
 
+
 'action/admin/member':
     directory: api/admin
     controller: MemberActionController
@@ -169,103 +179,86 @@
     function: ModifyMemberDetails
     parameter: number
 
+
+
 # **************************************************
 # Pages - User pages
 # **************************************************
-'home':
-    directory: pages
-    controller: UserPagesController
-    function: Home
 'task-manager':
-    directory: pages
-    controller: UserPagesController
+    directory: pages/user
+    controller: TaskManagerPageController
     function: TaskManager
-'availability-tracker':
-    directory: pages
-    controller: UserPagesController
-    function: AvailabilityTracker
-'calendar':
-    directory: pages
-    controller: UserPagesController
-    function: Calendar
-'finance-tracker':
-    directory: pages
-    controller: UserPagesController
-    function: FinanceTracker
-
-
-# **************************************************
-# API - Task Manager Pages
-# **************************************************
-'action/task-manager/add-task':
-    directory: api
-    controller: TaskManagerActionController
-    function: AddTask
-'action/task-manager/submit-task':
-    directory: api
-    controller: TaskManagerActionController
-    function: SubmitTask
-
-# **************************************************
-# Pages - Task Manager Pages
-# **************************************************
 'task-manager/full-task':
-    directory: pages
-    controller: TaskManagerController
+    directory: pages/user
+    controller: TaskManagerPageController
     function: FullTask
 
-# **************************************************
-# API - Finance Tracker Pages
-# **************************************************
-'action/finance-tracker/add-debit-credit':
-    directory: api
-    controller: FinanceTrackerActionController
-    function: AddDebitCredit
-'action/finance-tracker/verify-balance':
-    directory: api
-    controller: FinanceTrackerActionController
-    function: VerifyBalance
-'action/finance-tracker/approve-statement':
-    directory: api
-    controller: FinanceTrackerActionController
-    function: ApproveStatement
 
-# **************************************************
-# Pages - Finance Tracker Pages
-# **************************************************
+'availability-tracker':
+    directory: pages/user
+    controller: AvailabilityTrackerPageController
+    function: AvailabilityTracker
+'availability-tracker/add-custom-group':
+    directory: pages/user
+    controller: AvailabilityTrackerPageController
+    function: AddCustomGroup
+
+
+'calendar':
+    directory: pages/user
+    controller: CalendarPageController
+    function: Calendar
+'action/calendar/add-event':
+    directory: api/user
+    controller: CalendarActionController
+    function: AddEvent
+
+
+'finance-tracker':
+    directory: pages/user
+    controller: FinanceTrackerPageController
+    function: FinanceTracker
 'finance-tracker/generate-statement':
-    directory: pages
-    controller: FinanceTrackerController
+    directory: pages/user
+    controller: FinanceTrackerPageController
     function: GenerateStatement
 
 # **************************************************
-# API - Availability Tracker Pages
+# API - User Pages
 # **************************************************
+'action/task-manager/add-task':
+    directory: api/user
+    controller: TaskManagerActionController
+    function: AddTask
+'action/task-manager/submit-task':
+    directory: api/user
+    controller: TaskManagerActionController
+    function: SubmitTask
+
+
 'action/availability-tracker/update-schedule':
-    directory: api
+    directory: api/user
     controller: AvailabilityTrackerActionController
     function: UpdateSchedule
 'action/availability-tracker/delete-group':
-    directory: api
+    directory: api/user
     controller: AvailabilityTrackerActionController
     function: DeleteGroup
 'action/availability-tracker/create-new-group':
-    directory: api
+    directory: api/user
     controller: AvailabilityTrackerActionController
     function: CreateNewGroup
 
-# **************************************************
-# Pages - Availability Tracker Pages
-# **************************************************
-'availability-tracker/add-custom-group':
-    directory: pages
-    controller: AvailabilityTrackerController
-    function: AddCustomGroup
 
-# **************************************************
-# API - Calendar Pages
-# **************************************************
-'action/calendar/add-event':
-    directory: api
-    controller: CalendarActionController
-    function: AddEvent
+'action/finance-tracker/add-debit-credit':
+    directory: api/user
+    controller: FinanceTrackerActionController
+    function: AddDebitCredit
+'action/finance-tracker/verify-balance':
+    directory: api/user
+    controller: FinanceTrackerActionController
+    function: VerifyBalance
+'action/finance-tracker/approve-statement':
+    directory: api/user
+    controller: FinanceTrackerActionController
+    function: ApproveStatement

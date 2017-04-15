@@ -6,16 +6,16 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class TaskManagerController extends Controller 
+class CalendarPageController extends Controller 
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function FullTask()
+    public function Calendar()
     {
-        self::SetBody("user-pages/minor-pages/task.html.inc");
+        self::SetBody("user-pages/calendar.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 }
