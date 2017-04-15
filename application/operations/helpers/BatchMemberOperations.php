@@ -3,7 +3,7 @@ namespace Jesh\Operations\Helpers;
 
 use \Jesh\Models\BatchMemberModel;
 
-use \Jesh\Repository\Helpers\BatchMemberOperationsRepository;
+use \Jesh\Repository\BatchMemberOperationsRepository;
 
 class BatchMemberOperations
 {

@@ -20,8 +20,7 @@
 			"Jesh\\Operations\\Admin\\": "application/operations/admin/",
 			"Jesh\\Operations\\Helpers\\": "application/operations/helpers/",
 			"Jesh\\Operations\\LoggedOut\\": "application/operations/public/",
-			"Jesh\\Repository\\": "application/repository/",
-			"Jesh\\Repository\\Helpers\\": "application/repository/helpers/"
+			"Jesh\\Repository\\": "application/repository/"
 		},
 		"classmap": [
 			"system"

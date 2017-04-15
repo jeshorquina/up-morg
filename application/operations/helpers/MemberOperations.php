@@ -5,7 +5,7 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\MemberModel;
 
-use \Jesh\Repository\Helpers\MemberOperationsRepository;
+use \Jesh\Repository\MemberOperationsRepository;
 
 class MemberOperations
 {

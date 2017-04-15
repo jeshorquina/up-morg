@@ -7,7 +7,7 @@ use \Jesh\Models\CommitteeMemberModel;
 
 use \Jesh\Operations\Helpers\BatchMemberOperations;
 
-use \Jesh\Repository\Helpers\CommitteeOperationsRepository;
+use \Jesh\Repository\CommitteeOperationsRepository;
 
 class CommitteeOperations
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Operations\Helpers;
 
-use \Jesh\Repository\Helpers\StaticDataOperationsRepository;
+use \Jesh\Repository\StaticDataOperationsRepository;
 
 class StaticDataOperations
 {

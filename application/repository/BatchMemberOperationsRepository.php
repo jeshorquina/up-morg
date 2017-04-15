@@ -1,5 +1,5 @@
 <?php
-namespace Jesh\Repository\Helpers;
+namespace Jesh\Repository;
 
 use \Jesh\Core\Wrappers\Repository;
 
