@@ -43,9 +43,9 @@ class MemberPageController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("admin-pages/templates/header.html.inc");
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetFooter("admin-pages/templates/footer.html.inc");
+        self::SetHeader("admin/templates/header.html.inc");
+        self::SetHeader("admin/templates/nav.html.inc");
+        self::SetFooter("admin/templates/footer.html.inc");
     }
 
     private function GetNavigationLinks()
@@ -82,7 +82,7 @@ class MemberPageController extends Controller
 
     public function Member()
     {
-        self::SetBody("admin-pages/member.html.inc");
+        self::SetBody("admin/member.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
@@ -100,7 +100,7 @@ class MemberPageController extends Controller
 
     public function MemberDetails($member_id)
     {
-        self::SetBody("admin-pages/member-details.html.inc");
+        self::SetBody("admin/subdirectory/member-details.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(

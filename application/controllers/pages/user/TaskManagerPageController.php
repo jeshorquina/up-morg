@@ -15,13 +15,13 @@ class TaskManagerPageController extends Controller
 
     public function TaskManager()
     {
-        self::SetBody("user-pages/task-manager.html.inc");
+        self::SetBody("user/task-manager.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 
     public function FullTask()
     {
-        self::SetBody("user-pages/minor-pages/task.html.inc");
+        self::SetBody("user/subdirectory/task.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 }

@@ -15,7 +15,7 @@ class CalendarPageController extends Controller
 
     public function Calendar()
     {
-        self::SetBody("user-pages/calendar.html.inc");
+        self::SetBody("user/calendar.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 }

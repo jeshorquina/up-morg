@@ -9,4 +9,9 @@ class IndexController extends Controller
     {
         self::Redirect("login");
     }
+
+    public function UserHomepage()
+    {
+        self::Redirect("task-manager");
+    }
 }

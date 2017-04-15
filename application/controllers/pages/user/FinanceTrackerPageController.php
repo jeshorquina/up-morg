@@ -15,13 +15,13 @@ class FinanceTrackerPageController extends Controller
 
     public function FinanceTracker()
     {
-        self::SetBody("user-pages/finance-tracker.html.inc");
+        self::SetBody("user/finance-tracker.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 
     public function GenerateStatement()
     {
-        self::SetBody("user-pages/minor-pages/financial-statement.html.inc");
+        self::SetBody("user/subdirectory/financial-statement.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 }

@@ -15,13 +15,13 @@ class AvailabilityTrackerPageController extends Controller
 
     public function AvailabilityTracker()
     {
-        self::SetBody("user-pages/availability-tracker.html.inc");
+        self::SetBody("user/availability-tracker.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 
     public function AddCustomGroup()
     {
-        self::SetBody("user-pages/minor-pages/add-custom-group.html.inc");
+        self::SetBody("user/subdirectory/add-custom-group.html.inc");
         self::RenderView(Security::GetCSRFData());
     }
 }

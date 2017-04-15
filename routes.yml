@@ -1,6 +1,8 @@
 'index':
     controller: IndexController
-
+'home':
+    controller: IndexController
+    function: UserHomepage
 
 
 # **************************************************

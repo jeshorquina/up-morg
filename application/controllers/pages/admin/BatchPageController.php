@@ -43,9 +43,9 @@ class BatchPageController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("admin-pages/templates/header.html.inc");
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetFooter("admin-pages/templates/footer.html.inc");
+        self::SetHeader("admin/templates/header.html.inc");
+        self::SetHeader("admin/templates/nav.html.inc");
+        self::SetFooter("admin/templates/footer.html.inc");
     }
 
     private function GetNavigationLinks()
@@ -82,7 +82,7 @@ class BatchPageController extends Controller
 
     public function Batch()
     {
-        self::SetBody("admin-pages/batch.html.inc");
+        self::SetBody("admin/batch.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
@@ -100,7 +100,7 @@ class BatchPageController extends Controller
 
     public function BatchDetails($batch_id)
     {
-        self::SetBody("admin-pages/batch-details.html.inc");
+        self::SetBody("admin/subdirectory/batch-details.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
@@ -123,11 +123,15 @@ class BatchPageController extends Controller
     {
         if($committee_name == "frontman") 
         {
-            self::SetBody("admin-pages/batch-details-frontman.html.inc");
+            self::SetBody(
+                "admin/subdirectory/batch-details-frontman.html.inc"
+            );
         }
         else 
         {
-            self::SetBody("admin-pages/batch-details-committee.html.inc");    
+            self::SetBody(
+                "admin/subdirectory/batch-details-committee.html.inc"
+            );    
         }
 
         self::RenderView(array_merge(

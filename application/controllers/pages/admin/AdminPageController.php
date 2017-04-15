@@ -41,9 +41,9 @@ class AdminPageController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("admin-pages/templates/header.html.inc");
-        self::SetHeader("admin-pages/templates/nav.html.inc");
-        self::SetFooter("admin-pages/templates/footer.html.inc");
+        self::SetHeader("admin/templates/header.html.inc");
+        self::SetHeader("admin/templates/nav.html.inc");
+        self::SetFooter("admin/templates/footer.html.inc");
     }
 
     private function GetNavigationLinks()
@@ -80,7 +80,7 @@ class AdminPageController extends Controller
 
     public function Login()
     {
-        self::SetBody("admin-pages/login.html.inc");
+        self::SetBody("admin/login.html.inc");
 		self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
@@ -102,7 +102,7 @@ class AdminPageController extends Controller
 
     public function ChangePassword()
     {
-        self::SetBody("admin-pages/change-password.html.inc");
+        self::SetBody("admin/change-password.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(

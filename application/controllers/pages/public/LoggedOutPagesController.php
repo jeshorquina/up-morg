@@ -33,11 +33,11 @@ class LoggedOutPagesController extends Controller
     {
         self::SetHeader(
             array(
-                "public-pages/templates/header.html.inc",
-                "public-pages/templates/nav.html.inc"
+                "public/templates/header.html.inc",
+                "public/templates/nav.html.inc"
             )
         );
-        self::SetFooter("public-pages/templates/footer.html.inc");
+        self::SetFooter("public/templates/footer.html.inc");
     }
 
     private function GetNavigationLinks()
@@ -66,7 +66,7 @@ class LoggedOutPagesController extends Controller
 
     public function Login()
     {
-        self::SetBody("public-pages/login.html.inc");
+        self::SetBody("public/login.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
@@ -84,7 +84,7 @@ class LoggedOutPagesController extends Controller
 
     public function Signup()
     {
-        self::SetBody("public-pages/signup.html.inc");
+        self::SetBody("public/signup.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(
