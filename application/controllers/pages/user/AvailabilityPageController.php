@@ -3,10 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
-use \Jesh\Operations\User\Helpers\PermissionHelper;
-
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\PermissionHelper;
 
 class AvailabilityPageController extends Controller 
 {
@@ -14,20 +13,10 @@ class AvailabilityPageController extends Controller
     {
         parent::__construct();
 
-        if($this->CheckAccess()) 
+        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL())) 
         {
             $this->SetTemplates();
         }
-    }
-
-    private function CheckAccess()
-    {
-        if(!Session::Find("user_data"))
-        {
-            self::Redirect();
-        }
-
-        return true; 
     }
 
     private function SetTemplates()

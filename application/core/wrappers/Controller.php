@@ -80,6 +80,11 @@ class Controller extends CI_Controller {
         return base_url($uri);
     }
 
+    protected function GetCurrentURL()
+    {
+        return base_url(uri_string());
+    }
+
     protected function Redirect($uri = "")
     {
         header("Location: " . $this->GetBaseURL($uri));

@@ -41,7 +41,11 @@ Class Session
 
     public static function Clear()
     {
-        self::End();
+        self::Open();
+        unset($_SESSION);
+        self::Close();
+        
+        return !isset($_SESSION);
     }
 
     public static function End()

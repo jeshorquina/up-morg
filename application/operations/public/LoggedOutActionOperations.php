@@ -76,11 +76,28 @@ class LoggedOutActionOperations
         $batch_array = array();
         $committee_array = array();
         $subordinates_array = array();
+        $flags_array = array(
+            "is_batch_member" => false,
+            "is_committee_member" => false,
+            "is_frontman" => false,
+            "is_head" => false,
+            "is_finance" => false
+        );
 
         if($batch_member !== null)
         {
+            $flags_array["is_batch_member"] = true;
+
             $batch_array["id"] = $batch_id;
             $batch_array["member_id"] = $batch_member->BatchMemberID;
+
+            $subordinates_array = (
+                $this->permission->GetSubordinateBatchMemberIDs(
+                    $batch_array["member_id"], 
+                    $batch_id, 
+                    $batch_member->MemberTypeID
+                )
+            );
 
             if($this->committee->HasBatchMember($batch_array["member_id"]))
             {
@@ -94,15 +111,25 @@ class LoggedOutActionOperations
                         $batch_array["member_id"]
                     )
                 );
-            }
 
-            $subordinates_array = (
-                $this->permission->GetSubordinateBatchMemberIDs(
-                    $batch_array["member_id"], 
-                    $batch_id, 
-                    $batch_member->MemberTypeID
-                )
-            );
+                $flags_array["is_committee_member"] = true;
+                $flags_array["is_frontman"] = false;
+                $flags_array["is_head"] = (
+                    $this->member->GetMemberType(
+                        $batch_member->MemberTypeID
+                    ) === "Committee Head"
+                );
+                $flags_array["is_finance"] = (
+                    $this->committee->GetCommitteeName(
+                        $committee_array["id"]
+                    ) === "Finance"
+                );
+            }
+            else if(sizeof($subordinates_array) !== 0)
+            {
+                $flags_array["is_frontman"] = true;
+                $flags_array["is_finance"] = true;
+            }
         }
 
         Session::Clear();
@@ -118,7 +145,8 @@ class LoggedOutActionOperations
                 ),
                 "batch"        => $batch_array,
                 "committee"    => $committee_array, 
-                "subordinates" => $subordinates_array
+                "subordinates" => $subordinates_array,
+                "flags"        => $flags_array
             )
         ));
     }

@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\PermissionHelper;
 
 class MemberPageController extends Controller 
 {
@@ -12,20 +13,10 @@ class MemberPageController extends Controller
     {
         parent::__construct();
 
-        if($this->CheckAccess()) 
+        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL())) 
         {
             $this->SetTemplates();
         }
-    }
-
-    private function CheckAccess()
-    {
-        if(!Session::Find("user_data"))
-        {
-            self::Redirect();
-        }
-
-        return true; 
     }
 
     private function SetTemplates()

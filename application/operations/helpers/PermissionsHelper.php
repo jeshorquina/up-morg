@@ -14,20 +14,6 @@ class PermissionsHelper
         $this->member = new MemberOperations;
     }
 
-    public function GetAllSubordinateBatchMemberIDs(
-        $batch_member_id, $batch_id, $member_type_id
-    )
-    {
-
-    }
-
-    public function GetAssignedSubordinateBatchMemberIDs(
-        $batch_member_id, $batch_id, $member_type_id
-    )
-    {
-
-    }
-
     public function GetSubordinateBatchMemberIDs(
         $batch_member_id, $batch_id, $member_type_id
     )
@@ -87,15 +73,13 @@ class PermissionsHelper
                 )
             );
         }
-        else
+        else if ($member_type == "Committee Member")
         {
             return array($batch_member_id);
         }
+        else 
+        {
+            return array();
+        }
     }
-
-    public function GetUserNavigation($batch_member_id)
-    {
-
-    }
-
 }

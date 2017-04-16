@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
+use \Jesh\Helpers\PermissionHelper;
 
 use \Jesh\Operations\User\MemberActionOperations;
 
@@ -15,7 +16,10 @@ class MemberActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = new MemberActionOperations;
+        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL(), true)) 
+        {
+            $this->operations = new MemberActionOperations;
+        }
     }
 
 }

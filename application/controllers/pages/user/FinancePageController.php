@@ -5,26 +5,18 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\PermissionHelper;
 
 class FinancePageController extends Controller 
-{public function __construct()
+{
+    public function __construct()
     {
         parent::__construct();
 
-        if($this->CheckAccess()) 
+        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL(), true)) 
         {
             $this->SetTemplates();
         }
-    }
-
-    private function CheckAccess()
-    {
-        if(!Session::Find("user_data"))
-        {
-            self::Redirect();
-        }
-
-        return true; 
     }
 
     private function SetTemplates()
