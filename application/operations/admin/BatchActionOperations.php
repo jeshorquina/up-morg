@@ -39,8 +39,16 @@ class BatchActionOperations
 
     public function GetBatches()
     {
-        return Sort::AssociativeArray(
-            $this->batch->GetBatches(), "AcadYear", Sort::DESCENDING
+        $activeBatch = $this->batch->GetActiveBatchID();
+
+        $batches = array();
+        foreach($this->batch->GetBatches() as $batch)
+        {
+            $batch->IsActive = ($batch->BatchID == $activeBatch);
+            $batches[] = $batch;
+        }
+        return (sizeof($batches) == 0) ? false : Sort::ObjectArray(
+            $batches, "AcadYear", Sort::DESCENDING
         );
     }
 
@@ -72,9 +80,13 @@ class BatchActionOperations
         return $this->batch->HasAcadYear($acad_year);
     }
 
-    public function CreateBatch(Batchmodel $batch)
+    public function CreateBatch($academic_year)
     {
-        return $this->batch->Add($batch);
+        return $this->batch->Add(
+            new BatchModel(
+                array("AcadYear" => $academic_year)
+            )
+        );
     }
 
     public function HasFrontmen($batch_id)
@@ -90,15 +102,16 @@ class BatchActionOperations
 
     public function HasCommitteeHeads($batch_id)
     {
-        $batch_members = (
-            $this->batch_member->GetBatchMembersByBatchID($batch_id)
+        $batch_members = Sort::ObjectArray(
+            $this->batch_member->GetBatchMembers($batch_id), 
+            "BatchMemberID", Sort::ASCENDING
         );
 
         $committee_head_type = $this->member->GetMemberTypeID("Committee Head");
         $committee_head_count = sizeof($this->committee->GetCommittees());
         foreach($batch_members as $batch_member)
         {
-            if($batch_member["MemberTypeID"] == $committee_head_type)
+            if($batch_member->MemberTypeID == $committee_head_type)
             {
                 $committee_head_count--;
             }
@@ -138,9 +151,16 @@ class BatchActionOperations
         return $this->batch_member->HasMember($batch_id, $member_id);
     }
 
-    public function AddMemberToBatch(BatchMemberModel $batch_member)
+    public function AddMemberToBatch($batch_id, $member_id)
     {
-        return $this->batch_member->AddBatchMember($batch_member);
+        return $this->batch_member->AddBatchMember(
+            new BatchMemberModel(
+                array(
+                    "BatchID" => $batch_id,
+                    "MemberID" => $member_id
+                )
+            )
+        );
     }
 
     public function BatchMemberInBatch($batch_member_id)
@@ -169,9 +189,9 @@ class BatchActionOperations
 
     public function GetBatchCommitteeDetails($batch_id, $committee_name)
     {
-        $batch_members = Sort::AssociativeArray(
-            $this->batch_member->GetBatchMembersByBatchID($batch_id), 
-            "BatchMemberID"
+        $batch_members = Sort::ObjectArray(
+            $this->batch_member->GetBatchMembers($batch_id), 
+            "BatchMemberID", Sort::ASCENDING
         );
         $committee_members = $this->GetBatchCommitteeMembers(
             $committee_name, $batch_members
@@ -255,21 +275,23 @@ class BatchActionOperations
             "third" => null
         );
 
-        $batch_members = $this->batch_member->GetBatchMembersByBatchID(
-            $batch_id
+        $batch_members = Sort::ObjectArray(
+            $this->batch_member->GetBatchMembers($batch_id), 
+            "BatchMemberID", Sort::ASCENDING
         );
         foreach($batch_members as $batch_member) 
         {
             foreach ($frontmen_types as $key => $frontman_type) 
             {
-               if($batch_member["MemberTypeID"] == $frontman_type) 
+               if($batch_member->MemberTypeID == $frontman_type) 
                {
-                    $old_frontmen[$key] = $batch_member["BatchMemberID"];
+                    $old_frontmen[$key] = $batch_member->BatchMemberID;
                 }
             }
         }
 
         $has_change = false;
+        $active_batch_removed = false;
         foreach($old_frontmen as $key => $old_frontman_id)
         {
             $new_frontman_id = $new_frontmen[$key];
@@ -279,34 +301,29 @@ class BatchActionOperations
             {
                 $has_change = true;
 
-                $removed = false;
-                if($old_frontman_id != null) 
+                if($old_frontman_id !== null) 
                 {
-                   $removed = $this->batch_member->RemoveMemberType($old_frontman_id);
+                    $this->batch_member->RemoveMemberType($old_frontman_id);
                 }
 
-                if($removed) 
+                if($new_frontman_id != 0)
                 {
-                    if($new_frontman_id != 0)
+                    if($this->committee->HasBatchMember($new_frontman_id))
                     {
-                        $has_committee_member = $this->committee->HasBatchMemberID(
-                            $new_frontman_id
-                        );
-                        if($has_committee_member)
-                        {
-                            $this->committee->RemoveMemberByBatchMemberID(
+                        $this->committee->RemoveCommitteeMember(
+                            $this->committee->GetCommitteeIDByBatchMemberID(
                                 $new_frontman_id
-                            );
-                        }
+                            )
+                        );
+                    }
 
-                        $this->batch_member->AddMemberType(
-                            $new_frontman_id, $frontman_type
-                        );   
-                    }
-                    else if($this->batch->IsActive($batch_id))
-                    {
-                        $this->batch->RemoveActiveBatch();
-                    }
+                    $this->batch_member->AddMemberType(
+                        $new_frontman_id, $frontman_type
+                    );   
+                }
+                else if($this->batch->IsActive($batch_id))
+                {
+                    $active_batch_removed = $this->batch->RemoveActiveBatch();
                 }
             }
         }
@@ -324,10 +341,8 @@ class BatchActionOperations
             );
         }
         
-        $is_batch_active = $this->batch->IsActive($batch_id);
-        if($is_batch_active && !$this->HasFrontmen($batch_id))
+        if($active_batch_removed && !$this->HasFrontmen($batch_id))
         {
-            $this->batch->RemoveActiveBatch();
             return array(
                 "data" => array(
                     "message" => StringHelper::NoBreakString(
@@ -339,9 +354,8 @@ class BatchActionOperations
             );
         }
 
-        if($is_batch_active && !$this->HasCommitteeHeads($batch_id))
+        if($active_batch_removed && !$this->HasCommitteeHeads($batch_id))
         {
-            $this->batch->RemoveActiveBatch();
             return array(
                 "data" => array(
                     "message" => StringHelper::NoBreakString(
@@ -370,12 +384,16 @@ class BatchActionOperations
             StringHelper::UnmakeIndex($committee_name)
         );
         
-        $has_committee_member = $this->committee->HasBatchMemberID(
+        $has_committee_member = $this->committee->HasBatchMember(
             $batch_member_id
         );
         if($has_committee_member)
         {
-            $this->committee->RemoveMemberByBatchMemberID($batch_member_id);
+            $this->committee->RemoveCommitteeMember(
+                $this->committee->GetCommitteeIDByBatchMemberID(
+                    $batch_member_id
+                )
+            );
         }
 
         $this->committee->AddMember(
@@ -433,16 +451,13 @@ class BatchActionOperations
         $batch_id, $batch_member_id, $committee_name
     )
     {
-        $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
-            StringHelper::UnmakeIndex($committee_name)
-        );
-        
-        $has_committee_member = $this->committee->HasBatchMemberID(
-            $batch_member_id
-        );
-        if($has_committee_member)
+        if($this->committee->HasBatchMember($batch_member_id))
         {
-            $this->committee->RemoveMemberByBatchMemberID($batch_member_id);
+            $this->committee->RemoveCommitteeMember(
+                $this->committee->GetCommitteeIDByBatchMemberID(
+                    $batch_member_id
+                )
+            );
         }
 
         if(!$this->batch_member->RemoveMemberType($batch_member_id))
@@ -484,25 +499,24 @@ class BatchActionOperations
         $batch_id, $batch_member_id, $committee_name
     )
     {
-        $batch_members = $this->batch_member->GetBatchMembersByBatchID(
-            $batch_id
+        $batch_members = Sort::ObjectArray(
+            $this->batch_member->GetBatchMembers($batch_id), 
+            "BatchMemberID", Sort::ASCENDING
         );
-        $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
-            StringHelper::UnmakeIndex($committee_name)
+        $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+            $batch_member_id
         );
         $committee_head_type_id = $this->member->GetMemberTypeID(
             "Committee Head"
         );
-        $committee_member_ids = (
-            $this->committee->GetBatchMemberIDArrayByCommitteeID(
-                $committee_id
-            )
+        $committee_member_ids = $this->committee->GetBatchMemberIDs(
+            $committee_id
         );
 
         $committee_batch_members = array();
         foreach($batch_members as $batch_member)
         {
-            if(in_array($batch_member["BatchMemberID"], $committee_member_ids))
+            if(in_array($batch_member->BatchMemberID, $committee_member_ids))
             {
                 $committee_batch_members[] = $batch_member;
             }
@@ -511,9 +525,9 @@ class BatchActionOperations
         $old_committee_head_id = null;
         foreach($committee_batch_members as $committee_member)
         {
-            if($committee_member["MemberTypeID"] == $committee_head_type_id)
+            if($committee_member->MemberTypeID == $committee_head_type_id)
             {
-                $old_committee_head_id = $committee_member["BatchMemberID"];
+                $old_committee_head_id = $committee_member->BatchMemberID;
                 break;
             }
         }
@@ -572,7 +586,7 @@ class BatchActionOperations
         $committees = array(
             array(
                 "committee" => array(
-                    "id" => "-1",
+                    "id" => "0",
                     "name" => "Unassigned"
                 ),
                 "members" => $this->GetBatchDetailsCommitteeMembers(
@@ -581,7 +595,7 @@ class BatchActionOperations
             ),
             array(
                 "committee" => array(
-                    "id" => "0",
+                    "id" => "-1",
                     "name" => "Frontman"
                 ),
                 "members" => $this->GetBatchDetailsCommitteeMembers(
@@ -593,11 +607,11 @@ class BatchActionOperations
             
             $committees[] = array(
                 "committee" => array(
-                    "id" => $committee["CommitteeID"],
-                    "name" => $committee["CommitteeName"]
+                    "id"   => $committee->CommitteeID,
+                    "name" => $committee->CommitteeName
                 ),
                 "members" => $this->GetBatchDetailsCommitteeMembers(
-                    $batch_members, $committee["CommitteeName"]
+                    $batch_members, $committee->CommitteeName
                 )
             );
         }
@@ -607,24 +621,28 @@ class BatchActionOperations
 
     private function GetBatchDetailsUnsortedBatchMembers($batch_id)
     {
-        $batch_members = $this->batch_member->GetBatchMembersByBatchID(
-            $batch_id
+        $batch_members = Sort::ObjectArray(
+            $this->batch_member->GetBatchMembers($batch_id), 
+            "BatchMemberID", Sort::ASCENDING
         );
 
         $members = array();
         foreach($batch_members as $batch_member) 
         {
-            $name = $this->member->GetMemberName($batch_member["MemberID"]);
+            $name = $this->MutateMember(
+                $this->member->GetMember($batch_member->MemberID) 
+            )["name"];
+
             $committee = $this->GetBatchMemberCommitteeName(
-                $batch_member["BatchMemberID"], 
-                $batch_member["MemberTypeID"]
+                $batch_member->BatchMemberID, 
+                $batch_member->MemberTypeID
             );
-            $position = $this->GetMemberPosition($batch_member["MemberTypeID"]);
+            $position = $this->GetMemberPosition($batch_member->MemberTypeID);
 
             $temp_member = array();
 
-            $temp_member["id"] = $batch_member["BatchMemberID"];
-            $temp_member["member_type_id"] = $batch_member["MemberTypeID"];
+            $temp_member["id"] = $batch_member->BatchMemberID;
+            $temp_member["member_type_id"] = $batch_member->MemberTypeID;
             $temp_member["name"] = $name;
             $temp_member["committee"] = $committee;
             $temp_member["position"] = $position;
@@ -637,7 +655,7 @@ class BatchActionOperations
     private function GetBatchMemberCommitteeName(
         $batch_member_id, $member_type_id
     ) {
-        if($member_type_id == null) 
+        if($member_type_id == 0) 
         {
             return "Unassigned";
         }
@@ -647,8 +665,10 @@ class BatchActionOperations
         switch(StringHelper::MakeIndex($member_type)) {
             case "committee-head":
             case "committee-member":
-                return $this->committee->GetCommitteeNameByBatchMemberID(
-                    $batch_member_id
+                return $this->committee->GetCommitteeName(
+                    $this->committee->GetCommitteeIDByBatchMemberID(
+                        $batch_member_id
+                    )
                 );
             default:
                 return "Frontman";
@@ -657,7 +677,7 @@ class BatchActionOperations
 
     private function GetMemberPosition($member_type_id)
     {
-        if($member_type_id == null) 
+        if($member_type_id == 0) 
         {
             return "Unassigned";
         }
@@ -676,8 +696,8 @@ class BatchActionOperations
             if($member["committee"] == $committee_name) 
             {
                 $committee_members[] = array(
-                    "id" => $member["id"],
-                    "name" => $member["name"],
+                    "id"       => $member["id"],
+                    "name"     => $member["name"],
                     "position" => $member["position"]
                 );
             }
@@ -687,7 +707,7 @@ class BatchActionOperations
 
     private function GetBatchNonMembers($batch_id)
     {
-        $member_ids = $this->batch_member->GetMemberIDArrayByBatchID($batch_id);
+        $member_ids = $this->batch_member->GetMemberIDs($batch_id);
 
         $members = array();
         foreach($this->member->GetMembers() as $member)
@@ -716,7 +736,7 @@ class BatchActionOperations
         $new_batch_members = array();
         foreach($batch_members as $batch_member)
         {
-            if(!in_array($batch_member["BatchMemberID"], $filter_ids))
+            if(!in_array($batch_member->BatchMemberID, $filter_ids))
             {
                 $new_batch_members[] = $this->MutateBatchMember(
                     $batch_member
@@ -760,7 +780,7 @@ class BatchActionOperations
         {
             foreach($frontman_types as $key => $value)
             {
-                if($batch_member["MemberTypeID"] == $value)
+                if($batch_member->MemberTypeID == $value)
                 {
                     $frontman_present[$key] = true;
                     $frontmen[] = $this->MutateBatchMember($batch_member);
@@ -773,8 +793,8 @@ class BatchActionOperations
             if($value == false)
             {
                 $frontmen[] = array(
-                    "id" => 0,
-                    "name" => "Unassigned",
+                    "id"       => 0,
+                    "name"     => "Unassigned",
                     "position" => $this->GetMemberPosition(
                         $frontman_types[$key]
                     )
@@ -809,8 +829,8 @@ class BatchActionOperations
         $filtered_batch_members = array();
         foreach($batch_members as $batch_member) 
         {
-            $in_committee = $this->committee->HasBatchMemberIDAndCommitteeID(
-                $batch_member["BatchMemberID"], $committee_id
+            $in_committee = $this->committee->IsBatchMemberInCommittee(
+                $batch_member->BatchMemberID, $committee_id
             );
 
             if($in_committee)
@@ -821,12 +841,14 @@ class BatchActionOperations
         return $filtered_batch_members;
     }
 
-    private function MutateBatchMember($member)
+    private function MutateBatchMember($batch_member)
     {
         return array(
-            "id" => $member["BatchMemberID"],
-            "name" => $this->member->GetMemberName($member["MemberID"]),
-            "position" => $this->GetMemberPosition($member["MemberTypeID"])
+            "id" => $batch_member->BatchMemberID,
+            "name" => $this->MutateMember(
+                $this->member->GetMember($batch_member->MemberID) 
+            )["name"],
+            "position" => $this->GetMemberPosition($batch_member->MemberTypeID)
         );
     }
 

@@ -3,9 +3,8 @@ namespace Jesh\Operations\Helpers;
 
 use \Jesh\Helpers\StringHelper;
 
+use \Jesh\Models\CommitteeModel;
 use \Jesh\Models\CommitteeMemberModel;
-
-use \Jesh\Operations\Helpers\BatchMemberOperations;
 
 use \Jesh\Repository\CommitteeOperationsRepository;
 
@@ -20,12 +19,12 @@ class CommitteeOperations
 
     public function GetCommittees()
     {
-        return $this->repository->GetCommittees();
-    }
-
-    public function HasCommitteeName($committee_name)
-    {
-        return $this->repository->HasCommitteeName($committee_name);
+        $committees = array();
+        foreach($this->repository->GetCommittees() as $committee)
+        {
+            $committees[] = new CommitteeModel($committee);
+        }
+        return $committees;
     }
 
     public function GetCommitteeIDByCommitteeName($committee_name)
@@ -51,11 +50,32 @@ class CommitteeOperations
         }
     }
 
-    public function GetCommitteeNameByBatchMemberID($batch_member_id)
+    public function GetCommitteeIDByBatchMemberID($batch_member_id)
     {
-        $committee = $this->repository->GetCommitteeNameByBatchMemberID(
+        $committee = $this->repository->GetCommitteeIDByBatchMemberID(
             $batch_member_id
         );
+
+        if(sizeof($committee) === 1)
+        {
+            return $committee[0]["CommitteeID"];
+        }
+        else
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Committee ID of batch member id = %s was not found in 
+                        the database"
+                    ), $batch_member_id
+                )
+            );
+        }
+    }
+
+    public function GetCommitteeName($committee_id)
+    {
+        $committee = $this->repository->GetCommitteeName($committee_id);
 
         if(sizeof($committee) === 1) 
         {
@@ -66,26 +86,12 @@ class CommitteeOperations
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Committee for batch member id = %s was not found in 
+                        "Committee for committee id = %s was not found in 
                         the database"
-                    ), $member_type_id
+                    ), $committee_id
                 )
             );
         }
-    }
-
-    public function HasBatchMemberID($batch_member_id)
-    {
-        return $this->repository->HasBatchMemberID($batch_member_id);
-    }
-
-    public function HasBatchMemberIDAndCommitteeID(
-        $batch_member_id, $committee_id
-    )
-    {
-        return $this->repository->HasBatchMemberIDAndCommitteeID(
-            $batch_member_id, $committee_id
-        );
     }
 
     public function GetCommitteeMemberID($batch_member_id)
@@ -111,36 +117,10 @@ class CommitteeOperations
         }
     }
 
-    public function AddMember(CommitteeMemberModel $member)
+    public function GetBatchMemberIDs($committee_id)
     {
-        if(!$this->repository->AddCommitteeMember($member))
-        {
-            throw new \Exception(
-                "Committee member was not aded to database."
-            );
-        }
-    }
-
-    public function RemoveMemberByCommitteeMemberID($committee_member_id)
-    {
-        return $this->repository->RemoveMemberByCommitteeMemberID(
-            $committee_member_id
-        );
-    }
-
-    public function RemoveMemberByBatchMemberID($batch_member_id)
-    {
-        return $this->repository->RemoveMemberByBatchMemberID(
-            $batch_member_id
-        );
-    }
-
-    public function GetBatchMemberIDArrayByCommitteeID($committee_id)
-    {
-        $batch_member_ids = (
-            $this->repository->GetBatchMemberIDArrayByCommitteeID(
-                $committee_id
-            )
+        $batch_member_ids = $this->repository->GetBatchMemberIDs(
+            $committee_id
         );
 
         $ids = array();
@@ -149,5 +129,53 @@ class CommitteeOperations
             $ids[] = $batch_member_id["BatchMemberID"];
         }
         return $ids;
+    }
+
+    public function HasCommitteeName($committee_name)
+    {
+        return $this->repository->HasCommitteeName($committee_name);
+    }
+
+    public function HasBatchMember($batch_member_id)
+    {
+        return $this->repository->HasBatchMember($batch_member_id);
+    }
+
+    public function IsBatchMemberInCommittee($batch_member_id, $committee_id)
+    {
+        return $this->repository->IsBatchMemberInCommittee(
+            $batch_member_id, $committee_id
+        );
+    }
+
+    public function AddMember(CommitteeMemberModel $member)
+    {
+        $is_added = $this->repository->AddCommitteeMember($member);
+
+        if(!$is_added)
+        {
+            throw new \Exception("Committee member was not aded to database.");
+        }
+
+        return $is_added;
+    }
+
+    public function RemoveCommitteeMember($committee_id)
+    {
+        $is_removed = $this->repository->RemoveCommitteeMember($committee_id);
+
+        if(!$is_removed)
+        {
+            throw new \Exception(
+               sprintf(
+                    NoBreakString::NoBreakString(
+                        "Committee Member with batch member id = %s was 
+                        not removed from the database"
+                    ), $batch_member_id
+               )
+            );
+        }
+
+        return $is_removed;
     }
 }

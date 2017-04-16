@@ -21,15 +21,6 @@ class MemberOperationsRepository extends Repository
         );
     }
 
-    public function GetMemberName($member_id)
-    {
-        return self::Get(
-            "Member", "FirstName, MiddleName, LastName", array(
-                "MemberID" => $member_id
-            )
-        );
-    }
-
     public function GetMemberType($member_type_id)
     {
         return self::Get(

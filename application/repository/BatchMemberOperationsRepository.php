@@ -7,26 +7,15 @@ use \Jesh\Models\BatchMemberModel;
 
 class BatchMemberOperationsRepository extends Repository
 {
-    public function GetBatchMembersByBatchID(
-        $batch_id, $order = array("BatchMemberID" => "DESC")
-    )
+    public function GetBatchMembers($batch_id)
     {
-        return self::Get(
-            "BatchMember", "*", array("BatchID" => $batch_id), $order
-        );
+        return self::Get("BatchMember", "*", array("BatchID" => $batch_id));
     }
 
-    public function GetMemberIDArrayByBatchID($batch_id)
+    public function GetMemberIDs($batch_id)
     {
         return self::Get(
             "BatchMember", "MemberID", array("BatchID" => $batch_id)
-        );
-    }
-
-    public function GetBatchMemberIDArrayByBatchID($batch_id)
-    {
-        return self::Get(
-            "BatchMember", "BatchMemberID", array("BatchID" => $batch_id)
         );
     }
 
@@ -45,16 +34,6 @@ class BatchMemberOperationsRepository extends Repository
         ));
     }
 
-    public function AddMember(BatchMemberModel $batch_member)
-    {
-        return self::Insert("BatchMember", $batch_member);
-    }
-
-    public function RemoveBatchMember($batch_member_id)
-    {
-        return self::Delete("BatchMember", "BatchMemberID", $batch_member_id);
-    }
-
     public function HasMemberType($batch_id, $member_type_id)
     {
         return self::Find("BatchMember", "BatchMemberID", array(
@@ -62,21 +41,29 @@ class BatchMemberOperationsRepository extends Repository
         ));
     }
 
-    public function RemoveMemberType($batch_member_id)
+    public function AddMember(BatchMemberModel $batch_member)
     {
-        return self::Update(
-            "BatchMember", 
-            array("BatchMemberID" => $batch_member_id),
-            new BatchMemberModel(array("MemberTypeID" => null))
-        );
+        return self::Insert("BatchMember", $batch_member);
     }
 
     public function AddMemberType($batch_member_id, $member_type_id)
     {
         return self::Update(
-            "BatchMember", 
-            array("BatchMemberID" => $batch_member_id),
+            "BatchMember", array("BatchMemberID" => $batch_member_id),
             new BatchMemberModel(array("MemberTypeID" => $member_type_id))
+        );
+    }
+
+    public function RemoveBatchMember($batch_member_id)
+    {
+        return self::Delete("BatchMember", "BatchMemberID", $batch_member_id);
+    }
+
+    public function RemoveMemberType($batch_member_id)
+    {
+        return self::Update(
+            "BatchMember", array("BatchMemberID" => $batch_member_id),
+            new BatchMemberModel(array("MemberTypeID" => 0))
         );
     }
 }

@@ -7,7 +7,7 @@ use \Jesh\Models\StaticDataModel;
 
 class StaticDataOperationsRepository extends Repository
 {
-    public function GetPassword()
+    public function GetAdminPassword()
     {
         return self::Get(
             "StaticData", "Value", array("Name" => "SystemAdminPassword")
@@ -17,8 +17,7 @@ class StaticDataOperationsRepository extends Repository
     public function ChangePassword($password)
     {
         return self::Update(
-            "StaticData", 
-            array("Name" => "SystemAdminPassword"), 
+            "StaticData", array("Name" => "SystemAdminPassword"), 
             new StaticDataModel(array("Value" => $password))
         );
     }

@@ -33,7 +33,7 @@ class BatchOperationsRepository extends Repository
         return self::Delete("Batch", "BatchID", $batch_id);
     }
 
-    public function GetActiveBatch()
+    public function GetActiveBatchID()
     {
         return self::Get("StaticData", "Value", array("Name" => "CurrentBatch"));
     }

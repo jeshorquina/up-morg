@@ -12,9 +12,17 @@ class StaticDataOperations
         $this->repository = new StaticDataOperationsRepository;
     }
 
-    public function GetPassword()
+    public function GetAdminPassword()
     {
-        return $this->repository->GetPassword();
+        $password = $this->repository->GetAdminPassword();
+        if(sizeof($password) === 1)
+        {
+            return $password[0]["Value"];
+        }
+        else 
+        {
+            throw new \Exception("No record for system admin password found");
+        }
     }
 
     public function ChangePassword($password)

@@ -1,6 +1,8 @@
 <?php
 namespace Jesh\Operations\Helpers;
 
+use \Jesh\Helpers\StringHelper;
+
 use \Jesh\Models\BatchModel;
 
 use \Jesh\Repository\BatchOperationsRepository;
@@ -16,15 +18,52 @@ class BatchOperations
 
     public function GetBatches()
     {
-        $activeBatch = $this->GetActiveBatch();
-
         $batches = array();
         foreach($this->repository->GetBatches() as $batch)
         {
-            $batch["IsActive"] = ($batch["BatchID"] == $activeBatch);
-            $batches[] = $batch;
+            $batches[] = new BatchModel($batch);
         }
-        return (sizeof($batches) != 0) ? $batches : false;
+        return $batches;
+    }
+
+    public function GetActiveBatchID()
+    {
+        $active_batch = $this->repository->GetActiveBatchID();
+
+        if(sizeof($active_batch) === 1)
+        {
+            return $active_batch[0]["Value"];
+        }
+        else 
+        {
+            throw new \Exception(
+                "No active batch entry found on database static data!"
+            );
+        }
+    }
+
+    public function GetAcadYear($batch_id)
+    {
+        $batch = $this->repository->GetAcadYear($batch_id);
+
+        if(sizeof($batch) === 1)
+        {
+            return $batch[0]["AcadYear"];
+        }
+        else 
+        {
+            throw new \Exception(
+                sprintf(
+                    "Batch with batch id = %s is not present in database!",
+                    $batch_id
+                )
+            );
+        }
+    }
+
+    public function IsActive($batch_id)
+    {
+        return $this->GetActiveBatchID() == $batch_id;
     }
 
     public function HasBatchID($batch_id)
@@ -39,56 +78,69 @@ class BatchOperations
 
     public function Add(BatchModel $batch)
     {
-        return $this->repository->AddBatch($batch);
-    }
+        $is_added = $this->repository->AddBatch($batch);
 
-    public function Delete($batch_id)
-    {
-        return $this->repository->DeleteBatchByID($batch_id);
+        if(!$is_added)
+        {
+            throw new \Exception("Cound not add batch to the database");
+        }
+
+        return $is_added;
     }
 
     public function Activate($batch_id)
     {
-        return $this->repository->UpdateActiveBatch($batch_id);
+        $is_activated = $this->repository->UpdateActiveBatch($batch_id);
+
+        if(!$is_activated)
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Cound not activate batch with batch id = %s in the
+                        database"
+                    ), $batch_id
+                )
+            );
+        }
+
+        return $is_activated;
     }
 
-    public function IsActive($batch_id)
+    public function Delete($batch_id)
     {
-        return $this->GetActiveBatch() == $batch_id;
-    }
+        $is_deleted = $this->repository->DeleteBatchByID($batch_id);
 
-    public function GetAcadYear($batch_id)
-    {
-        $batch = $this->repository->GetAcadYear($batch_id);
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Cound not delete batch with batch id = %s in the
+                        database"
+                    ), $batch_id
+                )
+            );
+        }
 
-        if(sizeof($batch) === 1)
-        {
-            return $batch[0]["AcadYear"];
-        }
-        else 
-        {
-            return false;
-        }
+        return $is_deleted;
     }
 
     public function RemoveActiveBatch()
     {
-        return $this->repository->RemoveActiveBatch();
-    }
+        $is_removed = $this->repository->RemoveActiveBatch();
 
-    private function GetActiveBatch()
-    {
-        $active_batch = $this->repository->GetActiveBatch();
-
-        if(sizeof($active_batch) === 1)
-        {
-            return $active_batch[0]["Value"];
-        }
-        else 
+        if(!$is_removed)
         {
             throw new \Exception(
-                "No active batch entry found on database static data!"
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Cound not remove active batch from the database."
+                    ), $batch_id
+                )
             );
         }
+
+        return $is_removed;
     }
 }

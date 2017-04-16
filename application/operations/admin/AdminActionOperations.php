@@ -46,17 +46,9 @@ class AdminActionOperations
 
     public function MatchingPassword($password)
     {
-        $db_password = $this->static_data->GetPassword();
-
-        if(sizeof($db_password) === 1)
-        {
-            return Security::CheckPassword($password, $db_password[0]["Value"]);
-        }
-        else 
-        {
-            throw new \Exception("No record for system admin password found");
-        }
-        
+        return Security::CheckPassword(
+            $password, $this->static_data->GetAdminPassword()
+        );
     }
 
     public function ChangePassword($password)

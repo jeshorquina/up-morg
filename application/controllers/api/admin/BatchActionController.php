@@ -6,9 +6,6 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\StringHelper;
 
-use \Jesh\Models\BatchModel;
-use \Jesh\Models\BatchMemberModel;
-
 use \Jesh\Operations\Admin\BatchActionOperations;
 
 class BatchActionController extends Controller
@@ -63,11 +60,7 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$response = $this->operations->CreateBatch(
-            new BatchModel(
-                array("AcadYear" => $academic_year)
-            )
-        ))
+        else if(!$response = $this->operations->CreateBatch($academic_year))
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
@@ -235,14 +228,7 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$this->operations->AddMemberToBatch(
-            new BatchMemberModel(
-                array(
-                    "BatchID" => $batch_id,
-                    "MemberID" => $member_id
-                )
-            )
-        )) 
+        else if(!$this->operations->AddMemberToBatch($batch_id, $member_id)) 
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(

@@ -6,7 +6,6 @@ use \Jesh\Core\Interfaces\ModelInterface;
 class CommitteeModel implements ModelInterface
 {
     public $CommitteeID;
-    public $CommitteeHeadID;
     public $CommitteeName;
     public $IsApproved;
 

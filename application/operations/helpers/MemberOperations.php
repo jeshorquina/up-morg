@@ -47,32 +47,6 @@ class MemberOperations
         }
     }
 
-    public function GetMemberName($member_id)
-    {
-        $member = $this->repository->GetMemberName($member_id);
-        if(sizeof($member) === 1) 
-        {
-            return str_replace(
-                "  ", " ", sprintf("%s %s %s", 
-                    $member[0]["FirstName"], 
-                    $member[0]["MiddleName"], 
-                    $member[0]["LastName"]
-                )
-            );
-        }
-        else 
-        {
-            throw new \Exception(
-                sprintf(
-                    StringHelper::NoBreakString(
-                        "Member name for member id = %s was not found in 
-                        the database"
-                    ), $member_id
-                )
-            );
-        }
-    }
-
     public function GetMemberType($member_type_id)
     {
         $member_type = $this->repository->GetMemberType($member_type_id);
@@ -169,16 +143,49 @@ class MemberOperations
 
     public function Add(MemberModel $member)
     {
-        return $this->repository->InsertMember($member);
+        $is_added = $this->repository->InsertMember($member);
+
+        if(!$is_added)
+        {
+            throw new \Exception("Member was not added to database.");
+        }
+
+        return $is_added;
     }
 
     public function Update($member_id, MemberModel $member)
     {
-        return $this->repository->UpdateMember($member_id, $member);
+        $is_updated = $this->repository->UpdateMember($member_id, $member);
+
+        if(!$is_updated)
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Member with member id = %s was not modified."
+                    ), $member_id
+                )
+            );
+        }
+
+        return $is_updated;
     }
 
     public function Delete($member_id)
     {
-        return $this->repository->DeleteMemberByID($member_id);
+        $is_deleted = $this->repository->DeleteMemberByID($member_id);
+
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Member with member id = %s was not deleted."
+                    ), $member_id
+                )
+            );
+        }
+
+        return $is_deleted;
     }
 }
