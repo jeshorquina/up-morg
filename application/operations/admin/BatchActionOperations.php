@@ -29,14 +29,6 @@ class BatchActionOperations
         $this->member = new MemberOperations;
     }
 
-    public function __destruct()
-    {
-        unset($this->batch);
-        unset($this->batch_member);
-        unset($this->committee);
-        unset($this->member);
-    }
-
     public function GetBatches()
     {
         $activeBatch = $this->batch->GetActiveBatchID();
@@ -311,9 +303,7 @@ class BatchActionOperations
                     if($this->committee->HasBatchMember($new_frontman_id))
                     {
                         $this->committee->RemoveCommitteeMember(
-                            $this->committee->GetCommitteeIDByBatchMemberID(
-                                $new_frontman_id
-                            )
+                            $new_frontman_id
                         );
                     }
 
@@ -383,17 +373,10 @@ class BatchActionOperations
         $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
             StringHelper::UnmakeIndex($committee_name)
         );
-        
-        $has_committee_member = $this->committee->HasBatchMember(
-            $batch_member_id
-        );
-        if($has_committee_member)
+
+        if($this->committee->HasBatchMember($batch_member_id))
         {
-            $this->committee->RemoveCommitteeMember(
-                $this->committee->GetCommitteeIDByBatchMemberID(
-                    $batch_member_id
-                )
-            );
+            $this->committee->RemoveCommitteeMember($batch_member_id);
         }
 
         $this->committee->AddMember(
@@ -453,11 +436,7 @@ class BatchActionOperations
     {
         if($this->committee->HasBatchMember($batch_member_id))
         {
-            $this->committee->RemoveCommitteeMember(
-                $this->committee->GetCommitteeIDByBatchMemberID(
-                    $batch_member_id
-                )
-            );
+            $this->committee->RemoveCommitteeMember($batch_member_id);
         }
 
         if(!$this->batch_member->RemoveMemberType($batch_member_id))
@@ -469,29 +448,34 @@ class BatchActionOperations
                         Please try again."
                     )
                 ),
-                "status" => "error"
+                "status" => false
             );
         }
 
-        $is_batch_active = $this->batch->IsActive($batch_id);
-        if($is_batch_active && !$this->HasCommitteeHeads($batch_id))
+        $is_batch_active = false;
+        if($this->batch->IsActive($batch_id))
         {
             $this->batch->RemoveActiveBatch();
-            return array(
-                "message" => StringHelper::NoBreakString(
-                    "Batch member has been successfully removed from committee 
-                    but batch was made inactive due to unassigned committee head 
-                    position."
-                ),
-                "status" => "success"
-            );
+            $is_batch_active = true;
+
+            if(!$this->HasCommitteeHeads($batch_id))
+            {
+                return array(
+                    "message" => StringHelper::NoBreakString(
+                        "Batch member has been successfully removed from 
+                        committee but batch was made inactive due to unassigned 
+                        committee head position."
+                    ),
+                    "status" => true
+                );
+            }
         }
 
         return array(
             "message" => StringHelper::NoBreakString(
                 "Batch member successfully removed from committee."
             ),
-            "status" => "success"
+            "status" => true
         );
     }
 

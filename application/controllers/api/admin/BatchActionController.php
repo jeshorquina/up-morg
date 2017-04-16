@@ -418,7 +418,7 @@ class BatchActionController extends Controller
                 $batch_id, $batch_member_id, $committee_name
             );
 
-            if($response["status"] == "error")
+            if($response["status"] === false)
             {
                 Http::Response(
                     Http::INTERNAL_SERVER_ERROR, array(
@@ -430,6 +430,7 @@ class BatchActionController extends Controller
             $batch_details = $this->operations->GetBatchCommitteeDetails(
                 $batch_id, $committee_name
             );
+
             if(!$batch_details) 
             {
                 Http::Response(
@@ -484,7 +485,7 @@ class BatchActionController extends Controller
                 $batch_id, $batch_member_id, $committee_name
             );
 
-            if($response["status"] == "error")
+            if($response["status"] == false)
             {
                 Http::Response(
                     Http::INTERNAL_SERVER_ERROR, array(
@@ -496,6 +497,7 @@ class BatchActionController extends Controller
             $batch_details = $this->operations->GetBatchCommitteeDetails(
                 $batch_id, $committee_name
             );
+
             if(!$batch_details) 
             {
                 Http::Response(
@@ -510,7 +512,7 @@ class BatchActionController extends Controller
             else
             {
                 Http::Response(
-                    Http::CREATED, array(
+                    Http::OK, array(
                         "message" => $response["message"],
                         "data" => $batch_details
                     )

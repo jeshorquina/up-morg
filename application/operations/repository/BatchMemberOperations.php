@@ -35,6 +35,20 @@ class BatchMemberOperations
         return $ids; 
     }
 
+    public function GetBatchMemberID($batch_id, $member_id)
+    {
+        $batch_member = $this->repository->GetBatchMemberID(
+            $batch_id, $member_id
+        );
+
+        if(!$batch_member)
+        {
+            throw new \Exception("Cound not add batch member to the database");
+        }
+
+        return $batch_member[0]["BatchMemberID"];
+    }
+
     public function HasMember($batch_id, $member_id)
     {
         return $this->repository->HasMember($batch_id, $member_id);

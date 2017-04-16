@@ -7,14 +7,23 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
+use \Jesh\Operations\Repository\BatchOperations;
+use \Jesh\Operations\Repository\BatchMemberOperations;
+use \Jesh\Operations\Repository\CommitteeOperations;
 use \Jesh\Operations\Repository\MemberOperations;
 
 class LoggedOutActionOperations
 {
+    private $batch;
+    private $batch_member;
+    private $committee;
     private $member;
 
     public function __construct()
     {
+        $this->batch = new BatchOperations;
+        $this->batch_member = new BatchMemberOperations;
+        $this->committee = new CommitteeOperations;
         $this->member = new MemberOperations;
     }
 
@@ -50,14 +59,48 @@ class LoggedOutActionOperations
             $this->member->GetMemberIDByEmailAddress($username)
         );
 
+        $batch_id = $this->batch->GetActiveBatchID();
+
+        $batch_member_id = 0;
+        if($this->batch_member->HasMember($batch_id, $member_details->MemberID))
+        {
+            $batch_member_id = $this->batch_member->GetBatchMemberID(
+                $batch_id, $member_details->MemberID
+            );
+        }
+
+        $batch_array = array();
+        $committee_array = array();
+        if($batch_member_id !== 0)
+        {
+            $batch_array["id"] = $batch_id;
+            $batch_array["member_id"] = $batch_member_id;
+
+            if($this->committee->HasBatchMember($batch_member_id))
+            {
+                $committee_array["id"] = (
+                    $this->committee->GetCommitteeIDByBatchMemberID(
+                        $batch_member_id
+                    )
+                );
+                $committee_array["member_id"] = (
+                    $this->committee->GetCommitteeMemberID($batch_member_id)
+                );
+            }
+        }
+
         return Session::Set("user_data", json_encode(
             array(
-                "id"            => $member_details->MemberID, // should be batch member id
-                "first_name"    => $member_details->FirstName,
-                "middle_name"   => $member_details->MiddleName,
-                "last_name"     => $member_details->LastName,
-                "email_address" => $member_details->EmailAddress,
-                "phone_number"  => $member_details->PhoneNumber
+                "member" => array(
+                    "id"            => $member_details->MemberID,
+                    "first_name"    => $member_details->FirstName,
+                    "middle_name"   => $member_details->MiddleName,
+                    "last_name"     => $member_details->LastName,
+                    "email_address" => $member_details->EmailAddress,
+                    "phone_number"  => $member_details->PhoneNumber
+                ),
+                "batch" => $batch_array,
+                "committee" => $committee_array
             )
         ));
     }

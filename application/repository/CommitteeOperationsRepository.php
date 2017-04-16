@@ -80,10 +80,10 @@ class CommitteeOperationsRepository extends Repository
         return self::Insert("CommitteeMember", $member);
     }
 
-    public function RemoveCommitteeMember($committee_member_id)
+    public function RemoveCommitteeMember($batch_member_id)
     {
         return self::Delete(
-            "CommitteeMember", "CommitteeMemberID", $committee_member_id
+            "CommitteeMember", "BatchMemberID", $batch_member_id
         );
     }
 }

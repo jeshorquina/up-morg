@@ -160,9 +160,11 @@ class CommitteeOperations
         return $is_added;
     }
 
-    public function RemoveCommitteeMember($committee_id)
+    public function RemoveCommitteeMember($batch_member_id)
     {
-        $is_removed = $this->repository->RemoveCommitteeMember($committee_id);
+        $is_removed = $this->repository->RemoveCommitteeMember(
+            $batch_member_id
+        );
 
         if(!$is_removed)
         {
