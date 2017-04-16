@@ -7,7 +7,7 @@ composer.lock
 /node_modules/
 /.vscode/
 /vendor/
-/resources/assest/css/*
+/resources/assets/css/*
 !/resources/assets/css/sass/
 !/resources/assets/css/vendor/
 !/resources/assets/css/source.json
