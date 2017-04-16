@@ -58,7 +58,7 @@ class LoggedOutActionOperations
     }
 
     public function SetLoggedInState($username)
-    {
+    { 
         $member_details = $this->member->GetMember(
             $this->member->GetMemberIDByEmailAddress($username)
         );
@@ -105,6 +105,7 @@ class LoggedOutActionOperations
             );
         }
 
+        Session::Clear();
         return Session::Set("user_data", json_encode(
             array(
                 "member" => array(

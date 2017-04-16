@@ -39,6 +39,11 @@ Class Session
         return !self::Find($key);
     }
 
+    public static function Clear()
+    {
+        self::End();
+    }
+
     public static function End()
     {
         self::Open();

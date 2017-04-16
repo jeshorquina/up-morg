@@ -18,6 +18,7 @@ class AdminActionOperations
 
     public function SetLoggedInState()
     {
+        Session::Clear();
         return Session::Set("admin_data", "TRUE");
     }
 
