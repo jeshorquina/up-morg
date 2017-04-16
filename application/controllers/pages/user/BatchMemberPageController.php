@@ -7,7 +7,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\PermissionHelper;
 
-class MemberPageController extends Controller 
+class BatchMemberPageController extends Controller 
 {
     public function __construct()
     {
@@ -62,9 +62,9 @@ class MemberPageController extends Controller
         );
     }
 
-    public function MemberIndex()
+    public function BatchMemberIndex()
     {
-        self::SetBody("user/calendar.html.inc");
+        self::SetBody("user/batch-member.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(

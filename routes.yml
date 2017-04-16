@@ -210,6 +210,10 @@
     function: FinanceIndex
 
 
+'member':
+    directory: pages/user
+    controller: BatchMemberPageController
+    function: BatchMemberIndex
 
 
 # **************************************************

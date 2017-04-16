@@ -129,9 +129,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/task.js",
-            "resources/assets/js/operations/admin/task.js",
-            "resources/assets/js/controllers/admin/task.js"
+            "resources/assets/js/factories/user/task.js",
+            "resources/assets/js/operations/user/task.js",
+            "resources/assets/js/controllers/user/task.js"
         ]
     },
     {
@@ -143,9 +143,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/availability.js",
-            "resources/assets/js/operations/admin/availability.js",
-            "resources/assets/js/controllers/admin/availability.js"
+            "resources/assets/js/factories/user/availability.js",
+            "resources/assets/js/operations/user/availability.js",
+            "resources/assets/js/controllers/user/availability.js"
         ]
     },
     {
@@ -157,9 +157,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/calendar.js",
-            "resources/assets/js/operations/admin/calendar.js",
-            "resources/assets/js/controllers/admin/calendar.js"
+            "resources/assets/js/factories/user/calendar.js",
+            "resources/assets/js/operations/user/calendar.js",
+            "resources/assets/js/controllers/user/calendar.js"
         ]
     },
     {
@@ -171,13 +171,13 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/finance.js",
-            "resources/assets/js/operations/admin/finance.js",
-            "resources/assets/js/controllers/admin/fiannce.js"
+            "resources/assets/js/factories/user/finance.js",
+            "resources/assets/js/operations/user/finance.js",
+            "resources/assets/js/controllers/user/fiannce.js"
         ]
     },
     {
-        "name": "user/member.js",
+        "name": "user/batch-member.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -185,9 +185,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/member.js",
-            "resources/assets/js/operations/admin/member.js",
-            "resources/assets/js/controllers/admin/member.js"
+            "resources/assets/js/factories/user/member.js",
+            "resources/assets/js/operations/user/batch-member.js",
+            "resources/assets/js/controllers/user/batch-member.js"
         ]
     }
 ]

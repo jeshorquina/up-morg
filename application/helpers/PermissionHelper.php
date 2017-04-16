@@ -25,6 +25,8 @@ Class PermissionHelper
         return true;
     }
 
+    
+
     private static function Redirect($url)
     {
         header("Location: " . $url);
