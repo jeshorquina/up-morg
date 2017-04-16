@@ -12,6 +12,7 @@ use \Jesh\Operations\Repository\MemberOperations;
 use \Jesh\Models\BatchModel;
 use \Jesh\Models\BatchMemberModel;
 use \Jesh\Models\CommitteeMemberModel;
+use \Jesh\Models\CommitteePermissionModel;
 use \Jesh\Models\MemberModel;
 
 class BatchActionOperations
@@ -72,13 +73,22 @@ class BatchActionOperations
         return $this->batch->HasAcadYear($acad_year);
     }
 
-    public function CreateBatch($academic_year)
+    public function CreateBatch($acad_year)
     {
-        return $this->batch->Add(
+        $is_added = $this->batch->Add(
             new BatchModel(
-                array("AcadYear" => $academic_year)
+                array("AcadYear" => $acad_year)
             )
         );
+
+        if($is_added)
+        {
+            return $this->AddCommitteePermissions($acad_year);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function HasFrontmen($batch_id)
@@ -848,5 +858,42 @@ class BatchActionOperations
                 )
             )
         );
+    }
+
+    private function AddCommitteePermissions($acad_year)
+    {
+        // NOTE: Temporary solution until rebust addition
+        // of permission via parenting (i.e. use of tree)
+        // is implemented.
+        $batch_id = $this->batch->GetBatchID($acad_year);
+        $permissions = array(
+            $this->member->GetMemberTypeID("First Frontman") => (
+                array(1,2,3,4,5,6,7)
+            ),
+            $this->member->GetMemberTypeID("Second Frontman") => (
+                array(1,2,3)
+            ),
+            $this->member->GetMemberTypeID("Third Frontman") => (
+                array(4,5,6)
+            )
+        );
+
+        foreach($permissions as $member_type_id => $committee_ids)
+        {
+            foreach($committee_ids as $committee_id)
+            {
+                $this->committee->AddCommitteePermission(
+                    new CommitteePermissionModel(
+                        array(
+                            "BatchID" => $batch_id,
+                            "MemberTypeID" => $member_type_id,
+                            "CommitteeID" => $committee_id
+                        )
+                    )
+                );
+            }
+        }
+
+        return true;
     }
 }

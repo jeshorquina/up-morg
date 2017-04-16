@@ -13,6 +13,21 @@ class BatchOperationsRepository extends Repository
         return self::Get("Batch", "*");
     }
 
+    public function GetActiveBatchID()
+    {
+        return self::Get("StaticData", "Value", array("Name" => "CurrentBatch"));
+    }
+
+    public function GetBatchID($acad_year)
+    {
+        return self::Get("Batch", "BatchID", array("AcadYear" => $acad_year));
+    }
+
+    public function GetAcadYear($batch_id)
+    {
+        return self::Get("Batch", "AcadYear", array("BatchID" => $batch_id));
+    }
+
     public function HasBatchID($batch_id)
     {
         return self::Find("Batch", "BatchID", array("BatchID" => $batch_id));
@@ -28,16 +43,6 @@ class BatchOperationsRepository extends Repository
         return self::Insert("Batch", $batch);
     }
 
-    public function DeleteBatchByID($batch_id)
-    {
-        return self::Delete("Batch", "BatchID", $batch_id);
-    }
-
-    public function GetActiveBatchID()
-    {
-        return self::Get("StaticData", "Value", array("Name" => "CurrentBatch"));
-    }
-
     public function UpdateActiveBatch($batch_id)
     {
         return self::Update(
@@ -51,8 +56,8 @@ class BatchOperationsRepository extends Repository
         return $this->UpdateActiveBatch(0);
     }
 
-    public function GetAcadYear($batch_id)
+    public function DeleteBatchByID($batch_id)
     {
-        return self::Get("Batch", "AcadYear", array("BatchID" => $batch_id));
+        return self::Delete("Batch", "BatchID", $batch_id);
     }
 }

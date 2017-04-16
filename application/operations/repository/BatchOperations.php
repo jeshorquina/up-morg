@@ -42,6 +42,25 @@ class BatchOperations
         }
     }
 
+    public function GetBatchID($acad_year)
+    {
+        $batch = $this->repository->GetBatchID($acad_year);
+
+        if(sizeof($batch) === 1)
+        {
+            return $batch[0]["BatchID"];
+        }
+        else 
+        {
+            throw new \Exception(
+                sprintf(
+                    "Batch with acad year = %s is not found in database!",
+                    $acad_year
+                )
+            );
+        }
+    }
+
     public function GetAcadYear($batch_id)
     {
         $batch = $this->repository->GetAcadYear($batch_id);
@@ -54,7 +73,7 @@ class BatchOperations
         {
             throw new \Exception(
                 sprintf(
-                    "Batch with batch id = %s is not present in database!",
+                    "Batch with batch id = %s is not found in database!",
                     $batch_id
                 )
             );

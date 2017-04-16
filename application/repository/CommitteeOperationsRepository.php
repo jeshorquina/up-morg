@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\CommitteeMemberModel;
+use \Jesh\Models\CommitteePermissionModel;
 
 class CommitteeOperationsRepository extends Repository
 {
@@ -89,6 +90,11 @@ class CommitteeOperationsRepository extends Repository
     public function AddCommitteeMember(CommitteeMemberModel $member)
     {
         return self::Insert("CommitteeMember", $member);
+    }
+
+    public function AddCommitteePermission(CommitteePermissionModel $permission)
+    {
+        return self::Insert("CommitteePermission", $permission);
     }
 
     public function RemoveCommitteeMember($batch_member_id)

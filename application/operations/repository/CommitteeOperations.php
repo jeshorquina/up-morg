@@ -5,6 +5,7 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\CommitteeModel;
 use \Jesh\Models\CommitteeMemberModel;
+use \Jesh\Models\CommitteePermissionModel;
 
 use \Jesh\Repository\CommitteeOperationsRepository;
 
@@ -171,6 +172,20 @@ class CommitteeOperations
         if(!$is_added)
         {
             throw new \Exception("Committee member was not aded to database.");
+        }
+
+        return $is_added;
+    }
+
+    public function AddCommitteePermission(CommitteePermissionModel $permission)
+    {
+        $is_added = $this->repository->AddCommitteePermission($permission);
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Committee permission was not added from the database"
+            );
         }
 
         return $is_added;
