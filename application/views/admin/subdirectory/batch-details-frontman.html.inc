@@ -1,6 +1,6 @@
 <div class="container" id="batch-committee-container" data-batch-id="<?= $page['details']['batch_id'] ?>" data-committee-name="<?= $page['details']['committee_name'] ?>">
 
-    <div class="card">
+    <div class="card margin-vertical-xlarge">
 
         <div class="breadcrumb">
             <span class="crumb">

@@ -5,7 +5,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
-use \Jesh\Operations\Helpers\StaticDataOperations;
+use \Jesh\Operations\Repository\StaticDataOperations;
 
 class AdminActionOperations
 {

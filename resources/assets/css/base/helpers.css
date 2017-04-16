@@ -14,16 +14,38 @@
   margin-top: 1.25rem !important; }
 
 .margin-top-large {
-  margin-top: 2.5rem !important; }
+  margin-top: 2rem !important; }
+
+.margin-top-xlarge {
+  margin-top: 3rem !important; }
 
 .margin-right-small {
   margin-right: 0.5rem !important; }
 
 .margin-right-medium {
-  margin-top: 1.25rem !important; }
+  margin-right: 1.25rem !important; }
 
 .margin-right-large {
-  margin-top: 2.5rem !important; }
+  margin-right: 2rem !important; }
+
+.margin-right-xlarge {
+  margin-right: 3rem !important; }
+
+.margin-vertical-small {
+  margin-bottom: 0.5rem !important;
+  margin-top: 0.5rem !important; }
+
+.margin-vertical-medium {
+  margin-bottom: 1.25rem !important;
+  margin-top: 1.25rem !important; }
+
+.margin-vertical-large {
+  margin-bottom: 2rem !important;
+  margin-top: 2rem !important; }
+
+.margin-vertical-xlarge {
+  margin-bottom: 3rem !important;
+  margin-top: 3rem !important; }
 
 .float-right {
   float: right; }

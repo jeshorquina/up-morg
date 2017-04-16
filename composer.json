@@ -16,10 +16,11 @@
 			"Jesh\\Controllers\\": "application/controllers/",
 			"Jesh\\Helpers\\": "application/helpers/",
 			"Jesh\\Models\\": "application/models/",
-			"Jesh\\Operations\\": "application/operations/",
 			"Jesh\\Operations\\Admin\\": "application/operations/admin/",
 			"Jesh\\Operations\\Helpers\\": "application/operations/helpers/",
 			"Jesh\\Operations\\LoggedOut\\": "application/operations/public/",
+			"Jesh\\Operations\\Repository\\": "application/operations/repository/",
+			"Jesh\\Operations\\User\\": "application/operations/user/",
 			"Jesh\\Repository\\": "application/repository/"
 		},
 		"classmap": [

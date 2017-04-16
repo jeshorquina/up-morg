@@ -1,8 +1,18 @@
-<ul>
-    <a href="<?=base_url('home')?>">Home</a>
-    <a href="<?=base_url('task-manager')?>">Task Manager</a>
-    <a href="<?=base_url('availability-tracker')?>">Availability Tracker</a>
-    <a href="<?=base_url('calendar')?>">Calendar</a>
-    <a href="<?=base_url('finance-tracker')?>">Finance Tracker</a>
-    <a href="<?=base_url('action/logout')?>">Logout</a>
-</ul>
+<?php if(array_key_exists("nav", $page)) { ?>
+<div class="nav sticky">
+    <div class="nav-content">
+        <div class="left-content">
+            <h1 class="item">
+                <a href="<?= $page['urls']['index'] ?>"><strong>UP MOrg</strong></a>
+            </h1>
+        </div>
+        <div class="right-content align-right">
+            <?php foreach($page['nav'] as $nav_item) { ?>
+            <a class="item <?= ($nav_item['name'] == 'Logout') ? 'button' : ''; ?>" href="<?= $nav_item['url'] ?>">
+                <?= $nav_item['name'] ?>
+            </a>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<?php } ?>

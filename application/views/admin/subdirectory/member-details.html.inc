@@ -1,6 +1,6 @@
 <div class="container" id="member-details-container" data-member-id="<?= $page['details']['member_id'] ?>">
 
-    <div class="card">
+    <div class="card margin-vertical-xlarge">
 
         <div class="breadcrumb">
             <span class="crumb">

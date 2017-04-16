@@ -154,5 +154,81 @@
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/member-details.css"
         ]
+    },
+    {
+        "name": "user/task.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/task.css"
+        ]
+    },
+    {
+        "name": "user/availability.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/availability.css"
+        ]
+    },
+    {
+        "name": "user/calendar.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/calendar.css"
+        ]
+    },
+    {
+        "name": "user/finance.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/finance.css"
+        ]
     }
 ]

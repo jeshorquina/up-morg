@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="card">
+    <div class="card margin-vertical-xlarge">
 
         <h2 class="text-center">Member Management</h2>
 

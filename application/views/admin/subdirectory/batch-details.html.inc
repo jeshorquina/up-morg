@@ -1,6 +1,6 @@
 <div class="container" id="batch-details-container" data-batch-id="<?= $page['details']['batch_id'] ?>">
 
-    <div class="card">
+    <div class="card margin-vertical-xlarge">
 
         <div class="breadcrumb">
             <span class="crumb">

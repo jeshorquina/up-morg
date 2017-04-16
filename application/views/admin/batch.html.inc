@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="card margin-top-large">
+    <div class="card margin-vertical-xlarge">
 
         <h2 class="text-center">Batch Management</h2>
 

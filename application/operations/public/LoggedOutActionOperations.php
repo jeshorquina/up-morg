@@ -7,7 +7,7 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
-use \Jesh\Operations\Helpers\MemberOperations;
+use \Jesh\Operations\Repository\MemberOperations;
 
 class LoggedOutActionOperations
 {

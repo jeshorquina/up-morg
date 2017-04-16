@@ -5,7 +5,7 @@ use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Sort;
 use \Jesh\Helpers\ValidationDataBuilder;
 
-use \Jesh\Operations\Helpers\MemberOperations;
+use \Jesh\Operations\Repository\MemberOperations;
 
 use \Jesh\Models\MemberModel;
 

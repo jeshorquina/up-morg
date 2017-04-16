@@ -102,7 +102,7 @@ class AdminPageController extends Controller
 
     public function ChangePassword()
     {
-        self::SetBody("admin/change-password.html.inc");
+        self::SetBody("admin/password.html.inc");
         self::RenderView(array_merge(
             Security::GetCSRFData(),
             array(

@@ -119,5 +119,75 @@
             "resources/assets/js/operations/admin/member-details.js",
             "resources/assets/js/controllers/admin/member-details.js"
         ]
+    },
+    {
+        "name": "user/task.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/task.js",
+            "resources/assets/js/operations/admin/task.js",
+            "resources/assets/js/controllers/admin/task.js"
+        ]
+    },
+    {
+        "name": "user/availability.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/availability.js",
+            "resources/assets/js/operations/admin/availability.js",
+            "resources/assets/js/controllers/admin/availability.js"
+        ]
+    },
+    {
+        "name": "user/calendar.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/calendar.js",
+            "resources/assets/js/operations/admin/calendar.js",
+            "resources/assets/js/controllers/admin/calendar.js"
+        ]
+    },
+    {
+        "name": "user/finance.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/finance.js",
+            "resources/assets/js/operations/admin/finance.js",
+            "resources/assets/js/controllers/admin/fiannce.js"
+        ]
+    },
+    {
+        "name": "user/member.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/admin/member.js",
+            "resources/assets/js/operations/admin/member.js",
+            "resources/assets/js/controllers/admin/member.js"
+        ]
     }
 ]

@@ -12,6 +12,6 @@ class IndexController extends Controller
 
     public function UserHomepage()
     {
-        self::Redirect("task-manager");
+        self::Redirect("task");
     }
 }

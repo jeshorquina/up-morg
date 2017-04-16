@@ -186,81 +186,33 @@
 # **************************************************
 # Pages - User pages
 # **************************************************
-'task-manager':
+'task':
     directory: pages/user
-    controller: TaskManagerPageController
-    function: TaskManager
-'task-manager/full-task':
-    directory: pages/user
-    controller: TaskManagerPageController
-    function: FullTask
+    controller: TaskPageController
+    function: TaskIndex
 
 
-'availability-tracker':
+'availability':
     directory: pages/user
-    controller: AvailabilityTrackerPageController
-    function: AvailabilityTracker
-'availability-tracker/add-custom-group':
-    directory: pages/user
-    controller: AvailabilityTrackerPageController
-    function: AddCustomGroup
+    controller: AvailabilityPageController
+    function: AvailabilityIndex
 
 
 'calendar':
     directory: pages/user
     controller: CalendarPageController
-    function: Calendar
-'action/calendar/add-event':
-    directory: api/user
-    controller: CalendarActionController
-    function: AddEvent
+    function: CalendarIndex
 
 
-'finance-tracker':
+'finance':
     directory: pages/user
-    controller: FinanceTrackerPageController
-    function: FinanceTracker
-'finance-tracker/generate-statement':
-    directory: pages/user
-    controller: FinanceTrackerPageController
-    function: GenerateStatement
+    controller: FinancePageController
+    function: FinanceIndex
+
+
+
 
 # **************************************************
 # API - User Pages
 # **************************************************
-'action/task-manager/add-task':
-    directory: api/user
-    controller: TaskManagerActionController
-    function: AddTask
-'action/task-manager/submit-task':
-    directory: api/user
-    controller: TaskManagerActionController
-    function: SubmitTask
 
-
-'action/availability-tracker/update-schedule':
-    directory: api/user
-    controller: AvailabilityTrackerActionController
-    function: UpdateSchedule
-'action/availability-tracker/delete-group':
-    directory: api/user
-    controller: AvailabilityTrackerActionController
-    function: DeleteGroup
-'action/availability-tracker/create-new-group':
-    directory: api/user
-    controller: AvailabilityTrackerActionController
-    function: CreateNewGroup
-
-
-'action/finance-tracker/add-debit-credit':
-    directory: api/user
-    controller: FinanceTrackerActionController
-    function: AddDebitCredit
-'action/finance-tracker/verify-balance':
-    directory: api/user
-    controller: FinanceTrackerActionController
-    function: VerifyBalance
-'action/finance-tracker/approve-statement':
-    directory: api/user
-    controller: FinanceTrackerActionController
-    function: ApproveStatement

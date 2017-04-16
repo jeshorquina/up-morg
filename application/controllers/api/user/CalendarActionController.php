@@ -4,10 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
-use \Jesh\Helpers\Security;
-use \Jesh\Helpers\Session;
 
-use \Jesh\Models\EventModel;
+use \Jesh\Operations\User\CalendarActionOperations;
 
 class CalendarActionController extends Controller 
 {
@@ -17,7 +15,7 @@ class CalendarActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = self::InitializeOperations("CalendarActionOperations");
+        $this->operations = new CalendarActionOperations;
     }
 
     public function AddEvent()

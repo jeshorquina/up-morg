@@ -4,10 +4,10 @@ namespace Jesh\Operations\Admin;
 use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Sort;
 
-use \Jesh\Operations\Helpers\BatchOperations;
-use \Jesh\Operations\Helpers\BatchMemberOperations;
-use \Jesh\Operations\Helpers\CommitteeOperations;
-use \Jesh\Operations\Helpers\MemberOperations;
+use \Jesh\Operations\Repository\BatchOperations;
+use \Jesh\Operations\Repository\BatchMemberOperations;
+use \Jesh\Operations\Repository\CommitteeOperations;
+use \Jesh\Operations\Repository\MemberOperations;
 
 use \Jesh\Models\BatchModel;
 use \Jesh\Models\BatchMemberModel;
