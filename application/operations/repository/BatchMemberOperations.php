@@ -25,6 +25,29 @@ class BatchMemberOperations
         return $batch_members;
     }
 
+    public function GetBatchMember($batch_id, $member_id)
+    {
+        $batch_member = $this->repository->GetBatchMember(
+            $batch_id, $member_id
+        );
+
+        if(!$batch_member)
+        {
+            throw new \Exception("Cound not find batch member in the database");
+        }
+
+        return new BatchMemberModel($batch_member[0]);
+    }
+
+    public function GetBatchMemberIDs($batch_id)
+    {
+        $ids = array();
+        foreach($this->repository->GetBatchMembers($batch_id) as $batch_member){
+            $ids[] = $batch_member["BatchMemberID"];
+        }
+        return $ids;
+    }
+
     public function GetMemberIDs($batch_id)
     {
         $ids = array();

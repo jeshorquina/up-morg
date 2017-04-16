@@ -7,6 +7,8 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
+use \Jesh\Operations\Helpers\PermissionsHelper;
+
 use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;
@@ -18,6 +20,7 @@ class LoggedOutActionOperations
     private $batch_member;
     private $committee;
     private $member;
+    private $permission;
 
     public function __construct()
     {
@@ -25,6 +28,7 @@ class LoggedOutActionOperations
         $this->batch_member = new BatchMemberOperations;
         $this->committee = new CommitteeOperations;
         $this->member = new MemberOperations;
+        $this->permission = new PermissionsHelper;
     }
 
     public function ValidateLoginData($username, $password)
@@ -61,32 +65,44 @@ class LoggedOutActionOperations
 
         $batch_id = $this->batch->GetActiveBatchID();
 
-        $batch_member_id = 0;
+        $batch_member = null;
         if($this->batch_member->HasMember($batch_id, $member_details->MemberID))
         {
-            $batch_member_id = $this->batch_member->GetBatchMemberID(
+            $batch_member = $this->batch_member->GetBatchMember(
                 $batch_id, $member_details->MemberID
             );
         }
 
         $batch_array = array();
         $committee_array = array();
-        if($batch_member_id !== 0)
+        $subordinates_array = array();
+
+        if($batch_member !== null)
         {
             $batch_array["id"] = $batch_id;
-            $batch_array["member_id"] = $batch_member_id;
+            $batch_array["member_id"] = $batch_member->BatchMemberID;
 
-            if($this->committee->HasBatchMember($batch_member_id))
+            if($this->committee->HasBatchMember($batch_array["member_id"]))
             {
                 $committee_array["id"] = (
                     $this->committee->GetCommitteeIDByBatchMemberID(
-                        $batch_member_id
+                        $batch_array["member_id"]
                     )
                 );
                 $committee_array["member_id"] = (
-                    $this->committee->GetCommitteeMemberID($batch_member_id)
+                    $this->committee->GetCommitteeMemberID(
+                        $batch_array["member_id"]
+                    )
                 );
             }
+
+            $subordinates_array = (
+                $this->permission->GetSubordinateBatchMemberIDs(
+                    $batch_array["member_id"], 
+                    $batch_id, 
+                    $batch_member->MemberTypeID
+                )
+            );
         }
 
         return Session::Set("user_data", json_encode(
@@ -99,8 +115,9 @@ class LoggedOutActionOperations
                     "email_address" => $member_details->EmailAddress,
                     "phone_number"  => $member_details->PhoneNumber
                 ),
-                "batch" => $batch_array,
-                "committee" => $committee_array
+                "batch"        => $batch_array,
+                "committee"    => $committee_array, 
+                "subordinates" => $subordinates_array
             )
         ));
     }

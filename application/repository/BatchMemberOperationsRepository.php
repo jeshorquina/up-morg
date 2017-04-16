@@ -12,6 +12,13 @@ class BatchMemberOperationsRepository extends Repository
         return self::Get("BatchMember", "*", array("BatchID" => $batch_id));
     }
 
+    public function GetBatchMember($batch_id, $member_id)
+    {
+        return self::Get("BatchMember", "*", array(
+            "BatchID" => $batch_id, "MemberID" => $member_id
+        ));
+    }
+
     public function GetMemberIDs($batch_id)
     {
         return self::Get(

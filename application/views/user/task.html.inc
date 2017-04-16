@@ -4,7 +4,9 @@
 
         <h2 class="text-center">Task Manager</h2>
 
-        <hr>
+        <?= $page["session"] ?>
+
+            <hr>
 
     </div>
 

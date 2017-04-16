@@ -83,8 +83,9 @@ class TaskPageController extends Controller
                     "urls" => $this->GetPageURLs(
                         "public/css/user/task.css",
                         "public/js/user/task.js"
-                    )
-                ) 
+                    ),
+                    "session" => Session::Get("user_data")
+                )
             )
         ));  
     }

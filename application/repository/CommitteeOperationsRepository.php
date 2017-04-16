@@ -53,6 +53,17 @@ class CommitteeOperationsRepository extends Repository
         );
     }
 
+    public function GetCommitteePermissionCommitteeID(
+        $batch_id, $member_type_id
+    )
+    {
+        return self::Get(
+            "CommitteePermission", "CommitteeID", array(
+                "BatchID" => $batch_id, "MemberTypeID" => $member_type_id
+            )
+        );
+    }
+
     public function HasCommitteeName($committee_name)
     {
         return self::Find("Committee", "CommitteeName", array(

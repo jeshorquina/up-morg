@@ -131,6 +131,22 @@ class CommitteeOperations
         return $ids;
     }
 
+    public function GetCommitteePermissionCommitteeIDs(
+        $batch_id, $member_type_id
+    )
+    {
+        $committees = $this->repository->GetCommitteePermissionCommitteeID(
+            $batch_id, $member_type_id
+        );
+
+        $ids = array();
+        foreach($committees as $committee)
+        {
+            $ids[] = $committee["CommitteeID"];
+        }
+        return $ids;
+    }
+
     public function HasCommitteeName($committee_name)
     {
         return $this->repository->HasCommitteeName($committee_name);
