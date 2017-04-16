@@ -121,7 +121,7 @@ CREATE TABLE `Batch` (
 
 LOCK TABLES `Batch` WRITE;
 /*!40000 ALTER TABLE `Batch` DISABLE KEYS */;
-INSERT INTO `Batch` VALUES (9,'2017-2018'),(10,'2016-2017');
+INSERT INTO `Batch` VALUES (9,'2017-2018');
 /*!40000 ALTER TABLE `Batch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `BatchMember` (
   `BatchMemberID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `BatchID` int(10) unsigned NOT NULL,
   `MemberID` int(10) unsigned NOT NULL,
-  `MemberTypeID` int(10) unsigned DEFAULT NULL,
+  `MemberTypeID` int(10) unsigned DEFAULT '0',
   PRIMARY KEY (`BatchMemberID`),
   KEY `FK_BatchMember_BatchID` (`BatchID`),
   KEY `FK_BatchMember_MemberID` (`MemberID`),
@@ -144,7 +144,7 @@ CREATE TABLE `BatchMember` (
   CONSTRAINT `FK_BatchMember_BatchID` FOREIGN KEY (`BatchID`) REFERENCES `Batch` (`BatchID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_BatchMember_MemberID` FOREIGN KEY (`MemberID`) REFERENCES `Member` (`MemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_BatchMember_MemberTypeID` FOREIGN KEY (`MemberTypeID`) REFERENCES `MemberType` (`MemberTypeID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +153,7 @@ CREATE TABLE `BatchMember` (
 
 LOCK TABLES `BatchMember` WRITE;
 /*!40000 ALTER TABLE `BatchMember` DISABLE KEYS */;
-INSERT INTO `BatchMember` VALUES (33,9,1,1),(34,9,2,2),(35,9,3,3),(36,9,4,4),(37,9,5,4),(38,9,6,4),(39,9,7,4),(40,9,8,4),(41,9,9,4),(42,9,10,4);
+INSERT INTO `BatchMember` VALUES (34,9,2,2),(35,9,3,3),(36,9,4,4),(37,9,5,4),(38,9,6,4),(39,9,7,4),(40,9,8,4),(41,9,9,4),(42,9,10,4),(43,9,11,0),(44,9,1,1);
 /*!40000 ALTER TABLE `BatchMember` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +198,7 @@ CREATE TABLE `CommitteeMember` (
   KEY `FK_CommiteeMember_CommiteeID` (`CommitteeID`),
   CONSTRAINT `FK_CommiteeMember_CommiteeID` FOREIGN KEY (`CommitteeID`) REFERENCES `Committee` (`CommitteeID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_CommitteeMember_BatchMemberID` FOREIGN KEY (`BatchMemberID`) REFERENCES `BatchMember` (`BatchMemberID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `CommitteeMember` (
 
 LOCK TABLES `CommitteeMember` WRITE;
 /*!40000 ALTER TABLE `CommitteeMember` DISABLE KEYS */;
-INSERT INTO `CommitteeMember` VALUES (74,38,2,1),(76,39,3,1),(77,40,4,1),(78,41,5,1),(79,42,6,1),(80,36,7,1),(81,37,1,1);
+INSERT INTO `CommitteeMember` VALUES (74,38,2,1),(76,39,3,1),(77,40,4,1),(78,41,5,1),(79,42,6,1),(81,37,1,1),(90,36,7,1);
 /*!40000 ALTER TABLE `CommitteeMember` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -339,7 +339,7 @@ CREATE TABLE `MemberType` (
   `MemberTypeID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `MemberType` varchar(50) NOT NULL,
   PRIMARY KEY (`MemberTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -348,7 +348,7 @@ CREATE TABLE `MemberType` (
 
 LOCK TABLES `MemberType` WRITE;
 /*!40000 ALTER TABLE `MemberType` DISABLE KEYS */;
-INSERT INTO `MemberType` VALUES (1,'First Frontman'),(2,'Second Frontman'),(3,'Third Frontman'),(4,'Committee Head'),(5,'Committee Member');
+INSERT INTO `MemberType` VALUES (0,'Unassigned'),(1,'First Frontman'),(2,'Second Frontman'),(3,'Third Frontman'),(4,'Committee Head'),(5,'Committee Member');
 /*!40000 ALTER TABLE `MemberType` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,7 +373,7 @@ CREATE TABLE `StaticData` (
 
 LOCK TABLES `StaticData` WRITE;
 /*!40000 ALTER TABLE `StaticData` DISABLE KEYS */;
-INSERT INTO `StaticData` VALUES (1,'SystemAdminPassword','$2y$10$0kkpPrcrw2rXlkazy793.O4fFBELvLd53v21V8Y81qSayV8UQUJLO'),(2,'VerifiedBalance','499212.02'),(3,'CurrentBatch','9');
+INSERT INTO `StaticData` VALUES (1,'SystemAdminPassword','$2y$10$0kkpPrcrw2rXlkazy793.O4fFBELvLd53v21V8Y81qSayV8UQUJLO'),(2,'VerifiedBalance','499212.02'),(3,'CurrentBatch','0');
 /*!40000 ALTER TABLE `StaticData` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -509,4 +509,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-16  6:35:34
+-- Dump completed on 2017-04-16 10:21:17
