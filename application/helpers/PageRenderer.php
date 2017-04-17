@@ -29,11 +29,30 @@ Class PageRenderer
 
         if(!$flags["is_batch_member"])
         {
-            self::Redirect($base_url."request/batch");
+            if($page_type !== "request-batch")
+            {
+                self::Redirect($base_url."request/batch");
+            }
+            else
+            {
+                return true;
+            }
         }
         else if(!$flags["is_committee_member"] && !$flags["is_frontman"]) 
         {
-            self::Redirect($base_url."request/committee");
+            if($page_type !== "request-committee")
+            {
+                self::Redirect($base_url."request/committee");
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        if($page_type === "request-batch" || $page_type === "request-committee")
+        {
+            self::Redirect($base_url);
         }
         
         if(!$flags["is_head"] && !$flags["is_frontman"])
@@ -99,15 +118,27 @@ Class PageRenderer
             $page_array,
             array(
                 "page" => array_merge(
-                    self::GetUserNavigationLinks($base_url),
+                    self::GetUserNavigationLinks($base_url, $page_name),
                     self::GetUserPageURLs($base_url, $page_name)
                 )
             )
         );
     }
 
-    private static function GetUserNavigationLinks($base_url)
+    private static function GetUserNavigationLinks($base_url, $page_name)
     {
+        if($page_name === "request-batch" || $page_name === "request-committee")
+        {
+            return array(
+                "nav" => array(
+                    array(
+                        "name" => "Logout",
+                        "url" => sprintf("%s%s", $base_url, 'action/logout')
+                    )
+                )
+            );
+        }
+
         $navs = array(
             array(
                 "name" => "Task Manager",

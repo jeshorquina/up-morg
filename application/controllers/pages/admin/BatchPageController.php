@@ -60,7 +60,7 @@ class BatchPageController extends Controller
             )
         );
 
-        self::SetBody("admin/subdirectory/batch-details.html.inc");
+        self::SetBody("admin/batch/details.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
                 self::GetBaseURL(), "batch-details", $other_details
@@ -71,9 +71,9 @@ class BatchPageController extends Controller
     public function BatchCommitteeDetails($batch_id, $committee_name)
     {
         $body = ($committee_name == "frontman") ? (
-            "admin/subdirectory/batch-details-frontman.html.inc"
+            "admin/batch/details/frontman.html.inc"
         ) : (
-            "admin/subdirectory/batch-details-committee.html.inc"
+            "admin/batch/details/committee.html.inc"
         );
         $other_details = array(
             Security::GetCSRFData(),

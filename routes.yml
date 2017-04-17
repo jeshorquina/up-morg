@@ -192,6 +192,13 @@
 # **************************************************
 # Pages - User pages
 # **************************************************
+'request':
+    directory: pages/user
+    controller: RequestPageController
+    function: RequestIndex
+    parameter: any
+
+
 'task':
     directory: pages/user
     controller: TaskPageController

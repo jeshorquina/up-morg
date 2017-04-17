@@ -85,6 +85,11 @@ class Controller extends CI_Controller {
         return uri_string();
     }
 
+    protected function PageNotFound()
+    {
+        show_404();
+    }
+
     protected function Redirect($uri = "")
     {
         header("Location: " . $this->GetBaseURL($uri));

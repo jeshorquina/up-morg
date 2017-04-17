@@ -63,7 +63,7 @@ class MemberPageController extends Controller
             )
         );
 
-        self::SetBody("admin/subdirectory/member-details.html.inc");
+        self::SetBody("admin/member/details.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
                 self::GetBaseURL(), "member-details", $other_details
