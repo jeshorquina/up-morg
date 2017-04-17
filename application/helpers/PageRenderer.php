@@ -218,20 +218,32 @@ Class PageRenderer
         $base_url, $page_type, $index, $page_name
     )
     {
-        return array(
-            "urls" => array(
-                "base" => $base_url,
-                "index" => sprintf("%s%s", $base_url, $index),
-                "stylesheet" => sprintf(
-                    "%spublic/css/%s/%s.css", 
-                    $base_url, $page_type, $page_name
-                ),
-                "script" => sprintf(
-                    "%spublic/js/%s/%s.js", 
-                    $base_url, $page_type, $page_name
-                )
-            )
-        );
+        $urls = array();
+
+        $urls["base"] = $base_url;
+        $urls["index"] = sprintf("%s%s", $base_url, $index);
+
+        $stylesheet = sprintf("public/css/%s/%s.css", $page_type, $page_name);
+        if(file_exists($stylesheet))
+        {
+            $urls["stylesheet"] = sprintf("%s%s", $base_url, $stylesheet);
+        }
+        else
+        {
+            $urls["stylesheet"] = "";
+        }
+
+        $script = sprintf("public/js/%s/%s.js", $page_type, $page_name);
+        if(file_exists($script))
+        {
+            $urls["script"] = sprintf("%s%s", $base_url, $script);
+        }
+        else
+        {
+            $urls["script"] = "";
+        }
+
+        return array("urls" => $urls);
     }
 
     private static function Redirect($url)

@@ -118,16 +118,19 @@ class CommitteeOperations
         }
     }
 
-    public function GetBatchMemberIDs($committee_id)
+    public function GetApprovedBatchMemberIDs($committee_id)
     {
-        $batch_member_ids = $this->repository->GetBatchMemberIDs(
+        $comittee_members = $this->repository->GetCommitteeMembers(
             $committee_id
         );
 
         $ids = array();
-        foreach($batch_member_ids as $batch_member_id) 
+        foreach($comittee_members as $comittee_member) 
         {
-            $ids[] = $batch_member_id["BatchMemberID"];
+            if($comittee_member["IsApproved"] === true)
+            {
+                $ids[] = $comittee_member["BatchMemberID"];
+            }
         }
         return $ids;
     }
@@ -161,6 +164,13 @@ class CommitteeOperations
     public function IsBatchMemberInCommittee($batch_member_id, $committee_id)
     {
         return $this->repository->IsBatchMemberInCommittee(
+            $batch_member_id, $committee_id
+        );
+    }
+
+    public function IsBatchMemberApproved($batch_member_id, $committee_id)
+    {
+        return $this->repository->IsBatchMemberApproved(
             $batch_member_id, $committee_id
         );
     }

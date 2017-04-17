@@ -73,3 +73,9 @@
     clear: both;
     overflow: auto;
 }
+
+.width{
+    &-full {
+        width: 100% !important;
+    }
+}

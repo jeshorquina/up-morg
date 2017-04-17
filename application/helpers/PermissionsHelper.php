@@ -41,7 +41,7 @@ class PermissionsHelper
             {
                 $subordinate_ids = array_merge(
                     $subordinate_ids, 
-                    $this->committee->GetBatchMemberIDs($committee_id)
+                    $this->committee->GetApprovedBatchMemberIDs($committee_id)
                 );
             }
 
@@ -67,7 +67,7 @@ class PermissionsHelper
         }
         else if($member_type == "Committee Head")
         {
-            return $this->committee->GetBatchMemberIDs(
+            return $this->committee->GetApprovedBatchMemberIDs(
                 $this->committee->GetCommitteeIDByBatchMemberID(
                     $batch_member_id
                 )

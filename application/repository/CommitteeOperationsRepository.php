@@ -45,12 +45,10 @@ class CommitteeOperationsRepository extends Repository
         ));
     }
 
-    public function GetBatchMemberIDs($committee_id)
+    public function GetCommitteeMembers($committee_id)
     {
         return self::Get(
-            "CommitteeMember", "BatchMemberID", array(
-                "CommitteeID" => $committee_id
-            )
+            "CommitteeMember", "*", array("CommitteeID" => $committee_id)
         );
     }
 
@@ -81,9 +79,18 @@ class CommitteeOperationsRepository extends Repository
     
     public function IsBatchMemberInCommittee($batch_member_id, $committee_id)
     {
-          return self::Find("CommitteeMember", "CommitteeMemberID", array(
+        return self::Find("CommitteeMember", "CommitteeMemberID", array(
             "BatchMemberID" => $batch_member_id,
             "CommitteeID" => $committee_id
+        ));
+    }
+
+    public function IsBatchMemberApproved($batch_member_id, $committee_id)
+    {
+        return self::Find("CommitteeMember", "CommitteeMemberID", array(
+            "BatchMemberID" => $batch_member_id,
+            "CommitteeID" => $committee_id,
+            "IsApproved" => true
         ));
     }
 

@@ -121,6 +121,19 @@
         ]
     },
     {
+        "name": "user/request-committee.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/operations/user/request-committee.js",
+            "resources/assets/js/controllers/user/request-committee.js"
+        ]
+    },
+    {
         "name": "user/task.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
@@ -185,7 +198,7 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/member.js",
+            "resources/assets/js/factories/user/batch-member.js",
             "resources/assets/js/operations/user/batch-member.js",
             "resources/assets/js/controllers/user/batch-member.js"
         ]

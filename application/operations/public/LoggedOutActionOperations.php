@@ -8,7 +8,6 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
-
 use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;
@@ -99,7 +98,10 @@ class LoggedOutActionOperations
                 )
             );
 
-            if($this->committee->HasBatchMember($batch_array["member_id"]))
+            if(
+                $this->committee->HasBatchMember($batch_array["member_id"]) && 
+                sizeof($subordinates_array) !== 0
+            )
             {
                 $committee_array["id"] = (
                     $this->committee->GetCommitteeIDByBatchMemberID(

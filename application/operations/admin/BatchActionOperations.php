@@ -503,7 +503,7 @@ class BatchActionOperations
         $committee_head_type_id = $this->member->GetMemberTypeID(
             "Committee Head"
         );
-        $committee_member_ids = $this->committee->GetBatchMemberIDs(
+        $committee_member_ids = $this->committee->GetApprovedBatchMemberIDs(
             $committee_id
         );
 
@@ -826,8 +826,11 @@ class BatchActionOperations
             $in_committee = $this->committee->IsBatchMemberInCommittee(
                 $batch_member->BatchMemberID, $committee_id
             );
+            $is_approved = $this->committee->IsBatchMemberApproved(
+                $batch_member->BatchMemberID, $committee_id
+            );
 
-            if($in_committee)
+            if($in_committee && $is_approved)
             {
                 $filtered_batch_members[] = $batch_member;
             }
