@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\UserSession;
 
 class SubordinatePageController extends Controller 
 {
@@ -37,11 +38,27 @@ class SubordinatePageController extends Controller
             ),
         );
 
-        self::SetBody("user/subordinate.html.inc");
+        $page_name = "";
+        if(UserSession::IsFirstFrontman())
+        {
+            self::SetBody("user/subordinate/first-frontman.html.inc");
+            $page_name = "first-frontman-subordinate";
+        }
+        else if(UserSession::IsFrontman())
+        {
+            self::SetBody("user/subordinate/frontman.html.inc");
+            $page_name = "frontman-subordinate";
+        }
+        else
+        {
+            self::SetBody("user/subordinate/committee-head.html.inc");
+            $page_name = "committee-head-subordinate";
+        }
+
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "subordinate", $other_details
+                self::GetBaseURL(), $page_name, $other_details
             )
-        );   
+        );
     }
 }

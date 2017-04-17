@@ -191,7 +191,7 @@
         ]
     },
     {
-        "name": "user/subordinate.js",
+        "name": "user/first-frontman-subordinate.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -199,9 +199,37 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/subordinater.js",
-            "resources/assets/js/operations/user/subordinate.js",
-            "resources/assets/js/controllers/user/subordinate.js"
+            "resources/assets/js/factories/user/subordinate/first-frontman.js",
+            "resources/assets/js/operations/user/subordinate/first-frontman.js",
+            "resources/assets/js/controllers/user/subordinate/first-frontman.js"
+        ]
+    },
+    {
+        "name": "user/frontman-subordinate.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/subordinate/frontman.js",
+            "resources/assets/js/operations/user/subordinate/frontman.js",
+            "resources/assets/js/controllers/user/subordinate/frontman.js"
+        ]
+    },
+    {
+        "name": "user/committee-head-subordinate.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/subordinate/committee-head.js",
+            "resources/assets/js/operations/user/subordinate/committee-head.js",
+            "resources/assets/js/controllers/user/subordinate/committee-head.js"
         ]
     }
 ]
