@@ -108,6 +108,7 @@ class LoggedOutActionOperations
 
                     $flags_array["is_batch_member"] = true;
                     $flags_array["is_frontman"] = false;
+                    $flags_array["is_first_frontman"] = false;
                     $flags_array["is_committee_member"] = true;
                     $flags_array["is_committee_head"] = (
                         $this->member->GetMemberType(
@@ -124,6 +125,7 @@ class LoggedOutActionOperations
                 {
                     $flags_array["is_batch_member"] = true;
                     $flags_array["is_frontman"] = false;
+                    $flags_array["is_first_frontman"] = false;                    
                     $flags_array["is_committee_head"] = false;
                     $flags_array["is_committee_member"] = false;
                     $flags_array["is_finance"] = false;
@@ -133,17 +135,27 @@ class LoggedOutActionOperations
             {
                 $flags_array["is_batch_member"] = true;
                 $flags_array["is_frontman"] = true;
+                $flags_array["is_first_frontman"] = (
+                    $this->member->GetMemberType(
+                        $batch_member->MemberTypeID
+                    ) === "First Frontman"
+                );
                 $flags_array["is_committee_head"] = false;
                 $flags_array["is_committee_member"] = false;
-                $flags_array["is_finance"] = true;
+                $flags_array["is_finance"] = (
+                    $this->member->GetMemberType(
+                        $batch_member->MemberTypeID
+                    ) === "First Frontman"
+                );
             }
         }
         else
         {
             $flags_array["is_batch_member"] = false;
+            $flags_array["is_frontman"] = false;
+            $flags_array["is_first_frontman"] = false;
             $flags_array["is_committee_head"] = false;
             $flags_array["is_committee_member"] = false;
-            $flags_array["is_frontman"] = false;
             $flags_array["is_finance"] = false;
         }
 
