@@ -98,7 +98,7 @@
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/admin/batch-details.css"
+            "resources/assets/css/pages/admin/batch/details.css"
         ]
     },
     {
@@ -116,7 +116,7 @@
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/admin/batch-details-committee.css"
+            "resources/assets/css/pages/admin/batch/committee/details.css"
         ]
     },
     {
@@ -152,7 +152,7 @@
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/admin/member-details.css"
+            "resources/assets/css/pages/admin/member/details.css"
         ]
     },
     {

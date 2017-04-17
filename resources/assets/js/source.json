@@ -74,9 +74,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/batch-details.js",
-            "resources/assets/js/operations/admin/batch-details.js",
-            "resources/assets/js/controllers/admin/batch-details.js"
+            "resources/assets/js/factories/admin/batch/details.js",
+            "resources/assets/js/operations/admin/batch/details.js",
+            "resources/assets/js/controllers/admin/batch/details.js"
         ]
     },
     {
@@ -88,9 +88,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/admin/batch-details-committee.js",
-            "resources/assets/js/operations/admin/batch-details-committee.js",
-            "resources/assets/js/controllers/admin/batch-details-committee.js"
+            "resources/assets/js/factories/admin/batch/committee/details.js",
+            "resources/assets/js/operations/admin/batch/committee/details.js",
+            "resources/assets/js/controllers/admin/batch/committee/details.js"
         ]
     },
     {
@@ -116,8 +116,8 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/operations/admin/member-details.js",
-            "resources/assets/js/controllers/admin/member-details.js"
+            "resources/assets/js/operations/admin/member/details.js",
+            "resources/assets/js/controllers/admin/member/details.js"
         ]
     },
     {
@@ -191,7 +191,7 @@
         ]
     },
     {
-        "name": "user/batch-member.js",
+        "name": "user/subordinate.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -199,9 +199,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/batch-member.js",
-            "resources/assets/js/operations/user/batch-member.js",
-            "resources/assets/js/controllers/user/batch-member.js"
+            "resources/assets/js/factories/user/subordinater.js",
+            "resources/assets/js/operations/user/subordinate.js",
+            "resources/assets/js/controllers/user/subordinate.js"
         ]
     }
 ]
