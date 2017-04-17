@@ -44,9 +44,7 @@ class RequestPageController extends Controller
             self::SetBody(sprintf("user/request/%s.html.inc", $type));
             self::RenderView(
                 PageRenderer::GetUserPageData(
-                    Url::GetBaseURL(), 
-                    sprintf("request-%s", $type), 
-                    $other_details
+                    sprintf("request-%s", $type), $other_details
                 )
             );   
         }

@@ -40,9 +40,7 @@ class CalendarPageController extends Controller
 
         self::SetBody("user/calendar.html.inc");
         self::RenderView(
-            PageRenderer::GetUserPageData(
-                Url::GetBaseURL(), "calendar", $other_details
-            )
+            PageRenderer::GetUserPageData("calendar", $other_details)
         );   
     }
 }

@@ -45,9 +45,7 @@ class AccessPageController extends Controller
 
         self::SetBody("admin/login.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "login", $other_details, false
-            )
+            PageRenderer::GetAdminPageData("login", $other_details, false)
         );
     }
 }

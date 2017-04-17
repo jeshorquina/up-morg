@@ -41,9 +41,7 @@ class BatchPageController extends Controller
 
         self::SetBody("admin/batch.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "batch", $other_details
-            )
+            PageRenderer::GetAdminPageData("batch", $other_details)
         ); 
     }
 
@@ -63,9 +61,7 @@ class BatchPageController extends Controller
 
         self::SetBody("admin/batch/details.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "batch-details", $other_details
-            )
+            PageRenderer::GetAdminPageData("batch-details", $other_details)
         );
     }
 
@@ -100,7 +96,7 @@ class BatchPageController extends Controller
         self::SetBody($body); 
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "batch-details-committee", $other_details
+                "batch-details-committee", $other_details
             )
         );
     }

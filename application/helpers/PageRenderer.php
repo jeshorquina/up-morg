@@ -72,8 +72,27 @@ class PageRenderer
         return true;
     }
 
+    public static function GetPublicPageData($page_name, $other_details)
+    {
+        $page_array = array();
+        foreach($other_details as $array)
+        {
+           $page_array = array_merge($page_array, $array);
+        }
+
+        return array_merge_recursive(
+            $page_array,
+            array(
+                "page" => array_merge(
+                    self::GetPublicNavigationLinks(),
+                    self::GetPublicPageURLs($page_name)
+                )
+            )
+        );
+    }
+
     public static function GetAdminPageData(
-        $base_url, $page_name, $other_details, $has_nav = true
+        $page_name, $other_details = array(), $has_nav = true
     )
     {
         $page_array = array();
@@ -88,8 +107,8 @@ class PageRenderer
                 $page_array,
                 array(
                     "page" => array_merge(
-                        self::GetAdminNavigationLinks($base_url),
-                        self::GetAdminPageURLs($base_url, $page_name)
+                        self::GetAdminNavigationLinks(),
+                        self::GetAdminPageURLs($page_name)
                     )
                 )
             );
@@ -99,14 +118,14 @@ class PageRenderer
             return array_merge_recursive(
                 $page_array,
                 array(
-                    "page" => self::GetAdminPageURLs($base_url, $page_name)
+                    "page" => self::GetAdminPageURLs($page_name)
                 )
             );
         }
     }
 
     public static function GetUserPageData(
-        $base_url, $page_name, $other_details
+        $page_name, $other_details = array()
     )
     {
         $page_array = array();
@@ -119,14 +138,14 @@ class PageRenderer
             $page_array,
             array(
                 "page" => array_merge(
-                    self::GetUserNavigationLinks($base_url, $page_name),
-                    self::GetUserPageURLs($base_url, $page_name)
+                    self::GetUserNavigationLinks($page_name),
+                    self::GetUserPageURLs($page_name)
                 )
             )
         );
     }
 
-    private static function GetUserNavigationLinks($base_url, $page_name)
+    private static function GetUserNavigationLinks($page_name)
     {
         if($page_name === "request-batch" || $page_name === "request-committee")
         {
@@ -134,7 +153,7 @@ class PageRenderer
                 "nav" => array(
                     array(
                         "name" => "Logout",
-                        "url" => sprintf("%s%s", $base_url, 'action/logout')
+                        "url" => Url::GetBaseURL('action/logout')
                     )
                 )
             );
@@ -143,15 +162,15 @@ class PageRenderer
         $navs = array(
             array(
                 "name" => "Task Manager",
-                "url" => sprintf("%s%s", $base_url, 'task')
+                "url" => Url::GetBaseURL('task')
             ),
             array(
                 "name" => "Availability Tracker",
-                "url" => sprintf("%s%s", $base_url, 'availability')
+                "url" => Url::GetBaseURL('availability')
             ),
             array(
                 "name" => "Calendar",
-                "url" => sprintf("%s%s", $base_url, 'calendar')
+                "url" => Url::GetBaseURL('calendar')
             ),
         );
         
@@ -159,7 +178,7 @@ class PageRenderer
         {
             $navs[] = array(
                 "name" => "Finance Tracker",
-                "url" => sprintf("%s%s", $base_url, 'finance')
+                "url" => Url::GetBaseURL('finance')
             );
         }
         
@@ -167,65 +186,84 @@ class PageRenderer
         {
             $navs[] = array(
                 "name" => "Member Manager",
-                "url" => sprintf("%s%s", $base_url, 'member')
+                "url" => Url::GetBaseURL('member')
             );
         }
 
         $navs[] = array(
             "name" => "Logout",
-            "url" => sprintf("%s%s", $base_url, 'action/logout')
+            "url" => Url::GetBaseURL('action/logout')
         );
 
         return array("nav" => $navs);
     }
 
-    private static function GetAdminNavigationLinks($base_url)
+    private static function GetAdminNavigationLinks()
     {
         return array(
             "nav" => array(
                 array(
                     "name" => "Manage Batch",
-                    "url" => sprintf("%s%s", $base_url, 'admin/batch')
+                    "url" => Url::GetBaseURL('admin/batch')
                 ),
                 array(
                     "name" => "Manage Members",
-                    "url" => sprintf("%s%s", $base_url, 'admin/member')
+                    "url" => Url::GetBaseURL('admin/member')
                 ),
                 array(
                     "name" => "Change Password",
-                    "url" => sprintf("%s%s", $base_url, 'admin/account/password')
+                    "url" => Url::GetBaseURL('admin/account/password')
                 ),
                 array(
                     "name" => "Logout",
-                    "url" => sprintf("%s%s", $base_url, 'action/admin/logout')
+                    "url" => Url::GetBaseURL('action/admin/logout')
                 )
             )
         );
     }
 
-    private static function GetUserPageURLs($base_url, $page_name)
+    private static function GetPublicNavigationLinks()
     {
-        return self::GetPageURLs($base_url, "user", "", $page_name);
+        return array(
+            "nav" => array(
+                array(
+                    "name" => "Login",
+                    "url" => Url::GetBaseURL('login')
+                ),
+                array(
+                    "name" => "Sign Up",
+                    "url" => Url::GetBaseURL('sign-up')
+                )
+            )
+        );
     }
 
-    private static function GetAdminPageURLs($base_url, $page_name)
+    private static function GetPublicPageURLs($page_name)
     {
-        return self::GetPageURLs($base_url, "admin", "admin", $page_name);
+        return self::GetPageURLs("public", "", $page_name);
     }
 
-    private static function GetPageURLs(
-        $base_url, $page_type, $index, $page_name
-    )
+    private static function GetUserPageURLs($page_name)
+    {
+        return self::GetPageURLs("user", "", $page_name);
+    }
+
+    private static function GetAdminPageURLs($page_name)
+    {
+        return self::GetPageURLs("admin", "admin", $page_name);
+    }
+
+    private static function GetPageURLs($page_type, $index, $page_name)
     {
         $urls = array();
 
-        $urls["base"] = $base_url;
-        $urls["index"] = sprintf("%s%s", $base_url, $index);
+        $urls["base"] = Url::GetBaseURL();
+        $urls["index"] = Url::GetBaseURL($index);
 
         $stylesheet = sprintf("public/css/%s/%s.css", $page_type, $page_name);
         if(file_exists($stylesheet))
         {
-            $urls["stylesheet"] = sprintf("%s%s", $base_url, $stylesheet);
+            $urls["stylesheet"] = Url::GetBaseURL($stylesheet);
         }
         else
         {
@@ -235,7 +273,7 @@ class PageRenderer
         $script = sprintf("public/js/%s/%s.js", $page_type, $page_name);
         if(file_exists($script))
         {
-            $urls["script"] = sprintf("%s%s", $base_url, $script);
+            $urls["script"] = Url::GetBaseURL($script);
         }
         else
         {

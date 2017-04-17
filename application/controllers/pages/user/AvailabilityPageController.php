@@ -40,9 +40,7 @@ class AvailabilityPageController extends Controller
 
         self::SetBody("user/availability.html.inc");
         self::RenderView(
-            PageRenderer::GetUserPageData(
-                Url::GetBaseURL(), "availability", $other_details
-            )
+            PageRenderer::GetUserPageData("availability", $other_details)
         );   
     }
 }

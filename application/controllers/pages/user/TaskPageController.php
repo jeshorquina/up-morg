@@ -6,7 +6,6 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
-use \Jesh\Helpers\Url;
 
 class TaskPageController extends Controller 
 {
@@ -41,9 +40,7 @@ class TaskPageController extends Controller
 
         self::SetBody("user/task.html.inc");
         self::RenderView(
-            PageRenderer::GetUserPageData(
-                Url::GetBaseURL(), "task", $other_details
-            )
+            PageRenderer::GetUserPageData("task", $other_details)
         );   
     }
 }

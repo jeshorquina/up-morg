@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
+use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\Url;
@@ -41,63 +42,37 @@ class LoggedOutPagesController extends Controller
         self::SetFooter("public/templates/footer.html.inc");
     }
 
-    private function GetNavigationLinks()
-    {
-        return array(
-            array(
-                "name" => "Login",
-                "url" => Url::GetBaseURL('login')
-            ),
-            array(
-                "name" => "Sign Up",
-                "url" => Url::GetBaseURL('sign-up')
-            )
-        );
-    }
-
-    private function GetPageURLs($stylesheet, $script)
-    {
-        return array(
-            "base" => Url::GetBaseURL(),
-            "index" => Url::GetBaseURL(),
-            "stylesheet" => Url::GetBaseURL($stylesheet),
-            "script" => Url::GetBaseURL($script),
-        );
-    }
-
     public function Login()
     {
-        self::SetBody("public/login.html.inc");
-        self::RenderView(array_merge(
+        $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Log In",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/public/login.css",
-                        "public/js/public/login.js"
-                    )
-                ) 
+                    "title" =>  "Log In"
+                )
             )
-        ));
+        );
+
+        self::SetBody("public/login.html.inc");
+        self::RenderView(
+            PageRenderer::GetPublicPageData("login", $other_details)
+        );
     }
 
     public function Signup()
     {
-        self::SetBody("public/signup.html.inc");
-        self::RenderView(array_merge(
+        $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Sign Up",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/public/signup.css",
-                        "public/js/public/signup.js"
-                    )
+                    "title" =>  "Sign Up"
                 )
             )
-        ));
+        );
+
+        self::SetBody("public/signup.html.inc");
+        self::RenderView(
+            PageRenderer::GetPublicPageData("signup", $other_details)
+        );
     }
 }

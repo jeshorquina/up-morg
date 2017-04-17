@@ -40,9 +40,7 @@ class AccountPageController extends Controller
 
         self::SetBody("admin/password.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "password", $other_details
-            )
+            PageRenderer::GetAdminPageData("password", $other_details)
         );
     }
 }

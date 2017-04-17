@@ -41,9 +41,7 @@ class MemberPageController extends Controller
 
         self::SetBody("admin/member.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "member", $other_details
-            )
+            PageRenderer::GetAdminPageData("member", $other_details)
         );
     }
 
@@ -66,9 +64,7 @@ class MemberPageController extends Controller
 
         self::SetBody("admin/member/details.html.inc");
         self::RenderView(
-            PageRenderer::GetAdminPageData(
-                Url::GetBaseURL(), "member-details", $other_details
-            )
+            PageRenderer::GetAdminPageData("member-details", $other_details)
         );
     }
 }
