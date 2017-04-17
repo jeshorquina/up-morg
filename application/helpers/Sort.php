@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Helpers;
 
-Class Sort
+class Sort
 {
     const ASCENDING = SORT_ASC;
     const DESCENDING = SORT_DESC;

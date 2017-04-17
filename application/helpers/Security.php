@@ -3,7 +3,7 @@ namespace Jesh\Helpers;
 
 use \CI_Security;
 
-Class Security
+class Security
 {  
     public static function GenerateHash($input)
     {

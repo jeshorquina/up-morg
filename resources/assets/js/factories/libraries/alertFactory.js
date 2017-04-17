@@ -13,11 +13,15 @@
   }
 
   function CreateAlert(message, type) {
-    return "<div class='alert " + type + "'>"
-      + "<div class='alert-content'>"
-      + message
-      + "</div>"
-      + "</div>";
+    return DomHelper.CreateElement(
+      "div", {
+        "class": "alert " + type
+      }, DomHelper.CreateElement(
+        "div", {
+          "class": "alert-content"
+        }, message
+      )
+    );
   }
 
 })(

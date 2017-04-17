@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Helpers;
 
-Class ValidationDataBuilder
+class ValidationDataBuilder
 {
     private $valid;
     private $array;

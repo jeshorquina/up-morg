@@ -1,7 +1,6 @@
 <?php
 namespace Jesh\Operations\LoggedOut;
 
-use \Jesh\Helpers\PermissionsHelper;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
@@ -19,7 +18,6 @@ class LoggedOutActionOperations
     private $batch_member;
     private $committee;
     private $member;
-    private $permission;
 
     public function __construct()
     {
@@ -27,7 +25,6 @@ class LoggedOutActionOperations
         $this->batch_member = new BatchMemberOperations;
         $this->committee = new CommitteeOperations;
         $this->member = new MemberOperations;
-        $this->permission = new PermissionsHelper;
     }
 
     public function ValidateLoginData($username, $password)

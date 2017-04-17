@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Helpers;
 
-Class PageRenderer
+class PageRenderer
 {
     public static function HasAdminPageAccess($base_url, $uri)
     {

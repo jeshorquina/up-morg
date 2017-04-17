@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Helpers;
 
-Class StringHelper
+class StringHelper
 {
     public static function NoBreakString($string)
     {

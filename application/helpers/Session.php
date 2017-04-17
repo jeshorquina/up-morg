@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Helpers;
 
-Class Session
+class Session
 {
     public static function Get($key)
     {
