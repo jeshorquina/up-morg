@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
-use \Jesh\Helpers\PermissionHelper;
+use \Jesh\Helpers\PageRenderer;
 
 use \Jesh\Operations\User\FinanceActionOperations;
 
@@ -16,7 +16,7 @@ class FinanceActionController extends Controller
     {
         parent::__construct();
 
-        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL(), true)) 
+        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "finance")) 
         {
             $this->operations = new FinanceActionOperations;
         }

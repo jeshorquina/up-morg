@@ -6,9 +6,9 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\PageRenderer;
 
-use \Jesh\Operations\User\TaskActionOperations;
+use \Jesh\Operations\User\SubordinateActionOperations;
 
-class TaskManagerActionController extends Controller 
+class SubordinateActionController extends Controller 
 {
     private $operations;
 
@@ -16,9 +16,9 @@ class TaskManagerActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "task"))
+        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "subordinate")) 
         {
-            $this->operations = new TaskActionOperations;
+            $this->operations = new SubordinateActionOperations;
         }
     }
 }

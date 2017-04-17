@@ -1,5 +1,5 @@
 <?php
-namespace Jesh\Operations\Helpers;
+namespace Jesh\Helpers;
 
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;

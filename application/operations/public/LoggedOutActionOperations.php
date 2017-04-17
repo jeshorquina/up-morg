@@ -1,13 +1,13 @@
 <?php
 namespace Jesh\Operations\LoggedOut;
 
+use \Jesh\Helpers\PermissionsHelper;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
-use \Jesh\Operations\Helpers\PermissionsHelper;
 
 use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;

@@ -7,24 +7,13 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Operations\Repository\StaticDataOperations;
 
-class AdminActionOperations
+class AccountActionOperations
 {
     private $static_data;
 
     public function __construct()
     {
         $this->static_data = new StaticDataOperations;
-    }
-
-    public function SetLoggedInState()
-    {
-        Session::Clear();
-        return Session::Set("admin_data", "TRUE");
-    }
-
-    public function SetLoggedOutState()
-    {
-        return Session::End();
     }
 
     public function ValidateUpdatePasswordData($input_data)

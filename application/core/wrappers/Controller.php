@@ -80,9 +80,9 @@ class Controller extends CI_Controller {
         return base_url($uri);
     }
 
-    protected function GetCurrentURL()
+    protected function GetURI()
     {
-        return base_url(uri_string());
+        return uri_string();
     }
 
     protected function Redirect($uri = "")

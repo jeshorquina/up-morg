@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
+use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
-use \Jesh\Helpers\PermissionHelper;
 
 class CalendarPageController extends Controller 
 {
@@ -13,7 +13,7 @@ class CalendarPageController extends Controller
     {
         parent::__construct();
 
-        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL())) 
+        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "calendar"))
         {
             $this->SetTemplates();
         }
@@ -26,57 +26,22 @@ class CalendarPageController extends Controller
         self::SetFooter("admin/templates/footer.html.inc");
     }
 
-    private function GetNavigationLinks()
-    {
-        return array(
-            array(
-                "name" => "Task Manager",
-                "url" => self::GetBaseURL('task')
-            ),
-            array(
-                "name" => "Availability Tracker",
-                "url" => self::GetBaseURL('availability')
-            ),
-            array(
-                "name" => "Calendar",
-                "url" => self::GetBaseURL('calendar')
-            ),
-            array(
-                "name" => "Finance tracker",
-                "url" => self::GetBaseURL('finance')
-            ),
-            array(
-                "name" => "Logout",
-                "url" => self::GetBaseURL('action/logout')
-            )
-        );
-    }
-
-    private function GetPageURLs($stylesheet, $script)
-    {
-        return array(
-            "base" => self::GetBaseURL(),
-            "index" => self::GetBaseURL(),
-            "stylesheet" => self::GetBaseURL($stylesheet),
-            "script" => self::GetBaseURL($script),
-        );
-    }
-
     public function CalendarIndex()
     {
-        self::SetBody("user/calendar.html.inc");
-        self::RenderView(array_merge(
+        $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Calendar",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/user/calendar.css",
-                        "public/js/user/calendar.js"
-                    )
-                ) 
+                    "title" => "Calendar"
+                )
+            ),
+        );
+
+        self::SetBody("user/calendar.html.inc");
+        self::RenderView(
+            PageRenderer::GetUserPageData(
+                self::GetBaseURL(), "calendar", $other_details
             )
-        ));
+        );   
     }
 }

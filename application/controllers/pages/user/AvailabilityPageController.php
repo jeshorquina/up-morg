@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
+use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
-use \Jesh\Helpers\PermissionHelper;
 
 class AvailabilityPageController extends Controller 
 {
@@ -13,7 +13,7 @@ class AvailabilityPageController extends Controller
     {
         parent::__construct();
 
-        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL())) 
+        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "availability")) 
         {
             $this->SetTemplates();
         }
@@ -26,57 +26,22 @@ class AvailabilityPageController extends Controller
         self::SetFooter("admin/templates/footer.html.inc");
     }
 
-    private function GetNavigationLinks()
-    {
-        return array(
-            array(
-                "name" => "Task Manager",
-                "url" => self::GetBaseURL('task')
-            ),
-            array(
-                "name" => "Availability Tracker",
-                "url" => self::GetBaseURL('availability')
-            ),
-            array(
-                "name" => "Calendar",
-                "url" => self::GetBaseURL('calendar')
-            ),
-            array(
-                "name" => "Finance tracker",
-                "url" => self::GetBaseURL('finance')
-            ),
-            array(
-                "name" => "Logout",
-                "url" => self::GetBaseURL('action/logout')
-            )
-        );
-    }
-
-    private function GetPageURLs($stylesheet, $script)
-    {
-        return array(
-            "base" => self::GetBaseURL(),
-            "index" => self::GetBaseURL(),
-            "stylesheet" => self::GetBaseURL($stylesheet),
-            "script" => self::GetBaseURL($script),
-        );
-    }
-
     public function AvailabilityIndex()
     {
-        self::SetBody("user/availability.html.inc");
-        self::RenderView(array_merge(
+        $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Availability Tracker",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/user/availability.css",
-                        "public/js/user/availability.js"
-                    )
-                ) 
+                    "title" => "Availability Tracker"
+                )
+            ),
+        );
+
+        self::SetBody("user/availability.html.inc");
+        self::RenderView(
+            PageRenderer::GetUserPageData(
+                self::GetBaseURL(), "availability", $other_details
             )
-        ));
+        );   
     }
 }

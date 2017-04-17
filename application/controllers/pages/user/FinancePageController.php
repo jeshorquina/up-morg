@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
+use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
-use \Jesh\Helpers\PermissionHelper;
 
 class FinancePageController extends Controller 
 {
@@ -13,7 +13,7 @@ class FinancePageController extends Controller
     {
         parent::__construct();
 
-        if(PermissionHelper::HasUserPageAccess(self::GetBaseURL(), true)) 
+        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "finance")) 
         {
             $this->SetTemplates();
         }
@@ -26,57 +26,22 @@ class FinancePageController extends Controller
         self::SetFooter("admin/templates/footer.html.inc");
     }
 
-    private function GetNavigationLinks()
-    {
-        return array(
-            array(
-                "name" => "Task Manager",
-                "url" => self::GetBaseURL('task')
-            ),
-            array(
-                "name" => "Availability Tracker",
-                "url" => self::GetBaseURL('availability')
-            ),
-            array(
-                "name" => "Calendar",
-                "url" => self::GetBaseURL('calendar')
-            ),
-            array(
-                "name" => "Finance tracker",
-                "url" => self::GetBaseURL('finance')
-            ),
-            array(
-                "name" => "Logout",
-                "url" => self::GetBaseURL('action/logout')
-            )
-        );
-    }
-
-    private function GetPageURLs($stylesheet, $script)
-    {
-        return array(
-            "base" => self::GetBaseURL(),
-            "index" => self::GetBaseURL(),
-            "stylesheet" => self::GetBaseURL($stylesheet),
-            "script" => self::GetBaseURL($script),
-        );
-    }
-
     public function FinanceIndex()
     {
-        self::SetBody("user/finance.html.inc");
-        self::RenderView(array_merge(
+        $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Finance Tracker",
-                    "nav" => $this->GetNavigationLinks(),
-                    "urls" => $this->GetPageURLs(
-                        "public/css/user/finance.css",
-                        "public/js/user/finance.js"
-                    )
-                ) 
+                    "title" => "Finance Tracker"
+                )
+            ),
+        );
+
+        self::SetBody("user/finance.html.inc");
+        self::RenderView(
+            PageRenderer::GetUserPageData(
+                self::GetBaseURL(), "finance", $other_details
             )
-        ));  
+        );   
     }
 }

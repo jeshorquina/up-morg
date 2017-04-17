@@ -1,7 +1,7 @@
 <?php
 namespace Jesh\Operations\User;
 
-class MemberActionOperations
+class SubordinateActionOperations
 {
     public function __construct()
     {

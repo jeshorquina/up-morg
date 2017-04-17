@@ -7,13 +7,13 @@ use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class TaskPageController extends Controller 
+class AccessPageController extends Controller
 {
     public function __construct()
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "task")) 
+        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI()))
         {
             $this->SetTemplates();
         }
@@ -26,23 +26,27 @@ class TaskPageController extends Controller
         self::SetFooter("admin/templates/footer.html.inc");
     }
 
-    public function TaskIndex()
+    public function Home()
+    {
+        self::Redirect("admin/batch");
+    }
+
+    public function Login()
     {
         $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Task Manager",
-                    "session" => Session::Get("user_data")
+                    "title" => "Admin - Login Page"
                 )
-            ),
+            )
         );
 
-        self::SetBody("user/task.html.inc");
+        self::SetBody("admin/login.html.inc");
         self::RenderView(
-            PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "task", $other_details
+            PageRenderer::GetAdminPageData(
+                self::GetBaseURL(), "login", $other_details, false
             )
-        );   
+        );
     }
 }

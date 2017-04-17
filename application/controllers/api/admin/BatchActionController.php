@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
+use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Operations\Admin\BatchActionOperations;
@@ -16,7 +17,10 @@ class BatchActionController extends Controller
     {
         parent::__construct();
 
-        $this->operations = new BatchActionOperations;
+        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI()))
+        {
+            $this->operations = new BatchActionOperations;
+        }
     }
 
     public function GetBatches()

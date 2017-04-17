@@ -7,16 +7,13 @@ use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 
-class TaskPageController extends Controller 
+class AvailabilityPageController extends Controller 
 {
     public function __construct()
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "task")) 
-        {
-            $this->SetTemplates();
-        }
+        $this->SetTemplates();
     }
 
     private function SetTemplates()
@@ -26,22 +23,21 @@ class TaskPageController extends Controller
         self::SetFooter("admin/templates/footer.html.inc");
     }
 
-    public function TaskIndex()
+    public function AvailabilityIndex()
     {
         $other_details = array(
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Task Manager",
-                    "session" => Session::Get("user_data")
+                    "title" => "Availability Tracker"
                 )
             ),
         );
 
-        self::SetBody("user/task.html.inc");
+        self::SetBody("user/availability.html.inc");
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "task", $other_details
+                self::GetBaseURL(), "availability", $other_details
             )
         );   
     }

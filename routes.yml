@@ -42,15 +42,18 @@
 # **************************************************
 'admin':
     directory: pages/admin
-    controller: AdminPageController
+    controller: AccessPageController
     function: Home
 'admin/login':
     directory: pages/admin
-    controller: AdminPageController
+    controller: AccessPageController
     function: Login
+
+
+
 'admin/account/password':
     directory: pages/admin
-    controller: AdminPageController
+    controller: AccountPageController
     function: ChangePassword
 
 
@@ -88,15 +91,18 @@
 # **************************************************
 'action/admin/login':
     directory: api/admin
-    controller: AdminActionController
+    controller: AccessActionController
     function: Login
 'action/admin/logout':
     directory: api/admin
-    controller: AdminActionController
+    controller: AccessActionController
     function: Logout
+
+
+
 'action/admin/account/password/change':
     directory: api/admin
-    controller: AdminActionController
+    controller: AccountActionController
     function: ChangePassword
 
 
@@ -212,8 +218,8 @@
 
 'member':
     directory: pages/user
-    controller: BatchMemberPageController
-    function: BatchMemberIndex
+    controller: SubordinatePageController
+    function: SubordinateIndex
 
 
 # **************************************************
