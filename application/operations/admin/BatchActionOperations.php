@@ -583,18 +583,14 @@ class BatchActionOperations
                     "id" => "0",
                     "name" => "Unassigned"
                 ),
-                "members" => $this->GetBatchDetailsCommitteeMembers(
-                    $batch_members, "Unassigned"
-                )
+                "members" => $this->GetBatchDetailsUnassigned($batch_members)
             ),
             array(
                 "committee" => array(
                     "id" => "-1",
                     "name" => "Frontman"
                 ),
-                "members" => $this->GetBatchDetailsCommitteeMembers(
-                    $batch_members, "Frontman"
-                )
+                "members" => $this->GetBatchDetailsFrontmen($batch_members)
             )
         );
         foreach($this->committee->GetCommittees() as $committee) {
@@ -653,7 +649,7 @@ class BatchActionOperations
         {
             return "Unassigned";
         }
-        
+
         $member_type = $this->member->GetMemberType($member_type_id);
 
         switch(StringHelper::MakeIndex($member_type)) {
@@ -681,18 +677,69 @@ class BatchActionOperations
         }
     }
 
+    private function GetBatchDetailsFrontmen($batch_members)
+    {
+        $frontmen = array();
+        foreach($batch_members as $batch_member)
+        {
+            if($batch_member["committee"] == "Frontman") 
+            {
+                $frontmen[] = array(
+                    "id"       => $batch_member["id"],
+                    "name"     => $batch_member["name"],
+                    "position" => $batch_member["position"]
+                );
+            }
+        }
+        return $frontmen;
+    }
+
+    private function GetBatchDetailsUnassigned($batch_members)
+    {
+        $unassigned_members = array();
+        foreach($batch_members as $batch_member)
+        {
+            if($batch_member["committee"] == "Unassigned") 
+            {
+                if($this->committee->HasBatchMember($batch_member["id"]))
+                {
+                    $unassigned_members[] = array(
+                        "id"        => $batch_member["id"],
+                        "name"      => $batch_member["name"],
+                        "position"  => $batch_member["position"],
+                        "committee" => $this->committee->GetCommitteeName(
+                            $this->committee->GetCommitteeIDByBatchMemberID(
+                                $batch_member["id"]
+                            )
+                        )
+                    );
+                }
+                else 
+                {
+                    $unassigned_members[] = array(
+                        "id"        => $batch_member["id"],
+                        "name"      => $batch_member["name"],
+                        "position"  => $batch_member["position"],
+                        "committee" => false
+                    );
+                }
+            }
+        }
+        return $unassigned_members;
+    }
+
     private function GetBatchDetailsCommitteeMembers(
         $batch_members, $committee_name
     ) {
         $committee_members = array();
-        foreach($batch_members as $member)
+        foreach($batch_members as $batch_member)
         {
-            if($member["committee"] == $committee_name) 
+            if($batch_member["committee"] == $committee_name) 
             {
                 $committee_members[] = array(
-                    "id"       => $member["id"],
-                    "name"     => $member["name"],
-                    "position" => $member["position"]
+                    "id"       => $batch_member["id"],
+                    "name"     => $batch_member["name"],
+                    "position" => $batch_member["position"]
                 );
             }
         }

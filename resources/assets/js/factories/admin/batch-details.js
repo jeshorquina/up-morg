@@ -38,27 +38,36 @@
       hasMember = true;
 
       var listLeft = DomHelper.CreateElement(
-        "span", { "class": "table-cell" }, member.name
+        "span", { "class": "table-cell width-half" }, member.name
       );
 
-      var listRight;
+      var listRight = "", button = "";
       if (member.position != "Unassigned") {
         listRight = DomHelper.CreateElement(
           "span", { "class": "float-right member-position" }, member.position
         );
       }
       else {
-        listRight = DomHelper.CreateElement(
+
+        button = DomHelper.CreateElement(
           "button", {
             "class": "button button-danger-border button-small remove-member-button float-right",
             "data-batch-member-id": member.id
           }, DomHelper.CreateElement("span", { "class": "icon-remove" })
         );
+
+        if (member.committee != false) {
+          listRight = DomHelper.CreateElement(
+            "div", {
+              "class": "table-cell text-right member-position width-half",
+            }, "Pending in " + member.committee
+          );
+        }
       }
 
       DomHelper.AppendContent(
         list, DomHelper.CreateElement(
-          "li", { "class": "clearfix" }, [listLeft, listRight]
+          "li", { "class": "clearfix" }, [listLeft, listRight, button]
         )
       );
     });

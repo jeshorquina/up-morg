@@ -28,6 +28,10 @@
 
         & .item {
             margin: auto 0.55rem;
+
+            &:hover, &:focus {
+                text-decoration: underline;
+            }
         }
 
         & .button {

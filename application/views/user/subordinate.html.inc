@@ -2,7 +2,7 @@
 
     <div class="card margin-vertical-xlarge">
 
-        <h2 class="text-center">Manage Subordinates</h2>
+        <h2 class="text-center">Manage Members</h2>
 
         <hr>
 

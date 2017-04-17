@@ -32,7 +32,7 @@ class SubordinatePageController extends Controller
             Security::GetCSRFData(),
             array(
                 "page" => array(
-                    "title" => "Subordinate Management"
+                    "title" => "Member Manager"
                 )
             ),
         );

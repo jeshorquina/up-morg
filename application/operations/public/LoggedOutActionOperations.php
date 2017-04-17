@@ -93,7 +93,7 @@ class LoggedOutActionOperations
                     )
                 );
 
-                if(!$is_approved_committee_member)
+                if($is_approved_committee_member) // assigned
                 {
                     $committee_array["id"] = (
                         $this->committee->GetCommitteeIDByBatchMemberID(
@@ -120,7 +120,7 @@ class LoggedOutActionOperations
                         ) === "Finance"
                     );
                 }
-                else
+                else // unassigned
                 {
                     $flags_array["is_batch_member"] = true;
                     $flags_array["is_frontman"] = false;

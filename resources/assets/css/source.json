@@ -181,7 +181,8 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
-            "resources/assets/css/components/nav.css"
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/request/committee.css"
         ]
     },
     {
@@ -261,7 +262,7 @@
         ]
     },
     {
-        "name": "user/batch-member.css",
+        "name": "user/subordinate.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/stickyfill.css",
@@ -275,8 +276,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
-            "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/user/batch-member.css"
+            "resources/assets/css/components/nav.css"
         ]
     }
 ]

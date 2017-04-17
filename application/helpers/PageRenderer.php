@@ -167,7 +167,7 @@ Class PageRenderer
         if($flags["is_committee_head"] || $flags["is_frontman"])
         {
             $navs[] = array(
-                "name" => "Manage Members",
+                "name" => "Member Manager",
                 "url" => sprintf("%s%s", $base_url, 'member')
             );
         }
