@@ -74,25 +74,4 @@ class Controller extends CI_Controller {
             }
         }
     }
-
-    protected function GetBaseURL($uri = "")
-    {
-        return base_url($uri);
-    }
-
-    protected function GetURI()
-    {
-        return uri_string();
-    }
-
-    protected function PageNotFound()
-    {
-        show_404();
-    }
-
-    protected function Redirect($uri = "")
-    {
-        header("Location: " . $this->GetBaseURL($uri));
-        exit();
-    }
 }

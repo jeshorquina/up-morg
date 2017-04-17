@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class AccessPageController extends Controller
 {
@@ -13,7 +14,7 @@ class AccessPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI()))
+        if(PageRenderer::HasAdminPageAccess())
         {
             $this->SetTemplates();
         }
@@ -28,7 +29,7 @@ class AccessPageController extends Controller
 
     public function Home()
     {
-        self::Redirect("admin/batch");
+        Url::Redirect("admin/batch");
     }
 
     public function Login()
@@ -45,7 +46,7 @@ class AccessPageController extends Controller
         self::SetBody("admin/login.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "login", $other_details, false
+                Url::GetBaseURL(), "login", $other_details, false
             )
         );
     }

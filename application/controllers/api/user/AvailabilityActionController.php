@@ -16,7 +16,7 @@ class AvailabilityActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "availability")) 
+        if(PageRenderer::HasUserPageAccess("availability")) 
         {
             $this->operations = new AvailabilityActionOperations;
         }

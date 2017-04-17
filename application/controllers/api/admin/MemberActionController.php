@@ -17,7 +17,7 @@ class MemberActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI()))
+        if(PageRenderer::HasAdminPageAccess())
         {
             $this->operations = new MemberActionOperations;
         }

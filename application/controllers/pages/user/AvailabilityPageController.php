@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class AvailabilityPageController extends Controller 
 {
@@ -13,7 +14,7 @@ class AvailabilityPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "availability")) 
+        if(PageRenderer::HasUserPageAccess("availability")) 
         {
             $this->SetTemplates();
         }
@@ -40,7 +41,7 @@ class AvailabilityPageController extends Controller
         self::SetBody("user/availability.html.inc");
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "availability", $other_details
+                Url::GetBaseURL(), "availability", $other_details
             )
         );   
     }

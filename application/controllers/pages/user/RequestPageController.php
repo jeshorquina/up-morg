@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class RequestPageController extends Controller 
 {
@@ -27,11 +28,9 @@ class RequestPageController extends Controller
     {
         if($type !== "batch" && $type !== "committee")
         {
-            self::PageNotFound();
+            Url::PageNotFound();
         }
-        else if(PageRenderer::HasUserPageAccess(
-            self::GetBaseURL(), sprintf("request-%s", $type)
-        )) 
+        else if(PageRenderer::HasUserPageAccess(sprintf("request-%s", $type))) 
         {
             $other_details = array(
                 Security::GetCSRFData(),
@@ -45,7 +44,7 @@ class RequestPageController extends Controller
             self::SetBody(sprintf("user/request/%s.html.inc", $type));
             self::RenderView(
                 PageRenderer::GetUserPageData(
-                    self::GetBaseURL(), 
+                    Url::GetBaseURL(), 
                     sprintf("request-%s", $type), 
                     $other_details
                 )

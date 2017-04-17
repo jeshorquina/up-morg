@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\PageRenderer;
+use \Jesh\Helpers\Url;
 
 use \Jesh\Operations\Admin\AccountActionOperations;
 
@@ -16,7 +17,7 @@ class AccountActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI()))
+        if(PageRenderer::HasAdminPageAccess())
         {
             $this->operations = new AccountActionOperations;
         }
@@ -70,7 +71,7 @@ class AccountActionController extends Controller
             Http::Response(
                 Http::OK, array(
                     "message" => "Password has successfully been changed.",
-                    "redirect_url" => self::GetBaseURL("action/admin/logout")
+                    "redirect_url" => Url::GetBaseURL("action/admin/logout")
                 )
             );
         }

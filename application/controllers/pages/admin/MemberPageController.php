@@ -7,6 +7,7 @@ use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\StringHelper;
+use \Jesh\Helpers\Url;
 
 class MemberPageController extends Controller
 {
@@ -14,7 +15,7 @@ class MemberPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI())) 
+        if(PageRenderer::HasAdminPageAccess()) 
         {
             $this->SetTemplates();
         }
@@ -41,7 +42,7 @@ class MemberPageController extends Controller
         self::SetBody("admin/member.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "member", $other_details
+                Url::GetBaseURL(), "member", $other_details
             )
         );
     }
@@ -54,7 +55,7 @@ class MemberPageController extends Controller
                 "page" => array(
                     "title" => "Admin - Member Details",
                     "urls" => array(
-                        "member_details" => self::GetBaseURL("admin/member")
+                        "member_details" => Url::GetBaseURL("admin/member")
                     ),
                     "details" => array(
                         "member_id" => $member_id
@@ -66,7 +67,7 @@ class MemberPageController extends Controller
         self::SetBody("admin/member/details.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "member-details", $other_details
+                Url::GetBaseURL(), "member-details", $other_details
             )
         );
     }

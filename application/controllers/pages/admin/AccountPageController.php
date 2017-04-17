@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class AccountPageController extends Controller
 {
@@ -13,7 +14,7 @@ class AccountPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI())) 
+        if(PageRenderer::HasAdminPageAccess()) 
         {
             $this->SetTemplates();
         }
@@ -40,7 +41,7 @@ class AccountPageController extends Controller
         self::SetBody("admin/password.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "password", $other_details
+                Url::GetBaseURL(), "password", $other_details
             )
         );
     }

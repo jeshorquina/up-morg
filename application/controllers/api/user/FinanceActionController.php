@@ -16,7 +16,7 @@ class FinanceActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "finance")) 
+        if(PageRenderer::HasUserPageAccess("finance")) 
         {
             $this->operations = new FinanceActionOperations;
         }

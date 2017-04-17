@@ -27,4 +27,3 @@ class Security
         unset($ci_security);
     }
 }
-

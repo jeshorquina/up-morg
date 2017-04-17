@@ -17,9 +17,7 @@ class RequestActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(
-            self::GetBaseURL(), "request-committee"
-        )) 
+        if(PageRenderer::HasUserPageAccess("request-committee")) 
         {
             $this->operations = new RequestActionOperations;
         }

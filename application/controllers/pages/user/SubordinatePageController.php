@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 use \Jesh\Helpers\UserSession;
 
 class SubordinatePageController extends Controller 
@@ -14,7 +15,7 @@ class SubordinatePageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "subordinate")) 
+        if(PageRenderer::HasUserPageAccess("subordinate")) 
         {
             $this->SetTemplates();
         }
@@ -57,7 +58,7 @@ class SubordinatePageController extends Controller
 
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), $page_name, $other_details
+                Url::GetBaseURL(), $page_name, $other_details
             )
         );
     }

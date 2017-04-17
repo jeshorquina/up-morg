@@ -7,6 +7,7 @@ use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\StringHelper;
+use \Jesh\Helpers\Url;
 
 class BatchPageController extends Controller
 {
@@ -14,7 +15,7 @@ class BatchPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasAdminPageAccess(self::GetBaseURL(), self::GetURI())) 
+        if(PageRenderer::HasAdminPageAccess()) 
         {
             $this->SetTemplates();
         }
@@ -41,7 +42,7 @@ class BatchPageController extends Controller
         self::SetBody("admin/batch.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "batch", $other_details
+                Url::GetBaseURL(), "batch", $other_details
             )
         ); 
     }
@@ -63,7 +64,7 @@ class BatchPageController extends Controller
         self::SetBody("admin/batch/details.html.inc");
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "batch-details", $other_details
+                Url::GetBaseURL(), "batch-details", $other_details
             )
         );
     }
@@ -81,8 +82,8 @@ class BatchPageController extends Controller
                 "page" => array(
                     "title" => "Admin - Batch Committee Details",
                     "urls" =>array(
-                        "batch_list" => self::GetBaseURL('admin/batch'),
-                        "batch_details" => self::GetBaseURL(
+                        "batch_list" => Url::GetBaseURL('admin/batch'),
+                        "batch_details" => Url::GetBaseURL(
                             'admin/batch/details/'.$batch_id
                         )
                     ),
@@ -99,7 +100,7 @@ class BatchPageController extends Controller
         self::SetBody($body); 
         self::RenderView(
             PageRenderer::GetAdminPageData(
-                self::GetBaseURL(), "batch-details-committee", $other_details
+                Url::GetBaseURL(), "batch-details-committee", $other_details
             )
         );
     }

@@ -16,7 +16,7 @@ class CalendarActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "calendar")) 
+        if(PageRenderer::HasUserPageAccess("calendar")) 
         {
             $this->operations = new CalendarActionOperations;
         }

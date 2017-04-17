@@ -1,8 +1,6 @@
 <?php
 namespace Jesh\Helpers;
 
-use \Jesh\Helpers\Session;
-
 class UserSession
 {
     public static function GetBatchMemberID()
@@ -35,8 +33,24 @@ class UserSession
         return (bool) self::GetSessionData()["flags"]["is_finance"];
     }
 
+    public static function IsBatchMember()
+    {
+        return (bool) self::GetSessionData()["flags"]["is_batch_member"];
+    }
+
     private static function GetSessionData()
     {
-        return json_decode(Session::Get("user_data"), true);
+        if(Session::Find("user_data"))
+        {
+            return json_decode(Session::Get("user_data"), true);
+        }
+        else 
+        {
+            Http::Response(
+                Http::FOUND,
+                "Successfully logged out.",
+                "Location: " . base_url()
+            );
+        }
     }
 }

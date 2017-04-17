@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class LoggedOutPagesController extends Controller 
 {
@@ -22,7 +23,7 @@ class LoggedOutPagesController extends Controller
     {
         if(Session::Find("user_data"))
         {
-            self::Redirect("home/");
+            Url::Redirect("home/");
         }
 
         // if no redirection is done
@@ -45,11 +46,11 @@ class LoggedOutPagesController extends Controller
         return array(
             array(
                 "name" => "Login",
-                "url" => self::GetBaseURL('login')
+                "url" => Url::GetBaseURL('login')
             ),
             array(
                 "name" => "Sign Up",
-                "url" => self::GetBaseURL('sign-up')
+                "url" => Url::GetBaseURL('sign-up')
             )
         );
     }
@@ -57,10 +58,10 @@ class LoggedOutPagesController extends Controller
     private function GetPageURLs($stylesheet, $script)
     {
         return array(
-            "base" => self::GetBaseURL(),
-            "index" => self::GetBaseURL(),
-            "stylesheet" => self::GetBaseURL($stylesheet),
-            "script" => self::GetBaseURL($script),
+            "base" => Url::GetBaseURL(),
+            "index" => Url::GetBaseURL(),
+            "stylesheet" => Url::GetBaseURL($stylesheet),
+            "script" => Url::GetBaseURL($script),
         );
     }
 

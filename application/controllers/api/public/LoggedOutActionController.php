@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
+use \Jesh\Helpers\Url;
 
 use \Jesh\Operations\LoggedOut\LoggedOutActionOperations;
 
@@ -51,7 +52,7 @@ class LoggedOutActionController extends Controller
             $this->operations->SetLoggedInState($username);
             Http::Response(Http::OK, array(
                     "message"      => "Successfully logged in.",
-                    "redirect_url" => self::GetBaseURL("home")
+                    "redirect_url" => Url::GetBaseURL("home")
                 )
             );
         }
@@ -62,9 +63,9 @@ class LoggedOutActionController extends Controller
         if($this->operations->SetLoggedOutState())
         {
             Http::Response(
-                HTTP::FOUND,
+                Http::FOUND,
                 "Successfully logged out.",
-                "Location: " . self::GetBaseURL()
+                "Location: " . Url::GetBaseURL()
             );
         }
         else
@@ -143,7 +144,7 @@ class LoggedOutActionController extends Controller
             {
                 Http::Response(Http::CREATED, array(
                         "message"      => "Member successfully created.",
-                        "redirect_url" => self::GetBaseURL("home")
+                        "redirect_url" => Url::GetBaseURL("home")
                     )
                 );
             }

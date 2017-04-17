@@ -3,15 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 use \Jesh\Core\Wrappers\Controller;
 
+use \Jesh\Helpers\Url;
+
 class IndexController extends Controller 
 {
     public function index()
     {
-        self::Redirect("login");
+        Url::Redirect("login");
     }
 
     public function UserHomepage()
     {
-        self::Redirect("task");
+        Url::Redirect("task");
     }
 }

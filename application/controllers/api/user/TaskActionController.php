@@ -16,7 +16,7 @@ class TaskManagerActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "task"))
+        if(PageRenderer::HasUserPageAccess("task"))
         {
             $this->operations = new TaskActionOperations;
         }

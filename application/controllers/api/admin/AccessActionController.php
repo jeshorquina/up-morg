@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\PageRenderer;
+use \Jesh\Helpers\Url;
 
 use \Jesh\Operations\Admin\AccessActionOperations;
 
@@ -37,7 +38,7 @@ class AccessActionController extends Controller
             Http::Response(
                 Http::OK, array(
                     "message" => "Successfully logged in.",
-                    "redirect_url" => self::GetBaseURL('admin')
+                    "redirect_url" => Url::GetBaseURL('admin')
                 )
             );
         }
@@ -56,10 +57,10 @@ class AccessActionController extends Controller
         else
         {
             Http::Response(
-                HTTP::FOUND, array(
+                Http::FOUND, array(
                     "message" => "Successfully logged out."
                 ),
-                "Location: " . self::GetBaseURL('admin')
+                "Location: " . Url::GetBaseURL('admin')
             );
         }
     }

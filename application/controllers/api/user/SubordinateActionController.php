@@ -16,7 +16,7 @@ class SubordinateActionController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "subordinate")) 
+        if(PageRenderer::HasUserPageAccess("subordinate")) 
         {
             $this->operations = new SubordinateActionOperations;
         }

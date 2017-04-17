@@ -3,46 +3,44 @@ namespace Jesh\Helpers;
 
 class PageRenderer
 {
-    public static function HasAdminPageAccess($base_url, $uri)
+    public static function HasAdminPageAccess()
     {
         if($uri === "admin/login") 
         {
             if(Session::Find("admin_data"))
             {
-                self::Redirect($base_url."admin");
+                Url::Redirect("admin");
             }
         }
         else 
         {
             if(!Session::Find("admin_data"))
             {
-                self::Redirect($base_url."admin/login");
+                Url::Redirect("admin/login");
             }
         }
 
         return true; 
     }
 
-    public static function HasUserPageAccess($base_url, $page_type)
+    public static function HasUserPageAccess($page_type)
     {
-        $flags = json_decode(Session::Get("user_data"), true)["flags"];
-
-        if(!$flags["is_batch_member"])
+        if(!UserSession::IsBatchMember())
         {
             if($page_type !== "request-batch")
             {
-                self::Redirect($base_url."request/batch");
+                Url::Redirect("request/batch");
             }
             else
             {
                 return true;
             }
         }
-        else if(!$flags["is_committee_member"] && !$flags["is_frontman"]) 
+        else if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman()) 
         {
             if($page_type !== "request-committee")
             {
-                self::Redirect($base_url."request/committee");
+                Url::Redirect("request/committee");
             }
             else
             {
@@ -52,20 +50,23 @@ class PageRenderer
 
         if($page_type === "request-batch" || $page_type === "request-committee")
         {
-            self::Redirect($base_url);
+            Url::Redirect();
         }
         
-        if(!$flags["is_committee_head"] && !$flags["is_frontman"])
+        if(!UserSession::IsCommitteeHead() && !UserSession::IsFrontman())
         {
-            if($page_type === "batch-member")
+            if($page_type === "subordinate")
             {
-                self::Redirect($base_url);
+                Url::Redirect();
             }
         }
-        
-        if(!$flags["is_finance"] && $page_type === "finance")
+
+        if(!UserSession::IsFinanceMember())
         {
-            self::Redirect($base_url);
+            if($page_type === "finance")
+            {
+                Url::Redirect();
+            }
         }
 
         return true;
@@ -153,10 +154,8 @@ class PageRenderer
                 "url" => sprintf("%s%s", $base_url, 'calendar')
             ),
         );
-
-        $flags = json_decode(Session::Get("user_data"), true)["flags"];
         
-        if($flags["is_finance"])
+        if(UserSession::IsFinanceMember())
         {
             $navs[] = array(
                 "name" => "Finance Tracker",
@@ -164,7 +163,7 @@ class PageRenderer
             );
         }
         
-        if($flags["is_committee_head"] || $flags["is_frontman"])
+        if(UserSession::IsCommitteeHead() || UserSession::IsFrontman())
         {
             $navs[] = array(
                 "name" => "Member Manager",
@@ -244,11 +243,5 @@ class PageRenderer
         }
 
         return array("urls" => $urls);
-    }
-
-    private static function Redirect($url)
-    {
-        header("Location: " . $url);
-        exit();
     }
 }

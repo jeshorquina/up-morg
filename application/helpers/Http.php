@@ -55,4 +55,3 @@ class Http
         exit();
     }
 }
-

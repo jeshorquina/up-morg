@@ -4,7 +4,7 @@
 
         <h2 class="text-center">Manage Members</h2>
 
-        <hr>
+        <hr> Hello
 
     </div>
 

@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class FinancePageController extends Controller 
 {
@@ -13,7 +14,7 @@ class FinancePageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "finance")) 
+        if(PageRenderer::HasUserPageAccess("finance")) 
         {
             $this->SetTemplates();
         }
@@ -40,7 +41,7 @@ class FinancePageController extends Controller
         self::SetBody("user/finance.html.inc");
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "finance", $other_details
+                Url::GetBaseURL(), "finance", $other_details
             )
         );   
     }

@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class CalendarPageController extends Controller 
 {
@@ -13,7 +14,7 @@ class CalendarPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess(self::GetBaseURL(), "calendar"))
+        if(PageRenderer::HasUserPageAccess("calendar"))
         {
             $this->SetTemplates();
         }
@@ -40,7 +41,7 @@ class CalendarPageController extends Controller
         self::SetBody("user/calendar.html.inc");
         self::RenderView(
             PageRenderer::GetUserPageData(
-                self::GetBaseURL(), "calendar", $other_details
+                Url::GetBaseURL(), "calendar", $other_details
             )
         );   
     }
