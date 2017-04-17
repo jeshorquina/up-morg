@@ -85,7 +85,15 @@ class CommitteeOperationsRepository extends Repository
         ));
     }
 
-    public function IsBatchMemberApproved($batch_member_id, $committee_id)
+    public function IsBatchMemberApproved($batch_member_id)
+    {
+        return self::Find("CommitteeMember", "CommitteeMemberID", array(
+            "BatchMemberID" => $batch_member_id,
+            "IsApproved" => true
+        ));
+    }
+
+    public function IsBatchMemberCommitteeApproved($batch_member_id, $committee_id)
     {
         return self::Find("CommitteeMember", "CommitteeMemberID", array(
             "BatchMemberID" => $batch_member_id,
@@ -102,6 +110,17 @@ class CommitteeOperationsRepository extends Repository
     public function AddCommitteePermission(CommitteePermissionModel $permission)
     {
         return self::Insert("CommitteePermission", $permission);
+    }
+
+    public function UpdateCommitteeMember(
+        $batch_member_id, CommitteeMemberModel $member
+    )
+    {
+        return self::Update(
+            "CommitteeMember", array(
+                "BatchMemberID" => $batch_member_id
+            ), $member
+        );
     }
 
     public function RemoveCommitteeMember($batch_member_id)

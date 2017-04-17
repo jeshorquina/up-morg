@@ -17,11 +17,7 @@
 
             <div class="form-group">
                 <label class="form-label">Committees</label>
-                <select class="form-input width-full">
-                    <option selected="selected" disabled="disabled">
-                        Select a committee
-                    </option>
-                </select>
+                <select name="committee-id" id="select-committee" class="form-input width-full"></select>
             </div>
 
             <div class="form-group margin-top-medium clearfix">

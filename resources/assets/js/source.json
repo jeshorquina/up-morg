@@ -129,8 +129,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/operations/user/request-committee.js",
-            "resources/assets/js/controllers/user/request-committee.js"
+            "resources/assets/js/factories/user/request/committee.js",
+            "resources/assets/js/operations/user/request/committee.js",
+            "resources/assets/js/controllers/user/request/committee.js"
         ]
     },
     {

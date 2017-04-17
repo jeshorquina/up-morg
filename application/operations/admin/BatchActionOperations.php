@@ -823,14 +823,11 @@ class BatchActionOperations
         $filtered_batch_members = array();
         foreach($batch_members as $batch_member) 
         {
-            $in_committee = $this->committee->IsBatchMemberInCommittee(
-                $batch_member->BatchMemberID, $committee_id
-            );
-            $is_approved = $this->committee->IsBatchMemberApproved(
+            $is_approved = $this->committee->IsBatchMemberCommitteeApproved(
                 $batch_member->BatchMemberID, $committee_id
             );
 
-            if($in_committee && $is_approved)
+            if($is_approved) // includes being in committee
             {
                 $filtered_batch_members[] = $batch_member;
             }

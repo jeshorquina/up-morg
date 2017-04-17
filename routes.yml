@@ -232,4 +232,11 @@
 # **************************************************
 # API - User Pages
 # **************************************************
-
+'action/request/committee':
+    directory: api/user
+    controller: RequestActionController
+    function: GetCommittees
+'action/request/committee/change':
+    directory: api/user
+    controller: RequestActionController
+    function: RequestCommittee

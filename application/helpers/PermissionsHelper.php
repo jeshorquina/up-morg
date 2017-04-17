@@ -22,13 +22,11 @@ class PermissionsHelper
         // I.E. TREE IN DB...
         $member_type = $this->member->GetMemberType($member_type_id);
 
-        if($member_type == "First Frontman")
-        {
-            return $this->batch_member->GetBatchMemberIDs($batch_id);
-        }
-
-
-        if($member_type == "Second Frontman" || $member_type == "Third Frontman")
+        if(
+            $member_type == "First Frontman" ||
+            $member_type == "Second Frontman" || 
+            $member_type == "Third Frontman"
+        )
         {
             $scoped_committees = (
                 $this->committee->GetCommitteePermissionCommitteeIDs(

@@ -37,7 +37,7 @@ class RequestPageController extends Controller
                 Security::GetCSRFData(),
                 array(
                     "page" => array(
-                        "title" => "Request " . ucwords($type)
+                        "title" => "Request ".ucwords($type)
                     )
                 ),
             );

@@ -120,16 +120,33 @@ class CommitteeOperations
 
     public function GetApprovedBatchMemberIDs($committee_id)
     {
-        $comittee_members = $this->repository->GetCommitteeMembers(
+        $committee_members = $this->repository->GetCommitteeMembers(
             $committee_id
         );
 
         $ids = array();
-        foreach($comittee_members as $comittee_member) 
+        foreach($committee_members as $committee_member) 
         {
-            if($comittee_member["IsApproved"] === true)
+            if((bool)$committee_member["IsApproved"] === true)
             {
-                $ids[] = $comittee_member["BatchMemberID"];
+                $ids[] = $committee_member["BatchMemberID"];
+            }
+        }
+        return $ids;
+    }
+
+    public function GetRequestingBatchMemberIDs($committee_id)
+    {
+        $committee_members = $this->repository->GetCommitteeMembers(
+            $committee_id
+        );
+
+        $ids = array();
+        foreach($committee_members as $committee_member) 
+        {
+            if((bool)$committee_member["IsApproved"] === false)
+            {
+                $ids[] = $committee_member["BatchMemberID"];
             }
         }
         return $ids;
@@ -168,9 +185,16 @@ class CommitteeOperations
         );
     }
 
-    public function IsBatchMemberApproved($batch_member_id, $committee_id)
+    public function IsBatchMemberApproved($batch_member_id)
     {
-        return $this->repository->IsBatchMemberApproved(
+        return $this->repository->IsBatchMemberApproved($batch_member_id);
+    }
+
+    public function IsBatchMemberCommitteeApproved(
+        $batch_member_id, $committee_id
+    )
+    {
+        return $this->repository->IsBatchMemberCommitteeApproved(
             $batch_member_id, $committee_id
         );
     }
@@ -185,6 +209,20 @@ class CommitteeOperations
         }
 
         return $is_added;
+    }
+
+    public function UpdateMember($batch_member_id, CommitteeMemberModel $member)
+    {
+        $is_updated = $this->repository->UpdateCommitteeMember(
+            $batch_member_id, $member
+        );
+
+        if(!$is_updated)
+        {
+            throw new \Exception("Committee member was not updated.");
+        }
+
+        return $is_updated;
     }
 
     public function AddCommitteePermission(CommitteePermissionModel $permission)

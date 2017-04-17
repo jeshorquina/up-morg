@@ -55,7 +55,7 @@ Class PageRenderer
             self::Redirect($base_url);
         }
         
-        if(!$flags["is_head"] && !$flags["is_frontman"])
+        if(!$flags["is_committee_head"] && !$flags["is_frontman"])
         {
             if($page_type === "batch-member")
             {
@@ -164,7 +164,7 @@ Class PageRenderer
             );
         }
         
-        if($flags["is_head"] || $flags["is_frontman"])
+        if($flags["is_committee_head"] || $flags["is_frontman"])
         {
             $navs[] = array(
                 "name" => "Manage Members",
