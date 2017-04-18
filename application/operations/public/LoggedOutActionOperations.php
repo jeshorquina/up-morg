@@ -77,6 +77,7 @@ class LoggedOutActionOperations
         {
             $batch_array["id"] = $batch_id;
             $batch_array["member_id"] = $batch_member->BatchMemberID;
+            $batch_array["member_type_id"] = $batch_member->MemberTypeID;
 
             $is_committee_member = $this->committee->HasBatchMember(
                 $batch_member->BatchMemberID

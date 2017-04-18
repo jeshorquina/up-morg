@@ -12,6 +12,11 @@ class UserSession
     {
         return self::GetSessionData()["batch"]["member_id"];
     }
+    
+    public static function GetMemberTypeID()
+    {
+        return self::GetSessionData()["batch"]["member_type_id"];
+    }
 
     public static function IsFirstFrontman()
     {

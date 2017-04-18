@@ -1,6 +1,8 @@
 <?php
 namespace Jesh\Operations\User;
 
+use \Jesh\Helpers\StringHelper;
+
 use \Jesh\Models\BatchMemberModel;
 use \Jesh\Models\CommitteeMemberModel;
 
@@ -31,6 +33,30 @@ class SubordinateActionOperations
         return $this->admin_batch->GetBatchDetails($batch_id);
     }
 
+    public function GetFrontmanBatchDetails($batch_id, $frontman_id)
+    {
+        $batch_details = $this->admin_batch->GetBatchDetails($batch_id);
+
+        $scoped_committees = array_merge(
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID($frontman_id)
+            ),
+            array(0)
+        );
+
+        $committees = array();
+        foreach($batch_details["batch"]["committees"] as $committee)
+        {
+            if(in_array($committee["committee"]["id"], $scoped_committees))
+            {
+                $committees[] = $committee;
+            }
+        }
+        $batch_details["batch"]["committees"] = $committees;
+
+        return $batch_details;
+    }
+
     public function GetFrontmanDetails($batch_id)
     {
         return $this->FilterFrontmanMembers(
@@ -40,7 +66,7 @@ class SubordinateActionOperations
         );
     }
 
-    public function GetFirstFrontmanCommitteeDetails($batch_id, $committee_name)
+    public function GetCommitteeDetails($batch_id, $committee_name)
     {
         return $this->FilterUnassignedMembers(
             $this->admin_batch->GetBatchCommitteeDetails(
@@ -74,6 +100,22 @@ class SubordinateActionOperations
         return $this->member->GetMemberType(
             $this->batch_member->GetMemberTypeID($batch_member_id)
         ) == "Committee Member";
+    }
+
+    public function HasCommitteeAccess(
+        $batch_id, $batch_member_id, $committee_name
+    )
+    {
+        return in_array(
+            $this->committee->GetCommitteeIDByCommitteeName(
+                StringHelper::UnmakeIndex($committee_name)
+            ),
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
+            )
+        );
     }
 
     public function AddMemberToBatch($batch_id, $member_id)

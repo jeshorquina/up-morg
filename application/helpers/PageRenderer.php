@@ -1,11 +1,50 @@
 <?php
 namespace Jesh\Helpers;
 
+use \Jesh\Operations\Repository\CommitteeOperations;
+
 class PageRenderer
 {
+    public static function HasMemberDetailsAccess()
+    {
+        if(!(UserSession::IsFrontman() || UserSession::IsCommitteeHead()))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasMemberCommitteeDetailsAccess($committee_name)
+    {
+        if(UserSession::IsFirstFrontman())
+        {
+            return true;
+        }
+        else if(UserSession::IsFrontman())
+        {
+            $committee = new CommitteeOperations;
+            return in_array(
+                $committee->GetCommitteeIDByCommitteeName(
+                    StringHelper::UnmakeIndex($committee_name)
+                ), 
+                $committee->GetCommitteePermissionCommitteeIDs(
+                    UserSession::GetBatchID(), UserSession::GetMemberTypeID()
+                )
+            );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     public static function ShowForbiddenPage()
     {
-        
+        show_404();
     }
 
     public static function HasAdminPageAccess()
