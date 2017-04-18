@@ -231,5 +231,33 @@
             "resources/assets/js/operations/user/subordinate/committee-head.js",
             "resources/assets/js/controllers/user/subordinate/committee-head.js"
         ]
+    },
+    {
+        "name": "user/subordinate-committee.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/stringHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/subordinate/details/committee.js",
+            "resources/assets/js/operations/user/subordinate/details/committee.js",
+            "resources/assets/js/controllers/user/subordinate/details/committee.js"
+        ]
+    },
+    {
+        "name": "user/subordinate-frontman.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/stringHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/subordinate/details/frontman.js",
+            "resources/assets/js/operations/user/subordinate/details/frontman.js",
+            "resources/assets/js/controllers/user/subordinate/details/frontman.js"
+        ]
     }
 ]

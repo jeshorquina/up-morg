@@ -227,6 +227,11 @@
     directory: pages/user
     controller: SubordinatePageController
     function: SubordinateIndex
+'member/committee':
+    directory: pages/user
+    controller: SubordinatePageController
+    function: CommitteeDetails
+    parameter: any
 
 
 # **************************************************
@@ -240,3 +245,42 @@
     directory: api/user
     controller: RequestActionController
     function: RequestCommittee
+
+
+'action/member':
+    directory: api/user
+    controller: SubordinateActionController
+    function: GetBatchDetails
+'action/member/add':
+    directory: api/user
+    controller: SubordinateActionController
+    function: AddMemberToBatch
+'action/member/remove':
+    directory: api/user
+    controller:  SubordinateActionController
+    function: RemoveMemberFromBatch
+'action/member/committee':
+    directory: api/user
+    controller: SubordinateActionController
+    function: GetCommitteeDetails
+    parameter: any
+'action/member/committee/add':
+    directory: api/user
+    controller: SubordinateActionController
+    function: AddMemberToCommittee
+    parameter: any
+'action/member/committee/remove':
+    directory: api/user
+    controller: SubordinateActionController
+    function: RemoveMemberFromCommittee
+    parameter: any
+'action/member/committee/make-committee-head':
+    directory: api/user
+    controller: SubordinateActionController
+    function: AssignCommitteeHead
+    parameter: any
+'action/member/committee/frontman/modify':
+    directory: api/user
+    controller: SubordinateActionController
+    function: ModifyFrontman
+

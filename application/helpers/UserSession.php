@@ -3,6 +3,11 @@ namespace Jesh\Helpers;
 
 class UserSession
 {
+    public static function GetBatchID()
+    {
+        return self::GetSessionData()["batch"]["id"];
+    }
+
     public static function GetBatchMemberID()
     {
         return self::GetSessionData()["batch"]["member_id"];

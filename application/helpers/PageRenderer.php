@@ -3,9 +3,14 @@ namespace Jesh\Helpers;
 
 class PageRenderer
 {
+    public static function ShowForbiddenPage()
+    {
+        
+    }
+
     public static function HasAdminPageAccess()
     {
-        if($uri === "admin/login") 
+        if(Url::GetCurrentURI() === "admin/login") 
         {
             if(Session::Find("admin_data"))
             {
@@ -25,6 +30,17 @@ class PageRenderer
 
     public static function HasUserPageAccess($page_type)
     {
+        if(!Session::Find("user_data"))
+        {
+            Url::Redirect("login");
+        }
+
+        return true;
+
+        // NOTE:: The code below will be depricated because the permission
+        // checking will be done per function since it can be very specific
+        // sometimes
+
         if(!UserSession::IsBatchMember())
         {
             if($page_type !== "request-batch")
@@ -36,17 +52,23 @@ class PageRenderer
                 return true;
             }
         }
-        else if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman()) 
+        else 
         {
-            if($page_type !== "request-committee")
+            if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman()) 
             {
-                Url::Redirect("request/committee");
+                if($page_type !== "request-committee")
+                {
+                    Url::Redirect("request/committee");
+                }
+                else
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return true;
-            }
+            
         }
+
+        
 
         if($page_type === "request-batch" || $page_type === "request-committee")
         {

@@ -6,7 +6,9 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\UserSession;
+use \Jesh\Helpers\Url;
 
 class SubordinatePageController extends Controller 
 {
@@ -58,5 +60,49 @@ class SubordinatePageController extends Controller
         self::RenderView(
             PageRenderer::GetUserPageData($page_name, $other_details)
         );
+    }
+
+    public function CommitteeDetails($committee_name)
+    {
+        if(UserSession::IsFirstFrontman() || UserSession::IsFrontman())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Member Manager - Committee Details",
+                        "urls" => array(
+                            "member_page" => Url::GetBaseURL("member")
+                        ),
+                        "details" => array(
+                            "committee_name" => StringHelper::UnmakeIndex(
+                                $committee_name
+                            )
+                        )
+                    ),
+                    
+                ),
+            );
+
+            $page_name = "";
+            if($committee_name == "frontman")
+            {
+                self::SetBody("user/subordinate/details/frontman.html.inc");
+                $page_name = "subordinate-frontman";
+            }
+            else 
+            {
+                self::SetBody("user/subordinate/details/committee.html.inc");
+                $page_name = "subordinate-committee";
+            }
+            
+            self::RenderView(
+                PageRenderer::GetUserPageData($page_name, $other_details)
+            );
+        }
+        else
+        {
+            PageRenderer::ShowForbiddenPage();
+        }
     }
 }

@@ -1,10 +1,16 @@
-@import "../../../base/variables.scss";
+@import "../../../../base/variables.scss";
 
 .member-position {
     color: $color-text-secondary;
 }
 
-#add-member-form {
+#modify-frontmen-form {
+    select {
+        width: 100%;
+    }
+}
+
+#add-committee-member-form {
     width: 100%;
 
     .form-group {
@@ -45,7 +51,7 @@
     }
 }
 
-#unassigned {
+#committee-member-list {
     li {
         display: table;
         width: 100%;

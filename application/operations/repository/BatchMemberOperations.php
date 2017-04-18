@@ -39,6 +39,18 @@ class BatchMemberOperations
         return new BatchMemberModel($batch_member[0]);
     }
 
+    public function GetBatchMemberByID($batch_member_id)
+    {
+        $batch_member = $this->repository->GetBatchMemberByID($batch_member_id);
+
+        if(!$batch_member)
+        {
+            throw new \Exception("Cound not find batch member in the database");
+        }
+
+        return new BatchMemberModel($batch_member[0]);
+    }
+
     public function GetBatchMemberIDs($batch_id)
     {
         $ids = array();
@@ -60,16 +72,12 @@ class BatchMemberOperations
 
     public function GetBatchMemberID($batch_id, $member_id)
     {
-        $batch_member = $this->repository->GetBatchMemberID(
-            $batch_id, $member_id
-        );
+        return $this->GetBatchMember($batch_id, $member_id)->BatchMemberID;
+    }
 
-        if(!$batch_member)
-        {
-            throw new \Exception("Cound not add batch member to the database");
-        }
-
-        return $batch_member[0]["BatchMemberID"];
+    public function GetMemberTypeID($batch_member_id)
+    {
+        return $this->GetBatchMemberByID($batch_member_id)->MemberTypeID;
     }
 
     public function HasMember($batch_id, $member_id)

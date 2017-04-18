@@ -6,6 +6,18 @@ class Sort
     const ASCENDING = SORT_ASC;
     const DESCENDING = SORT_DESC;
 
+    public static function ListArray($array, $sortType = Sort::ASCENDING)
+    {
+        if($sortType == Sort::ASCENDING)
+        {
+            return sort($array);
+        }
+        else
+        {
+            return rsort($array);
+        }
+    }
+
     public static function AssociativeArray(
         $array, $subkey, $sortType = Sort::ASCENDING
     )

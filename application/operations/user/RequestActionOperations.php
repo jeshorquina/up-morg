@@ -38,9 +38,28 @@ class RequestActionOperations
 
     public function RequestCommittee($committee_id)
     {
-        return $this->committee->UpdateMember(
-            UserSession::GetBatchMemberID(),
-            new CommitteeMemberModel(array("CommitteeID" => $committee_id))
-        );
+        $batch_member_id = UserSession::GetBatchMemberID();
+        if(!$this->committee->HasBatchMember($batch_member_id))
+        {
+            return $this->committee->AddMember(
+                new CommitteeMemberModel(
+                    array(
+                        "BatchMemberID" => $batch_member_id,
+                        "CommitteeID" => $committee_id,
+                        "IsApproved" => false
+                    )
+                )
+            );
+        }
+        else
+        {
+            return $this->committee->UpdateMember(
+                $batch_member_id,
+                new CommitteeMemberModel(
+                    array("CommitteeID" => $committee_id)
+                )
+            );
+        }
+        
     }
 }

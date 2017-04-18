@@ -120,7 +120,7 @@ class RoutesHelper
                         self::AppendParameterToRoute($route_name, $route_value, $value, $has_parent);
                         break;
                     default:
-                        throw New Exception("Cannot define custom route parameter: $key");
+                        throw New \Exception("Cannot define custom route parameter: $key");
                 }
             }
 

@@ -118,17 +118,26 @@ class LoggedOutActionOperations
                         ) === "Finance"
                     );
                 }
-                else // unassigned
+                else // unapproved
                 {
                     $flags_array["is_batch_member"] = true;
                     $flags_array["is_frontman"] = false;
-                    $flags_array["is_first_frontman"] = false;                    
+                    $flags_array["is_first_frontman"] = false;
                     $flags_array["is_committee_head"] = false;
                     $flags_array["is_committee_member"] = false;
                     $flags_array["is_finance"] = false;
                 }
             }
-            else // frontman
+            else if(!(bool)$batch_member->MemberTypeID) // unassigned
+            {
+                $flags_array["is_batch_member"] = true;
+                $flags_array["is_frontman"] = false;
+                $flags_array["is_first_frontman"] = false;
+                $flags_array["is_committee_head"] = false;
+                $flags_array["is_committee_member"] = false;
+                $flags_array["is_finance"] = false;
+            }
+            else // Frontmen
             {
                 $flags_array["is_batch_member"] = true;
                 $flags_array["is_frontman"] = true;
