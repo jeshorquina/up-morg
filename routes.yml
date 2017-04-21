@@ -221,6 +221,10 @@
     directory: pages/user
     controller: FinancePageController
     function: FinanceIndex
+'finance/activate':
+    directory: pages/user
+    controller: FinancePageController
+    function: FinanceActivation
 
 
 'member':

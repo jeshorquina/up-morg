@@ -21,4 +21,11 @@ class StaticDataOperationsRepository extends Repository
             new StaticDataModel(array("Value" => $password))
         );
     }
+
+    public function IsLedgerActivated()
+    {
+        return self::Get(
+            "StaticData", "Value", array("Name" => "IsLedgerActivated")
+        );
+    }
 }

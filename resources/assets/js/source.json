@@ -185,9 +185,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/finance.js",
-            "resources/assets/js/operations/user/finance.js",
-            "resources/assets/js/controllers/user/fiannce.js"
+            "resources/assets/js/factories/user/finance/finance.js",
+            "resources/assets/js/operations/user/finance/finance.js",
+            "resources/assets/js/controllers/user/fiannce/finance.js"
         ]
     },
     {

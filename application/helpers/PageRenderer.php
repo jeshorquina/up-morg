@@ -2,6 +2,7 @@
 namespace Jesh\Helpers;
 
 use \Jesh\Operations\Repository\CommitteeOperations;
+use \Jesh\Operations\Repository\StaticDataOperations;
 
 class PageRenderer
 {
@@ -9,7 +10,7 @@ class PageRenderer
     {
         if(!UserSession::IsFrontman() && !UserSession::IsCommitteeHead())
         {
-            return false;
+            self::ShowForbiddenPage();
         }
         else
         {
@@ -19,14 +20,16 @@ class PageRenderer
 
     public static function HasMemberCommitteeDetailsAccess($committee_name)
     {
+        $committee = new CommitteeOperations;
+
+        $can_access = false;
         if(UserSession::IsFirstFrontman())
         {
-            return true;
+            $can_access = true;
         }
         else if(UserSession::IsFrontman())
         {
-            $committee = new CommitteeOperations;
-            return in_array(
+            $can_access = in_array(
                 $committee->GetCommitteeIDByCommitteeName(
                     StringHelper::UnmakeIndex($committee_name)
                 ), 
@@ -37,8 +40,7 @@ class PageRenderer
         }
         else if(UserSession::IsCommitteeHead())
         {
-            $committee = new CommitteeOperations;
-            return $committee->GetCommitteeIDByBatchMemberID(
+            $can_access = $committee->GetCommitteeIDByBatchMemberID(
                 UserSession::GetBatchMemberID()
             ) == $committee->GetCommitteeIDByCommitteeName(
                 StringHelper::UnmakeIndex($committee_name)
@@ -46,8 +48,43 @@ class PageRenderer
         }
         else
         {
-            return false;
+            $can_access = false;
         }
+
+        if(!$can_access)
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasFinancePageAccess()
+    {
+        if(!UserSession::IsFinanceMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            $static_data = new StaticDataOperations;
+
+            if(!$static_data->IsLedgerActivated())
+            {
+                Url::Redirect("finance/activate");
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    public static function HasFinanceActivationPageAccess()
+    {
+        return UserSession::IsFinanceMember();
     }
 
 
@@ -129,13 +166,7 @@ class PageRenderer
             }
         }
 
-        if(!UserSession::IsFinanceMember())
-        {
-            if($page_type === "finance")
-            {
-                Url::Redirect();
-            }
-        }
+        
 
         return true;
     }

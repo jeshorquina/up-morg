@@ -13,10 +13,7 @@ class FinancePageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess("finance")) 
-        {
-            $this->SetTemplates();
-        }
+        $this->SetTemplates();
     }
 
     private function SetTemplates()
@@ -28,18 +25,43 @@ class FinancePageController extends Controller
 
     public function FinanceIndex()
     {
-        $other_details = array(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Finance Tracker"
-                )
-            ),
-        );
+        if(PageRenderer::HasFinancePageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Finance Tracker"
+                    )
+                ),
+            );
 
-        self::SetBody("user/finance.html.inc");
-        self::RenderView(
-            PageRenderer::GetUserPageData("finance", $other_details)
-        );
+            self::SetBody("user/finance/finance.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("finance", $other_details)
+            );
+        }
+    }
+
+    public function FinanceActivation()
+    {
+        if(PageRenderer::HasFinanceActivationPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Finance Tracker"
+                    )
+                ),
+            );
+
+            self::SetBody("user/finance/activation.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "finance-activation", $other_details
+                )
+            );
+        }
     }
 }

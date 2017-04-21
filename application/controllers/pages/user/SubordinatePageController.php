@@ -60,10 +60,6 @@ class SubordinatePageController extends Controller
                 PageRenderer::GetUserPageData($page_name, $other_details)
             );
         }
-        else
-        {
-            PageRenderer::ShowForbiddenPage();
-        }
     }
 
     public function CommitteeDetails($committee_name)
@@ -108,10 +104,6 @@ class SubordinatePageController extends Controller
             self::RenderView(
                 PageRenderer::GetUserPageData($page_name, $other_details)
             );
-        }
-        else
-        {
-            PageRenderer::ShowForbiddenPage();
         }
     }
 }
