@@ -1,4 +1,4 @@
-<div class="container" id="batch-committee-container" data-committee-name="<?= $page['details']['committee_name'] ?>">
+<div class="container" id="batch-committee-container" data-committee-name="<?= $page['details']['committee_name'] ?>" data-is-committee-head="<?= $page['details']['is_committee_head'] ?>">
 
     <div class="card margin-vertical-xlarge">
 

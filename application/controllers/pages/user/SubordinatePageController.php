@@ -83,6 +83,9 @@ class SubordinatePageController extends Controller
                         "details" => array(
                             "committee_name" => StringHelper::UnmakeIndex(
                                 $committee_name
+                            ),
+                            "is_committee_head" => (
+                                UserSession::IsCommitteeHead()
                             )
                         )
                     ),

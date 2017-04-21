@@ -884,13 +884,34 @@ class BatchActionOperations
 
     private function MutateBatchMember($batch_member)
     {
-        return array(
-            "id" => $batch_member->BatchMemberID,
-            "name" => $this->MutateMember(
-                $this->member->GetMember($batch_member->MemberID) 
-            )["name"],
-            "position" => $this->GetMemberPosition($batch_member->MemberTypeID)
-        );
+        if($this->committee->HasBatchMember($batch_member->BatchMemberID))
+        {
+            return array(
+                "id" => $batch_member->BatchMemberID,
+                "name" => $this->MutateMember(
+                    $this->member->GetMember($batch_member->MemberID) 
+                )["name"],
+                "position" => $this->GetMemberPosition(
+                    $batch_member->MemberTypeID
+                ),
+                "committee" => $this->committee->GetCommitteeIDByBatchMemberID(
+                    $batch_member->BatchMemberID
+                )
+            );
+        }
+        else
+        {
+            return array(
+                "id" => $batch_member->BatchMemberID,
+                "name" => $this->MutateMember(
+                    $this->member->GetMember($batch_member->MemberID) 
+                )["name"],
+                "position" => $this->GetMemberPosition(
+                    $batch_member->MemberTypeID
+                ),
+                "committee" => false
+            );
+        }
     }
 
     private function MutateMember(MemberModel $member)

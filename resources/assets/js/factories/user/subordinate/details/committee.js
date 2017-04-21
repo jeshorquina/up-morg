@@ -50,7 +50,14 @@
       )
     }
 
-    var makeHeadButton;
+    var makeHeadButton = "",
+      isCommitteeHead = (
+        document
+          .getElementById("batch-committee-container")
+          .getAttribute("data-is-committee-head")
+      );
+
+
     if (member.position.toLowerCase() == "committee head") {
 
       makeHeadButton = DomHelper.CreateElement(
@@ -61,7 +68,7 @@
         )
       );
     }
-    else {
+    else if (!isCommitteeHead) {
 
       makeHeadButton = DomHelper.CreateElement(
         "button", {

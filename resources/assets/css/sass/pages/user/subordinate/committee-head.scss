@@ -1,0 +1,17 @@
+.list {
+    .list-header {
+        display: table;
+        position: relative;
+        width: 100%;
+        
+        .button {
+            margin: 0;
+            margin-left: 0.5rem;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+}

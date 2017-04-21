@@ -34,6 +34,10 @@ class SubordinateActionController extends Controller
         {
             $this->GetFrontmanBatchDetails();
         }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $this->GetCommitteeHeadBatchDetails();
+        }
         else 
         {
             Http::Response(
@@ -80,6 +84,36 @@ class SubordinateActionController extends Controller
     {
         $batch_details = (
             $this->operations->GetFrontmanBatchDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID()
+            )
+        );
+
+        if(!$batch_details) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare batch details. Please refresh
+                        browser."
+                    )
+                )
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Batch details successfully processed.",
+                    "data" => $batch_details
+                )
+            );
+        }
+    }
+
+    private function GetCommitteeHeadBatchDetails()
+    {
+        $batch_details = (
+            $this->operations->GetCommitteeHeadBatchDetails(
                 UserSession::GetBatchID(), UserSession::GetBatchMemberID()
             )
         );
@@ -261,7 +295,7 @@ class SubordinateActionController extends Controller
     private function GetFirstFrontmanCommitteeDetails($committee_name)
     {
         $committee_details = (
-            $this->operations->GetCommitteeDetails(
+            $this->operations->GetFirstFrontmanCommitteeDetails(
                 UserSession::GetBatchID(), $committee_name
             )
         );
@@ -304,15 +338,81 @@ class SubordinateActionController extends Controller
                 )
             );
         }
-        else
+
+        $committee_details = (
+            $this->operations->GetFrontmanCommitteeDetails(
+                UserSession::GetBatchID(),
+                UserSession::GetBatchMemberID(),
+                $committee_name
+            )
+        );
+
+        if(!$committee_details) 
         {
-            $this->GetFirstFrontmanCommitteeDetails($committee_name);
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare committee details. Please refresh
+                        browser."
+                    )
+                )
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Committee details successfully processed.",
+                    "data" => $committee_details
+                )
+            );
         }
     }
 
     private function GetCommitteeHeadCommitteeDetails($committee_name)
     {
+        if(!$this->operations->IsCommitteeHead(
+            UserSession::GetBatchMemberID(), 
+            $committee_name
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could are not allowed to access this endpoint!"
+                    )
+                )
+            );
+        }
+        
+        $committee_details = (
+            $this->operations->GetCommitteeHeadCommitteeDetails(
+                UserSession::GetBatchID(),
+                UserSession::GetBatchMemberID(),
+                $committee_name
+            )
+        );
 
+        if(!$committee_details) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare committee details. Please refresh
+                        browser."
+                    )
+                )
+            );
+        }
+        else 
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Committee details successfully processed.",
+                    "data" => $committee_details
+                )
+            );
+        }
     }
     
     public function AddMemberToCommittee($committee_name)
@@ -373,11 +473,35 @@ class SubordinateActionController extends Controller
             );
         }
 
-        $committee_details = (
-            $this->operations->GetCommitteeDetails(
-                UserSession::GetBatchID(), $committee_name
-            )
-        );
+        $committee_details = false;
+        if(UserSession::IsFirstFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFirstFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(), $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $committee_details = (
+                $this->operations->GetCommitteeHeadCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
 
         if(!$committee_details) 
         {
@@ -433,7 +557,25 @@ class SubordinateActionController extends Controller
         $batch_id, $batch_member_id, $committee_name
     )
     {
-
+        if(!$this->operations->IsCommitteeHead(
+            UserSession::GetBatchMemberID(), 
+            $committee_name
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could are not allowed to access this endpoint!"
+                    )
+                )
+            );
+        }
+        else
+        {
+            $this->FirstFrontmanAddMemberToCommittee(
+                $batch_id, $batch_member_id, $committee_name
+            );
+        }
     }
 
     public function RemoveMemberFromCommittee($committee_name)
@@ -520,11 +662,35 @@ class SubordinateActionController extends Controller
             );
         }
         
-        $committee_details = (
-            $this->operations->GetCommitteeDetails(
-                UserSession::GetBatchID(), $committee_name
-            )
-        );
+        $committee_details = false;
+        if(UserSession::IsFirstFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFirstFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(), $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $committee_details = (
+                $this->operations->GetCommitteeHeadCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
 
         if(!$committee_details) 
         {
@@ -580,7 +746,25 @@ class SubordinateActionController extends Controller
         $batch_member_id, $committee_name
     )
     {
-
+        if(!$this->operations->IsCommitteeHead(
+            UserSession::GetBatchMemberID(), 
+            $committee_name
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could are not allowed to access this endpoint!"
+                    )
+                )
+            );
+        }
+        else
+        {
+            $this->FirstFrontmanRemoveMemberFromCommittee(
+                $batch_member_id, $committee_name
+            );
+        }
     }
 
     public function AssignCommitteeHead($committee_name)
@@ -642,11 +826,35 @@ class SubordinateActionController extends Controller
             );
         }
         
-        $committee_details = (
-            $this->operations->GetCommitteeDetails(
-                UserSession::GetBatchID(), $committee_name
-            )
-        );
+        $committee_details = false;
+        if(UserSession::IsFirstFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFirstFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(), $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsFrontman())
+        {
+            $committee_details = (
+                $this->operations->GetFrontmanCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $committee_details = (
+                $this->operations->GetCommitteeHeadCommitteeDetails(
+                    UserSession::GetBatchID(),
+                    UserSession::GetBatchMemberID(),
+                    $committee_name
+                )
+            );
+        }
         
         if(!$committee_details) 
         {

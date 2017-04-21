@@ -7,7 +7,7 @@ class PageRenderer
 {
     public static function HasMemberDetailsAccess()
     {
-        if(!(UserSession::IsFrontman() || UserSession::IsCommitteeHead()))
+        if(!UserSession::IsFrontman() && !UserSession::IsCommitteeHead())
         {
             return false;
         }
@@ -33,6 +33,15 @@ class PageRenderer
                 $committee->GetCommitteePermissionCommitteeIDs(
                     UserSession::GetBatchID(), UserSession::GetMemberTypeID()
                 )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $committee = new CommitteeOperations;
+            return $committee->GetCommitteeIDByBatchMemberID(
+                UserSession::GetBatchMemberID()
+            ) == $committee->GetCommitteeIDByCommitteeName(
+                StringHelper::UnmakeIndex($committee_name)
             );
         }
         else
@@ -73,8 +82,6 @@ class PageRenderer
         {
             Url::Redirect("login");
         }
-
-        return true;
 
         // NOTE:: The code below will be depricated because the permission
         // checking will be done per function since it can be very specific

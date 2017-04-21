@@ -47,6 +47,13 @@
           "span", { "class": "float-right member-position" }, member.position
         );
       }
+      else {
+        listRight = DomHelper.CreateElement(
+          "span", {
+            "class": "float-right member-position"
+          }, "Pending in " + member.committee
+        );
+      }
 
       DomHelper.AppendContent(
         list, DomHelper.CreateElement(

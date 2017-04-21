@@ -45,9 +45,38 @@ class SubordinateActionOperations
         );
 
         $committees = array();
-        foreach($batch_details["batch"]["committees"] as $committee)
+        $unassigned_index = 0;
+        foreach($batch_details["batch"]["committees"] as $key => $committee)
         {
+            if($committee["committee"]["id"] == 0)
+            {
+                $unassigned_index = $key;
+            }
+
             if(in_array($committee["committee"]["id"], $scoped_committees))
+            {
+                $committees[] = $committee;
+            }
+        }
+        $batch_details["batch"]["committees"] = $committees;
+
+        return $this->FilterUnassignedMembersWithCommitteeScope(
+            $batch_details, $batch_id, $frontman_id, $unassigned_index
+        );
+    }
+
+    public function GetCommitteeHeadBatchDetails($batch_id, $committee_head_id)
+    {
+        $batch_details = $this->admin_batch->GetBatchDetails($batch_id);
+
+        $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+            $committee_head_id
+        );
+
+        $committees = array();
+        foreach($batch_details["batch"]["committees"] as $key => $committee)
+        {
+            if($committee["committee"]["id"] == $committee_id)
             {
                 $committees[] = $committee;
             }
@@ -66,13 +95,73 @@ class SubordinateActionOperations
         );
     }
 
-    public function GetCommitteeDetails($batch_id, $committee_name)
+    public function GetFirstFrontmanCommitteeDetails($batch_id, $committee_name)
     {
         return $this->FilterUnassignedMembers(
             $this->admin_batch->GetBatchCommitteeDetails(
                 $batch_id, $committee_name
             )
         );
+    }
+
+    public function GetFrontmanCommitteeDetails(
+        $batch_id, $batch_member_id, $committee_name
+    )
+    {
+        $unassigned_members = $this->FilterUnassignedMembers(
+            $this->admin_batch->GetBatchCommitteeDetails(
+                $batch_id, $committee_name
+            )
+        );
+        
+        $scoped_committees = (
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
+            )
+        );
+
+        $unassigned = [];
+        foreach($unassigned_members["batch"]["members"] as $member)
+        {
+            if(in_array($member["committee"], $scoped_committees))
+            {
+                $unassigned[] = $member;
+            }
+        }
+
+        $unassigned_members["batch"]["members"] = $unassigned;
+
+        return $unassigned_members;
+    }
+
+    public function GetCommitteeHeadCommitteeDetails(
+        $batch_id, $batch_member_id, $committee_name
+    )
+    {
+        $unassigned_members = $this->FilterUnassignedMembers(
+            $this->admin_batch->GetBatchCommitteeDetails(
+                $batch_id, $committee_name
+            )
+        );
+
+        $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+            $batch_member_id
+        );
+
+        $unassigned = [];
+        foreach($unassigned_members["batch"]["members"] as $member)
+        {
+            if($member["committee"] == $committee_id)
+            {
+                $unassigned[] = $member;
+            }
+        }
+
+        $unassigned_members["batch"]["members"] = $unassigned;
+
+        return $unassigned_members;
     }
 
     public function MemberInBatch($batch_id, $member_id)
@@ -92,6 +181,18 @@ class SubordinateActionOperations
             $this->committee->GetCommitteeIDByCommitteeName(
                 $committee_name
             )
+        );
+    }
+
+    public function IsCommitteeHead($batch_member_id, $committee_name)
+    {
+        return $this->committee->IsBatchMemberInCommittee(
+            $batch_member_id, 
+            $this->committee->GetCommitteeIDByCommitteeName(
+                $committee_name
+            )
+        ) && $this->batch_member->GetMemberTypeID($batch_member_id) == (
+            $this->member->GetMemberTypeID("Committee Head")
         );
     }
 
@@ -132,24 +233,29 @@ class SubordinateActionOperations
 
     public function AddMemberToCommittee($batch_member_id, $committee_name)
     {
+        $this->batch_member->AddMemberType(
+            $batch_member_id, 
+            $this->member->GetMemberTypeID("Committee Member")
+        );
+
+        $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
+            $committee_name
+        );
+
         if($this->committee->HasBatchMember($batch_member_id))
         {
             return $this->committee->UpdateMember(
                 $batch_member_id, 
-                new CommitteeMemberModel(array("IsApproved" => 1))
+                new CommitteeMemberModel(
+                    array(
+                        "CommitteeID" => $committee_id,
+                        "IsApproved" => 1
+                    )
+                )
             );
         }
         else
         {
-            $this->batch_member->AddMemberType(
-                $batch_member_id, 
-                $this->member->GetMemberTypeID("Committee Member")
-            );
-
-            $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
-                $committee_name
-            );
-
             return $this->committee->AddMember(
                 new CommitteeMemberModel(
                     array(
@@ -249,6 +355,46 @@ class SubordinateActionOperations
             }
         }
         $committee_details["batch"]["members"] = $unassigned_members;
+        return $committee_details;
+    }
+
+    private function FilterUnassignedMembersWithCommitteeScope(
+        $committee_details, $batch_id, $batch_member_id, $unassigned_index
+    )
+    {
+        $scoped_committees = (
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
+            )
+        );
+
+        $unassigned_committee = (
+            $committee_details["batch"]["committees"][$unassigned_index]
+        );
+        $unassigned_members = array();
+        foreach($unassigned_committee["members"] as $member
+        )
+        {
+            if($member["committee"] != false)
+            {
+                $member_committee_id = (
+                    $this->committee->GetCommitteeIDByCommitteeName(
+                        $member["committee"]
+                    )
+                );
+
+                if(in_array($member_committee_id, $scoped_committees))
+                {
+                    $unassigned_members[] = $member;
+                }
+            }
+        }
+
+        $committee_details["batch"]["committees"][$unassigned_index]["members"] = (
+            $unassigned_members
+        );
         return $committee_details;
     }
 
