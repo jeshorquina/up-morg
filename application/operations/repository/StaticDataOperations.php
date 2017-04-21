@@ -25,19 +25,6 @@ class StaticDataOperations
         }
     }
 
-    public function IsLedgerActivated()
-    {
-        $is_ledger_activated = $this->repository->IsLedgerActivated();
-        if(sizeof($is_ledger_activated) === 1)
-        {
-            return $is_ledger_activated[0]["Value"];
-        }
-        else 
-        {
-            throw new \Exception("No record for ledger activated flag found");
-        }
-    }
-
     public function ChangePassword($password)
     {
         return $this->repository->ChangePassword($password);

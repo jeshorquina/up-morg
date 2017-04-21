@@ -2,7 +2,7 @@
 namespace Jesh\Helpers;
 
 use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\StaticDataOperations;
+use \Jesh\Operations\Repository\LedgerOperations;
 
 class PageRenderer
 {
@@ -69,9 +69,9 @@ class PageRenderer
         }
         else
         {
-            $static_data = new StaticDataOperations;
+            $ledger = new LedgerOperations;
 
-            if(!$static_data->IsLedgerActivated())
+            if(!$ledger->IsActivated())
             {
                 Url::Redirect("finance/activate");
             }
@@ -84,7 +84,23 @@ class PageRenderer
 
     public static function HasFinanceActivationPageAccess()
     {
-        return UserSession::IsFinanceMember();
+        if(!UserSession::IsFinanceMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            $ledger = new LedgerOperations;
+
+            if($ledger->IsActivated())
+            {
+                Url::Redirect("finance");
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 
 

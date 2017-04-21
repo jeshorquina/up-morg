@@ -124,6 +124,8 @@ class BatchActionOperations
 
     public function ActivateBatch($batch_id)
     {
+        $this->ledger->DeactivateLedger();
+
         return $this->batch->Activate($batch_id);
     }
 
@@ -134,6 +136,11 @@ class BatchActionOperations
 
     public function DeleteBatch($batch_id)
     {
+        if($this->batch->IsActive($batch_id))
+        {
+            $this->ledger->DeactivateLedger();
+        }
+
         return $this->batch->Delete($batch_id);
     }
 
@@ -323,7 +330,8 @@ class BatchActionOperations
                 }
                 else if($this->batch->IsActive($batch_id))
                 {
-                    $active_batch_removed = $this->batch->RemoveActiveBatch();
+                    $this->batch->RemoveActiveBatch();
+                    $this->ledger->DeactivateLedger();
                 }
             }
         }
@@ -422,6 +430,7 @@ class BatchActionOperations
         if($is_batch_active && !$this->HasCommitteeHeads($batch_id))
         {
             $this->batch->RemoveActiveBatch();
+            $this->ledger->DeactivateLedger();
             return array(
                 "message" => StringHelper::NoBreakString(
                     "Batch member has been successfully added to committee but 
@@ -466,6 +475,8 @@ class BatchActionOperations
         if($this->batch->IsActive($batch_id))
         {
             $this->batch->RemoveActiveBatch();
+            $this->ledger->DeactivateLedger();
+
             $is_batch_active = true;
 
             if(!$this->HasCommitteeHeads($batch_id))

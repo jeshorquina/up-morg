@@ -7,8 +7,8 @@ class LedgerInputModel implements ModelInterfaces
 {
     public $LedgerInputID;
     public $BatchMemberID;
-    public $InputType;
     public $Amount;
+    public $IsDebit;
     public $IsVerified;
 
     public function __construct($array)

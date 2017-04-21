@@ -251,6 +251,16 @@
     function: RequestCommittee
 
 
+'action/finance/activation':
+    directory: api/user
+    controller: FinanceActionController
+    function: GetFinanceActivationDetails
+'action/finance/activate':
+    directory: api/user
+    controller: FinanceActionController
+    function: ActivateLedger
+
+
 'action/member':
     directory: api/user
     controller: SubordinateActionController

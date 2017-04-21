@@ -277,6 +277,7 @@
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/nav.css",
+            "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/activation.css"
         ]
     },
