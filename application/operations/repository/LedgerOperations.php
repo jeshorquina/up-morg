@@ -56,4 +56,19 @@ class LedgerOperations
             array("Value" => "0")
         ));
     }
+
+    public function AddEntry(LedgerInputModel $entry)
+    {
+        return $this->repository->AddEntry($entry);
+    }
+
+    public function VerifyEntry($ledger_input_id)
+    {
+        return $this->repository->UpdateEntry(
+            $ledger_input_id,
+            new LedgerInputModel(
+                array("IsVerified"=> true)
+            )
+        );
+    }
 }

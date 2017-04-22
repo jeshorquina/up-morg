@@ -58,6 +58,20 @@ class ValidationDataBuilder
         return true;
     }
 
+    public function CheckDecimal($name, $value)
+    {
+        if(strlen($value) !== 0) 
+        {
+            if(!filter_var($value, FILTER_VALIDATE_FLOAT))
+            {
+                $this->valid   = false;
+                $this->array[$name] = sprintf("Invalid %s", $name);
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function GetStatus()
     {
         return $this->valid;

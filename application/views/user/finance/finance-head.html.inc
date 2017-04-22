@@ -21,6 +21,40 @@
             <tbody id="ledger-entries-container"></tbody>
         </table>
 
+        <form id="add-ledger-entry-form">
+            <h3 class="margin-top-large">Add Ledger Entry</h3>
+
+            <div class="flex-container">
+                <div class="form-group flex flex-third">
+                    <label class="form-label">Amount</label>
+                    <input type="text" name="amount" class="form-input" placeholder="e.g. 100.50" pattern="[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)"
+                        required="required">
+                </div>
+
+                <div class="form-group flex flex-third">
+                    <label class="form-label">Ledger Type</label>
+                    <select class="form-input" name="type" required="required">
+                        <option value="debit">Debit</option>
+                        <option value="credit">Credit</option>
+                    </select>
+                </div>
+
+                <div class="form-group flex flex-third">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-input" placeholder="Enter description" required="required">
+                </div>
+            </div>
+
+            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+
+            <div class="form-group clearfix">
+                <button type="submit" class="button button-success float-right no-margin">
+                    Add Entry
+                </button>
+            </div>
+
+        </form>
+
     </div>
 
 </div>
@@ -71,9 +105,7 @@
 <h3>Add Debit/Credit</h3>
 <form method="POST" action="<?=base_url(" action/finance-tracker/add-debit-credit ")?>">
     <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>"> Amount: <input type="text" name="amount"
-        size="1" pattern="[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)" placeholder="00.00">php<br> Type: <input type="radio" name="type"
-        value="debit" checked> Debit
-    <input type="radio" name="type" value="crebit"> Crebit <br>
+        size="1" placeholder="00.00">php<br> Type:
     <button class="btn btn-info" type="submit">
         <i class="fa fa-lock"></i> SUBMIT FOR VERIFICATION
     </button>

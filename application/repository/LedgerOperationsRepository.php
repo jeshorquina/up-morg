@@ -4,6 +4,7 @@ namespace Jesh\Repository;
 use \Jesh\Core\Wrappers\Repository;
 
 use \Jesh\Models\StaticDataModel;
+use \Jesh\Models\LedgerInputModel;
 
 class LedgerOperationsRepository extends Repository
 {
@@ -23,6 +24,18 @@ class LedgerOperationsRepository extends Repository
     {
         return self::Update(
             "StaticData", array("Name" => "IsLedgerActivated"), $static_data
+        );
+    }
+
+    public function AddEntry(LedgerInputModel $entry)
+    {
+        return self::Insert("LedgerInput", $entry);
+    }
+
+    public function UpdateEntry($ledger_input_id, LedgerInputModel $entry)
+    {
+        return self::Update(
+            "LedgerInput", array("LedgerInputID" => $ledger_input_id), $entry
         );
     }
 }

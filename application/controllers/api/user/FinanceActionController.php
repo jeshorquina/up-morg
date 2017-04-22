@@ -148,6 +148,211 @@ class FinanceActionController extends Controller
         }
     }
 
+    public function AddLedgerEntry()
+    {
+        if(!UserSession::IsFinanceMember() || UserSession::IsFirstFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsLedgerActivated())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is not yet activated for this batch!"
+                    )
+                )
+            );
+        }
+        else
+        {
+            $amount = Http::Request(Http::POST, "amount");
+            $type = Http::Request(Http::POST, "type");
+            $description = Http::Request(Http::POST, "description");
+
+            $validation = $this->operations->ValidateAddLedgerData(
+                array(
+                    "amount" => $amount,
+                    "type" => $type,
+                    "description" => $description,
+                )    
+            );
+
+            if($validation["status"] === false)
+            {
+                Http::Response(
+                    Http::UNPROCESSABLE_ENTITY, $validation["data"]
+                );
+            }
+            else if(!in_array($type, array("debit", "credit")))
+            {
+                Http::Response(
+                    Http::UNPROCESSABLE_ENTITY, array(
+                        "message" => StringHelper::NoBreakString(
+                            "Ledger type is invalid! Please check."
+                        )
+                    )
+                );
+            }
+            else if(UserSession::IsCommitteeHead())
+            {
+                $this->AddCommitteeHeadLedgerEntry(
+                    $amount, $type, $description
+                );
+            }
+            else
+            {
+                $this->AddCommitteeMemberLedgerEntry(
+                    $amount, $type, $description
+                );
+            }
+        }
+    }
+
+    private function AddCommitteeHeadLedgerEntry($amount, $type, $description)
+    {
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->AddLedgerEntry(
+            $amount, $type, $description, $batch_member_id, true
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not add ledger entry. Please try again."
+                    )
+                )
+            );
+        }
+        
+        $details = $this->operations->GetCommitteeHeadFinancePageDetails(
+            UserSession::GetBatchID()
+        );
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not add ledger entry. Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger entry successfully added."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    private function AddCommitteeMemberLedgerEntry($amount, $type, $description)
+    {
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->AddLedgerEntry(
+            $amount, $type, $description, $batch_member_id, false
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not add ledger entry. Please try again."
+                    )
+                )
+            );
+        }
+
+        $details = $this->operations->GetCommitteeMemberFinancePageDetails(
+            UserSession::GetBatchID()
+        );
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not add ledger entry. Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger entry successfully added."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function VerifyLedgerEntry($ledger_input_id)
+    {
+        if(!UserSession::IsFinanceMember() || !UserSession::IsCommitteeHead())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->VerifyLedgerEntry($ledger_input_id))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not verify ledger entry. Please try again."
+                    )
+                )
+            );
+        }
+
+        $details = $this->operations->GetCommitteeHeadFinancePageDetails(
+            UserSession::GetBatchID()
+        );
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not verify ledger entry. Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger entry successfully verified."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
     public function GetFinanceActivationDetails()
     {
         if(!UserSession::IsFinanceMember() || !UserSession::IsCommitteeHead())

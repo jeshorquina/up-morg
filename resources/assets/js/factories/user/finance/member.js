@@ -20,6 +20,18 @@
     );
   }
 
+  FinanceMemberFactory.CreateLedgerEntryRow = function (entry) {
+
+    return DomHelper.CreateElement("tr", {}, [
+      DomHelper.CreateElement("td", { "class": "text-center" }, entry.date),
+      DomHelper.CreateElement("td", {}, entry.member),
+      DomHelper.CreateElement("td", {}, entry.description),
+      DomHelper.CreateElement("td", { "class": "text-right" }, entry.debit),
+      DomHelper.CreateElement("td", { "class": "text-right" }, entry.credit),
+      DomHelper.CreateElement("td", { "class": "text-right" }, entry.total)
+    ]);
+  }
+
 })(
   DomHelper, this.FinanceMemberFactory = (
     this.FinanceMemberFactory == undefined

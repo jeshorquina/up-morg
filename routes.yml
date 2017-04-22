@@ -255,6 +255,15 @@
     directory: api/user
     controller: FinanceActionController
     function: GetFinancePageDetails
+'action/finance/add':
+    directory: api/user
+    controller: FinanceActionController
+    function: AddLedgerEntry
+'action/finance/verify':
+    directory: api/user
+    controller: FinanceActionController
+    function: VerifyLedgerEntry
+    parameter: number
 'action/finance/activation':
     directory: api/user
     controller: FinanceActionController

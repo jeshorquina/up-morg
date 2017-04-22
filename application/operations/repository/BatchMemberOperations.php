@@ -70,6 +70,11 @@ class BatchMemberOperations
         return $ids; 
     }
 
+    public function GetMemberID($batch_member_id)
+    {
+        return $this->GetBatchMemberByID($batch_member_id)->MemberID;
+    }
+
     public function GetBatchMemberID($batch_id, $member_id)
     {
         return $this->GetBatchMember($batch_id, $member_id)->BatchMemberID;

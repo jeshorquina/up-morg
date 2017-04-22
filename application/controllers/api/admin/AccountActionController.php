@@ -29,7 +29,7 @@ class AccountActionController extends Controller
         $new_password     = Http::Request(Http::POST, "new-password");
         $confirm_password = Http::Request(Http::POST, "confirm-password");
 
-         $validation = $this->operations->ValidateUpdatePasswordData(
+        $validation = $this->operations->ValidateUpdatePasswordData(
             array(
                 "old-password" => $old_password,
                 "new-password" => $new_password,

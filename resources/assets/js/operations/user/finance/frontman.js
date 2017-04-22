@@ -46,8 +46,11 @@
     );
 
     if (entries.current.length > 0) {
-      entries.forEach(function (entry) {
-
+      entries.current.forEach(function (entry) {
+        DomHelper.AppendContent(
+          "ledger-entries-container",
+          FinanceFrontmanFactory.CreateLedgerEntryRow(entry)
+        );
       });
     }
     else {
