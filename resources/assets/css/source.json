@@ -323,6 +323,46 @@
         ]
     },
     {
+        "name": "user/finance-closed-frontman.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/components/table.css",
+            "resources/assets/css/pages/user/finance/closed.css"
+        ]
+    },
+    {
+        "name": "user/finance-closed-committee.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/components/table.css",
+            "resources/assets/css/pages/user/finance/closed.css"
+        ]
+    },
+    {
         "name": "user/first-frontman-subordinate.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",

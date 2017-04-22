@@ -3,44 +3,22 @@
   FinanceFrontmanOperations
 ) {
 
+  FinanceFrontmanOperations.data = {};
+
   FinanceFrontmanOperations.RenderFinancePage = function (
     source, controllerCallback
   ) {
 
-    var endpoint = source + "action/finance";
+    var endpoint = source + "action/finance/closed";
 
     HttpHelper.Get(endpoint, function (status, responseText) {
       RenderFinancePageCallback(status, responseText, controllerCallback);
     });
   }
 
-  FinanceFrontmanOperations.CloseLedger = function (source, form) {
+  FinanceFrontmanOperations.GenerateReport = function () {
 
-    var data = new FormData(form);
-    var endpoint = source + "action/finance/close";
-
-    HttpHelper.Post(endpoint, data, CloseLedgerCallback);
-  }
-
-  function CloseLedgerCallback(status, responseText) {
-
-    var response = JSON.parse(responseText);
-
-    window.scrollTo(0, 0);
-
-    if (status == HttpHelper.OK) {
-
-      AlertFactory.GenerateSuccessAlert(
-        document.getElementById("notifications"), response.message
-      );
-      UrlHelper.Redirect(response.redirect_url, 1000);
-    }
-    else {
-
-      AlertFactory.GenerateDangerAlert(
-        document.getElementById("notifications"), response.message
-      );
-    }
+    pdfMake.createPdf(DefineReportPDF()).download();
   }
 
   function RenderFinancePageCallback(status, responseText, controllerCallback) {
@@ -49,7 +27,9 @@
 
     if (status == HttpHelper.OK) {
 
-      GenerateFinancePage(response.data);
+      FinanceFrontmanOperations.data = response.data;
+
+      GenerateFinancePage(FinanceFrontmanOperations.data);
 
       controllerCallback();
     }
@@ -87,6 +67,34 @@
         "ledger-entries-container",
         FinanceFrontmanFactory.CreateNoLedgerEntriesRow()
       );
+    }
+  }
+
+  function DefineReportPDF() {
+
+    var preparedBody = [
+      ['Date', 'Finance Member', 'Description', 'Debit', 'Credit', 'Total'],
+      ['', '', '', '', '', FinanceFrontmanOperations.data.entries.previous]
+    ];
+
+    FinanceFrontmanOperations.data.entries.current.forEach(function (entry) {
+      preparedBody.push([
+        entry.date, entry.member, entry.description, entry.debit,
+        entry.credit, entry.total
+      ]);
+    })
+
+    return {
+      content: [
+        {
+          layout: 'lightHorizontalLines', // optional
+          table: {
+            headerRows: 1,
+            widths: ['10%', '20%', '20%', '13%', '13%', '14%'],
+            body: preparedBody
+          }
+        }
+      ]
     }
   }
 

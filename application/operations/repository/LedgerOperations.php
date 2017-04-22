@@ -32,27 +32,60 @@ class LedgerOperations
 
     public function IsActivated()
     {
-        $is_ledger_activated = $this->repository->IsLedgerActivated();
+        $is_ledger_activated = $this->repository->GetIsLedgerActivated();
         if(sizeof($is_ledger_activated) === 1)
         {
-            return $is_ledger_activated[0]["Value"];
+            return (bool) $is_ledger_activated[0]["Value"];
         }
         else 
         {
             throw new \Exception("No record for ledger activated flag found");
         }
     }
+    
+    public function IsOpen()
+    {
+        $is_ledger_opened = $this->repository->GetIsLedgerOpen();
+        if(sizeof($is_ledger_opened) === 1)
+        {
+            return (bool) $is_ledger_opened[0]["Value"];
+        }
+        else 
+        {
+            throw new \Exception("No record for ledger opened flag found");
+        }
+    }
 
     public function ActivateLedger()
     {
-        return $this->repository->ToggleLedger(new StaticDataModel(
-            array("Value" => "1")
-        ));
+        if($this->OpenLedger())
+        {
+            return $this->repository->ToggleLedger(new StaticDataModel(
+                array("Value" => "1")
+            ));
+        }
     }
 
     public function DeactivateLedger()
     {
-        return $this->repository->ToggleLedger(new StaticDataModel(
+        if($this->OpenLedger())
+        {
+            return $this->repository->ToggleLedger(new StaticDataModel(
+                array("Value" => "0")
+            ));
+        }
+    }
+
+    public function OpenLedger()
+    {
+        return $this->repository->EnableLedger(new StaticDataModel(
+            array("Value" => "1")
+        ));
+    }
+
+    public function CloseLedger()
+    {
+        return $this->repository->EnableLedger(new StaticDataModel(
             array("Value" => "0")
         ));
     }

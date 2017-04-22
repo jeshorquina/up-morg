@@ -67,9 +67,9 @@ class FinancePageController extends Controller
         }
     }
 
-    public function FinanceActivation()
+    public function LedgerActivation()
     {
-        if(PageRenderer::HasFinanceActivationPageAccess())
+        if(PageRenderer::HasFinanceLedgerActivationPageAccess())
         {
             $other_details = array(
                 Security::GetCSRFData(),
@@ -86,6 +86,40 @@ class FinancePageController extends Controller
                     "finance-activation", $other_details
                 )
             );
+        }
+    }
+
+    public function LedgerClosed()
+    {
+        if(PageRenderer::HasFinanceLedgerClosedPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Finance Tracker"
+                    )
+                ),
+            );
+
+            if(UserSession::IsFirstFrontman())
+            {
+                self::SetBody("user/finance/closed-frontman.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-closed-frontman", $other_details
+                    )
+                );
+            }
+            else
+            {
+                self::SetBody("user/finance/closed-committee.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-closed-committee", $other_details
+                    )
+                );
+            }
         }
     }
 }

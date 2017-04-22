@@ -232,6 +232,36 @@
         ]
     },
     {
+        "name": "user/finance-closed-frontman.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/vendor/pdfmake.js",
+            "resources/assets/js/vendor/vfs_fonts.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/finance/closed-frontman.js",
+            "resources/assets/js/operations/user/finance/closed-frontman.js",
+            "resources/assets/js/controllers/user/finance/closed-frontman.js"
+        ]
+    },
+    {
+        "name": "user/finance-closed-committee.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/finance/closed-committee.js",
+            "resources/assets/js/operations/user/finance/closed-committee.js",
+            "resources/assets/js/controllers/user/finance/closed-committee.js"
+        ]
+    },
+    {
         "name": "user/first-frontman-subordinate.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

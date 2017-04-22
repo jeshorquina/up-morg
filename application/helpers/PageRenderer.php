@@ -71,7 +71,11 @@ class PageRenderer
         {
             $ledger = new LedgerOperations;
 
-            if(!$ledger->IsActivated())
+            if(!$ledger->IsOpen())
+            {
+                Url::Redirect("finance/closed");
+            }
+            else if(!$ledger->IsActivated())
             {
                 Url::Redirect("finance/activate");
             }
@@ -82,7 +86,7 @@ class PageRenderer
         }
     }
 
-    public static function HasFinanceActivationPageAccess()
+    public static function HasFinanceLedgerActivationPageAccess()
     {
         if(!UserSession::IsFinanceMember())
         {
@@ -92,7 +96,11 @@ class PageRenderer
         {
             $ledger = new LedgerOperations;
 
-            if($ledger->IsActivated())
+            if(!$ledger->IsOpen())
+            {
+                Url::Redirect("finance/closed");
+            }
+            else if($ledger->IsActivated())
             {
                 Url::Redirect("finance");
             }
@@ -103,6 +111,30 @@ class PageRenderer
         }
     }
 
+    public static function HasFinanceLedgerClosedPageAccess()
+    {
+        if(!UserSession::IsFinanceMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            $ledger = new LedgerOperations;
+
+            if(!$ledger->IsOpen())
+            {
+                return true;
+            }
+            else if(!$ledger->IsActivated())
+            {
+                Url::Redirect("finance/activate");
+            }
+            else
+            {
+                Url::Redirect("finance");
+            }
+        }
+    }
 
     public static function ShowForbiddenPage()
     {

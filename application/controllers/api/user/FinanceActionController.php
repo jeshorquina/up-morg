@@ -34,6 +34,16 @@ class FinanceActionController extends Controller
                 )
             );
         }
+        else if(!$this->operations->IsLedgerOpen())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is already closed for this batch!"
+                    )
+                )
+            );
+        }
         else if(!$this->operations->IsLedgerActivated())
         {
             Http::Response(
@@ -44,83 +54,8 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        else if(UserSession::IsFirstFrontman())
-        {
-            $this->GetFirstFrontmanFinancePageDetails();
-        }
-        else if(UserSession::IsCommitteeHead())
-        {
-            $this->GetCommitteeHeadFinancePageDetails();
-        }
-        else
-        {
-            $this->GetCommitteeMemberFinancePageDetails();
-        }
-    }
-
-    private function GetFirstFrontmanFinancePageDetails()
-    {
-        $details = $this->operations->GetFirstFrontmanFinancePageDetails(
-            UserSession::GetBatchID()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Could not prepare finance page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "FInance page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
-    }
-
-    private function GetCommitteeHeadFinancePageDetails()
-    {
-        $details = $this->operations->GetCommitteeHeadFinancePageDetails(
-            UserSession::GetBatchID()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Could not prepare finance page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "FInance page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
-    }
-
-    private function GetCommitteeMemberFinancePageDetails()
-    {
-        $details = $this->operations->GetCommitteeMemberFinancePageDetails(
+        
+        $details = $this->operations->GetFinancePageDetails(
             UserSession::GetBatchID()
         );
 
@@ -160,6 +95,16 @@ class FinanceActionController extends Controller
                 )
             );
         }
+        else if(!$this->operations->IsLedgerOpen())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is already closed for this batch!"
+                    )
+                )
+            );
+        }
         else if(!$this->operations->IsLedgerActivated())
         {
             Http::Response(
@@ -170,48 +115,42 @@ class FinanceActionController extends Controller
                 )
             );
         }
+
+        $amount = Http::Request(Http::POST, "amount");
+        $type = Http::Request(Http::POST, "type");
+        $description = Http::Request(Http::POST, "description");
+
+        $validation = $this->operations->ValidateAddLedgerData(
+            array(
+                "amount" => $amount,
+                "type" => $type,
+                "description" => $description,
+            )    
+        );
+
+        if($validation["status"] === false)
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, $validation["data"]
+            );
+        }
+        else if(!in_array($type, array("debit", "credit")))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger type is invalid! Please check."
+                    )
+                )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $this->AddCommitteeHeadLedgerEntry($amount, $type, $description);
+        }
         else
         {
-            $amount = Http::Request(Http::POST, "amount");
-            $type = Http::Request(Http::POST, "type");
-            $description = Http::Request(Http::POST, "description");
-
-            $validation = $this->operations->ValidateAddLedgerData(
-                array(
-                    "amount" => $amount,
-                    "type" => $type,
-                    "description" => $description,
-                )    
-            );
-
-            if($validation["status"] === false)
-            {
-                Http::Response(
-                    Http::UNPROCESSABLE_ENTITY, $validation["data"]
-                );
-            }
-            else if(!in_array($type, array("debit", "credit")))
-            {
-                Http::Response(
-                    Http::UNPROCESSABLE_ENTITY, array(
-                        "message" => StringHelper::NoBreakString(
-                            "Ledger type is invalid! Please check."
-                        )
-                    )
-                );
-            }
-            else if(UserSession::IsCommitteeHead())
-            {
-                $this->AddCommitteeHeadLedgerEntry(
-                    $amount, $type, $description
-                );
-            }
-            else
-            {
-                $this->AddCommitteeMemberLedgerEntry(
-                    $amount, $type, $description
-                );
-            }
+            $this->AddCommitteeMemberLedgerEntry($amount, $type, $description);
         }
     }
 
@@ -232,7 +171,7 @@ class FinanceActionController extends Controller
             );
         }
         
-        $details = $this->operations->GetCommitteeHeadFinancePageDetails(
+        $details = $this->operations->GetFinancePageDetails(
             UserSession::GetBatchID()
         );
 
@@ -276,7 +215,7 @@ class FinanceActionController extends Controller
             );
         }
 
-        $details = $this->operations->GetCommitteeMemberFinancePageDetails(
+        $details = $this->operations->GetFinancePageDetails(
             UserSession::GetBatchID()
         );
 
@@ -326,7 +265,7 @@ class FinanceActionController extends Controller
             );
         }
 
-        $details = $this->operations->GetCommitteeHeadFinancePageDetails(
+        $details = $this->operations->GetFinancePageDetails(
             UserSession::GetBatchID()
         );
 
@@ -353,6 +292,53 @@ class FinanceActionController extends Controller
         }
     }
 
+    public function CloseLedger()
+    {
+        if(!UserSession::IsFirstFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AllLedgerEntriesVerified())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not close the current batch's ledger. Please
+                        have all ledger entries verified by the Finance Head 
+                        first!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CloseLedger())
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not close ledger. Please try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger successfully closed!"
+                    ),
+                    "redirect_url" => Url::GetBaseURL("finance/closed")
+                )
+            );
+        }
+    }
+
     public function GetFinanceActivationDetails()
     {
         if(!UserSession::IsFinanceMember() || !UserSession::IsCommitteeHead())
@@ -361,6 +347,16 @@ class FinanceActionController extends Controller
                 Http::FORBIDDEN, array(
                     "message" => StringHelper::NoBreakString(
                         "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsLedgerOpen())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is already closed for this batch!"
                     )
                 )
             );
@@ -411,6 +407,16 @@ class FinanceActionController extends Controller
                 )
             );
         }
+        else if(!$this->operations->IsLedgerOpen())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is already closed for this batch!"
+                    )
+                )
+            );
+        }
         else if($this->operations->IsLedgerActivated())
         {
             Http::Response(
@@ -438,7 +444,58 @@ class FinanceActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Ledger successfully activated!"
                     ),
-                    "redirect_url" => Url::GetBaseURL("admin/finance")
+                    "redirect_url" => Url::GetBaseURL("finance")
+                )
+            );
+        }
+    }
+
+    public function GetClosedLedgerDetails()
+    {
+        if(!UserSession::IsFinanceMember())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if($this->operations->IsLedgerOpen())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Ledger is still open for this batch!"
+                    )
+                )
+            );
+        }
+        
+        $details = $this->operations->GetFinancePageDetails(
+            UserSession::GetBatchID()
+        );
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare finance page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "FInance page details successfully processed."
+                    ),
+                    "data" => $details
                 )
             );
         }

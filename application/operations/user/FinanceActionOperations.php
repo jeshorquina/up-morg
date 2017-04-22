@@ -22,21 +22,7 @@ class FinanceActionOperations
         $this->member = new MemberOperations;
     }
 
-    public function GetFirstFrontmanFinancePageDetails($batch_id)
-    {
-        return array(
-            "entries" => $this->GetBatchLedgerEntries($batch_id)
-        );
-    }
-
-    public function GetCommitteeHeadFinancePageDetails($batch_id)
-    {
-        return array(
-            "entries" => $this->GetBatchLedgerEntries($batch_id)
-        );
-    }
-
-    public function GetCommitteeMemberFinancePageDetails($batch_id)
+    public function GetFinancePageDetails($batch_id)
     {
         return array(
             "entries" => $this->GetBatchLedgerEntries($batch_id)
@@ -164,6 +150,23 @@ class FinanceActionOperations
         );
     }
 
+    public function AllLedgerEntriesVerified()
+    {
+        foreach($this->ledger->GetLedgerEntries() as $entry)
+        {
+            if(!(bool)$entry->IsVerified)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function CloseLedger()
+    {
+        return $this->ledger->CloseLedger();
+    }
+
     public function GetActivationDetails()
     {
         $debit = 0; 
@@ -195,6 +198,11 @@ class FinanceActionOperations
     public function IsLedgerActivated()
     {
         return $this->ledger->IsActivated();
+    }
+
+    public function IsLedgerOpen()
+    {
+        return $this->ledger->IsOpen();
     }
 
     public function ActivateLedger()

@@ -13,10 +13,17 @@ class LedgerOperationsRepository extends Repository
         return self::Get("LedgerInput", "*");
     }
 
-    public function IsLedgerActivated()
+    public function GetIsLedgerActivated()
     {
         return self::Get(
             "StaticData", "Value", array("Name" => "IsLedgerActivated")
+        );
+    }
+
+    public function GetIsLedgerOpen()
+    {
+        return self::Get(
+            "StaticData", "Value", array("Name" => "IsLedgerOpen")
         );
     }
 
@@ -24,6 +31,13 @@ class LedgerOperationsRepository extends Repository
     {
         return self::Update(
             "StaticData", array("Name" => "IsLedgerActivated"), $static_data
+        );
+    }
+
+    public function EnableLedger(StaticDataModel $static_data)
+    {
+        return self::Update(
+            "StaticData", array("Name" => "IsLedgerOpen"), $static_data
         );
     }
 

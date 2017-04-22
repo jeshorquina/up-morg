@@ -224,7 +224,11 @@
 'finance/activate':
     directory: pages/user
     controller: FinancePageController
-    function: FinanceActivation
+    function: LedgerActivation
+'finance/closed':
+    directory: pages/user
+    controller: FinancePageController
+    function: LedgerClosed
 
 
 'member':
@@ -264,6 +268,10 @@
     controller: FinanceActionController
     function: VerifyLedgerEntry
     parameter: number
+'action/finance/close':
+    directory: api/user
+    controller: FinanceActionController
+    function: CloseLedger
 'action/finance/activation':
     directory: api/user
     controller: FinanceActionController
@@ -272,6 +280,10 @@
     directory: api/user
     controller: FinanceActionController
     function: ActivateLedger
+'action/finance/closed':
+    directory: api/user
+    controller: FinanceActionController
+    function: GetClosedLedgerDetails
 
 
 'action/member':

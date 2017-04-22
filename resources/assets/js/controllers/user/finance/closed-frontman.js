@@ -3,16 +3,16 @@
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
 
-  var closeLedgerCallback = function (event) {
+  var generateReportCallback = function (event) {
     event.preventDefault();
-    FinanceFrontmanOperations.CloseLedger(source, this);
+    FinanceFrontmanOperations.GenerateReport();
   }
 
   var controllerCallback = function () {
 
     document
-      .getElementById("close-ledger-form")
-      .addEventListener("submit", closeLedgerCallback);
+      .getElementById("generate-report-form")
+      .addEventListener("submit", generateReportCallback);
   }
 
   FinanceFrontmanOperations.RenderFinancePage(source, controllerCallback);

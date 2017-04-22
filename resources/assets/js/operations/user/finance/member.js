@@ -14,7 +14,21 @@
     });
   }
 
-  function RenderFinancePageCallback(status, responseText, controllerCallback) {
+  FinanceMemberOperations.AddLedgerEntry = function (
+    source, form, controllerCallback
+  ) {
+
+    var data = new FormData(form);
+    var endpoint = source + "action/finance/add";
+
+    HttpHelper.Post(endpoint, data, function (status, responseText) {
+      RefreshFinancePageCallback(status, responseText, controllerCallback);
+    });
+  }
+
+  function RenderFinancePageCallback(
+    status, responseText, controllerCallback
+  ) {
 
     var response = JSON.parse(responseText);
 
@@ -33,9 +47,36 @@
     }
   }
 
+  function RefreshFinancePageCallback(
+    status, responseText, controllerCallback
+  ) {
+
+    var response = JSON.parse(responseText);
+
+    window.scrollTo(0, 0);
+
+    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
+
+      GenerateFinancePage(response.data);
+
+      controllerCallback();
+
+      AlertFactory.GenerateSuccessAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
+    else {
+
+      AlertFactory.GenerateDangerAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
+  }
+
   function GenerateFinancePage(data) {
 
     FillLedgerEntries(data.entries);
+    RemoveAddLedgerEntryFormDetails();
   }
 
   function FillLedgerEntries(entries) {
@@ -49,7 +90,7 @@
       entries.current.forEach(function (entry) {
         DomHelper.AppendContent(
           "ledger-entries-container",
-          FinanceFrontmanFactory.CreateLedgerEntryRow(entry)
+          FinanceMemberFactory.CreateLedgerEntryRow(entry)
         );
       });
     }
@@ -59,6 +100,10 @@
         FinanceMemberFactory.CreateNoLedgerEntriesRow()
       );
     }
+  }
+
+  function RemoveAddLedgerEntryFormDetails() {
+    document.getElementById("add-ledger-entry-form").reset();
   }
 
 })(

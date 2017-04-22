@@ -6,6 +6,10 @@
 
         <hr>
 
+        <h3 class="text-center">
+            The ledger for this academic year is now closed.
+        </h3>
+
         <table class="table table-compact">
             <thead>
                 <tr>
@@ -15,7 +19,6 @@
                 </tr>
                 <tr>
                     <th width="10%">Date</th>
-                    <th width="10%">Is Verified</th>
                     <th width="20%">Finance Member</th>
                     <th width="20%">Description</th>
                     <th width="13%">Debit</th>
@@ -25,15 +28,6 @@
             </thead>
             <tbody id="ledger-entries-container"></tbody>
         </table>
-
-        <form id="close-ledger-form">
-            <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
-            <div class="form-group clearfix">
-                <button type="submit" class="button button-danger float-right no-margin margin-top-medium">
-                    Close Ledger
-                </button>
-            </div>
-        </form>
 
     </div>
 
