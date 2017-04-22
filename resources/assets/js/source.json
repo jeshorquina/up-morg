@@ -177,7 +177,7 @@
         ]
     },
     {
-        "name": "user/finance.js",
+        "name": "user/finance-first-frontman.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -185,9 +185,37 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/finance/finance.js",
-            "resources/assets/js/operations/user/finance/finance.js",
-            "resources/assets/js/controllers/user/finance/finance.js"
+            "resources/assets/js/factories/user/finance/frontman.js",
+            "resources/assets/js/operations/user/finance/frontman.js",
+            "resources/assets/js/controllers/user/finance/frontman.js"
+        ]
+    },
+    {
+        "name": "user/finance-head.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/finance/head.js",
+            "resources/assets/js/operations/user/finance/head.js",
+            "resources/assets/js/controllers/user/finance/head.js"
+        ]
+    },
+    {
+        "name": "user/finance-member.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/finance/member.js",
+            "resources/assets/js/operations/user/finance/member.js",
+            "resources/assets/js/controllers/user/finance/member.js"
         ]
     },
     {

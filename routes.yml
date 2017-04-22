@@ -251,6 +251,10 @@
     function: RequestCommittee
 
 
+'action/finance':
+    directory: api/user
+    controller: FinanceActionController
+    function: GetFinancePageDetails
 'action/finance/activation':
     directory: api/user
     controller: FinanceActionController

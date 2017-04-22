@@ -16,6 +16,13 @@
         }
     }
 
+    &-compact {
+        td, th {
+            font-size: 0.9rem;
+            padding: 0.3rem 0.25rem;
+        }
+    }
+
     thead tr {
         td, th {
             background-color: lighten($color-border, 10%);    

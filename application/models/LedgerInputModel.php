@@ -10,6 +10,8 @@ class LedgerInputModel implements ModelInterfaces
     public $Amount;
     public $IsDebit;
     public $IsVerified;
+    public $Description;
+    public $Timestamp;
 
     public function __construct($array)
     {    

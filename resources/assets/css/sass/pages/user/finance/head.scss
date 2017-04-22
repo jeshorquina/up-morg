@@ -1,0 +1,6 @@
+@import "../../../base/variables.scss";
+
+.previous-balance {
+    background: darken($color-border, 10%);
+    text-align: right;
+}

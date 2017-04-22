@@ -6,7 +6,20 @@
 
         <hr>
 
-        
+        <table class="table table-compact">
+            <thead>
+                <tr>
+                    <th width="10%">Date</th>
+                    <th width="10%">Status</th>
+                    <th width="20%">Finance Member</th>
+                    <th width="20%">Descrition</th>
+                    <th width="13%">Debit</th>
+                    <th width="13%">Credit</th>
+                    <th width="14%">Total</th>
+                </tr>
+            </thead>
+            <tbody id="ledger-entries-container"></tbody>
+        </table>
 
     </div>
 

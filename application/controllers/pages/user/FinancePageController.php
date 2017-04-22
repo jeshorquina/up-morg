@@ -6,6 +6,7 @@ use \Jesh\Core\Wrappers\Controller;
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\UserSession;
 
 class FinancePageController extends Controller 
 {
@@ -36,10 +37,33 @@ class FinancePageController extends Controller
                 ),
             );
 
-            self::SetBody("user/finance/finance.html.inc");
-            self::RenderView(
-                PageRenderer::GetUserPageData("finance", $other_details)
-            );
+            if(UserSession::IsCommitteeHead())
+            {
+                self::SetBody("user/finance/finance-head.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-head", $other_details
+                    )
+                );
+            }
+            else if(UserSession::IsFirstFrontman())
+            {
+                self::SetBody("user/finance/first-frontman.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-first-frontman", $other_details
+                    )
+                );
+            }
+            else
+            {
+                self::SetBody("user/finance/finance-member.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-member", $other_details
+                    )
+                );
+            }
         }
     }
 
