@@ -371,7 +371,9 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        else if(!$details = $this->operations->GetActivationDetails())
+        else if(!$details = $this->operations->GetActivationDetails(
+            UserSession::GetBatchID()
+        ))
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(

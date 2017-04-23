@@ -6,17 +6,21 @@ use  \Jesh\Helpers\ValidationDataBuilder;
 use \Jesh\Models\MemberModel;
 use \Jesh\Models\LedgerInputModel;
 
+use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\LedgerOperations;
 use \Jesh\Operations\Repository\MemberOperations;
 
 class FinanceActionOperations
 {
+    private $batch;
     private $batch_member;
     private $ledger;
+    private $member;
 
     public function __construct()
     {
+        $this->batch = new BatchOperations;
         $this->batch_member = new BatchMemberOperations;
         $this->ledger = new LedgerOperations;
         $this->member = new MemberOperations;
@@ -36,14 +40,18 @@ class FinanceActionOperations
         $debit = 0;
         $credit = 0;
 
+        $entry_acad_year = false;
+        $current_acad_year = false;
+
         $entries = array();
         foreach($this->ledger->GetLedgerEntries() as $entry)
         {
             if(in_array($entry->BatchMemberID, $batch_member_ids))
             {
                 $entries[] = $entry;
+                $is_previous = false;
             }
-            else
+            else if($this->IsPreviousBatchEntry($batch_id, $entry))
             {
                 if((bool)$entry->IsDebit)
                 {
@@ -89,6 +97,16 @@ class FinanceActionOperations
             "previous" => "Php ".number_format($total, 2),
             "current" => $formatted_entries
         );
+    }
+
+    private function IsPreviousBatchEntry($batch_id, $entry)
+    {
+        $entry_acad_year = $this->batch->GetAcadYear(
+            $this->batch_member->GetBatchID($entry->BatchMemberID)
+        );
+        $current_acad_year = $this->batch->GetAcadYear($batch_id);
+
+        return strcmp($entry_acad_year, $current_acad_year) < 0;
     }
 
     private function GetMemberName(MemberModel $member)
@@ -167,7 +185,7 @@ class FinanceActionOperations
         return $this->ledger->CloseLedger();
     }
 
-    public function GetActivationDetails()
+    public function GetActivationDetails($batch_id)
     {
         $debit = 0; 
         $credit = 0;
@@ -176,13 +194,16 @@ class FinanceActionOperations
 
         foreach($entries as $entry)
         {
-            if((bool)$entry->IsDebit)
+            if($this->IsPreviousBatchEntry($batch_id, $entry))
             {
-                $debit += (float)$entry->Amount;
-            }
-            else
-            {
-                $credit += (float)$entry->Amount;
+                if((bool)$entry->IsDebit)
+                {
+                    $debit += (float)$entry->Amount;
+                }
+                else
+                {
+                    $credit += (float)$entry->Amount;
+                }
             }
         }
 

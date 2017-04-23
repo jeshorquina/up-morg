@@ -7,6 +7,7 @@ use \Jesh\Helpers\Sort;
 use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;
+use \Jesh\Operations\Repository\LedgerOperations;
 use \Jesh\Operations\Repository\MemberOperations;
 
 use \Jesh\Models\BatchModel;
@@ -20,6 +21,7 @@ class BatchActionOperations
     private $batch;
     private $batch_member;
     private $committee;
+    private $ledger;
     private $member;
 
     public function __construct()
@@ -27,6 +29,7 @@ class BatchActionOperations
         $this->batch = new BatchOperations;
         $this->batch_member = new BatchMemberOperations;
         $this->committee = new CommitteeOperations;
+        $this->ledger = new LedgerOperations;
         $this->member = new MemberOperations;
     }
 
