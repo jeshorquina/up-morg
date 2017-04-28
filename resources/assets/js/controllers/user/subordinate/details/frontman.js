@@ -16,6 +16,8 @@
     document
       .getElementById("modify-frontmen-form")
       .addEventListener("submit", modifyFrontmanCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   FrontmanDetailsOperations.RenderFrontmanDetailsPage(

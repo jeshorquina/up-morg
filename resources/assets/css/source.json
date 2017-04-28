@@ -41,17 +41,6 @@
         ]
     },
     {
-        "name": "admin/index.css",
-        "src": [
-            "resources/assets/css/vendor/normalize.css",
-            "resources/assets/css/vendor/stickyfill.css",
-            "resources/assets/css/base/base.css",
-            "resources/assets/css/base/helpers.css",
-            "resources/assets/css/components/buttons.css",
-            "resources/assets/css/components/nav.css"
-        ]
-    },
-    {
         "name": "admin/password.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
@@ -79,6 +68,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/batch.css"
         ]
@@ -97,6 +87,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/batch/details.css"
         ]
@@ -115,6 +106,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/batch/committee/details.css"
         ]
@@ -132,6 +124,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/member.css"
         ]
@@ -151,6 +144,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/member/details.css"
         ]
@@ -181,6 +175,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/request/committee.css"
         ]
@@ -200,6 +195,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/task.css"
         ]
@@ -219,6 +215,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/availability/modify.css"
@@ -239,6 +236,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/availability/committee.css"
@@ -259,6 +257,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/availability/group.css"
@@ -279,6 +278,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/availability/member.css"
@@ -299,6 +299,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/calendar.css"
         ]
@@ -318,6 +319,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/frontman.css"
@@ -338,6 +340,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/head.css"
@@ -358,6 +361,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/member.css"
@@ -378,6 +382,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/activation.css"
@@ -398,6 +403,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/closed.css"
@@ -418,6 +424,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/closed.css"
@@ -438,6 +445,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/subordinate/first-frontman.css"
         ]
@@ -457,6 +465,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/subordinate/frontman.css"
         ]
@@ -474,6 +483,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/subordinate/committee-head.css"
         ]
@@ -493,6 +503,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/subordinate/committee/details.css"
         ]
@@ -512,6 +523,7 @@
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
             "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/user/subordinate/committee/details.css"
         ]

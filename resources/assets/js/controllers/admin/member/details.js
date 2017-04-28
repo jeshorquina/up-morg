@@ -20,6 +20,8 @@
     document
       .getElementById("modify-member-form")
       .addEventListener("submit", modifyMemberCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   MemberDetailsOperations.RenderMember(source, memberID, controllerCallback);

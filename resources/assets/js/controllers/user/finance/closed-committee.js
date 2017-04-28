@@ -5,6 +5,7 @@
 
   var controllerCallback = function () {
 
+    Loader.RemoveLoadingScreen();
   }
 
   FinanceCommitteeOperations.RenderFinancePage(source, controllerCallback);

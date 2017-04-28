@@ -13,6 +13,8 @@
     document
       .getElementById("generate-report-form")
       .addEventListener("submit", generateReportCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   FinanceFrontmanOperations.RenderFinancePage(source, controllerCallback);

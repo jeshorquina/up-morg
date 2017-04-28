@@ -56,6 +56,8 @@
         "click", makeCommitteeHeadCallback
       )
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   CommitteeDetailsOperations.RenderCommitteeDetailsPage(

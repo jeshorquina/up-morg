@@ -39,6 +39,8 @@
     for (var i = 0; i < deleteButtons.length; i++) {
       deleteButtons[i].addEventListener("click", deleteCallback);
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   MemberOperations.RenderMembers(source, controllerCallback);

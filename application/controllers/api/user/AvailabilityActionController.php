@@ -113,6 +113,6 @@ class AvailabilityActionController extends Controller
 
     public function GetMemberAvailability()
     {
-        
+
     }
 }

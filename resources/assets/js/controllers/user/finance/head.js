@@ -27,6 +27,8 @@
     for (var i = 0; i < verifyButtons.length; i++) {
       verifyButtons[i].addEventListener("click", verifyEntryCallback)
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   FinanceHeadOperations.RenderFinancePage(source, controllerCallback);

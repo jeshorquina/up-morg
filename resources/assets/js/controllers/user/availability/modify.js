@@ -1,4 +1,4 @@
-(function (AvailabilityModifyOperations) {
+(function (AvailabilityModifyOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -46,10 +46,12 @@
     document
       .getElementById("button-update-schedule")
       .addEventListener("click", updateScheduleCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   AvailabilityModifyOperations.RenderAvailabilitySchedule(
     source, controllerCallback
   );
 
-})(AvailabilityModifyOperations);
+})(AvailabilityModifyOperations, Loader);

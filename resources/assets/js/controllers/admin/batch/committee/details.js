@@ -77,6 +77,8 @@
         )
       }
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   BatchCommitteeDetailsOperations.RenderBatchCommitteeDetailsPage(

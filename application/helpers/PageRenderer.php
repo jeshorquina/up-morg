@@ -357,7 +357,7 @@ class PageRenderer
     {
         $navs = array();
 
-        if($page_name == "availability-modify" || $page_name == "availability-groups")
+        if(strpos($page_name, 'availability-') !== false)
         {
             $navs[] = array(
                 "name" => "Manage Schedule",

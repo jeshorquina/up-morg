@@ -56,6 +56,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -70,6 +71,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -84,6 +86,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",
@@ -98,6 +101,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -112,6 +116,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",
@@ -125,6 +130,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -139,6 +145,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -153,6 +160,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -167,6 +175,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -181,6 +190,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -195,6 +205,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -209,6 +220,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -223,6 +235,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -237,6 +250,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -251,6 +265,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -265,6 +280,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -280,6 +296,7 @@
             "resources/assets/js/vendor/pdfmake.js",
             "resources/assets/js/vendor/vfs_fonts.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -294,6 +311,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -308,6 +326,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -322,6 +341,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -336,6 +356,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
@@ -350,6 +371,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",
@@ -364,6 +386,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/stringHelper.js",

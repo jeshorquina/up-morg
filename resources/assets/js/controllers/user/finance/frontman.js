@@ -13,6 +13,8 @@
     document
       .getElementById("close-ledger-form")
       .addEventListener("submit", closeLedgerCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   FinanceFrontmanOperations.RenderFinancePage(source, controllerCallback);

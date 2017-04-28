@@ -13,6 +13,8 @@
     document
       .getElementById("activate-form")
       .addEventListener("submit", activateCallback);
+    
+    Loader.RemoveLoadingScreen();
   }
 
   FinanceActivationOperations.RenderFinanceActivationPage(

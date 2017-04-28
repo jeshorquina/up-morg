@@ -22,6 +22,8 @@
         "click", editCommitteeCallback
       );
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   CommitteeHeadDetailsOperations.RenderBatchDetailsPage(

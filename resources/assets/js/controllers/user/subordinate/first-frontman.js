@@ -52,6 +52,8 @@
         "click", editCommitteeCallback
       );
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   FirstFrontmanDetailsOperations.RenderBatchDetailsPage(

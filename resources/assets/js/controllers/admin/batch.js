@@ -61,6 +61,8 @@
     var addForm = document.getElementById("add-batch-form");
     addForm.removeEventListener("submit", addCallback);
     addForm.addEventListener("submit", addCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   BatchOperations.RenderBatches(source, controllerCallback);

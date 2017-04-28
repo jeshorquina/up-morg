@@ -57,6 +57,8 @@
         "click", editCommitteeCallback
       );
     }
+
+    Loader.RemoveLoadingScreen();
   }
 
   BatchDetailsOperations.RenderBatchDetailsPage(
