@@ -60,4 +60,59 @@ class AvailabilityActionController extends Controller
             );
         }
     }
+
+    public function UpdateAvailability()
+    {
+        if(!UserSession::IsBatchMember())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $schedule = json_decode(Http::Request(Http::POST, "data"), true);
+        
+        if(!$this->operations->UpdateAvailability(
+            $schedule, UserSession::GetBatchMemberID()
+        )) 
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not update availability. 
+                        Please Try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Availability successfully updated!"
+                    )
+                )
+            );
+        }
+    }
+
+    public function GetCommitteeAvailability()
+    {
+
+    }
+
+    public function GetAvailabilityGroupDetails()
+    {
+
+    }
+
+    public function GetMemberAvailability()
+    {
+        
+    }
 }

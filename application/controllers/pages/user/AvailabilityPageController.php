@@ -18,35 +18,95 @@ class AvailabilityPageController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("admin/templates/header.html.inc");
-        self::SetHeader("admin/templates/nav.html.inc");
-        self::SetFooter("admin/templates/footer.html.inc");
+        self::SetHeader("templates/header.html.inc");
+        self::SetHeader("templates/nav.html.inc");
+        self::SetFooter("templates/footer.html.inc");
     }
 
-    public function AvailabilityIndex()
+    public function ModifyAvailability()
     {
-        if(PageRenderer::HasAvailavilityPageAccess())
+        if(PageRenderer::HasModifyAvailavilityPageAccess())
         {
             $other_details = array(
                 Security::GetCSRFData(),
                 array(
                     "page" => array(
                         "title" => "Availability Tracker"
-                    )
+                    ),
                 ),
             );
 
-            if(UserSession::IsFrontman())
-            {
-                self::SetBody("user/availability/modify-frontman.html.inc");
-            }
-            else
-            {
-                self::SetBody("user/availability/modify-committee.html.inc");
-            }
-
+            self::SetBody("user/availability/modify.html.inc");
             self::RenderView(
-                PageRenderer::GetUserPageData("availability-modify", $other_details)
+                PageRenderer::GetUserPageData(
+                    "availability-modify", $other_details
+                )
+            );
+        }
+    }
+
+    public function CommitteeAvailability()
+    {
+        if(PageRenderer::HasCommitteeAvailabilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker"
+                    ),
+                ),
+            );
+
+            self::SetBody("user/availability/committee.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "availability-committee", $other_details
+                )
+            );
+        }
+    }
+
+    public function GroupAvailability()
+    {
+        if(PageRenderer::HasGroupAvailabilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker"
+                    ),
+                ),
+            );
+
+            self::SetBody("user/availability/group.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "availability-group", $other_details
+                )
+            );
+        }
+    }
+
+    public function MemberAvailability()
+    {
+        if(PageRenderer::HasMemberAvailabilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker"
+                    ),
+                ),
+            );
+
+            self::SetBody("user/availability/member.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "availability-member", $other_details
+                )
             );
         }
     }

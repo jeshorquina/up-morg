@@ -22,9 +22,9 @@ class AccessPageController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader("admin/templates/header.html.inc");
-        self::SetHeader("admin/templates/nav.html.inc");
-        self::SetFooter("admin/templates/footer.html.inc");
+        self::SetHeader("templates/header.html.inc");
+        self::SetHeader("templates/nav.html.inc");
+        self::SetFooter("templates/footer.html.inc");
     }
 
     public function Home()

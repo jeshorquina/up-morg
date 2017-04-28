@@ -3,14 +3,14 @@
   AvailabilityModifyFactory.MakeScheduleHeaderRow = function () {
 
     return DomHelper.CreateElement("tr", {}, [
-      DomHelper.CreateElement("td", {}, "Time Range"),
-      DomHelper.CreateElement("td", {}, "Sunday"),
-      DomHelper.CreateElement("td", {}, "Monday"),
-      DomHelper.CreateElement("td", {}, "Tuesday"),
-      DomHelper.CreateElement("td", {}, "Wednesday"),
-      DomHelper.CreateElement("td", {}, "Thursday"),
-      DomHelper.CreateElement("td", {}, "Friday"),
-      DomHelper.CreateElement("td", {}, "Saturday"),
+      DomHelper.CreateElement("td", { "width": "16%" }),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Sunday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Monday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Tuesday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Wednesday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Thursday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Friday"),
+      DomHelper.CreateElement("td", { "width": "12%" }, "Saturday"),
     ]);
   }
 

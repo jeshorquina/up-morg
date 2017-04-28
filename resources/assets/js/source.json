@@ -163,6 +163,48 @@
         ]
     },
     {
+        "name": "user/availability-committee.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/availability/committee.js",
+            "resources/assets/js/operations/user/availability/committee.js",
+            "resources/assets/js/controllers/user/availability/committee.js"
+        ]
+    },
+    {
+        "name": "user/availability-group.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/availability/group.js",
+            "resources/assets/js/operations/user/availability/group.js",
+            "resources/assets/js/controllers/user/availability/group.js"
+        ]
+    },
+    {
+        "name": "user/availability-member.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/availability/member.js",
+            "resources/assets/js/operations/user/availability/member.js",
+            "resources/assets/js/controllers/user/availability/member.js"
+        ]
+    },
+    {
         "name": "user/calendar.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

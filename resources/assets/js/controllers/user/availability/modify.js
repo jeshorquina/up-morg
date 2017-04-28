@@ -1,16 +1,34 @@
 (function (AvailabilityModifyOperations) {
 
   var body = document.getElementsByTagName("body")[0],
-    source = body.getAttribute("data-source");
+    source = body.getAttribute("data-source"),
+    isMouseDown = false,
+    isSelected;
 
-  var toggleScheduleElementHoverCallback = function (event) {
-    if (event.ctrlKey) {
-      AvailabilityModifyOperations.ToggleScheduleElement(this);
+  document.addEventListener("mouseup", function () {
+    isMouseDown = false;
+  });
+
+  var toggleScheduleElementMouseDown = function () {
+    isMouseDown = true;
+    isSelected = (
+      AvailabilityModifyOperations.ToggleScheduleElement(this)
+    );
+  }
+
+  var toggleScheduleElementMouseOver = function () {
+    if (isMouseDown) {
+      isSelected = AvailabilityModifyOperations.ToggleScheduleElement(
+        this, isSelected
+      );
     }
   }
 
-  var toggleScheduleElementClickCallback = function () {
-    AvailabilityModifyOperations.ToggleScheduleElement(this);
+  var updateScheduleCallback = function () {
+    AvailabilityModifyOperations.UpdateSchedule(source, {
+      "name": body.getAttribute("data-csrf-name"),
+      "value": body.getAttribute("data-csrf-hash")
+    });
   }
 
   var controllerCallback = function () {
@@ -18,12 +36,16 @@
     var scheduleElements = document.getElementsByClassName("schedule-element");
     for (var i = 0; i < scheduleElements.length; i++) {
       scheduleElements[i].addEventListener(
-        "mouseover", toggleScheduleElementHoverCallback
+        "mousedown", toggleScheduleElementMouseDown
       );
       scheduleElements[i].addEventListener(
-        "click", toggleScheduleElementClickCallback
-      )
+        "mouseover", toggleScheduleElementMouseOver
+      );
     }
+
+    document
+      .getElementById("button-update-schedule")
+      .addEventListener("click", updateScheduleCallback);
   }
 
   AvailabilityModifyOperations.RenderAvailabilitySchedule(

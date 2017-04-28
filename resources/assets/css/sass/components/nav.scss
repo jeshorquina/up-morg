@@ -3,16 +3,25 @@
 .nav {
     background-color: $color-background-inverted;
     color: $color-text-inverted;
-    padding: 0.75rem 0;
     z-index: 99999999;
+
+    &-secondary {
+        background-color: lighten($color-background-inverted, 10%);
+        font-size: 0.9rem;
+    }
 
     & a {
         color: $color-text-inverted;
         text-decoration: none;
+
+        &.active {
+            text-decoration: underline;
+        }
     }
 
     & &-content {
         margin: 0 auto;
+        padding: 0.75rem 0;
         width: 100% !important;
         max-width: $width-page;
         overflow: hidden;

@@ -136,11 +136,59 @@ class PageRenderer
         }
     }
 
-    public static function HasAvailavilityPageAccess()
+    public static function HasModifyAvailavilityPageAccess()
     {
         if(!UserSession::IsBatchMember())
         {
             self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasCommitteeAvailabilityPageAccess()
+    {
+        if(!UserSession::IsBatchMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/groups");
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasGroupAvailabilityPageAccess()
+    {
+        if(!UserSession::IsBatchMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/committee");
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasMemberAvailabilityPageAccess()
+    {
+        if(!UserSession::IsBatchMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/committee");
         }
         else
         {
@@ -298,10 +346,51 @@ class PageRenderer
             array(
                 "page" => array_merge(
                     self::GetUserNavigationLinks($page_name),
+                    self::GetUserNavigationSecondaryLinks($page_name),
                     self::GetUserPageURLs($page_name)
                 )
             )
         );
+    }
+
+    private static function GetUserNavigationSecondaryLinks($page_name)
+    {
+        $navs = array();
+
+        if($page_name == "availability-modify" || $page_name == "availability-groups")
+        {
+            $navs[] = array(
+                "name" => "Manage Schedule",
+                "url" => Url::GetBaseURL("availability")
+            );
+
+            if(UserSession::IsFrontman()) 
+            {
+                $navs[] = array(
+                    "name" => "Manage Schedule Groups",
+                    "url" => Url::GetBaseURL("availability/groups")
+                );
+                $navs[] = array(
+                    "name" => "View Individual Schedule",
+                    "url" => Url::GetBaseURL("availability/member")
+                );
+            }
+            else
+            {
+                $navs[] = array(
+                    "name" => "View Committee Schedule",
+                    "url" => Url::GetBaseURL("availability/committee")
+                );
+            }
+
+            return array(
+                "nav_secondary" => $navs
+            );
+        }
+        else 
+        {
+            return array();
+        }
     }
 
     private static function GetUserNavigationLinks($page_name)

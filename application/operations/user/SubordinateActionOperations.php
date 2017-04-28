@@ -7,12 +7,14 @@ use \Jesh\Models\BatchMemberModel;
 use \Jesh\Models\CommitteeMemberModel;
 
 use \Jesh\Operations\Admin\BatchActionOperations;
+use \Jesh\Operations\Repository\AvailabilityOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;
 use \Jesh\Operations\Repository\MemberOperations;
 
 class SubordinateActionOperations
 {
+    private $availability;
     private $batch_member;
     private $committee;
     private $member;
@@ -21,6 +23,7 @@ class SubordinateActionOperations
 
     public function __construct()
     {
+        $this->availability = new AvailabilityOperations;
         $this->batch_member = new BatchMemberOperations;
         $this->committee = new CommitteeOperations;
         $this->member = new MemberOperations;
@@ -221,13 +224,17 @@ class SubordinateActionOperations
 
     public function AddMemberToBatch($batch_id, $member_id)
     {
-        return $this->batch_member->AddBatchMember(
+        $this->batch_member->AddBatchMember(
             new BatchMemberModel(
                 array(
                     "BatchID" => $batch_id,
                     "MemberID" => $member_id
                 )
             )
+        );
+
+        return $this->availability->AddAvailability(
+            $this->batch_member->GetBatchMemberID($batch_id, $member_id)
         );
     }
 

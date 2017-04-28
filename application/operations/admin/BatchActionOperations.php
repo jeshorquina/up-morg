@@ -4,6 +4,7 @@ namespace Jesh\Operations\Admin;
 use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Sort;
 
+use \Jesh\Operations\Repository\AvailabilityOperations;
 use \Jesh\Operations\Repository\BatchOperations;
 use \Jesh\Operations\Repository\BatchMemberOperations;
 use \Jesh\Operations\Repository\CommitteeOperations;
@@ -18,6 +19,7 @@ use \Jesh\Models\MemberModel;
 
 class BatchActionOperations
 {
+    private $availability;
     private $batch;
     private $batch_member;
     private $committee;
@@ -26,6 +28,7 @@ class BatchActionOperations
 
     public function __construct()
     {
+        $this->availability = new AvailabilityOperations;
         $this->batch = new BatchOperations;
         $this->batch_member = new BatchMemberOperations;
         $this->committee = new CommitteeOperations;
@@ -165,13 +168,17 @@ class BatchActionOperations
 
     public function AddMemberToBatch($batch_id, $member_id)
     {
-        return $this->batch_member->AddBatchMember(
+        $this->batch_member->AddBatchMember(
             new BatchMemberModel(
                 array(
                     "BatchID" => $batch_id,
                     "MemberID" => $member_id
                 )
             )
+        );
+
+        return $this->availability->AddAvailability(
+            $this->batch_member->GetBatchMemberID($batch_id, $member_id)
         );
     }
 

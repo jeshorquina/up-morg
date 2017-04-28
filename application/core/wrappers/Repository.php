@@ -50,6 +50,14 @@ abstract class Repository extends CI_Model {
 
     protected function Insert($table_name, ModelInterface $object)
     {
+        foreach($object as $key => $value)
+        {
+            if(!isset($object->$key))
+            {
+                unset($object->$key);
+            }
+        }
+
         return $this->db->insert($table_name, $object);
     }
 

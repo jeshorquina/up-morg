@@ -1,6 +1,8 @@
 <?php
 namespace Jesh\Operations\User;
 
+use \Jesh\Models\AvailabilityMemberModel;
+
 use \Jesh\Operations\Repository\AvailabilityOperations;
 
 class AvailabilityActionOperations
@@ -37,5 +39,42 @@ class AvailabilityActionOperations
         }
 
         return $processed_availability;
+    }
+
+    public function UpdateAvailability($schedule, $batch_member_id)
+    {
+        $monday    = array();
+        $tuesday   = array();
+        $wednesday = array();
+        $thursday  = array();
+        $friday    = array();
+        $saturday  = array();
+        $sunday    = array();
+
+        foreach($schedule as $index => $row) 
+        {
+            $monday[$index]    = $row["Monday"];
+            $tuesday[$index]   = $row["Tuesday"];
+            $wednesday[$index] = $row["Wednesday"];
+            $thursday[$index]  = $row["Thursday"];
+            $friday[$index]    = $row["Friday"];
+            $saturday[$index]  = $row["Saturday"];
+            $sunday[$index]    = $row["Sunday"];
+        }
+
+        return $this->availability->UpdateAvailability(
+            $batch_member_id,
+            new AvailabilityMemberModel(
+                array(
+                    "MondayVector"    => implode($monday),
+                    "TuesdayVector"   => implode($tuesday),
+                    "WednesdayVector" => implode($wednesday),
+                    "ThursdayVector"  => implode($thursday),
+                    "FridayVector"    => implode($friday),
+                    "SaturdayVector"  => implode($saturday),
+                    "SundayVector"    => implode($sunday)
+                )
+            )
+        );
     }
 }

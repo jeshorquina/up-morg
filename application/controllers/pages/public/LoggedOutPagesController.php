@@ -33,13 +33,9 @@ class LoggedOutPagesController extends Controller
 
     private function SetTemplates()
     {
-        self::SetHeader(
-            array(
-                "public/templates/header.html.inc",
-                "public/templates/nav.html.inc"
-            )
-        );
-        self::SetFooter("public/templates/footer.html.inc");
+        self::SetHeader("templates/header.html.inc");
+        self::SetHeader("templates/nav.html.inc");
+        self::SetFooter("templates/footer.html.inc");
     }
 
     public function Login()

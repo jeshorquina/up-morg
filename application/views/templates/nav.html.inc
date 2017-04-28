@@ -14,5 +14,18 @@
             <?php } ?>
         </div>
     </div>
+    <?php if(array_key_exists("nav_secondary", $page)) { ?>
+    <div class="nav-secondary">
+        <div class="nav-content">
+            <div class="left-content">
+                <?php foreach($page['nav_secondary'] as $nav_item) { ?>
+                <a class="item <?php if(base_url(uri_string()) == $nav_item['url']) { ?>active<?php } ?>" href="<?= $nav_item['url'] ?>">
+                    <?= $nav_item['name'] ?>
+                </a>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
 </div>
 <?php } ?>

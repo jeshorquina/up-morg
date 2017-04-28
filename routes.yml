@@ -208,7 +208,19 @@
 'availability':
     directory: pages/user
     controller: AvailabilityPageController
-    function: AvailabilityIndex
+    function: ModifyAvailability
+'availability/committee':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: CommitteeAvailability
+'availability/groups':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: GroupAvailability
+'availability/member':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: MemberAvailability
 
 
 'calendar':
@@ -259,6 +271,22 @@
     directory: api/user
     controller: AvailabilityActionController
     function: GetAvailability
+'action/availability/update':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: UpdateAvailability
+'action/availability/committee':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetCommitteeAvailability
+'action/availability/groups':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetAvailabilityGroupDetails
+'action/availability/member':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetMemberAvailability
 
 
 'action/finance':

@@ -31,4 +31,32 @@ class AvailabilityOperations
             );
         }
     }
+
+    public function AddAvailability($batch_member_id)
+    {
+        $is_added =  $this->repository->AddAvailability(
+            new AvailabilityMemberModel(
+                array(
+                    "BatchMemberID" => $batch_member_id
+                )
+            )
+        );
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Cound not add batch member availability to the database"
+            );
+        }
+
+        return $is_added;
+    }
+
+    public function UpdateAvailability(
+        $batch_member_id, AvailabilityMemberModel $availability
+    ) {
+        return $this->repository->UpdateAvailability(
+            $batch_member_id, $availability
+        );
+    }
 }

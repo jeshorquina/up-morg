@@ -3,6 +3,8 @@
   AvailabilityModifyFactory, AvailabilityModifyOperations
 ) {
 
+  AvailabilityModifyOperations.schedule = [];
+
   AvailabilityModifyOperations.RenderAvailabilitySchedule = function (
     source, controllerCallback
   ) {
@@ -14,14 +16,59 @@
     });
   }
 
-  AvailabilityModifyOperations.ToggleScheduleElement = function (element) {
+  AvailabilityModifyOperations.ToggleScheduleElement = function (
+    element, isSelected
+  ) {
 
-    if (DomHelper.HasClass(element, "enabled")) {
-      DomHelper.RemoveClass(element, "enabled");
+    var day = element.getAttribute("data-day");
+    var index = element.getAttribute("data-index");
+    var value;
+
+    if (typeof isSelected == "undefined") {
+      if (DomHelper.HasClass(element, "enabled")) {
+        DomHelper.RemoveClass(element, "enabled");
+        value = false;
+      }
+      else {
+        DomHelper.AddClass(element, "enabled");
+        value = true;
+      }
     }
     else {
-      DomHelper.AddClass(element, "enabled");
+      if (DomHelper.HasClass(element, "enabled")) {
+        if (!isSelected) {
+          DomHelper.RemoveClass(element, "enabled");
+          value = false;
+        }
+        else {
+          value = true;
+        }
+      }
+      else {
+        if (isSelected) {
+          DomHelper.AddClass(element, "enabled");
+          value = true;
+        }
+        else {
+          value = false;
+        }
+      }
     }
+
+    AvailabilityModifyOperations.schedule[index][day] = (value) ? "1" : "0";
+
+    return value;
+  }
+
+  AvailabilityModifyOperations.UpdateSchedule = function (source, csrfObject) {
+
+    var data = new FormData();
+    data.append(csrfObject.name, csrfObject.value);
+    data.append("data", JSON.stringify(AvailabilityModifyOperations.schedule));
+
+    var endpoint = source + "action/availability/update";
+
+    HttpHelper.Post(endpoint, data, UpdateScheduleCallback);
   }
 
   function RenderAvailabilityCallback(
@@ -32,8 +79,8 @@
 
     if (status == HttpHelper.OK) {
 
-      FillScheduleDetails(response.data);
-
+      AvailabilityModifyOperations.schedule = response.data;
+      FillScheduleDetails();
       controllerCallback();
     }
     else {
@@ -45,7 +92,7 @@
     }
   }
 
-  function FillScheduleDetails(schedule) {
+  function FillScheduleDetails() {
 
     DomHelper.InsertContent(
       "schedule-container-header",
@@ -56,12 +103,32 @@
 
     DomHelper.ClearContent(scheduleContainer);
 
-    schedule.forEach(function (quarterHour, index) {
-      DomHelper.AppendContent(
-        scheduleContainer,
-        AvailabilityModifyFactory.MakeScheduleRow(quarterHour, index)
+    AvailabilityModifyOperations.schedule.forEach(
+      function (quarterHour, index) {
+        DomHelper.AppendContent(
+          scheduleContainer,
+          AvailabilityModifyFactory.MakeScheduleRow(quarterHour, index)
+        );
+      }
+    );
+  }
+
+  function UpdateScheduleCallback(status, responseText) {
+
+    var response = JSON.parse(responseText);
+
+    window.scrollTo(0, 0);
+
+    if (status == HttpHelper.OK) {
+      AlertFactory.GenerateSuccessAlert(
+        document.getElementById("notifications"), response.message
       );
-    });
+    }
+    else {
+      AlertFactory.GenerateDangerAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
   }
 
 })(
