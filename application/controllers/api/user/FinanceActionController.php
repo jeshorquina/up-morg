@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
-use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Url;
 use \Jesh\Helpers\UserSession;

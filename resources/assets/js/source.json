@@ -149,7 +149,7 @@
         ]
     },
     {
-        "name": "user/availability.js",
+        "name": "user/availability-modify.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -157,9 +157,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/availability.js",
-            "resources/assets/js/operations/user/availability.js",
-            "resources/assets/js/controllers/user/availability.js"
+            "resources/assets/js/factories/user/availability/modify.js",
+            "resources/assets/js/operations/user/availability/modify.js",
+            "resources/assets/js/controllers/user/availability/modify.js"
         ]
     },
     {

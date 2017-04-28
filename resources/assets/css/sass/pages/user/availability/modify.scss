@@ -1,0 +1,11 @@
+@import "../../../base/variables.scss";
+
+.table td {
+
+    padding: 0.1rem;
+    @include no-select();
+
+    &.enabled {
+        background-color: $color-success !important;
+    }
+}

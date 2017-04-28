@@ -16,6 +16,11 @@
     }
   }
 
+  DomHelper.HasClass = function (element, className) {
+
+    return element.classList.contains(className);
+  }
+
   DomHelper.ClearContent = function (element) {
 
     element = mutateEl(element);

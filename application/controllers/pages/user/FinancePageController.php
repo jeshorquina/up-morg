@@ -5,7 +5,6 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
-use \Jesh\Helpers\Session;
 use \Jesh\Helpers\UserSession;
 
 class FinancePageController extends Controller 

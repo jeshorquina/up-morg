@@ -5,8 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
-use \Jesh\Helpers\Session;
-use \Jesh\Helpers\Url;
+use \Jesh\Helpers\UserSession;
 
 class AvailabilityPageController extends Controller 
 {
@@ -14,10 +13,7 @@ class AvailabilityPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess("availability")) 
-        {
-            $this->SetTemplates();
-        }
+        $this->SetTemplates();
     }
 
     private function SetTemplates()
@@ -29,18 +25,29 @@ class AvailabilityPageController extends Controller
 
     public function AvailabilityIndex()
     {
-        $other_details = array(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Availability Tracker"
-                )
-            ),
-        );
+        if(PageRenderer::HasAvailavilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker"
+                    )
+                ),
+            );
 
-        self::SetBody("user/availability.html.inc");
-        self::RenderView(
-            PageRenderer::GetUserPageData("availability", $other_details)
-        );   
+            if(UserSession::IsFrontman())
+            {
+                self::SetBody("user/availability/modify-frontman.html.inc");
+            }
+            else
+            {
+                self::SetBody("user/availability/modify-committee.html.inc");
+            }
+
+            self::RenderView(
+                PageRenderer::GetUserPageData("availability-modify", $other_details)
+            );
+        }
     }
 }

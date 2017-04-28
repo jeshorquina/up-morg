@@ -255,6 +255,12 @@
     function: RequestCommittee
 
 
+'action/availability':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetAvailability
+
+
 'action/finance':
     directory: api/user
     controller: FinanceActionController

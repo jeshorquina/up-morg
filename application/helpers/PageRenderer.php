@@ -136,6 +136,18 @@ class PageRenderer
         }
     }
 
+    public static function HasAvailavilityPageAccess()
+    {
+        if(!UserSession::IsBatchMember())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public static function ShowForbiddenPage()
     {
         show_404();
