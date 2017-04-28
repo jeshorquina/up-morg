@@ -79,12 +79,24 @@ class FinancePageController extends Controller
                 ),
             );
 
-            self::SetBody("user/finance/activation.html.inc");
-            self::RenderView(
-                PageRenderer::GetUserPageData(
-                    "finance-activation", $other_details
-                )
-            );
+            if(UserSession::IsCommitteeHead())
+            {
+                self::SetBody("user/finance/activation-head.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-activation-head", $other_details
+                    )
+                );
+            }
+            else
+            {
+                self::SetBody("user/finance/activation-nonhead.html.inc");
+                self::RenderView(
+                    PageRenderer::GetUserPageData(
+                        "finance-activation-nonhead", $other_details
+                    )
+                );
+            }
         }
     }
 

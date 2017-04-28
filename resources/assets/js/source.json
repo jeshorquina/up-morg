@@ -276,7 +276,7 @@
         ]
     },
     {
-        "name": "user/finance-activation.js",
+        "name": "user/finance-activation-head.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",

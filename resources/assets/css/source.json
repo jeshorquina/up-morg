@@ -368,7 +368,7 @@
         ]
     },
     {
-        "name": "user/finance-activation.css",
+        "name": "user/finance-activation-head.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/stickyfill.css",
@@ -386,6 +386,18 @@
             "resources/assets/css/components/nav.css",
             "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/finance/activation.css"
+        ]
+    },
+    {
+        "name": "user/finance-activation-nonhead.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/nav.css"
         ]
     },
     {
