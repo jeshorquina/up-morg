@@ -4,12 +4,23 @@ namespace Jesh\Operations\User;
 use \Jesh\Models\AvailabilityMemberModel;
 
 use \Jesh\Operations\Repository\AvailabilityOperations;
+use \Jesh\Operations\Repository\BatchMemberOperations;
+use \Jesh\Operations\Repository\CommitteeOperations;
+use \Jesh\Operations\Repository\MemberOperations;
 
 class AvailabilityActionOperations
 {
+    private $availability;
+    private $batch_member;
+    private $committee;
+    private $member;
+
     public function __construct()
     {
         $this->availability = new AvailabilityOperations;
+        $this->batch_member = new BatchMemberOperations;
+        $this->committee = new CommitteeOperations;
+        $this->member = new MemberOperations;
     }
 
     public function GetAvailability($batch_member_id)
@@ -76,5 +87,71 @@ class AvailabilityActionOperations
                 )
             )
         );
+    }
+
+    public function GetMemberAvailability(
+        $batch_id, $frontman_id, $is_first_frontman
+    )
+    {
+        $scoped_committees = (
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, 
+                $this->batch_member->GetMemberTypeID($frontman_id)
+                
+            )
+        );
+
+        $scoped_batch_member_ids = array();
+        foreach($scoped_committees as $committee_id) 
+        {
+            $scoped_batch_member_ids = array_merge(
+                $scoped_batch_member_ids, 
+                $this->committee->GetApprovedBatchMemberIDs($committee_id)
+            );
+        }
+
+        if($is_first_frontman) 
+        {
+            foreach($this->batch_member->GetBatchMembers($batch_id) as $member)
+            {
+                $member_type = $this->member->GetMemberType(
+                    $member->MemberTypeID
+                );
+                if(
+                    $member_type == "Second Frontman" || 
+                    $member_type == "Third Frontman"
+                )
+                {
+                    $scoped_batch_member_ids[] = $member->BatchMemberID;
+                }
+            }
+            
+        }
+
+        $final_details = array();
+        foreach($scoped_batch_member_ids as $batch_member_id) {
+            $final_details[] = array(
+                "owner" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID($batch_member_id)
+                ),
+                "schedule" => $this->GetAvailability($batch_member_id)
+            );
+        }
+        return $final_details;
+    }
+
+    private function GetMemberName($member_id)
+    {
+        $member = $this->member->GetMember($member_id);
+
+        return str_replace(
+            "  ", " ",
+            sprintf(
+                "%s %s %s", 
+                $member->FirstName, 
+                $member->MiddleName, 
+                $member->LastName
+            )
+        ); 
     }
 }

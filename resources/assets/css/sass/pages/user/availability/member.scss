@@ -1,0 +1,15 @@
+@import "../../../base/variables.scss";
+
+.form-group {
+    padding: 0.5rem;    
+}
+
+.table td {
+
+    padding: 0.1rem;
+    @include no-select();
+
+    &.enabled {
+        background-color: #FE4365 !important;
+    }
+}

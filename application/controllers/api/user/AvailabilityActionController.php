@@ -113,6 +113,44 @@ class AvailabilityActionController extends Controller
 
     public function GetMemberAvailability()
     {
+        if(!UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
 
+        $details = $this->operations->GetMemberAvailability(
+            UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+            UserSession::IsFirstFrontman()
+        );
+        
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare member availability page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Member availability page details successfully 
+                        processed."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
     }
 }
