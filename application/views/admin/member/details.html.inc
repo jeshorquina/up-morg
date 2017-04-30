@@ -19,19 +19,19 @@
 
             <div class="flex-container">
 
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <span class="form-label">First Name</span>
                     <input type="text" name="first-name" id="first-name" class="form-input" placeholder="Enter first name" required="required">
                     <span class="form-error" id="first-name-error"></span>
                 </div>
 
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <span class="form-label">Middle Name</span>
                     <input type="text" name="middle-name" id="middle-name" class="form-input" placeholder="Enter middle name">
                     <span class="form-error" id="middle-name-error"></span>
                 </div>
 
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <span class="form-label">Last Name</span>
                     <input type="text" name="last-name" id="last-name" class="form-input" placeholder="Enter last name" required="required">
                     <span class="form-error" id="last-name-error"></span>
@@ -41,13 +41,13 @@
 
             <div class="flex-container">
 
-                <div class="form-group flex flex-half">
+                <div class="form-group flex flex-1">
                     <span class="form-label">Email Address</span>
                     <input type="text" name="email-address" id="email-address" class="form-input" placeholder="sample@upmorg.com" required="required">
                     <span class="form-error" id="email-address-error"></span>
                 </div>
 
-                <div class="form-group flex flex-half">
+                <div class="form-group flex flex-1">
                     <span class="form-label">Phone Number</span>
                     <input type="text" name="phone-number" id="phone-number" class="form-input" placeholder="Enter phone number" required="required">
                     <span class="form-error" id="phone-number-error"></span>

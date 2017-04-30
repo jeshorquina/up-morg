@@ -8,13 +8,13 @@
 
         <form id="add-ledger-entry-form">
             <div class="flex-container">
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <label class="form-label">Amount</label>
                     <input type="text" name="amount" class="form-input" placeholder="e.g. 100.50" pattern="[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)"
                         required="required">
                 </div>
 
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <label class="form-label">Ledger Type</label>
                     <select class="form-input" name="type" required="required">
                         <option value="debit">Debit</option>
@@ -22,7 +22,7 @@
                     </select>
                 </div>
 
-                <div class="form-group flex flex-third">
+                <div class="form-group flex flex-1">
                     <label class="form-label">Description</label>
                     <input type="text" name="description" class="form-input" placeholder="Enter description" required="required">
                 </div>

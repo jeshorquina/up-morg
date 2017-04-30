@@ -17,17 +17,17 @@
 
         <div class="flex-container margin-top-medium">
 
-            <div class="form-group flex flex-third">
+            <div class="form-group flex flex-1">
                 <span class="form-label">Start Time</span>
                 <input type="text" class="form-input" value="00:00" id="start-time">
             </div>
 
-            <div class="form-group flex flex-third">
+            <div class="form-group flex flex-1">
                 <span class="form-label">End Time</span>
                 <input type="text" class="form-input" value="24:00" id="end-time">
             </div>
 
-            <div class="form-group flex flex-third">
+            <div class="form-group flex flex-1">
                 <span class="form-label">Submit</span>
                 <button class="button button-info width-full" id="time-range-button">
                     Update Time Range

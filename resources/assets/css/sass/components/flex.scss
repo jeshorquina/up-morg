@@ -11,22 +11,18 @@
         -moz-box-sizing: border-box;
         box-shadow: border-box;
 
-        -webkit-box-flex: 1;
-        -moz-box-flex: 1;
-        -webkit-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
-
         input, select {
             width: 100%;
         }
 
-        &-third {
-            width: 33%;
-        }
-
-        &-half {
-            width: 33%;
+        @for $i from 1 through 12 {
+            &-#{$i} {
+                -webkit-box-flex: $i;
+                -moz-box-flex: $i;
+                -webkit-flex: $i;
+                -ms-flex: $i;
+                flex: $i;
+            }
         }
     }
 }
