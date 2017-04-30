@@ -6,9 +6,9 @@ use \Jesh\Operations\Repository\LedgerOperations;
 
 class PageRenderer
 {
-    public static function HasMemberDetailsAccess()
+    public static function HasTaskPageAccess()
     {
-        if(!UserSession::IsFrontman() && !UserSession::IsCommitteeHead())
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
             self::ShowForbiddenPage();
         }
@@ -18,42 +18,71 @@ class PageRenderer
         }
     }
 
-    public static function HasMemberCommitteeDetailsAccess($committee_name)
+    public static function HasAddTaskPageAccess()
     {
-        $committee = new CommitteeOperations;
-
-        $can_access = false;
-        if(UserSession::IsFirstFrontman())
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
-            $can_access = true;
-        }
-        else if(UserSession::IsFrontman())
-        {
-            $can_access = in_array(
-                $committee->GetCommitteeIDByCommitteeName(
-                    StringHelper::UnmakeIndex($committee_name)
-                ), 
-                $committee->GetCommitteePermissionCommitteeIDs(
-                    UserSession::GetBatchID(), UserSession::GetMemberTypeID()
-                )
-            );
-        }
-        else if(UserSession::IsCommitteeHead())
-        {
-            $can_access = $committee->GetCommitteeIDByBatchMemberID(
-                UserSession::GetBatchMemberID()
-            ) == $committee->GetCommitteeIDByCommitteeName(
-                StringHelper::UnmakeIndex($committee_name)
-            );
+            self::ShowForbiddenPage();
         }
         else
         {
-            $can_access = false;
+            return true;
         }
+    }
 
-        if(!$can_access)
+    public static function HasModifyAvailabilityPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
             self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasCommitteeAvailabilityPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/group");
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasGroupAvailabilityPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/committee");
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public static function HasMemberAvailabilityPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsFrontman())
+        {
+            Url::Redirect("availability/committee");
         }
         else
         {
@@ -136,9 +165,9 @@ class PageRenderer
         }
     }
 
-    public static function HasModifyAvailavilityPageAccess()
+    public static function HasMemberDetailsAccess()
     {
-        if(!UserSession::IsBatchMember())
+        if(!UserSession::IsFrontman() && !UserSession::IsCommitteeHead())
         {
             self::ShowForbiddenPage();
         }
@@ -148,57 +177,48 @@ class PageRenderer
         }
     }
 
-    public static function HasCommitteeAvailabilityPageAccess()
+    public static function HasMemberCommitteeDetailsAccess($committee_name)
     {
-        if(!UserSession::IsBatchMember())
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
             self::ShowForbiddenPage();
         }
-        else if(UserSession::IsFrontman())
+        else if(UserSession::IsFirstFrontman())
         {
-            Url::Redirect("availability/groups");
+            return true;
+        }
+
+        $can_access = false;
+        if(UserSession::IsFrontman())
+        {
+            $committee = new CommitteeOperations;
+            $can_access = in_array(
+                $committee->GetCommitteeIDByCommitteeName(
+                    StringHelper::UnmakeIndex($committee_name)
+                ), 
+                $committee->GetCommitteePermissionCommitteeIDs(
+                    UserSession::GetBatchID(), UserSession::GetMemberTypeID()
+                )
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $committee = new CommitteeOperations;
+            $can_access = $committee->GetCommitteeIDByBatchMemberID(
+                UserSession::GetBatchMemberID()
+            ) == $committee->GetCommitteeIDByCommitteeName(
+                StringHelper::UnmakeIndex($committee_name)
+            );
+        }
+
+        if(!$can_access)
+        {
+            self::ShowForbiddenPage();
         }
         else
         {
             return true;
         }
-    }
-
-    public static function HasGroupAvailabilityPageAccess()
-    {
-        if(!UserSession::IsBatchMember())
-        {
-            self::ShowForbiddenPage();
-        }
-        else if(!UserSession::IsFrontman())
-        {
-            Url::Redirect("availability/committee");
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    public static function HasMemberAvailabilityPageAccess()
-    {
-        if(!UserSession::IsBatchMember())
-        {
-            self::ShowForbiddenPage();
-        }
-        else if(!UserSession::IsFrontman())
-        {
-            Url::Redirect("availability/committee");
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    public static function ShowForbiddenPage()
-    {
-        show_404();
     }
 
     public static function HasAdminPageAccess()
@@ -259,8 +279,6 @@ class PageRenderer
             
         }
 
-        
-
         if($page_type === "request-batch" || $page_type === "request-committee")
         {
             Url::Redirect();
@@ -273,8 +291,6 @@ class PageRenderer
                 Url::Redirect();
             }
         }
-
-        
 
         return true;
     }
@@ -361,14 +377,14 @@ class PageRenderer
         {
             $navs[] = array(
                 "name" => "Manage Schedule",
-                "url" => Url::GetBaseURL("availability")
+                "url" => Url::GetBaseURL("availability/manage")
             );
 
             if(UserSession::IsFrontman()) 
             {
                 $navs[] = array(
                     "name" => "Manage Schedule Groups",
-                    "url" => Url::GetBaseURL("availability/groups")
+                    "url" => Url::GetBaseURL("availability/group")
                 );
                 $navs[] = array(
                     "name" => "View Individual Schedule",
@@ -382,6 +398,27 @@ class PageRenderer
                     "url" => Url::GetBaseURL("availability/committee")
                 );
             }
+
+            return array(
+                "nav_secondary" => $navs
+            );
+        }
+        else if(strpos($page_name, 'task-') !== false)
+        {
+            $navs[] = array(
+                "name" => "View Open Tasks",
+                "url" => Url::GetBaseURL("task/view")
+            );
+
+            $navs[] = array(
+                "name" => "View Completed Tasks",
+                "url" => Url::GetBaseURL("task/completed")
+            );
+
+            $navs[] = array(
+                "name" => "Add New Task",
+                "url" => Url::GetBaseURL("task/add")
+            );
 
             return array(
                 "nav_secondary" => $navs
@@ -529,5 +566,10 @@ class PageRenderer
         }
 
         return array("urls" => $urls);
+    }
+
+    private static function ShowForbiddenPage()
+    {
+        show_404();
     }
 }

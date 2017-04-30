@@ -203,9 +203,25 @@
     directory: pages/user
     controller: TaskPageController
     function: TaskIndex
+'task/view':
+    directory: pages/user
+    controller: TaskPageController
+    function: ViewOpenTasksPage
+'task/completed':
+    directory: pages/user
+    controller: TaskPageController
+    function: ViewCompletedTasksPage
+'task/add':
+    directory: pages/user
+    controller: TaskPageController
+    function: AddTasksPage
 
 
 'availability':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: AvailabilityIndex
+'availability/manage':
     directory: pages/user
     controller: AvailabilityPageController
     function: ModifyAvailability
@@ -213,10 +229,20 @@
     directory: pages/user
     controller: AvailabilityPageController
     function: CommitteeAvailability
-'availability/groups':
+'availability/group':
     directory: pages/user
     controller: AvailabilityPageController
     function: GroupAvailability
+'availability/group/view':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: GroupAvailabilityViewPage
+    parameter: number
+'availability/group/edit':
+    directory: pages/user
+    controller: AvailabilityPageController
+    function: GroupAvailabilityEditPage
+    parameter: number
 'availability/member':
     directory: pages/user
     controller: AvailabilityPageController
@@ -279,10 +305,38 @@
     directory: api/user
     controller: AvailabilityActionController
     function: GetCommitteeAvailability
-'action/availability/groups':
+'action/availability/group':
     directory: api/user
     controller: AvailabilityActionController
     function: GetAvailabilityGroupDetails
+'action/availability/group/add':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: AddAvailabilityGroup
+'action/availability/group/delete':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: DeleteAvailabilityGroup
+'action/availability/group/view':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetViewAvailabilityGroupDetails
+    parameter: number
+'action/availability/group/edit':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: GetEditAvailabilityGroupDetails
+    parameter: number
+'action/availability/group/edit/(:num)/add':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: AddAvailabilityGroupMember
+    parent: number
+'action/availability/group/edit/(:num)/delete':
+    directory: api/user
+    controller: AvailabilityActionController
+    function: DeleteAvailabilityGroupMember
+    parent: number
 'action/availability/member':
     directory: api/user
     controller: AvailabilityActionController

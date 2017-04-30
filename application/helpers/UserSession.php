@@ -8,6 +8,11 @@ class UserSession
         return self::GetSessionData()["batch"]["id"];
     }
 
+    public static function GetCommitteeID()
+    {
+        return self::GetSessionData()["committee"]["id"];
+    }
+
     public static function GetBatchMemberID()
     {
         return self::GetSessionData()["batch"]["member_id"];

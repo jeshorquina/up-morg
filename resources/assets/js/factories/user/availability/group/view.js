@@ -1,6 +1,6 @@
-(function (DomHelper, AvailabilityCommitteeFactory) {
+(function (DomHelper, AvailabilityGroupViewFactory) {
 
-  AvailabilityCommitteeFactory.MakeScheduleHeaderRow = function () {
+  AvailabilityGroupViewFactory.MakeScheduleHeaderRow = function () {
 
     return DomHelper.CreateElement("tr", {}, [
       DomHelper.CreateElement("td", { "width": "16%" }),
@@ -14,7 +14,7 @@
     ]);
   }
 
-  AvailabilityCommitteeFactory.MakeScheduleRow = function (
+  AvailabilityGroupViewFactory.MakeScheduleRow = function (
     halfHour, index, timeInterval
   ) {
 
@@ -96,8 +96,20 @@
     );
   }
 
+  AvailabilityGroupViewFactory.MakeEmptyScheduleRow = function () {
+
+    return DomHelper.CreateElement("tr", {},
+      DomHelper.CreateElement(
+        "td", {
+          "colspan": "8",
+          "class": "empty-row"
+        }, "There are no group members. Add some first to show shared schedule."
+      )
+    );
+  }
+
 })(
-  DomHelper, this.AvailabilityCommitteeFactory = (
-    this.AvailabilityCommitteeFactory == undefined
-  ) ? {} : this.AvailabilityCommitteeFactory
+  DomHelper, this.AvailabilityGroupViewFactory = (
+    this.AvailabilityGroupViewFactory == undefined
+  ) ? {} : this.AvailabilityGroupViewFactory
   );

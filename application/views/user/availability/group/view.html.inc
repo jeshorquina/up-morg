@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="availability-group-view-container" data-group-id="<?= $page['details']['group_id'] ?>">
 
     <div class="card margin-vertical-xlarge clearfix">
 
@@ -6,7 +6,16 @@
 
         <hr>
 
-        <div class="flex-container">
+        <div class="breadcrumb">
+            <span class="crumb">
+                <a href="<?= $page['urls']['group_page'] ?>" >Group Management</a>
+            </span>
+            <span class="crumb">
+                <span class="group-name"></span>
+            </span>
+        </div>
+
+        <div class="flex-container margin-top-medium">
 
             <div class="form-group flex flex-third">
                 <span class="form-label">Start Time</span>

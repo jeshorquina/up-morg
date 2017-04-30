@@ -5,7 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
-use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Url;
 
 class TaskPageController extends Controller 
 {
@@ -13,10 +13,7 @@ class TaskPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess("task")) 
-        {
-            $this->SetTemplates();
-        }
+        $this->SetTemplates();
     }
 
     private function SetTemplates()
@@ -28,19 +25,68 @@ class TaskPageController extends Controller
 
     public function TaskIndex()
     {
-        $other_details = array(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Task Manager",
-                    "session" => Session::Get("user_data")
-                )
-            ),
-        );
+        Url::Redirect("task/view");
+    }
 
-        self::SetBody("user/task.html.inc");
-        self::RenderView(
-            PageRenderer::GetUserPageData("task", $other_details)
-        );   
+    public function ViewOpenTasksPage()
+    {
+        if(PageRenderer::HasTaskPageAccess()) 
+        {
+            $other_details = array(
+            Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Task Manager"
+                    )
+                ),
+            );
+
+            self::SetBody("user/task/view/open.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("task-view-open", $other_details)
+            );
+        }
+    }
+
+    public function ViewCompletedTasksPage()
+    {
+        if(PageRenderer::HasTaskPageAccess()) 
+        {
+            $other_details = array(
+            Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Task Manager"
+                    )
+                ),
+            );
+
+            self::SetBody("user/task/view/completed.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "task-view-completed", $other_details
+                )
+            );
+        }
+    }
+
+    public function AddTasksPage()
+    {
+        if(PageRenderer::HasAddTaskPageAccess()) 
+        {
+            $other_details = array(
+            Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Task Manager"
+                    )
+                ),
+            );
+
+            self::SetBody("user/task/add.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("task-add", $other_details)
+            );
+        }
     }
 }

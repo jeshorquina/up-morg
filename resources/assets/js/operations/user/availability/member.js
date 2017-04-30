@@ -45,20 +45,19 @@
     }
   }
 
-  AvailabilityMemberOperations.ChangeTimeRange = function() {
+  AvailabilityMemberOperations.ChangeTimeRange = function () {
 
     var startTime = GetTime(document.getElementById("start-time").value);
     var endTime = GetTime(document.getElementById("end-time").value);
 
-    AvailabilityMemberOperations.timeIntervals.forEach(function(timeInterval) {
-      if(
-          GetTime(timeInterval.interval.substr(0,5)) >= startTime && 
-          GetTime(timeInterval.interval.substr(8,5)) <= endTime
+    AvailabilityMemberOperations.timeIntervals.forEach(function (timeInterval) {
+      if (
+        GetTime(timeInterval.interval.substr(0, 5)) >= startTime &&
+        GetTime(timeInterval.interval.substr(8, 5)) <= endTime
       ) {
         timeInterval.enabled = true;
       }
-      else
-      {
+      else {
         timeInterval.enabled = false;
       }
     });
@@ -66,13 +65,12 @@
     FillScheduleDetails();
   }
 
-  function FillSelectBox()
-  {
+  function FillSelectBox() {
     DomHelper.InsertContent(
       "select-member-schedule",
       AvailabilityMemberFactory.MakeDefaultOption()
     )
-    AvailabilityMemberOperations.schedules.forEach(function(schedule, index){
+    AvailabilityMemberOperations.schedules.forEach(function (schedule, index) {
       DomHelper.AppendContent(
         "select-member-schedule",
         AvailabilityMemberFactory.MakeOption(schedule, index)
@@ -95,30 +93,32 @@
       AvailabilityMemberOperations.memberIndex
     ].schedule.forEach(
       function (halfHour, index) {
-        if(AvailabilityMemberOperations.timeIntervals[index].enabled) {
+        if (AvailabilityMemberOperations.timeIntervals[index].enabled) {
           DomHelper.AppendContent(
             scheduleContainer,
             AvailabilityMemberFactory.MakeScheduleRow(
-              halfHour, index, 
+              halfHour, index,
               AvailabilityMemberOperations.timeIntervals[index].interval
             )
           );
         }
       }
-    );
+      );
   }
 
   function FillTimeInterval() {
 
-    var intervalSize = (
-      AvailabilityMemberOperations.schedules[0].schedule.length
-    );
+    if (AvailabilityMemberOperations.schedules.length > 0) {
+      var intervalSize = (
+        AvailabilityMemberOperations.schedules[0].schedule.length
+      );
 
-    for(var i = 0; i < intervalSize; i++) {
-      AvailabilityMemberOperations.timeIntervals.push({
-        "interval": GetCurrentTimeRange(i),
-        "enabled": true
-      })
+      for (var i = 0; i < intervalSize; i++) {
+        AvailabilityMemberOperations.timeIntervals.push({
+          "interval": GetCurrentTimeRange(i),
+          "enabled": true
+        });
+      }
     }
   }
 
@@ -139,7 +139,7 @@
         .toTimeString().match(/\d{2}:\d{2}:\d{2}/)[0].substr(0, 5)
     )
 
-    if(upperRange == "00:00") {
+    if (upperRange == "00:00") {
       upperRange = "24:00";
     }
 

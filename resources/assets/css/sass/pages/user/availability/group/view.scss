@@ -1,4 +1,4 @@
-@import "../../../base/variables.scss";
+@import "../../../../base/variables.scss";
 
 .form-group {
     padding: 0.5rem;    
@@ -8,6 +8,10 @@
 
     padding: 0.1rem;
     @include no-select();
+
+    &.empty-row {
+        padding: 0.5rem;
+    }
 
     @for $i from 0 through 100 {
         &.percent-#{$i} {

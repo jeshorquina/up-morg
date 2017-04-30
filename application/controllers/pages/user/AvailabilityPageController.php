@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\PageRenderer;
 use \Jesh\Helpers\Security;
+use \Jesh\Helpers\Url;
 use \Jesh\Helpers\UserSession;
 
 class AvailabilityPageController extends Controller 
@@ -23,9 +24,14 @@ class AvailabilityPageController extends Controller
         self::SetFooter("templates/footer.html.inc");
     }
 
+    public function AvailabilityIndex()
+    {
+        Url::Redirect("availability/manage");
+    }
+
     public function ModifyAvailability()
     {
-        if(PageRenderer::HasModifyAvailavilityPageAccess())
+        if(PageRenderer::HasModifyAvailabilityPageAccess())
         {
             $other_details = array(
                 Security::GetCSRFData(),
@@ -84,6 +90,66 @@ class AvailabilityPageController extends Controller
             self::RenderView(
                 PageRenderer::GetUserPageData(
                     "availability-group", $other_details
+                )
+            );
+        }
+    }
+
+    public function GroupAvailabilityViewPage($group_id)
+    {
+        if(PageRenderer::HasGroupAvailabilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker",
+                        "urls" => array(
+                            "group_page" => (
+                                Url::GetBaseURL("availability/group")
+                            )
+                        ),
+                        "details" => array(
+                            "group_id" => $group_id
+                        )
+                    ),
+                ),
+            );
+
+            self::SetBody("user/availability/group/view.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "availability-group-view", $other_details
+                )
+            );
+        }
+    }
+
+    public function GroupAvailabilityEditPage($group_id)
+    {
+        if(PageRenderer::HasGroupAvailabilityPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Availability Tracker",
+                        "urls" => array(
+                            "group_page" => (
+                                Url::GetBaseURL("availability/group")
+                            )
+                        ),
+                        "details" => array(
+                            "group_id" => $group_id
+                        )
+                    ),
+                ),
+            );
+
+            self::SetBody("user/availability/group/edit.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "availability-group-edit", $other_details
                 )
             );
         }

@@ -201,6 +201,36 @@
         ]
     },
     {
+        "name": "user/availability-group-view.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/availability/group/view.js",
+            "resources/assets/js/operations/user/availability/group/view.js",
+            "resources/assets/js/controllers/user/availability/group/view.js"
+        ]
+    },
+    {
+        "name": "user/availability-group-edit.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/availability/group/edit.js",
+            "resources/assets/js/operations/user/availability/group/edit.js",
+            "resources/assets/js/controllers/user/availability/group/edit.js"
+        ]
+    },
+    {
         "name": "user/availability-member.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

@@ -1,19 +1,17 @@
-@import "../../../base/variables.scss";
 
-form#add-group-form {
-    border: 1px solid $color-border;
-    border-bottom: none;
-    padding: 0.5rem 1rem;
+#add-group-member-form {
     width: 100%;
 
     .form-group {
         position: relative;
 
-        input {
+        input, select {
             margin: 0;
         }
-        input[type=text] {
+        select {
+            cursor: text;
             width: 100%;
+            z-index: 99;
         }
         input[type=submit] {
             bottom: 0;
@@ -24,8 +22,8 @@ form#add-group-form {
     }
 }
 
-ul#group-list {
-    .group-entry {
+#group-member-list {
+    li {
         display: table;
         width: 100%;
 
