@@ -22,7 +22,7 @@ class AvailabilityActionController extends Controller
 
     public function GetAvailability()
     {
-        if(!UserSession::IsBatchMember())
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
             Http::Response(
                 Http::FORBIDDEN, array(
@@ -63,7 +63,7 @@ class AvailabilityActionController extends Controller
 
     public function UpdateAvailability()
     {
-        if(!UserSession::IsBatchMember())
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
         {
             Http::Response(
                 Http::FORBIDDEN, array(

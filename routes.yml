@@ -293,6 +293,12 @@
     function: RequestCommittee
 
 
+'action/task/add':
+    directory: api/user
+    controller: TaskActionController
+    function: GetAddTaskPageDetails
+
+
 'action/availability':
     directory: api/user
     controller: AvailabilityActionController

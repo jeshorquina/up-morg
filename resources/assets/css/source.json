@@ -237,6 +237,7 @@
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
+            "resources/assets/css/components/table.css",
             "resources/assets/css/pages/user/task/add.css"
         ]
     },
