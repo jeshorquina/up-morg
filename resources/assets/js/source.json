@@ -141,7 +141,7 @@
         ]
     },
     {
-        "name": "user/task-view-open.js",
+        "name": "user/task-view.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
@@ -150,24 +150,9 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/task/view/open.js",
-            "resources/assets/js/operations/user/task/view/open.js",
-            "resources/assets/js/controllers/user/task/view/open.js"
-        ]
-    },
-    {
-        "name": "user/task-view-closed.js",
-        "src": [
-            "resources/assets/js/vendor/stickyfill.min.js",
-            "resources/assets/js/helpers/stickyfill.js",
-            "resources/assets/js/helpers/loader.js",
-            "resources/assets/js/libraries/domHelper.js",
-            "resources/assets/js/libraries/httpHelper.js",
-            "resources/assets/js/libraries/urlHelper.js",
-            "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/task/view/closed.js",
-            "resources/assets/js/operations/user/task/view/closed.js",
-            "resources/assets/js/controllers/user/task/view/closed.js"
+            "resources/assets/js/factories/user/task/view.js",
+            "resources/assets/js/operations/user/task/view.js",
+            "resources/assets/js/controllers/user/task/view.js"
         ]
     },
     {

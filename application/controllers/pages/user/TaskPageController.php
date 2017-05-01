@@ -41,31 +41,9 @@ class TaskPageController extends Controller
                 ),
             );
 
-            self::SetBody("user/task/view/open.html.inc");
+            self::SetBody("user/task/view.html.inc");
             self::RenderView(
-                PageRenderer::GetUserPageData("task-view-open", $other_details)
-            );
-        }
-    }
-
-    public function ViewCompletedTasksPage()
-    {
-        if(PageRenderer::HasTaskPageAccess()) 
-        {
-            $other_details = array(
-            Security::GetCSRFData(),
-                array(
-                    "page" => array(
-                        "title" => "Task Manager"
-                    )
-                ),
-            );
-
-            self::SetBody("user/task/view/completed.html.inc");
-            self::RenderView(
-                PageRenderer::GetUserPageData(
-                    "task-view-completed", $other_details
-                )
+                PageRenderer::GetUserPageData("task-view", $other_details)
             );
         }
     }

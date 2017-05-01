@@ -207,10 +207,6 @@
     directory: pages/user
     controller: TaskPageController
     function: ViewOpenTasksPage
-'task/completed':
-    directory: pages/user
-    controller: TaskPageController
-    function: ViewCompletedTasksPage
 'task/add':
     directory: pages/user
     controller: TaskPageController

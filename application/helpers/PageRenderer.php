@@ -406,13 +406,8 @@ class PageRenderer
         else if(strpos($page_name, 'task-') !== false)
         {
             $navs[] = array(
-                "name" => "View Open Tasks",
+                "name" => "View Tasks",
                 "url" => Url::GetBaseURL("task/view")
-            );
-
-            $navs[] = array(
-                "name" => "View Completed Tasks",
-                "url" => Url::GetBaseURL("task/completed")
             );
 
             $navs[] = array(
