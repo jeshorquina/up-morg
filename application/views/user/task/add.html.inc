@@ -8,6 +8,8 @@
 
         <form id="add-task-form">
 
+            <h3 class="margin-bottom-medium">Task Details</h3>
+
             <div class="flex-container">
 
                 <div class="form-group flex flex-2">
@@ -36,14 +38,9 @@
                 <span class="form-error" id="task-assignee-error"></span>
             </div>
 
-            <div class="form-group">
-                <span class="form-label">Subscribers</span>
-                <select id="task-subscribers" class="form-input width-full"></select>
-                <span class="form-error" id="task-subscribers-error"></span>
-                <ul id="task-subscriber-list" class="list margin-top-small"></ul>
-            </div>
+            <h3 class="margin-vertical-medium">Other Details</h3>
 
-            <div class="flex-container margin-top-medium">
+            <div class="flex-container">
 
                 <div class="form-group flex flex-1">
                     <span class="form-label">Link to Event</span>
@@ -59,7 +56,17 @@
 
             </div>
 
-            <div class="form-group margin-top-small clearfix">
+            <div class="form-group">
+                <span class="form-label">Subscribers</span>
+                <div class="inline-form">
+                    <select id="task-subscribers" class="form-input width-full"></select>
+                    <button id="task-subscribers-submit" class="button button-info" type="button">Add Schedule</button>
+                </div>
+                <span class="form-error" id="task-subscribers-error"></span>
+                <ul id="task-subscriber-list" class="list margin-top-small"></ul>
+            </div>
+
+            <div class="form-group clearfix margin-top-small">
                 <input type="submit" class="button button-success no-margin float-right" value="Add New Task">
             </div>
 

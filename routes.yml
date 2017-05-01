@@ -293,6 +293,10 @@
     function: RequestCommittee
 
 
+'action/task/view':
+    directory: api/user
+    controller: TaskActionController
+    function: GetViewTaskPageDetails
 'action/task/add':
     directory: api/user
     controller: TaskActionController

@@ -5,6 +5,7 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskSubscriberModel;
+use \Jesh\Models\TaskTreeModel;
 
 use \Jesh\Repository\TaskRepository;
 
@@ -19,9 +20,57 @@ class Task
         $this->repository = new TaskRepository;
     }
 
+    public function GetTask($task_id)
+    {
+        $task = $this->repository->GetTask($task_id);
+
+        if(!$task)
+        {
+            throw new \Exception("Cound not find task in the database");
+        }
+
+        return new TaskModel($task[0]);
+    }
+
+    public function GetAssignedTasks($batch_member_id)
+    {
+        $tasks = array();
+        foreach($this->repository->GetAssignedTasks($batch_member_id) as $task)
+        {
+            $tasks[] = new TaskModel($task);
+        }
+        return $tasks;
+    }
+
+    public function GetReportedTasks($batch_member_id)
+    {
+        $tasks = array();
+        foreach($this->repository->GetReportedTasks($batch_member_id) as $task)
+        {
+            $tasks[] = new TaskModel($task);
+        }
+        return $tasks;
+    }
+
     public function GetTaskStatusID($name)
     {
-        return $this->repository->GetTaskStatusID($name)[0]["TaskStatusID"];
+        $is_found = $this->repository->GetTaskStatusID($name);
+    
+        if(!$is_found)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cound not find task status `%s` in the database.",$name
+                )
+            );
+        }
+
+        return $is_found[0]["TaskStatusID"];
+    }
+
+    public function HasParentTask($task_id)
+    {
+        return $this->repository->HasParentTask($task_id);
     }
 
     public function AddTask(TaskModel $task)
@@ -50,4 +99,17 @@ class Task
         return $is_added;
     }
 
+    public function AddParentTask(TaskTreeModel $relation)
+    {
+        $is_added = $this->repository->AddParentTask($relation);
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Cound not add task relationship to the database."
+            );
+        }
+
+        return $is_added;
+    }
 }

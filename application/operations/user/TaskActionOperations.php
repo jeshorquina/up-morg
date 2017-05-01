@@ -7,6 +7,7 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskSubscriberModel;
+use \Jesh\Models\TaskTreeModel;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
@@ -27,7 +28,9 @@ class TaskActionOperations
         $this->task = new Task;
     }
 
-    public function GetFrontmanAddTaskPageDetails($batch_id, $frontman_id)
+    public function GetFrontmanAddTaskPageDetails(
+        $batch_id, $frontman_id, $is_first_frontman
+    )
     {
         $frontmen = array(
             $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
@@ -58,8 +61,11 @@ class TaskActionOperations
         }
 
         $members = array();
+        $tasks = array();
+
         foreach($batch_member_ids as $batch_member_id)
         {
+            // members
             $member_name = $this->GetMemberName(
                 $this->batch_member->GetMemberID($batch_member_id)
             );
@@ -67,11 +73,34 @@ class TaskActionOperations
                 "id" => $batch_member_id,
                 "name" => $member_name
             );
+
+            // tasks
+            $task_ids = array();
+            foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
+            {
+                if($this->CheckParentTaskValid($task))
+                {
+                    if($is_first_frontman)
+                    {
+                        $tasks[] = array(
+                            "id" => $task->TaskID,
+                            "name" => $task->TaskTitle
+                        );
+                        $task_ids[] = $task->TaskID;
+                    }
+                    else if($task->Reporter == $frontman_id)
+                    {
+                        $tasks[] = array(
+                            "id" => $task->TaskID,
+                            "name" => $task->TaskTitle
+                        );
+                        $task_ids[] = $task->TaskID;
+                    }
+                }
+            }
         }
 
         $events = array();
-
-        $tasks = array();
 
         return array(
             "events" => $events,
@@ -94,8 +123,11 @@ class TaskActionOperations
         );
 
         $members = array();
+        $tasks = array();
+
         foreach($batch_member_ids as $batch_member_id)
         {
+            // members
             $member_name = $this->GetMemberName(
                 $this->batch_member->GetMemberID($batch_member_id)
             );
@@ -103,11 +135,26 @@ class TaskActionOperations
                 "id" => $batch_member_id,
                 "name" => $member_name
             );
+
+            // tasks
+            $task_ids = array();
+            foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
+            {
+                if($this->CheckParentTaskValid($task))
+                {
+                    if($task->Reporter == $committee_head_id)
+                    {
+                        $tasks[] = array(
+                            "id" => $task->TaskID,
+                            "name" => $task->TaskTitle
+                        );
+                        $task_ids[] = $task->TaskID;
+                    }
+                }
+            }
         }
 
         $events = array();
-
-        $tasks = array();
 
         return array(
             "events" => $events,
@@ -134,6 +181,33 @@ class TaskActionOperations
         $events = array();
 
         $tasks = array();
+        $task_ids = array();
+        foreach($this->task->GetAssignedTasks($committee_member_id) as $task)
+        {
+            if($this->CheckParentTaskValid($task))
+            {
+                $tasks[] = array(
+                    "id" => $task->TaskID,
+                    "name" => $task->TaskTitle
+                );
+                $task_ids[] = $task->TaskID;
+            }
+        }
+
+        foreach($this->task->GetReportedTasks($committee_member_id) as $task)
+        {
+            if($this->CheckParentTaskValid($task))
+            {
+                if(!in_array($task->TaskID, $task_ids))
+                {
+                    $tasks[] = array(
+                        "id" => $task->TaskID,
+                        "name" => $task->TaskTitle
+                    );
+                    $task_ids[] = $task->TaskID;
+                }
+            }
+        }
 
         return array(
             "events" => $events,
@@ -221,8 +295,22 @@ class TaskActionOperations
         return false;
     }
 
+    public function CheckParentTaskValidByID($task_id)
+    {
+        return $this->CheckParentTaskValid($this->task->GetTask($task_id));
+    }
+
+    private function CheckParentTaskValid($task)
+    {
+        return (
+            $this->IsTaskDeadlineValid($task->TaskDeadline) &&
+            !$this->task->HasParentTask($task->TaskID)
+        );
+    }
+
     public function AddTask(
-        $title, $description, $deadline, $reporter, $assignee, $subscribers
+        $title, $description, $deadline, $reporter, $assignee, $subscribers,
+        $parent
     )
     {
         $task_id = $this->task->AddTask(
@@ -234,6 +322,15 @@ class TaskActionOperations
                     "TaskTitle" => $title,
                     "TaskDescription" => $description,
                     "TaskDeadline" => $deadline
+                )
+            )
+        );
+
+        $this->task->AddParentTask(
+            new TaskTreeModel(
+                array(
+                    "ChildTaskID" => $task_id,
+                    "ParentTaskID" => $parent
                 )
             )
         );

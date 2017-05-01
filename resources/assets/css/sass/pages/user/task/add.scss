@@ -1,7 +1,7 @@
 @import "../../../base/variables.scss";
 
 .form-group {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     padding: 0.25rem 0.5rem;
 }
 
@@ -16,6 +16,23 @@
 
     .preview-body {
         padding: 1rem 1.5rem;
+    }
+}
+
+.inline-form {
+    position: relative;
+
+    input, button {
+        margin: 0;
+    }
+    input[type=text] {
+        width: 100%;
+    }
+    button {
+        bottom: 0;
+        height: 100%;
+        position: absolute;
+        right: 0;
     }
 }
 

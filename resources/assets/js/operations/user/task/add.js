@@ -173,6 +173,7 @@
 
   function GenerateSubscriberList(members) {
 
+    TaskAddOperations.subscribers = [];
     members.forEach(function (member) {
       TaskAddOperations.subscribers.push({
         "id": member.id,
@@ -231,9 +232,7 @@
 
     var eventSelect = document.getElementById("task-event");
     DomHelper.InsertContent(
-      eventSelect, TaskAddFactory.CreateDefaultOption(
-        "Select event reference"
-      )
+      eventSelect, TaskAddFactory.CreateDefaultOption("No event reference")
     );
     events.forEach(function (event) {
       DomHelper.AppendContent(
@@ -246,9 +245,7 @@
 
     var parentSelect = document.getElementById("task-parent");
     DomHelper.InsertContent(
-      parentSelect, TaskAddFactory.CreateDefaultOption(
-        "Select parent task"
-      )
+      parentSelect, TaskAddFactory.CreateDefaultOption("No parent task")
     );
     tasks.forEach(function (task) {
       DomHelper.AppendContent(
@@ -264,6 +261,9 @@
     ].forEach(function (value) {
       DomHelper.RemoveClass(value, "form-input-error");
       DomHelper.ClearContent(value + "-error");
+      if (value != "task-assignee" || value != "task-subscribers") {
+        DomHelper.InputValue(value, "");
+      }
     });
   }
 

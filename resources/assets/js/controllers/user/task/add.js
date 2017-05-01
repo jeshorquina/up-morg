@@ -9,7 +9,9 @@
   }
 
   var addSubscriberCallback = function () {
-    TaskAddOperations.AddSubscriber(this.value, controllerCallback);
+    TaskAddOperations.AddSubscriber(
+      document.getElementById("task-subscribers").value, controllerCallback
+    );
   }
 
   var removeSubscriberCallback = function () {
@@ -34,8 +36,8 @@
       .addEventListener("submit", addTaskCallback);
 
     document
-      .getElementById("task-subscribers")
-      .addEventListener("change", addSubscriberCallback);
+      .getElementById("task-subscribers-submit")
+      .addEventListener("click", addSubscriberCallback);
 
     document
       .getElementById("task-assignee")

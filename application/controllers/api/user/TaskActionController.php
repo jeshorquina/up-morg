@@ -20,6 +20,72 @@ class TaskActionController extends Controller
         $this->operations = new TaskActionOperations;
     }
 
+    public function GetViewTaskPageDetails()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->GetFrontmanViewTaskPageDetails();
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $details = $this->GetCommitteeHeadViewTaskPageDetails();
+        }
+        else 
+        {
+            $details = $this->GetCommitteeMemberViewTaskPageDetails();
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare availability page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Availability page details successfully processed."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    private function GetFrontmanViewTaskPageDetails()
+    {
+        
+    }
+
+    private function GetCommitteeHeadViewTaskPageDetails()
+    {
+        
+    }
+
+    private function GetCommitteeMemberViewTaskPageDetails()
+    {
+
+    }
+
     public function GetAddTaskPageDetails()
     {
         if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
@@ -74,7 +140,8 @@ class TaskActionController extends Controller
     private function GetFrontmanAddTaskPageDetails()
     {
         return $this->operations->GetFrontmanAddTaskPageDetails(
-            UserSession::GetBatchID(), UserSession::GetBatchMemberID()
+            UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+            UserSession::IsFirstFrontman()
         );
     }
 
@@ -108,7 +175,6 @@ class TaskActionController extends Controller
         $reporter = UserSession::GetBatchMemberID();
 
         //$event = Http::Request(Http::POST, "task-event");
-        //$parent = Http::Request(Http::POST, "task-parent");
 
         $title = Http::Request(Http::POST, "task-title");
         $description = Http::Request(Http::POST, "task-description");
@@ -203,8 +269,22 @@ class TaskActionController extends Controller
                 )
             );
         }
+        
+        $parent = Http::Request(Http::POST, "task-parent");
+
+        if(!$this->operations->CheckParentTaskValidByID($parent))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Parent task is not a valid task for a parent!"
+                    )
+                )
+            );
+        }
         else if(!$this->operations->AddTask(
-            $title, $description, $deadline, $reporter, $assignee, $subscribers
+            $title, $description, $deadline, $reporter, $assignee, $subscribers,
+            $parent
         ))
         {
             Http::Response(
