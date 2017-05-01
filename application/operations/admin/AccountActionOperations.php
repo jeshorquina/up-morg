@@ -5,7 +5,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
-use \Jesh\Operations\Repository\StaticDataOperations;
+use \Jesh\Operations\Repository\StaticData;
 
 class AccountActionOperations
 {
@@ -13,7 +13,7 @@ class AccountActionOperations
 
     public function __construct()
     {
-        $this->static_data = new StaticDataOperations;
+        $this->static_data = new StaticData;
     }
 
     public function ValidateUpdatePasswordData($input_data)
@@ -22,10 +22,7 @@ class AccountActionOperations
 
         foreach($input_data as $name => $value) 
         {
-            if(strtolower(gettype($value)) === "string") 
-            {
-                $validation->CheckString($name, $value);
-            }
+            $validation->CheckString($name, $value);
         }
         
         return array(

@@ -6,15 +6,15 @@ use \Jesh\Helpers\StringHelper;
 use \Jesh\Models\LedgerInputModel;
 use \Jesh\Models\StaticDataModel;
 
-use \Jesh\Repository\LedgerOperationsRepository;
+use \Jesh\Repository\LedgerRepository;
 
-class LedgerOperations
+class Ledger
 {
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new LedgerOperationsRepository;
+        $this->repository = new LedgerRepository;
     }
 
     public function GetLedgerEntries()

@@ -5,7 +5,7 @@ use \Jesh\Core\Wrappers\Repository;
 
 use \Jesh\Models\BatchMemberModel;
 
-class BatchMemberOperationsRepository extends Repository
+class BatchMemberRepository extends Repository
 {
     public function GetBatchMembers($batch_id)
     {

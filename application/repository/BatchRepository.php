@@ -6,7 +6,7 @@ use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Models\BatchModel;
 use \Jesh\Models\StaticDataModel;
 
-class BatchOperationsRepository extends Repository
+class BatchRepository extends Repository
 {
     public function GetBatches()
     {

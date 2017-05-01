@@ -5,15 +5,15 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\BatchModel;
 
-use \Jesh\Repository\BatchOperationsRepository;
+use \Jesh\Repository\BatchRepository;
 
-class BatchOperations
+class Batch
 {
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new BatchOperationsRepository;
+        $this->repository = new BatchRepository;
     }
 
     public function GetBatches()

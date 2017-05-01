@@ -4,12 +4,12 @@ namespace Jesh\Operations\Admin;
 use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Sort;
 
-use \Jesh\Operations\Repository\AvailabilityOperations;
-use \Jesh\Operations\Repository\BatchOperations;
-use \Jesh\Operations\Repository\BatchMemberOperations;
-use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\LedgerOperations;
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Availability;
+use \Jesh\Operations\Repository\Batch;
+use \Jesh\Operations\Repository\BatchMember;
+use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Ledger;
+use \Jesh\Operations\Repository\Member;
 
 use \Jesh\Models\BatchModel;
 use \Jesh\Models\BatchMemberModel;
@@ -28,12 +28,12 @@ class BatchActionOperations
 
     public function __construct()
     {
-        $this->availability = new AvailabilityOperations;
-        $this->batch = new BatchOperations;
-        $this->batch_member = new BatchMemberOperations;
-        $this->committee = new CommitteeOperations;
-        $this->ledger = new LedgerOperations;
-        $this->member = new MemberOperations;
+        $this->availability = new Availability;
+        $this->batch = new Batch;
+        $this->batch_member = new BatchMember;
+        $this->committee = new Committee;
+        $this->ledger = new Ledger;
+        $this->member = new Member;
     }
 
     public function GetBatches()
@@ -100,11 +100,11 @@ class BatchActionOperations
     public function HasFrontmen($batch_id)
     {
         return $this->batch_member->HasMemberType(
-            $batch_id, $this->member->GetMemberTypeID("First Frontman")
+            $batch_id, $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN)
         ) && $this->batch_member->HasMemberType(
-            $batch_id, $this->member->GetMemberTypeID("Second Frontman")
+            $batch_id, $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN)
         ) && $this->batch_member->HasMemberType(
-            $batch_id, $this->member->GetMemberTypeID("Third Frontman")
+            $batch_id, $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
         );
     }
 
@@ -115,7 +115,7 @@ class BatchActionOperations
             "BatchMemberID", Sort::ASCENDING
         );
 
-        $committee_head_type = $this->member->GetMemberTypeID("Committee Head");
+        $committee_head_type = $this->member->GetMemberTypeID(Member::COMMITTEE_HEAD);
         $committee_head_count = sizeof($this->committee->GetCommittees());
         foreach($batch_members as $batch_member)
         {
@@ -284,9 +284,9 @@ class BatchActionOperations
             "third" => $third_frontman
         );
         $frontmen_types = array(
-            "first" => $this->member->GetMemberTypeID("First Frontman"),
-            "second" => $this->member->GetMemberTypeID("Second Frontman"),
-            "third" => $this->member->GetMemberTypeID("Third Frontman")
+            "first" => $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            "second" => $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            "third" => $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
         );
         $old_frontmen = array(
             "first" => null,
@@ -419,7 +419,7 @@ class BatchActionOperations
 
         $is_committee_member_added = $this->batch_member->AddMemberType(
             $batch_member_id, $this->member->GetMemberTypeID(
-                "Committee Member"
+                Member::COMMITTEE_MEMBER
             )
         );
 
@@ -522,7 +522,7 @@ class BatchActionOperations
             $batch_member_id
         );
         $committee_head_type_id = $this->member->GetMemberTypeID(
-            "Committee Head"
+            Member::COMMITTEE_HEAD
         );
         $committee_member_ids = $this->committee->GetApprovedBatchMemberIDs(
             $committee_id
@@ -558,7 +558,7 @@ class BatchActionOperations
             {
                 $member_response = $this->batch_member->AddMemberType(
                     $old_committee_head_id, $this->member->GetMemberTypeID(
-                        "Committee Member"
+                        Member::COMMITTEE_MEMBER
                     )
                 );
             }
@@ -827,9 +827,9 @@ class BatchActionOperations
     private function GetBatchCommitteeDetailsFrontmen($batch_members)
     {
         $frontman_types = array(
-            "first" => $this->member->GetMemberTypeID("First Frontman"),
-            "second" => $this->member->GetMemberTypeID("Second Frontman"),
-            "third" => $this->member->GetMemberTypeID("Third Frontman")
+            "first" => $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            "second" => $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            "third" => $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
         );
         $frontman_present = array(
             "first" => false,
@@ -956,13 +956,13 @@ class BatchActionOperations
         // is implemented.
         $batch_id = $this->batch->GetBatchID($acad_year);
         $permissions = array(
-            $this->member->GetMemberTypeID("First Frontman") => (
+            $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN) => (
                 array(1,2,3,4,5,6,7)
             ),
-            $this->member->GetMemberTypeID("Second Frontman") => (
+            $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN) => (
                 array(1,2,3)
             ),
-            $this->member->GetMemberTypeID("Third Frontman") => (
+            $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN) => (
                 array(4,5,6)
             )
         );

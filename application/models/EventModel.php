@@ -13,7 +13,7 @@ class EventModel implements ModelInterface
     public $EventTime;
     public $IsPublic;
 
-   public function __construct($array)
+    public function __construct($array)
     {    
         foreach($array as $key => $value)
         {

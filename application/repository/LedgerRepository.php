@@ -6,7 +6,7 @@ use \Jesh\Core\Wrappers\Repository;
 use \Jesh\Models\StaticDataModel;
 use \Jesh\Models\LedgerInputModel;
 
-class LedgerOperationsRepository extends Repository
+class LedgerRepository extends Repository
 {
     public function GetLedgerEntries()
     {

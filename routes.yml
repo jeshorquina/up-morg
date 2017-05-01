@@ -297,6 +297,10 @@
     directory: api/user
     controller: TaskActionController
     function: GetAddTaskPageDetails
+'action/task/add-task':
+    directory: api/user
+    controller: TaskActionController
+    function: AddTask
 
 
 'action/availability':

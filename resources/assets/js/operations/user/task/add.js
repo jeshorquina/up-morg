@@ -3,6 +3,7 @@
   TaskAddFactory, TaskAddOperations
 ) {
 
+  TaskAddOperations.self = {};
   TaskAddOperations.subscribers = [];
 
   TaskAddOperations.RenderTaskAddPage = function (
@@ -18,6 +19,64 @@
     });
   }
 
+  TaskAddOperations.AddTask = function (source, form, controllerCallback) {
+
+    var data = new FormData(form);
+    data.append("task-subscribers", JSON.stringify(GetSubscriberList()));
+
+    var endpoint = source + "action/task/add-task";
+    HttpHelper.Post(endpoint, data, function (status, responseText) {
+      RefreshRenderTaskAddPageCallback(
+        status, responseText, controllerCallback
+      );
+    });
+  }
+
+  TaskAddOperations.AddSubscriber = function (id, controllerCallback) {
+
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (id == subscriber.id) {
+        subscriber.selected = true;
+      }
+    });
+
+    FillTaskSubscribersSelect();
+    FillTaskSubscriberList();
+
+    controllerCallback();
+  }
+
+  TaskAddOperations.RemoveSubscriber = function (id, controllerCallback) {
+
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (id == subscriber.id) {
+        subscriber.selected = false;
+      }
+    });
+
+    FillTaskSubscribersSelect();
+    FillTaskSubscriberList();
+
+    controllerCallback();
+  }
+
+  TaskAddOperations.SelectAssignee = function (id, controllerCallback) {
+
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (id == subscriber.id) {
+        subscriber.assignee = true;
+      }
+      else {
+        subscriber.assignee = false;
+      }
+    });
+
+    FillTaskSubscribersSelect();
+    FillTaskSubscriberList();
+
+    controllerCallback();
+  }
+
   function RenderTaskAddPageCallback(
     status, responseText, controllerCallback
   ) {
@@ -26,8 +85,17 @@
 
     if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
 
+      TaskAddOperations.self = response.data.self;
+
       FillTaskAssigneeSelect(response.data.members);
-      FillTaskSubscribersSelect(response.data.members);
+
+      GenerateSubscriberList(response.data.members);
+
+      FillTaskSubscribersSelect();
+      FillTaskSubscriberList();
+
+      FillTaskEventSelect(response.data.events);
+      FillTaskParentSelect(response.data.tasks);
 
       controllerCallback();
     }
@@ -40,28 +108,143 @@
     }
   }
 
+  function RefreshRenderTaskAddPageCallback(
+    status, responseText, controllerCallback
+  ) {
+
+    alert(responseText);
+
+    return;
+
+    var response = JSON.parse(responseText);
+
+    window.scrollTo(0, 0);
+
+    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
+
+      TaskAddOperations.self = response.data.self;
+
+      FillTaskAssigneeSelect(response.data.members);
+
+      GenerateSubscriberList(response.data.members);
+
+      FillTaskSubscribersSelect();
+      FillTaskSubscriberList();
+
+      FillTaskEventSelect(response.data.events);
+      FillTaskParentSelect(response.data.tasks);
+
+      controllerCallback();
+
+      AlertFactory.GenerateSuccessAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
+    else {
+
+      AlertFactory.GenerateDangerAlert(
+        document.getElementById("notifications"), response.message
+      );
+    }
+  }
+
   function FillTaskAssigneeSelect(members) {
 
     var assigneeSelect = document.getElementById("task-assignee");
     DomHelper.InsertContent(
-      assigneeSelect, TaskAddFactory.CreateMemberDefaultOption()
+      assigneeSelect, TaskAddFactory.CreateDefaultOption(
+        "Select assignee"
+      )
     );
     members.forEach(function (member) {
       DomHelper.AppendContent(
-        assigneeSelect, TaskAddFactory.CreateMemberOption(member)
+        assigneeSelect, TaskAddFactory.CreateOption(member)
       );
     });
   }
 
-  function FillTaskSubscribersSelect(members) {
+  function GenerateSubscriberList(members) {
+
+    members.forEach(function (member) {
+      TaskAddOperations.subscribers.push({
+        "id": member.id,
+        "name": member.name,
+        "selected": (TaskAddOperations.self.id == member.id),
+        "assignee": false
+      });
+    });
+  }
+
+  function GetSubscriberList() {
+    var subscribers = [];
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (subscriber.selected || subscriber.assignee) {
+        subscribers.push(subscriber.id);
+      }
+    });
+    return subscribers;
+  }
+
+  function FillTaskSubscribersSelect() {
 
     var subscribersSelect = document.getElementById("task-subscribers");
     DomHelper.InsertContent(
-      subscribersSelect, TaskAddFactory.CreateMemberDefaultOption()
+      subscribersSelect, TaskAddFactory.CreateDefaultOption(
+        "Select subscribers"
+      )
     );
-    members.forEach(function (member) {
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (!subscriber.selected && !subscriber.assignee) {
+        DomHelper.AppendContent(
+          subscribersSelect, TaskAddFactory.CreateOption(subscriber)
+        );
+      }
+    });
+  }
+
+  function FillTaskSubscriberList() {
+
+    var subscriberList = document.getElementById("task-subscriber-list");
+    DomHelper.InsertContent(
+      subscriberList, TaskAddFactory.CreateHeaderListRow("Subscribers")
+    );
+    TaskAddOperations.subscribers.forEach(function (subscriber) {
+      if (subscriber.selected || subscriber.assignee) {
+        DomHelper.AppendContent(
+          subscriberList, TaskAddFactory.CreateListRow(
+            subscriber, (TaskAddOperations.self.id == subscriber.id || subscriber.assignee)
+          )
+        );
+      }
+    });
+  }
+
+  function FillTaskEventSelect(events) {
+
+    var eventSelect = document.getElementById("task-event");
+    DomHelper.InsertContent(
+      eventSelect, TaskAddFactory.CreateDefaultOption(
+        "Select event reference"
+      )
+    );
+    events.forEach(function (event) {
       DomHelper.AppendContent(
-        subscribersSelect, TaskAddFactory.CreateMemberOption(member)
+        eventSelect, TaskAddFactory.CreateOption(event)
+      );
+    });
+  }
+
+  function FillTaskParentSelect(tasks) {
+
+    var parentSelect = document.getElementById("task-parent");
+    DomHelper.InsertContent(
+      parentSelect, TaskAddFactory.CreateDefaultOption(
+        "Select parent task"
+      )
+    );
+    tasks.forEach(function (task) {
+      DomHelper.AppendContent(
+        parentSelect, TaskAddFactory.CreateOption(task)
       );
     });
   }

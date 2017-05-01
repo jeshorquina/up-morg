@@ -6,10 +6,10 @@ use  \Jesh\Helpers\ValidationDataBuilder;
 use \Jesh\Models\MemberModel;
 use \Jesh\Models\LedgerInputModel;
 
-use \Jesh\Operations\Repository\BatchOperations;
-use \Jesh\Operations\Repository\BatchMemberOperations;
-use \Jesh\Operations\Repository\LedgerOperations;
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Batch;
+use \Jesh\Operations\Repository\BatchMember;
+use \Jesh\Operations\Repository\Ledger;
+use \Jesh\Operations\Repository\Member;
 
 class FinanceActionOperations
 {
@@ -20,10 +20,10 @@ class FinanceActionOperations
 
     public function __construct()
     {
-        $this->batch = new BatchOperations;
-        $this->batch_member = new BatchMemberOperations;
-        $this->ledger = new LedgerOperations;
-        $this->member = new MemberOperations;
+        $this->batch = new Batch;
+        $this->batch_member = new BatchMember;
+        $this->ledger = new Ledger;
+        $this->member = new Member;
     }
 
     public function GetFinancePageDetails($batch_id)

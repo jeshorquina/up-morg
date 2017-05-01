@@ -5,15 +5,15 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\BatchMemberModel;
 
-use \Jesh\Repository\BatchMemberOperationsRepository;
+use \Jesh\Repository\BatchMemberRepository;
 
-class BatchMemberOperations
+class BatchMember
 {
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new BatchMemberOperationsRepository;
+        $this->repository = new BatchMemberRepository;
     }
 
     public function GetBatchMembers($batch_id)

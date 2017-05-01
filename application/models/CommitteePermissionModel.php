@@ -10,7 +10,7 @@ class CommitteePermissionModel implements ModelInterface
     public $MemberTypeID;
     public $CommitteeID;
 
-   public function __construct($array)
+    public function __construct($array)
     {    
         foreach($array as $key => $value)
         {

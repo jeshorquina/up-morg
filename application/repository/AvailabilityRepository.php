@@ -7,7 +7,7 @@ use \Jesh\Models\AvailabilityMemberModel;
 use \Jesh\Models\AvailabilityGroupModel;
 use \Jesh\Models\AvailabilityGroupMemberModel;
 
-class AvailabilityOperationsRepository extends Repository
+class AvailabilityRepository extends Repository
 {
     public function GetAvailabilityByBatchMemberID($batch_member_id)
     {

@@ -1,8 +1,8 @@
 <?php
 namespace Jesh\Helpers;
 
-use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\LedgerOperations;
+use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Ledger;
 
 class PageRenderer
 {
@@ -98,7 +98,7 @@ class PageRenderer
         }
         else
         {
-            $ledger = new LedgerOperations;
+            $ledger = new Ledger;
 
             if(!$ledger->IsOpen())
             {
@@ -123,7 +123,7 @@ class PageRenderer
         }
         else
         {
-            $ledger = new LedgerOperations;
+            $ledger = new Ledger;
 
             if(!$ledger->IsOpen())
             {
@@ -148,7 +148,7 @@ class PageRenderer
         }
         else
         {
-            $ledger = new LedgerOperations;
+            $ledger = new Ledger;
 
             if(!$ledger->IsOpen())
             {
@@ -191,7 +191,7 @@ class PageRenderer
         $can_access = false;
         if(UserSession::IsFrontman())
         {
-            $committee = new CommitteeOperations;
+            $committee = new Committee;
             $can_access = in_array(
                 $committee->GetCommitteeIDByCommitteeName(
                     StringHelper::UnmakeIndex($committee_name)
@@ -203,7 +203,7 @@ class PageRenderer
         }
         else if(UserSession::IsCommitteeHead())
         {
-            $committee = new CommitteeOperations;
+            $committee = new Committee;
             $can_access = $committee->GetCommitteeIDByBatchMemberID(
                 UserSession::GetBatchMemberID()
             ) == $committee->GetCommitteeIDByCommitteeName(

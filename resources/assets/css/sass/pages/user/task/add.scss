@@ -18,3 +18,22 @@
         padding: 1rem 1.5rem;
     }
 }
+
+ul#task-subscriber-list {
+    .subscriber-entry {
+        display: table;
+        width: 100%;
+
+        .button {
+            font-size: 0.6rem;
+            margin: 0;
+            margin-left: 0.5rem;
+            padding: .3rem .4rem;
+        }
+
+        .table-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+}

@@ -6,14 +6,13 @@ use \Jesh\Core\Interfaces\ModelInterface;
 class TaskModel implements ModelInterface
 {
     public $TaskID;
-    public $ParentTaskID;
     public $TaskStatusID;
-    public $EventID;
     public $Reporter;
     public $Assignee;
     public $TaskTitle;
     public $TaskDescription;
     public $TaskDeadline;
+    public $Timestamp;
 
     public function __construct($array)
     {    

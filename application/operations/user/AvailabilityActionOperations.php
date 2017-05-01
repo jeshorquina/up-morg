@@ -5,10 +5,10 @@ use \Jesh\Models\AvailabilityMemberModel;
 use \Jesh\Models\AvailabilityGroupModel;
 use \Jesh\Models\AvailabilityGroupMemberModel;
 
-use \Jesh\Operations\Repository\AvailabilityOperations;
-use \Jesh\Operations\Repository\BatchMemberOperations;
-use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Availability;
+use \Jesh\Operations\Repository\BatchMember;
+use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Member;
 
 class AvailabilityActionOperations
 {
@@ -19,10 +19,10 @@ class AvailabilityActionOperations
 
     public function __construct()
     {
-        $this->availability = new AvailabilityOperations;
-        $this->batch_member = new BatchMemberOperations;
-        $this->committee = new CommitteeOperations;
-        $this->member = new MemberOperations;
+        $this->availability = new Availability;
+        $this->batch_member = new BatchMember;
+        $this->committee = new Committee;
+        $this->member = new Member;
     }
 
     public function GetAvailability($batch_member_id)
@@ -89,10 +89,10 @@ class AvailabilityActionOperations
         {
             $frontmen = array(
                 $this->member->GetMemberTypeID(
-                    "Second Frontman"
+                    Member::SECOND_FRONTMAN
                 ),
                 $this->member->GetMemberTypeID(
-                    "Third Frontman"
+                    Member::THIRD_FRONTMAN
                 )
             );
 
@@ -227,10 +227,10 @@ class AvailabilityActionOperations
         {
             $frontmen = array(
                 $this->member->GetMemberTypeID(
-                    "Second Frontman"
+                    Member::SECOND_FRONTMAN
                 ),
                 $this->member->GetMemberTypeID(
-                    "Third Frontman"
+                    Member::THIRD_FRONTMAN
                 )
             );
 

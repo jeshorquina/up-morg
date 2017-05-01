@@ -1,19 +1,21 @@
 <?php
 namespace Jesh\Operations\Repository;
 
+use \Jesh\Helpers\StringHelper;
+
 use \Jesh\Models\AvailabilityMemberModel;
 use \Jesh\Models\AvailabilityGroupModel;
 use \Jesh\Models\AvailabilityGroupMemberModel;
 
-use \Jesh\Repository\AvailabilityOperationsRepository;
+use \Jesh\Repository\AvailabilityRepository;
 
-class AvailabilityOperations
+class Availability
 {
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new AvailabilityOperationsRepository;
+        $this->repository = new AvailabilityRepository;
     }
 
     public function GetAvailabilityByBatchMemberID($batch_member_id)

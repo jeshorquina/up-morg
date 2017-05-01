@@ -5,7 +5,7 @@ use \Jesh\Helpers\UserSession;
 
 use \Jesh\Models\CommitteeMemberModel;
 
-use \Jesh\Operations\Repository\CommitteeOperations;
+use \Jesh\Operations\Repository\Committee;
 
 class RequestActionOperations
 {
@@ -13,7 +13,7 @@ class RequestActionOperations
 
     public function __construct()
     {
-        $this->committee = new CommitteeOperations;
+        $this->committee = new Committee;
     }
 
     public function GetCommittees()

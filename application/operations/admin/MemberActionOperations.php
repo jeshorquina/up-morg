@@ -5,7 +5,7 @@ use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Sort;
 use \Jesh\Helpers\ValidationDataBuilder;
 
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Member;
 
 use \Jesh\Models\MemberModel;
 
@@ -15,7 +15,7 @@ class MemberActionOperations
 
     public function __construct()
     {
-        $this->member = new MemberOperations;
+        $this->member = new Member;
     }
 
     public function GetMembers()
@@ -53,10 +53,17 @@ class MemberActionOperations
     {
         $validation = new ValidationDataBuilder;
 
-        $validation->CheckString("first-name", $member_array["first-name"]);
-        $validation->CheckString("last-name", $member_array["last-name"]);
-        $validation->CheckEmail("email-address", $member_array["email-address"]);
-        $validation->CheckString("phone-number", $member_array["phone-number"]);
+        foreach($member_array as $name => $value) 
+        {
+            if($name === "email-address")
+            {
+                $validation->CheckEmail($name, $value);
+            }
+            else 
+            {
+                $validation->CheckString($name, $value);
+            }
+        }
                 
         return array(
             "status"  => $validation->GetStatus(),

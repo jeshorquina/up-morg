@@ -5,7 +5,7 @@ use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
 use \Jesh\Helpers\ValidationDataBuilder;
 
-use \Jesh\Operations\Repository\StaticDataOperations;
+use \Jesh\Operations\Repository\StaticData;
 
 class AccessActionOperations
 {
@@ -13,7 +13,7 @@ class AccessActionOperations
 
     public function __construct()
     {
-        $this->static_data = new StaticDataOperations;
+        $this->static_data = new StaticData;
     }
 
     public function MatchingPassword($password)

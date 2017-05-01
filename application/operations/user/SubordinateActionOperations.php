@@ -7,10 +7,10 @@ use \Jesh\Models\BatchMemberModel;
 use \Jesh\Models\CommitteeMemberModel;
 
 use \Jesh\Operations\Admin\BatchActionOperations;
-use \Jesh\Operations\Repository\AvailabilityOperations;
-use \Jesh\Operations\Repository\BatchMemberOperations;
-use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Availability;
+use \Jesh\Operations\Repository\BatchMember;
+use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Member;
 
 class SubordinateActionOperations
 {
@@ -23,10 +23,10 @@ class SubordinateActionOperations
 
     public function __construct()
     {
-        $this->availability = new AvailabilityOperations;
-        $this->batch_member = new BatchMemberOperations;
-        $this->committee = new CommitteeOperations;
-        $this->member = new MemberOperations;
+        $this->availability = new Availability;
+        $this->batch_member = new BatchMember;
+        $this->committee = new Committee;
+        $this->member = new Member;
 
         $this->admin_batch = new BatchActionOperations;
     }
@@ -195,7 +195,7 @@ class SubordinateActionOperations
                 $committee_name
             )
         ) && $this->batch_member->GetMemberTypeID($batch_member_id) == (
-            $this->member->GetMemberTypeID("Committee Head")
+            $this->member->GetMemberTypeID(Member::COMMITTEE_HEAD)
         );
     }
 
@@ -203,7 +203,7 @@ class SubordinateActionOperations
     {
         return $this->member->GetMemberType(
             $this->batch_member->GetMemberTypeID($batch_member_id)
-        ) == "Committee Member";
+        ) == Member::COMMITTEE_MEMBER;
     }
 
     public function HasCommitteeAccess(
@@ -242,7 +242,7 @@ class SubordinateActionOperations
     {
         $this->batch_member->AddMemberType(
             $batch_member_id, 
-            $this->member->GetMemberTypeID("Committee Member")
+            $this->member->GetMemberTypeID(Member::COMMITTEE_MEMBER)
         );
 
         $committee_id = $this->committee->GetCommitteeIDByCommitteeName(
@@ -286,13 +286,13 @@ class SubordinateActionOperations
         foreach($batch_member_ids as $id)
         {
             $this->batch_member->AddMemberType(
-                $id, $this->member->GetMemberTypeID("Committee Member")
+                $id, $this->member->GetMemberTypeID(Member::COMMITTEE_MEMBER)
             );
         }
 
         return $this->batch_member->AddMemberType(
             $batch_member_id, 
-            $this->member->GetMemberTypeID("Committee Head")
+            $this->member->GetMemberTypeID(Member::COMMITTEE_HEAD)
         );
     }
 
@@ -300,8 +300,8 @@ class SubordinateActionOperations
     {
         $batch_members = $this->batch_member->GetBatchMembers($batch_id);
         
-        $second_type = $this->member->GetMemberTypeID("Second Frontman");
-        $third_type = $this->member->GetMemberTypeID("Third Frontman");
+        $second_type = $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN);
+        $third_type = $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN);
 
         foreach($batch_members as $batch_member)
         {
@@ -312,7 +312,7 @@ class SubordinateActionOperations
                 );
                 $this->batch_member->AddMemberType(
                     $batch_member->BatchMemberID, 
-                    $this->member->GetMemberTypeID("Second Frontman")
+                    $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN)
                 );
             }
             else if($batch_member->BatchMemberID == $third)
@@ -322,7 +322,7 @@ class SubordinateActionOperations
                 );
                 $this->batch_member->AddMemberType(
                     $batch_member->BatchMemberID, 
-                    $this->member->GetMemberTypeID("Third Frontman")
+                    $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
                 );
             }
             else if(
@@ -412,8 +412,8 @@ class SubordinateActionOperations
         {
             if(
                 $member["position"] === "Unassigned" || 
-                $member["position"] === "Second Frontman" ||
-                $member["position"] === "Third Frontman"
+                $member["position"] === Member::SECOND_FRONTMAN ||
+                $member["position"] === Member::THIRD_FRONTMAN
             )
             {
                 $members[] = $member;
@@ -424,7 +424,7 @@ class SubordinateActionOperations
         $frontmen = array();
         foreach($frontman_details["batch"]["committee"]["members"] as $frontman)
         {
-            if($frontman["position"] !== "First Frontman")
+            if($frontman["position"] !== Member::FIRST_FRONTMAN)
             {
                 $frontmen[] = $frontman;
             }

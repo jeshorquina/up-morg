@@ -7,10 +7,10 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
 
-use \Jesh\Operations\Repository\BatchOperations;
-use \Jesh\Operations\Repository\BatchMemberOperations;
-use \Jesh\Operations\Repository\CommitteeOperations;
-use \Jesh\Operations\Repository\MemberOperations;
+use \Jesh\Operations\Repository\Batch;
+use \Jesh\Operations\Repository\BatchMember;
+use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Member;
 
 class LoggedOutActionOperations
 {
@@ -21,20 +21,19 @@ class LoggedOutActionOperations
 
     public function __construct()
     {
-        $this->batch = new BatchOperations;
-        $this->batch_member = new BatchMemberOperations;
-        $this->committee = new CommitteeOperations;
-        $this->member = new MemberOperations;
+        $this->batch = new Batch;
+        $this->batch_member = new BatchMember;
+        $this->committee = new Committee;
+        $this->member = new Member;
     }
 
     public function ValidateLoginData($username, $password)
     {
         $validation = new ValidationDataBuilder;
 
-        $validation->CheckString("username", $username);
-        $validation->CheckString("password", $password);
         $validation->CheckEmail("username", $username);
-                
+        $validation->CheckString("password", $password);
+
         return array(
             "status"  => $validation->GetStatus(),
             "message" => $validation->GetValidationData()
@@ -111,12 +110,12 @@ class LoggedOutActionOperations
                     $flags_array["is_committee_head"] = (
                         $this->member->GetMemberType(
                             $batch_member->MemberTypeID
-                        ) === "Committee Head"
+                        ) === Member::COMMITTEE_HEAD
                     );
                     $flags_array["is_finance"] = (
                         $this->committee->GetCommitteeName(
                             $committee_array["id"]
-                        ) === "Finance"
+                        ) === Committee::FINANCE
                     );
                 }
                 else // unapproved
@@ -145,14 +144,14 @@ class LoggedOutActionOperations
                 $flags_array["is_first_frontman"] = (
                     $this->member->GetMemberType(
                         $batch_member->MemberTypeID
-                    ) === "First Frontman"
+                    ) === Member::FIRST_FRONTMAN
                 );
                 $flags_array["is_committee_head"] = false;
                 $flags_array["is_committee_member"] = false;
                 $flags_array["is_finance"] = (
                     $this->member->GetMemberType(
                         $batch_member->MemberTypeID
-                    ) === "First Frontman"
+                    ) === Member::FIRST_FRONTMAN
                 );
             }
         }
@@ -190,13 +189,13 @@ class LoggedOutActionOperations
 
         foreach($registration_data as $name => $value)
         {
-            if(strtolower(gettype($value)) === "string") 
-            {
-                $validation->CheckString($name, $value);
-            }
             if($name === "email_address") 
             {
                 $validation->CheckEmail($name, $value);
+            }
+            else
+            {
+                $validation->CheckString($name, $value);
             }
         }
         

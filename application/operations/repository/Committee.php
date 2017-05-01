@@ -7,15 +7,17 @@ use \Jesh\Models\CommitteeModel;
 use \Jesh\Models\CommitteeMemberModel;
 use \Jesh\Models\CommitteePermissionModel;
 
-use \Jesh\Repository\CommitteeOperationsRepository;
+use \Jesh\Repository\CommitteeRepository;
 
-class CommitteeOperations
+class Committee
 {
+    const FINANCE = "Finance";
+
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new CommitteeOperationsRepository;
+        $this->repository = new CommitteeRepository;
     }
 
     public function GetCommittees()

@@ -5,7 +5,7 @@ use \Jesh\Models\MemberModel;
 
 use \Jesh\Core\Wrappers\Repository;
 
-class MemberOperationsRepository extends Repository
+class MemberRepository extends Repository
 {
     public function GetMembers()
     {

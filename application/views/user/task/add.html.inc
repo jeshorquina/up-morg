@@ -38,11 +38,11 @@
 
             <div class="form-group">
                 <span class="form-label">Subscribers</span>
-                <select name="task-subscribers" id="task-subscribers" class="form-input width-full"></select>
-                <span class="form-error" id="task-subscribers-error"></span>
+                <select id="task-subscribers" class="form-input width-full"></select>
+                <ul id="task-subscriber-list" class="list margin-top-small"></ul>
             </div>
 
-            <div class="flex-container">
+            <div class="flex-container margin-top-medium">
 
                 <div class="form-group flex flex-1">
                     <span class="form-label">Link to Event</span>

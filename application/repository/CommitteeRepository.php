@@ -8,7 +8,7 @@ use \Jesh\Helpers\StringHelper;
 use \Jesh\Models\CommitteeMemberModel;
 use \Jesh\Models\CommitteePermissionModel;
 
-class CommitteeOperationsRepository extends Repository
+class CommitteeRepository extends Repository
 {
     public function GetCommittees()
     {

@@ -11,7 +11,7 @@ class TaskCommentModel implements ModelInterface
     public $Comment;
     public $Timestamp;
 
-   public function __construct($array)
+    public function __construct($array)
     {    
         foreach($array as $key => $value)
         {

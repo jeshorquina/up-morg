@@ -1,15 +1,15 @@
 <?php
 namespace Jesh\Operations\Repository;
 
-use \Jesh\Repository\StaticDataOperationsRepository;
+use \Jesh\Repository\StaticDataRepository;
 
-class StaticDataOperations
+class StaticData
 {
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new StaticDataOperationsRepository;
+        $this->repository = new StaticDataRepository;
     }
 
     public function GetAdminPassword()

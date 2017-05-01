@@ -5,7 +5,7 @@ use \Jesh\Core\Wrappers\Repository;
 
 use \Jesh\Models\StaticDataModel;
 
-class StaticDataOperationsRepository extends Repository
+class StaticDataRepository extends Repository
 {
     public function GetAdminPassword()
     {

@@ -5,15 +5,21 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\MemberModel;
 
-use \Jesh\Repository\MemberOperationsRepository;
+use \Jesh\Repository\MemberRepository;
 
-class MemberOperations
+class Member
 {
+    const FIRST_FRONTMAN = "First Frontman";
+    const SECOND_FRONTMAN = "Second Frontman";
+    const THIRD_FRONTMAN = "Third Frontman";
+    const COMMITTEE_HEAD = "Committee Head";
+    const COMMITTEE_MEMBER = "Committee Member";
+
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new MemberOperationsRepository;
+        $this->repository = new MemberRepository;
     }
 
     public function GetMembers()
