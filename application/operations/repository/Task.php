@@ -52,6 +52,28 @@ class Task
         return $tasks;
     }
 
+    public function GetSubscribedTaskIDs($batch_member_id)
+    {
+        $tasks = array();
+        foreach($this->repository->GetSubscribedTasks($batch_member_id) as $task)
+        {
+            $tasks[] = new TaskModel($this->GetTask($task["TaskID"]));
+        }
+        return $tasks;
+    }
+
+    public function GetParentTaskID($task_id)
+    {
+        $task = $this->repository->GetParentTask($task_id);
+
+        if(!$task)
+        {
+            throw new \Exception("Cound not find parent task in the database");
+        }
+
+        return $task[0]["ParentTaskID"];
+    }
+
     public function GetTaskStatusID($name)
     {
         $is_found = $this->repository->GetTaskStatusID($name);
@@ -71,6 +93,11 @@ class Task
     public function HasParentTask($task_id)
     {
         return $this->repository->HasParentTask($task_id);
+    }
+
+    public function IsTaskSubscriber($task_id, $batch_member_id)
+    {
+        return $this->repository->IsTaskSubscriber($task_id, $batch_member_id);
     }
 
     public function AddTask(TaskModel $task)

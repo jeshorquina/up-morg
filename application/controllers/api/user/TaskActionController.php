@@ -36,15 +36,21 @@ class TaskActionController extends Controller
         $details = array();
         if(UserSession::IsFrontman())
         {
-            $details = $this->GetFrontmanViewTaskPageDetails();
+            $details = $this->operations->GetFrontmanViewTaskPageDetails(
+                UserSession::GetBatchMemberID(), UserSession::GetBatchID()
+            );
         }
         else if(UserSession::IsCommitteeHead())
         {
-            $details = $this->GetCommitteeHeadViewTaskPageDetails();
+            $details = $this->operations->GetCommitteeHeadViewTaskPageDetails(
+                UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
+            );
         }
         else 
         {
-            $details = $this->GetCommitteeMemberViewTaskPageDetails();
+            $details = $this->operations->GetCommitteeMemberViewTaskPageDetails(
+                UserSession::GetBatchMemberID()
+            );
         }
 
         if(!$details)
@@ -69,21 +75,6 @@ class TaskActionController extends Controller
                 )
             );
         }
-    }
-
-    private function GetFrontmanViewTaskPageDetails()
-    {
-        
-    }
-
-    private function GetCommitteeHeadViewTaskPageDetails()
-    {
-        
-    }
-
-    private function GetCommitteeMemberViewTaskPageDetails()
-    {
-
     }
 
     public function GetAddTaskPageDetails()
@@ -102,15 +93,22 @@ class TaskActionController extends Controller
         $details = array();
         if(UserSession::IsFrontman())
         {
-            $details = $this->GetFrontmanAddTaskPageDetails();
+            $details = $this->operations->GetFrontmanAddTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman()
+            );
         }
         else if(UserSession::IsCommitteeHead())
         {
-            $details = $this->GetCommitteeHeadAddTaskPageDetails();
+            $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+            );
         }
         else 
         {
-            $details = $this->GetCommitteeMemberAddTaskPageDetails();
+            $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
+                UserSession::GetBatchMemberID()
+            );
         }
 
         if(!$details)
@@ -135,28 +133,6 @@ class TaskActionController extends Controller
                 )
             );
         }
-    }
-
-    private function GetFrontmanAddTaskPageDetails()
-    {
-        return $this->operations->GetFrontmanAddTaskPageDetails(
-            UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
-            UserSession::IsFirstFrontman()
-        );
-    }
-
-    private function GetCommitteeHeadAddTaskPageDetails()
-    {
-        return $this->operations->GetCommitteeHeadAddTaskPageDetails(
-            UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
-        );
-    }
-
-    private function GetCommitteeMemberAddTaskPageDetails()
-    {
-        return $this->operations->GetCommitteeMemberAddTaskPageDetails(
-            UserSession::GetBatchMemberID()
-        );
     }
 
     public function AddTask()
@@ -212,15 +188,22 @@ class TaskActionController extends Controller
         $details = array();
         if(UserSession::IsFrontman())
         {
-            $details = $this->GetFrontmanAddTaskPageDetails();
+            $details = $this->operations->GetFrontmanAddTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman()
+            );
         }
         else if(UserSession::IsCommitteeHead())
         {
-            $details = $this->GetCommitteeHeadAddTaskPageDetails();
+            $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+            );
         }
         else 
         {
-            $details = $this->GetCommitteeMemberAddTaskPageDetails();
+            $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
+                UserSession::GetBatchMemberID()
+            );
         }
 
         if(!$details)
@@ -292,6 +275,39 @@ class TaskActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Something went wrong. Could not add task. Please
                         try again."
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanAddTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman()
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+            );
+        }
+        else 
+        {
+            $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
+                UserSession::GetBatchMemberID()
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare availability page details. 
+                        Please refresh browser."
                     )
                 )
             );

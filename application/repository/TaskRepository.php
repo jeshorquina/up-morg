@@ -28,6 +28,18 @@ class TaskRepository extends Repository
         );
     }
 
+    public function GetSubscribedTasks($batch_member_id)
+    {
+        return self::Get("TaskSubscriber", "*", array(
+            "BatchMemberID" => $batch_member_id
+        ));
+    }
+
+    public function GetParentTask($task_id)
+    {
+        return self::Get("TaskTree", "*", array("ChildTaskID" => $task_id));
+    }
+
     public function GetTaskStatusID($name)
     {
         return self::Get(
@@ -39,6 +51,15 @@ class TaskRepository extends Repository
     {
         return self::Find(
             "TaskTree", "ParentTaskID", array("ChildTaskID" => $task_id)
+        );
+    }
+
+    public function IsTaskSubscriber($task_id, $batch_member_id)
+    {
+        return self::Find(
+            "TaskSubscriber", "TaskID", array(
+                "TaskID" => $task_id, "BatchMemberID" => $batch_member_id
+            )
         );
     }
 

@@ -411,7 +411,7 @@ class PageRenderer
             );
 
             $navs[] = array(
-                "name" => "Add New Task",
+                "name" => "Create Task",
                 "url" => Url::GetBaseURL("task/add")
             );
 

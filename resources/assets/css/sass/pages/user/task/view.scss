@@ -1,0 +1,23 @@
+@import "../../../base/variables.scss";
+
+.task-section {
+    margin-bottom: 1.5rem;
+
+    .button {
+        padding: 0.2rem 0.3rem;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .table {
+        font-size: 0.9rem;
+
+        .hover {
+            &:hover td, &:focus td {
+                background-color: lighten($color-border, 10%) !important;
+            }
+        }
+    }
+}

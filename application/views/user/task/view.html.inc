@@ -6,6 +6,8 @@
 
         <hr>
 
+        <div id="tasks-container"></div>
+
     </div>
 
 </div>
