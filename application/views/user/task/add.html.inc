@@ -18,7 +18,7 @@
 
                 <div class="form-group flex flex-1">
                     <span class="form-label">Deadline</span>
-                    <input type="text" name="task-deadline" id="task-deadline" class="form-input width-full" placeholder="e.g. 2017-04-30">
+                    <input type="text" name="task-deadline" id="task-deadline" class="form-input width-full" placeholder="2017-04-30">
                     <span class="form-error" id="task-deadline-error"></span>
                 </div>
 
@@ -39,6 +39,7 @@
             <div class="form-group">
                 <span class="form-label">Subscribers</span>
                 <select id="task-subscribers" class="form-input width-full"></select>
+                <span class="form-error" id="task-subscribers-error"></span>
                 <ul id="task-subscriber-list" class="list margin-top-small"></ul>
             </div>
 

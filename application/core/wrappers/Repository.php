@@ -58,7 +58,14 @@ abstract class Repository extends CI_Model {
             }
         }
 
-        return $this->db->insert($table_name, $object);
+        if($this->db->insert($table_name, $object))
+        {
+            return $this->db->insert_id();
+        }
+        else
+        {
+            return false;
+        }
     }
 
     protected function Delete($table_name, $column_name, $value)

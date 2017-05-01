@@ -14,20 +14,19 @@ class ValidationDataBuilder
 
     public function CheckString($name, $data)
     {
-        if($data === null)
+        if(strtolower(gettype($data)) !== "string") 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
-        }
-        else if(strtolower(gettype($data)) !== "string") 
-        {
-            $this->valid        = false;
-            $this->array[$name] = sprintf("Incorrect data type for %s", $name);
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
         }
         else if(strlen($data) === 0) 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
         }
     }
 
@@ -36,82 +35,99 @@ class ValidationDataBuilder
         if($data1 !== $data2) 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Not equal %s", $name);
+            $this->array[$name] = sprintf(
+                "Not equal %s", StringHelper::UnmakeIndex($name)
+            );
         }
     }
 
     public function CheckEmail($name, $email)
     {
-        if($email === null)
+        if(strtolower(gettype($email)) !== "string") 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
-        }
-        else if(strtolower(gettype($email)) !== "string") 
-        {
-            $this->valid        = false;
-            $this->array[$name] = sprintf("Incorrect data type for %s", $name);
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
         }
         else if(strlen($email) === 0) 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
         }
         else if(!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Invalid %s", $name);
+            $this->array[$name] = sprintf(
+                "Invalid %s", StringHelper::UnmakeIndex($name)
+            );
         }
     }
 
     public function CheckDecimal($name, $value)
     {
-        if(!filter_var($value, FILTER_VALIDATE_FLOAT))
+        if(strtolower(gettype($value)) !== "string") 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Invalid %s", $name);
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
+        }
+        else if(strlen($value) === 0) 
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
+        }
+        else if(!filter_var($value, FILTER_VALIDATE_FLOAT))
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Invalid %s", StringHelper::UnmakeIndex($name)
+            );
         }
     }
 
     public function CheckArray($name, $value)
     {
-        if($value === null)
+        if(strtolower(gettype($value)) !== "array")
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
-        }
-        else if(strtolower(gettype($value)) !== "array")
-        {
-            $this->valid        = false;
-            $this->array[$name] = sprintf("Incorrect data type for %s", $name);
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
         }
         else if(sizeof($value) === 0)
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
         }
     }
 
     public function CheckDate($name, $value)
     {
-        if($value === null)
+        if(strtolower(gettype($value)) !== "string") 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
-        }
-        else if(strtolower(gettype($value)) !== "string") 
-        {
-            $this->valid        = false;
-            $this->array[$name] = sprintf("Incorrect data type for %s", $name);
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
         }
         else if(strlen($value) === 0) 
         {
             $this->valid        = false;
-            $this->array[$name] = sprintf("Empty %s", $name);
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
         }
 
         $is_valid = filter_var(
-            preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $value), 
+            preg_match("/[0-9]{4}-[0-1][0-9]-[0-3][0-9]/", $value), 
             FILTER_VALIDATE_BOOLEAN
         );
 
@@ -119,8 +135,26 @@ class ValidationDataBuilder
         {
             $this->valid        = false;
             $this->array[$name] = sprintf(
-                "Malformed date for %s. Should have 0000-00-00 format.", 
-                $name
+                "Malformed date for %s. Should have YYYY-MM-DD format.", 
+                StringHelper::UnmakeIndex($name)
+            );
+        }
+    }
+
+    public function CheckInteger($name, $value)
+    {
+        if($value === null)
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
+        }
+        else if(!filter_var($value, FILTER_VALIDATE_INT))
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Invalid %s", StringHelper::UnmakeIndex($name)
             );
         }
     }

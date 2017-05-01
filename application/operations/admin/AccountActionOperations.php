@@ -22,7 +22,10 @@ class AccountActionOperations
 
         foreach($input_data as $name => $value) 
         {
-            $validation->CheckString($name, $value);
+            if(strtolower(gettype($value)) === "string")
+            {
+                $validation->CheckString($name, $value);
+            }
         }
         
         return array(

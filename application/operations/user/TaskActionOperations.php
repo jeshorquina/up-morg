@@ -2,11 +2,16 @@
 namespace Jesh\Operations\User;
 
 use \Jesh\Helpers\Sort;
+use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\ValidationDataBuilder;
+
+use \Jesh\Models\TaskModel;
+use \Jesh\Models\TaskSubscriberModel;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
 use \Jesh\Operations\Repository\Member;
+use \Jesh\Operations\Repository\Task;
 
 class TaskActionOperations
 {
@@ -19,20 +24,15 @@ class TaskActionOperations
         $this->batch_member = new BatchMember;
         $this->committee = new Committee;
         $this->member = new Member;
+        $this->task = new Task;
     }
 
     public function GetFrontmanAddTaskPageDetails($batch_id, $frontman_id)
     {
         $frontmen = array(
-            $this->member->GetMemberTypeID(
-                Member::FIRST_FRONTMAN
-            ),
-            $this->member->GetMemberTypeID(
-                Member::SECOND_FRONTMAN
-            ),
-            $this->member->GetMemberTypeID(
-                Member::THIRD_FRONTMAN
-            )
+            $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
         );
 
         foreach($this->batch_member->GetBatchMembers($batch_id) as $member)
@@ -149,25 +149,30 @@ class TaskActionOperations
     {
         $validation = new ValidationDataBuilder;
 
-        foreach($input_data as $name => $value) 
-        {
-            if($name == "subscribers")
-            {
-                $validation->CheckArray($name, $value);
-            }
-            else if($name == "deadline")
-            {
-                $validation->CheckDate($name, $value);
-            }
-            else
-            {
-                $validation->CheckString($name, $value);
-            }
-        }
-        
+        $validation->CheckString(
+            "task-title", $input_data["task-title"]
+        );
+        $validation->CheckString(
+            "task-description", $input_data["task-description"]
+        );
+        $validation->CheckArray(
+            "task-subscribers", $input_data["task-subscribers"]
+        );
+        $validation->CheckDate(
+            "task-deadline", $input_data["task-deadline"]
+        );
+        $validation->CheckInteger(
+            "task-assignee", $input_data["task-assignee"]
+        );
+
         return array(
-            "status" => $validation->GetStatus(),
-            "data"   => $validation->GetValidationData()
+            "status"  => $validation->GetStatus(),
+            "message" => array(
+                "message" => StringHelper::NoBreakString(
+                    "There are validation errors. Please check input data."
+                ),
+                "data" => $validation->GetValidationData()
+            )
         );
     }
 
@@ -186,44 +191,66 @@ class TaskActionOperations
         );
     }
 
+    public function AreSubscribersSubordinates($subscribers, $get_details)
+    {
+        $subordinates = array();
+        foreach($get_details["members"] as $member)
+        {
+            $subordinates[] = $member["id"];
+        }
+
+        foreach($subscribers as $subscriber)
+        {
+            if(!in_array($subscriber, $subordinates))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function IsAssigneeSubordinate($assignee, $get_details)
+    {
+        foreach($get_details["members"] as $member)
+        {
+            if($assignee == $member["id"])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function AddTask(
         $title, $description, $deadline, $reporter, $assignee, $subscribers
     )
     {
-        /*
-        $initial_status = $this->task->GetTaskStatusID(Task::TODO);
-
-        $id = $this->task->AddTask(
+        $task_id = $this->task->AddTask(
             new TaskModel(
                 array(
-                    "TaskStatus"      => $initial_status,
-                    "Reporter"        => $reporter,
-                    "Assignee"        => $assignee,
-                    "TaskTitle"       => $title,
+                    "TaskStatusID" => $this->task->GetTaskStatusID(Task::TODO),
+                    "Reporter" => $reporter,
+                    "Assignee" => $assignee,
+                    "TaskTitle" => $title,
                     "TaskDescription" => $description,
-                    "TaskDeadline"    => $deadline,
+                    "TaskDeadline" => $deadline
                 )
             )
         );
 
-        $is_valid = true;
         foreach($subscribers as $subscriber)
         {
-            if($is_valid)
-            {
-                $is_valid = $this->task->AddSubscribers(
-                    new TaskSubscriberModel(
-                        array(
-                            "TaskID" => $id,
-                            "BatchMemberID" => $subscriber
-                        )
+            $this->task->AddSubscriber(
+                new TaskSubscriberModel(
+                    array(
+                        "TaskID"        => $task_id,
+                        "BatchMemberID" => $subscriber
                     )
-                );
-            }
+                )
+            );
         }
 
-        return $is_valid;
-        */
+        return true;
     }
 
     private function GetMemberName($member_id)

@@ -59,7 +59,7 @@ class MemberActionOperations
             {
                 $validation->CheckEmail($name, $value);
             }
-            else 
+            else if(strtolower(gettype($value)) === "string")
             {
                 $validation->CheckString($name, $value);
             }

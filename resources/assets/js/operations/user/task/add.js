@@ -1,5 +1,5 @@
 (function (
-  DomHelper, HttpHelper, UrlHelper, AlertFactory,
+  DomHelper, HttpHelper, StringHelper, UrlHelper, AlertFactory,
   TaskAddFactory, TaskAddOperations
 ) {
 
@@ -112,12 +112,9 @@
     status, responseText, controllerCallback
   ) {
 
-    alert(responseText);
-
-    return;
-
     var response = JSON.parse(responseText);
 
+    ResetFormValidation();
     window.scrollTo(0, 0);
 
     if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
@@ -139,6 +136,17 @@
       AlertFactory.GenerateSuccessAlert(
         document.getElementById("notifications"), response.message
       );
+    }
+    else if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
+
+      AlertFactory.GenerateDangerAlert(
+        document.getElementById("notifications"), response.message
+      );
+
+      Object.keys(response.data).forEach(function (id) {
+        DomHelper.AddClass(id, "form-input-error");
+        DomHelper.InsertContent(id + "-error", response.data[id]);
+      });
     }
     else {
 
@@ -249,8 +257,19 @@
     });
   }
 
+  function ResetFormValidation() {
+    [
+      'task-title', 'task-description', 'task-deadline', 'task-assignee',
+      'task-subscribers'
+    ].forEach(function (value) {
+      DomHelper.RemoveClass(value, "form-input-error");
+      DomHelper.ClearContent(value + "-error");
+    });
+  }
+
 })(
-  DomHelper, HttpHelper, UrlHelper, AlertFactory, TaskAddFactory,
+  DomHelper, HttpHelper, StringHelper, UrlHelper,
+  AlertFactory, TaskAddFactory,
   this.TaskAddOperations = (
     this.TaskAddOperations == undefined
   ) ? {} : this.TaskAddOperations

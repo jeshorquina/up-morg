@@ -120,17 +120,17 @@ class TaskActionController extends Controller
 
         $validation = $this->operations->ValidateAddTaskData(
             array(
-                "title"       => $title,
-                "description" => $description,
-                "deadline"    => $deadline,
-                "assignee"    => $assignee,
-                "subscribers" => $subscribers,
+                "task-title"       => $title,
+                "task-description" => $description,
+                "task-deadline"    => $deadline,
+                "task-assignee"    => $assignee,
+                "task-subscribers" => $subscribers,
             )
         );
 
         if($validation["status"] === false)
         {
-            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["data"]);
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
         else if(!$this->operations->IsTaskDeadlineValid($deadline))
         {
@@ -138,31 +138,6 @@ class TaskActionController extends Controller
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
                         "Task deadline cannot be in the past!"
-                    )
-                )
-            );
-        }
-        else if(!$this->operations->IsSubscriberArrayValid(
-            $subscribers, $assignee, $reporter
-        ))
-        {
-            Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Subscriber list is malformed!"
-                    )
-                )
-            );
-        }
-        else if(!$this->operations->AddTask(
-            $title, $description, $deadline, $reporter, $assignee, $subscribers
-        ))
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Something wnet wrong. Could not add task. Please
-                        try again."
                     )
                 )
             );
@@ -189,6 +164,54 @@ class TaskActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Could not prepare availability page details. 
                         Please refresh browser."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Assignee is a non-subordinate! Assignee should be a 
+                        subordinate."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsSubscriberArrayValid(
+            $subscribers, $assignee, $reporter
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Subscriber list is malformed!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AreSubscribersSubordinates(
+            $subscribers, $details
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Subscriber list contain non-subordinates!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AddTask(
+            $title, $description, $deadline, $reporter, $assignee, $subscribers
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Could not add task. Please
+                        try again."
                     )
                 )
             );

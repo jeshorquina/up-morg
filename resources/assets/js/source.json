@@ -178,6 +178,7 @@
             "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/stringHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/factories/user/task/add.js",

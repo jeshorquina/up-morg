@@ -193,7 +193,7 @@ class LoggedOutActionOperations
             {
                 $validation->CheckEmail($name, $value);
             }
-            else
+            if(strtolower(gettype($value)) === "string")
             {
                 $validation->CheckString($name, $value);
             }
