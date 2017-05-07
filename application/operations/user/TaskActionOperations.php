@@ -1233,8 +1233,9 @@ class TaskActionOperations
     private function CheckParentTaskValid($task)
     {
         return (
+            !$this->task->HasParentTask($task->TaskID) &&
             $this->IsTaskDeadlineValid($task->TaskDeadline) &&
-            !$this->task->HasParentTask($task->TaskID)
+            $this->task->GetTaskStatus($task->TaskStatusID) !== Task::DONE
         );
     }
 

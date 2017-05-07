@@ -18,7 +18,7 @@ class Task
     const FOR_REVIEW = "For Review";
     const NEEDS_CHANGES = "Needs Changes";
     const ACCEPTED = "Accepted";
-    const DONE = "DOne";
+    const DONE = "Done";
 
     private $repository;
 
