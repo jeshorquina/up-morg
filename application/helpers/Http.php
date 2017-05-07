@@ -10,6 +10,7 @@ class Http
     const CREATED               = 201;
     const FOUND                 = 302;
     const FORBIDDEN             = 403;
+    const NOT_FOUND             = 404;
     const UNPROCESSABLE_ENTITY  = 422;
     const INTERNAL_SERVER_ERROR = 500;
 

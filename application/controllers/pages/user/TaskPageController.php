@@ -28,7 +28,7 @@ class TaskPageController extends Controller
         Url::Redirect("task/view");
     }
 
-    public function ViewOpenTasksPage()
+    public function ViewTaskListPage()
     {
         if(PageRenderer::HasTaskPageAccess()) 
         {
@@ -44,6 +44,34 @@ class TaskPageController extends Controller
             self::SetBody("user/task/view.html.inc");
             self::RenderView(
                 PageRenderer::GetUserPageData("task-view", $other_details)
+            );
+        }
+    }
+
+    public function ViewTaskDetailsPage($task_id)
+    {
+        if(PageRenderer::HasTaskDetailsPageAccess($task_id)) 
+        {
+            $other_details = array(
+            Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Task Manager",
+                        "urls" => array(
+                            "task_page" => Url::GetBaseURL("task/view")
+                        ),
+                        "details" => array(
+                            "task_id" => $task_id
+                        )
+                    )
+                ),
+            );
+
+            self::SetBody("user/task/view/details.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "task-view-details", $other_details
+                )
             );
         }
     }

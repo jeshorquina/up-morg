@@ -5,22 +5,54 @@ class UserSession
 {
     public static function GetBatchID()
     {
-        return self::GetSessionData()["batch"]["id"];
+        $batch = self::GetSessionData()["batch"];
+        if(array_key_exists("id", $batch))
+        {
+            return $batch["id"];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static function GetCommitteeID()
     {
-        return self::GetSessionData()["committee"]["id"];
+        $committee = self::GetSessionData()["committee"];
+        if(array_key_exists("id", $committee))
+        {
+            return $committee["id"];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static function GetBatchMemberID()
     {
-        return self::GetSessionData()["batch"]["member_id"];
+        $batch = self::GetSessionData()["batch"];
+        if(array_key_exists("member_id", $batch))
+        {
+            return $batch["member_id"];
+        }
+        else
+        {
+            return false;
+        }
     }
     
     public static function GetMemberTypeID()
     {
-        return self::GetSessionData()["batch"]["member_type_id"];
+        $batch = self::GetSessionData()["batch"];
+        if(array_key_exists("member_type_id", $batch))
+        {
+            return $batch["member_type_id"];
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public static function IsFirstFrontman()
@@ -63,8 +95,8 @@ class UserSession
         {
             Http::Response(
                 Http::FOUND,
-                "Successfully logged out.",
-                "Location: " . base_url()
+                "Session data expired.",
+                "Location: " . base_url('action/logout')
             );
         }
     }

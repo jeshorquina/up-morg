@@ -81,6 +81,12 @@
     return el;
   }
 
+  DomHelper.RemoveElement = function (element) {
+
+    element = mutateEl(element);
+    element.outerHTML = "";
+  }
+
   function appendHTML(element, addition) {
 
     element = mutateEl(element);

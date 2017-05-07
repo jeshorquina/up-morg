@@ -5,6 +5,8 @@ use \Jesh\Core\Wrappers\Controller;
 
 use \Jesh\Helpers\Http;
 use \Jesh\Helpers\StringHelper;
+use \Jesh\Helpers\Upload;
+use \Jesh\Helpers\Url;
 use \Jesh\Helpers\UserSession;
 
 use \Jesh\Operations\User\TaskActionOperations;
@@ -58,7 +60,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare availability page details. 
+                        "Could not prepare task page details. 
                         Please refresh browser."
                     )
                 )
@@ -69,7 +71,371 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::OK, array(
                     "message" => StringHelper::NoBreakString(
-                        "Availability page details successfully processed."
+                        "Task page details successfully processed."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function GetViewTaskDetailsPageDetails($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanTaskDetailsPageDetails(
+                $task, $batch_member_id, UserSession::GetBatchID(),
+                UserSession::IsFirstFrontman()
+            );
+        }
+        else 
+        {
+            $details = (
+                $this->operations->GetCommitteeTaskDetailsPageDetails(
+                    $task, $batch_member_id
+                )
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare task details page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Task details page details successfully processed."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function AddTaskComment($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+
+        $task_comment = Http::Request(Http::POST, "task-comment");
+
+        if(!$this->operations->AddTaskComment(
+            $task_id, $task_comment, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Task comment not added. Please
+                        Try again."
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanTaskDetailsPageDetails(
+                $task, $batch_member_id, UserSession::GetBatchID(),
+                UserSession::IsFirstFrontman()
+            );
+        }
+        else 
+        {
+            $details = (
+                $this->operations->GetCommitteeTaskDetailsPageDetails(
+                    $task, $batch_member_id
+                )
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare task details page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Task comment successfully added."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function DeleteTask($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->HasTaskAccess($task_id, $batch_member_id))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanModifyTask(
+            $task_id, $batch_member_id, UserSession::GetBatchID(),
+            UserSession::IsFirstFrontman()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have delete access for this task!"
+                    )
+                )
+            );
+        }
+
+        if(!$this->operations->DeleteTask($task_id))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "SOmething went wrong. Could not delete task. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => "Successfully deleted task!",
+                    "redirect_url" => Url::GetBaseURL("task/view")
+                )
+            );
+        }
+    }
+
+    public function SubmitTask($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanSubmitTask($task, $batch_member_id))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have submit access for this task!"
+                    )
+                )
+            );
+        }
+
+        $status_id = Http::Request(Http::POST, "task-status");
+        $submit_text = Http::Request(Http::POST, "task-submission-text");
+
+        $upload = new Upload;
+        if($this->operations->CanUpload($status_id))
+        {
+            if(!$upload->UploadFile("task-submission-file"))
+            {
+                $upload = null;
+            }
+        }
+        else
+        {
+            $upload = null;
+        }
+
+        if(!$task = $this->operations->SubmitTask(
+            $task_id, $status_id, $upload, $submit_text
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Could not submit task. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanTaskDetailsPageDetails(
+                $task, $batch_member_id, UserSession::GetBatchID(),
+                UserSession::IsFirstFrontman()
+            );
+        }
+        else 
+        {
+            $details = (
+                $this->operations->GetCommitteeTaskDetailsPageDetails(
+                    $task, $batch_member_id
+                )
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare task details page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Successfully changed task status."
                     ),
                     "data" => $details
                 )
@@ -116,7 +482,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare availability page details. 
+                        "Could not prepare add task page details. 
                         Please refresh browser."
                     )
                 )
@@ -127,7 +493,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::OK, array(
                     "message" => StringHelper::NoBreakString(
-                        "Availability page details successfully processed."
+                        "Add task page details successfully processed."
                     ),
                     "data" => $details
                 )

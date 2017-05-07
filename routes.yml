@@ -206,7 +206,12 @@
 'task/view':
     directory: pages/user
     controller: TaskPageController
-    function: ViewOpenTasksPage
+    function: ViewTaskListPage
+'task/view/details':
+    directory: pages/user
+    controller: TaskPageController
+    function: ViewTaskDetailsPage
+    parameter: number
 'task/add':
     directory: pages/user
     controller: TaskPageController
@@ -293,6 +298,26 @@
     directory: api/user
     controller: TaskActionController
     function: GetViewTaskPageDetails
+'action/task/view/details':
+    directory: api/user
+    controller: TaskActionController
+    function: GetViewTaskDetailsPageDetails
+    parameter: number
+'action/task/view/details/(:num)/comment/add':
+    directory: api/user
+    controller: TaskActionController
+    function: AddTaskComment
+    parent: number
+'action/task/view/details/(:num)/delete':
+    directory: api/user
+    controller: TaskActionController
+    function: DeleteTask
+    parent: number
+'action/task/view/details/(:num)/submit':
+    directory: api/user
+    controller: TaskActionController
+    function: SubmitTask
+    parent: number
 'action/task/add':
     directory: api/user
     controller: TaskActionController

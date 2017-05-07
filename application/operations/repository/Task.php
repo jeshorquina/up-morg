@@ -4,6 +4,7 @@ namespace Jesh\Operations\Repository;
 use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\TaskModel;
+use \Jesh\Models\TaskCommentModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
@@ -12,6 +13,7 @@ use \Jesh\Repository\TaskRepository;
 class Task
 {
     const TODO = "To Do";
+    const IN_PROGRESS = "In Progress";
 
     private $repository;
 
@@ -74,6 +76,75 @@ class Task
         return $task[0]["ParentTaskID"];
     }
 
+    public function GetChildrenTaskIDs($task_id)
+    {
+        $ids = array();
+        foreach($this->repository->GetChildrenTaskIDs($task_id) as $task)
+        {
+            $ids[] = $task["ChildTaskID"];
+        }
+        return $ids;
+    }
+
+    public function GetTaskCommentsByTaskID($task_id)
+    {
+        $comments = array();
+        foreach(
+            $this->repository->GetTaskCommentsByTaskID($task_id) as $comment
+        )
+        {
+            $comments[] = new TaskCommentModel($comment);
+        }
+        return $comments;
+    }
+
+    public function GetTaskSubscriber($task_subscriber_id)
+    {
+        $task_subscriber = $this->repository->GetTaskSubscriber(
+            $task_subscriber_id
+        );
+
+        if(!$task_subscriber)
+        {
+            throw new \Exception("Cound not find task subscriber in the database");
+        }
+
+        return new TaskSubscriberModel($task_subscriber[0]);
+    }
+
+    public function GetTaskSubscriberID($task_id, $batch_member_id)
+    {
+        $task_subscriber = $this->repository->GetTaskSubscriberID(
+            $task_id, $batch_member_id
+        );
+
+        if(!$task_subscriber)
+        {
+            throw new \Exception(
+                sprintf(
+                    StringHelper::NoBreakString(
+                        "Cound not find task subscriber with task id = %s and 
+                        batch member id = %s in the database"
+                    ), $task_id, $batch_member_id
+                )
+            );
+        }
+
+        return $task_subscriber[0]["TaskSubscriberID"];
+    }
+
+    public function GetTaskSubscribersByTaskID($task_id)
+    {
+        $subscribers = array();
+
+        $db_subs = $this->repository->GetTaskSubscribersByTaskID($task_id);
+        foreach($db_subs as $subscriber)
+        {
+            $subscribers[] = $subscriber["BatchMemberID"];
+        }
+        return $subscribers;
+    }
+
     public function GetTaskStatusID($name)
     {
         $is_found = $this->repository->GetTaskStatusID($name);
@@ -88,6 +159,28 @@ class Task
         }
 
         return $is_found[0]["TaskStatusID"];
+    }
+
+    public function GetTaskStatus($task_status_id)
+    {
+        $is_found = $this->repository->GetTaskStatus($task_status_id);
+    
+        if(!$is_found)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cound not find task status with id = `%s` in the database.",
+                    $task_status_id
+                )
+            );
+        }
+
+        return $is_found[0]["Name"];
+    }
+
+    public function HasTask($task_id)
+    {
+        return ($this->repository->GetTask($task_id)) ? true : false;
     }
 
     public function HasParentTask($task_id)
@@ -138,5 +231,47 @@ class Task
         }
 
         return $is_added;
+    }
+
+    public function AddComment(TaskCommentModel $comment)
+    {
+        $is_added = $this->repository->AddComment($comment);
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Cound not add task comment to the database."
+            );
+        }
+
+        return $is_added;
+    }
+
+    public function UpdateTaskStatus($task_id, TaskModel $task)
+    {
+        $is_updated = $this->repository->UpdateTaskStatus($task_id, $task);
+
+        if(!$is_updated)
+        {
+            throw new \Exception(
+                "Cound not update task status from the database."
+            );
+        }
+
+        return $is_updated;
+    }
+
+    public function DeleteTask($task_id)
+    {
+        $is_deleted = $this->repository->DeleteTask($task_id);
+
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                "Cound not delete task from the database."
+            );
+        }
+
+        return $is_deleted;
     }
 }

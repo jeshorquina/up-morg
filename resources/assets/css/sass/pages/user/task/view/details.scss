@@ -1,0 +1,38 @@
+@import "../../../../base/variables.scss";
+
+.task-status {
+    font-size: 0.8rem;
+}
+
+.task-comment {
+    border-left: 3px solid darken($color-border, 20%);
+    margin-left: 0.5rem;
+    padding: 0.25rem 0 0 0.5rem;
+}
+
+ul.list {
+    font-size: 0.9rem;
+
+    li {
+
+        .label {
+            font-size: 0.7rem;
+        }
+
+        .align-middle {
+            display: table;
+            height: 100%;
+
+            & .cell {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+
+        &.hover {
+            &:hover, &:focus {
+                background-color: lighten($color-border, 10%) !important;
+            }
+        }
+    }
+}

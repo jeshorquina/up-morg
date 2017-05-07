@@ -11,6 +11,10 @@
     });
   }
 
+  TaskViewOperations.ViewTaskDetails = function (source, taskID) {
+    UrlHelper.Redirect(source + "task/view/details/" + taskID);
+  }
+
   function RenderTaskViewCallback(status, responseText, controllerCallback) {
 
     var response = JSON.parse(responseText);

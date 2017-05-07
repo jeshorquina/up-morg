@@ -6,6 +6,7 @@ use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\TaskModel;
+use \Jesh\Models\TaskCommentModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
@@ -39,129 +40,29 @@ class TaskActionOperations
         $assigned_tasks = array();
         foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
         {
-            $temp_task = array(
-                "id" => $task->TaskID,
-                "title" => $task->TaskTitle,
-                "description" => $task->TaskDescription,
-                "deadline" => $task->TaskDeadline,
-                "reporter" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Reporter)
-                ),
-                "assignee" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Assignee)
-                )
-            );
-
-            if($this->task->HasParentTask($task->TaskID))
-            {
-                $temp_task["parent"] = (
-                    $this->task->GetParentTaskID($task->TaskID)
-                );
-            }
-            else 
-            {
-                $temp_task["parent"] = null;
-            }
-
-            $assigned_tasks[] = $temp_task;
+            $assigned_tasks[] = $this->MutateTaskDetails($task);
             $task_ids[] = $task->TaskID;
         }
-
-        $tasks[] = array(
-            "name" => "Assigned Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $assigned_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $reported_tasks = array();
         foreach($this->task->GetReportedTasks($batch_member_id) as $task)
         {
             if(!in_array($task->TaskID, $task_ids))
             {
-                $temp_task = array(
-                    "id" => $task->TaskID,
-                    "title" => $task->TaskTitle,
-                    "description" => $task->TaskDescription,
-                    "deadline" => $task->TaskDeadline,
-                    "reporter" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Reporter)
-                    ),
-                    "assignee" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Assignee)
-                    )
-                );
-
-                if($this->task->HasParentTask($task->TaskID))
-                {
-                    $temp_task["parent"] = (
-                        $this->task->GetParentTaskID($task->TaskID)
-                    );
-                }
-                else 
-                {
-                    $temp_task["parent"] = null;
-                }
-
-                $reported_tasks[] = $temp_task;
+                $reported_tasks[] = $this->MutateTaskDetails($task);
                 $task_ids[] = $task->TaskID;
             }
         }
-
-        $tasks[] = array(
-            "name" => "Reported Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $reported_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $subscribed_tasks = array();
         foreach($this->task->GetSubscribedTaskIDs($batch_member_id) as $task)
         {
             if(!in_array($task->TaskID, $task_ids))
             {
-                 $temp_task = array(
-                    "id" => $task->TaskID,
-                    "title" => $task->TaskTitle,
-                    "description" => $task->TaskDescription,
-                    "deadline" => $task->TaskDeadline,
-                    "reporter" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Reporter)
-                    ),
-                    "assignee" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Assignee)
-                    )
-                );
-
-                if($this->task->HasParentTask($task->TaskID))
-                {
-                    $parent = $this->task->GetParentTaskID($task->TaskID);
-
-                    if($this->task->IsTaskSubscriber($parent, $batch_member_id))
-                    {
-                        $temp_task["parent"] = $parent;
-                    }
-                    else
-                    {
-                        $temp_task["parent"] = null;
-                    }
-                }
-                else 
-                {
-                    $temp_task["parent"] = null;
-                }
-
-                $subscribed_tasks[] = $temp_task;
+                $subscribed_tasks[] = $this->MutateTaskDetails($task);
                 $task_ids[] = $task->TaskID;
             }
         }
-
-        $tasks[] = array(
-            "name" => "Subscribed Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $subscribed_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $frontmen = array(
             $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
@@ -180,7 +81,9 @@ class TaskActionOperations
 
         $scoped_committees = (
             $this->committee->GetCommitteePermissionCommitteeIDs(
-                $batch_id, $this->batch_member->GetMemberTypeID($batch_member_id)
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
             )
         );
 
@@ -199,77 +102,50 @@ class TaskActionOperations
             {
                 if(!in_array($task->TaskID, $task_ids))
                 {
-                    $temp_task = array(
-                        "id" => $task->TaskID,
-                        "title" => $task->TaskTitle,
-                        "description" => $task->TaskDescription,
-                        "deadline" => $task->TaskDeadline,
-                        "reporter" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Reporter)
-                        ),
-                        "assignee" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Assignee)
-                        )
-                    );
-
-                    if($this->task->HasParentTask($task->TaskID))
-                    {
-                        $temp_task["parent"] = (
-                            $this->task->GetParentTaskID($task->TaskID)
-                        );
-                    }
-                    else 
-                    {
-                        $temp_task["parent"] = null;
-                    }
-
-                    $other_tasks[] = $temp_task;
+                    $other_tasks[] = $this->MutateTaskDetails($task);
                     $task_ids[] = $task->TaskID;
                 }
             }
 
             foreach($this->task->GetReportedTasks($batch_member_id) as $task)
             {
-                if(!in_array($task->TaskID, $task_ids))
+                if(
+                    !in_array($task->TaskID, $task_ids) && 
+                    in_array($task->Assignee, $batch_member_ids)
+                )
                 {
-                    $temp_task = array(
-                        "id" => $task->TaskID,
-                        "title" => $task->TaskTitle,
-                        "description" => $task->TaskDescription,
-                        "deadline" => $task->TaskDeadline,
-                        "reporter" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Reporter)
-                        ),
-                        "assignee" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Assignee)
-                        )
-                    );
-
-                    if($this->task->HasParentTask($task->TaskID))
-                    {
-                        $temp_task["parent"] = (
-                            $this->task->GetParentTaskID($task->TaskID)
-                        );
-                    }
-                    else 
-                    {
-                        $temp_task["parent"] = null;
-                    }
-
-                    $other_tasks[] = $temp_task;
+                    $other_tasks[] = $this->MutateTaskDetails($task);
                     $task_ids[] = $task->TaskID;
                 }
             }
         }
 
-        $tasks[] = array(
-            "name" => "Other Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $other_tasks, "deadline", Sort::ASCENDING
+        return array(
+            array(
+                "name" => "Assigned Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $assigned_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Reported Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $reported_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Subscribed Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $subscribed_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Other Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $other_tasks, "deadline", Sort::ASCENDING
+                )
             )
         );
-
-        return $tasks;
     }
 
     public function GetCommitteeHeadViewTaskPageDetails(
@@ -282,129 +158,29 @@ class TaskActionOperations
         $assigned_tasks = array();
         foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
         {
-            $temp_task = array(
-                "id" => $task->TaskID,
-                "title" => $task->TaskTitle,
-                "description" => $task->TaskDescription,
-                "deadline" => $task->TaskDeadline,
-                "reporter" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Reporter)
-                ),
-                "assignee" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Assignee)
-                )
-            );
-
-            if($this->task->HasParentTask($task->TaskID))
-            {
-                $temp_task["parent"] = (
-                    $this->task->GetParentTaskID($task->TaskID)
-                );
-            }
-            else 
-            {
-                $temp_task["parent"] = null;
-            }
-
-            $assigned_tasks[] = $temp_task;
+            $assigned_tasks[] = $this->MutateTaskDetails($task);
             $task_ids[] = $task->TaskID;
         }
-
-        $tasks[] = array(
-            "name" => "Assigned Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $assigned_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $reported_tasks = array();
         foreach($this->task->GetReportedTasks($batch_member_id) as $task)
         {
             if(!in_array($task->TaskID, $task_ids))
             {
-                $temp_task = array(
-                    "id" => $task->TaskID,
-                    "title" => $task->TaskTitle,
-                    "description" => $task->TaskDescription,
-                    "deadline" => $task->TaskDeadline,
-                    "reporter" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Reporter)
-                    ),
-                    "assignee" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Assignee)
-                    )
-                );
-
-                if($this->task->HasParentTask($task->TaskID))
-                {
-                    $temp_task["parent"] = (
-                        $this->task->GetParentTaskID($task->TaskID)
-                    );
-                }
-                else 
-                {
-                    $temp_task["parent"] = null;
-                }
-
-                $reported_tasks[] = $temp_task;
+                $reported_tasks[] = $this->MutateTaskDetails($task);
                 $task_ids[] = $task->TaskID;
             }
         }
-
-        $tasks[] = array(
-            "name" => "Reported Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $reported_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $subscribed_tasks = array();
         foreach($this->task->GetSubscribedTaskIDs($batch_member_id) as $task)
         {
             if(!in_array($task->TaskID, $task_ids))
             {
-                 $temp_task = array(
-                    "id" => $task->TaskID,
-                    "title" => $task->TaskTitle,
-                    "description" => $task->TaskDescription,
-                    "deadline" => $task->TaskDeadline,
-                    "reporter" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Reporter)
-                    ),
-                    "assignee" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Assignee)
-                    )
-                );
-
-                if($this->task->HasParentTask($task->TaskID))
-                {
-                    $parent = $this->task->GetParentTaskID($task->TaskID);
-
-                    if($this->task->IsTaskSubscriber($parent, $batch_member_id))
-                    {
-                        $temp_task["parent"] = $parent;
-                    }
-                    else
-                    {
-                        $temp_task["parent"] = null;
-                    }
-                }
-                else 
-                {
-                    $temp_task["parent"] = null;
-                }
-
-                $subscribed_tasks[] = $temp_task;
+                $subscribed_tasks[] = $this->MutateTaskDetails($task);
                 $task_ids[] = $task->TaskID;
             }
         }
-
-        $tasks[] = array(
-            "name" => "Subscribed Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $subscribed_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $batch_member_ids = (
             $this->committee->GetApprovedBatchMemberIDs($committee_id)
@@ -417,31 +193,7 @@ class TaskActionOperations
             {
                 if(!in_array($task->TaskID, $task_ids))
                 {
-                    $temp_task = array(
-                        "id" => $task->TaskID,
-                        "title" => $task->TaskTitle,
-                        "description" => $task->TaskDescription,
-                        "deadline" => $task->TaskDeadline,
-                        "reporter" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Reporter)
-                        ),
-                        "assignee" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Assignee)
-                        )
-                    );
-
-                    if($this->task->HasParentTask($task->TaskID))
-                    {
-                        $temp_task["parent"] = (
-                            $this->task->GetParentTaskID($task->TaskID)
-                        );
-                    }
-                    else 
-                    {
-                        $temp_task["parent"] = null;
-                    }
-
-                    $other_tasks[] = $temp_task;
+                    $other_tasks[] = $this->MutateTaskDetails($task);
                     $task_ids[] = $task->TaskID;
                 }
             }
@@ -450,44 +202,38 @@ class TaskActionOperations
             {
                 if(!in_array($task->TaskID, $task_ids))
                 {
-                    $temp_task = array(
-                        "id" => $task->TaskID,
-                        "title" => $task->TaskTitle,
-                        "description" => $task->TaskDescription,
-                        "deadline" => $task->TaskDeadline,
-                        "reporter" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Reporter)
-                        ),
-                        "assignee" => $this->GetMemberName(
-                            $this->batch_member->GetMemberID($task->Assignee)
-                        )
-                    );
-
-                    if($this->task->HasParentTask($task->TaskID))
-                    {
-                        $temp_task["parent"] = (
-                            $this->task->GetParentTaskID($task->TaskID)
-                        );
-                    }
-                    else 
-                    {
-                        $temp_task["parent"] = null;
-                    }
-
-                    $other_tasks[] = $temp_task;
+                    $other_tasks[] = $this->MutateTaskDetails($task);
                     $task_ids[] = $task->TaskID;
                 }
             }
         }
 
-        $tasks[] = array(
-            "name" => "Other Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $other_tasks, "deadline", Sort::ASCENDING
+        return array(
+            array(
+                "name" => "Assigned Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $assigned_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Reported Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $reported_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Subscribed Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $subscribed_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Other Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $other_tasks, "deadline", Sort::ASCENDING
+                )
             )
         );
-
-        return $tasks;
     }
 
     public function GetCommitteeMemberViewTaskPageDetails($batch_member_id)
@@ -498,90 +244,504 @@ class TaskActionOperations
         $assigned_tasks = array();
         foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
         {
-            $temp_task = array(
-                "id" => $task->TaskID,
-                "title" => $task->TaskTitle,
-                "description" => $task->TaskDescription,
-                "deadline" => $task->TaskDeadline,
-                "reporter" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Reporter)
-                ),
-                "assignee" => $this->GetMemberName(
-                    $this->batch_member->GetMemberID($task->Assignee)
-                )
-            );
-
-            if($this->task->HasParentTask($task->TaskID))
-            {
-                $temp_task["parent"] = (
-                    $this->task->GetParentTaskID($task->TaskID)
-                );
-            }
-            else 
-            {
-                $temp_task["parent"] = null;
-            }
-
-            $assigned_tasks[] = $temp_task;
+            $assigned_tasks[] = $this->MutateTaskDetails($task);
             $task_ids[] = $task->TaskID;
         }
-
-        $tasks[] = array(
-            "name" => "Assigned Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $assigned_tasks, "deadline", Sort::ASCENDING
-            )
-        );
 
         $subscribed_tasks = array();
         foreach($this->task->GetSubscribedTaskIDs($batch_member_id) as $task)
         {
             if(!in_array($task->TaskID, $task_ids))
             {
-                 $temp_task = array(
-                    "id" => $task->TaskID,
-                    "title" => $task->TaskTitle,
-                    "description" => $task->TaskDescription,
-                    "deadline" => $task->TaskDeadline,
-                    "reporter" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Reporter)
-                    ),
-                    "assignee" => $this->GetMemberName(
-                        $this->batch_member->GetMemberID($task->Assignee)
-                    )
-                );
-
-                if($this->task->HasParentTask($task->TaskID))
-                {
-                    $parent = $this->task->GetParentTaskID($task->TaskID);
-
-                    if($this->task->IsTaskSubscriber($parent, $batch_member_id))
-                    {
-                        $temp_task["parent"] = $parent;
-                    }
-                    else
-                    {
-                        $temp_task["parent"] = null;
-                    }
-                }
-                else 
-                {
-                    $temp_task["parent"] = null;
-                }
-
-                $subscribed_tasks[] = $temp_task;
+                $subscribed_tasks[] = $this->MutateTaskDetails($task);
                 $task_ids[] = $task->TaskID;
             }
         }
 
-        $tasks[] = array(
-            "name" => "Subscribed Tasks",
-            "tasks" => Sort::AssociativeArray(
-                $subscribed_tasks, "deadline", Sort::ASCENDING
+        return array(
+            array(
+                "name" => "Assigned Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $assigned_tasks, "deadline", Sort::ASCENDING
+                )
+            ),
+            array(
+                "name" => "Subscribed Tasks",
+                "tasks" => Sort::AssociativeArray(
+                    $subscribed_tasks, "deadline", Sort::ASCENDING
+                )
+            )
+        );
+    }
+
+    public function HasTask($task_id)
+    {
+        return $this->task->HasTask($task_id);
+    }
+
+    public function HasTaskAccess($task_id, $batch_member_id)
+    {
+        $task_object = $this->task->GetTask($task_id);
+
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return $task_object;
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return $task_object;
+        }
+
+        $member_type = $this->member->GetMemberType(
+            $this->batch_member->GetMemberTypeID(
+                $batch_member_id
+            )
+        );
+        if($member_type == Member::FIRST_FRONTMAN)
+        {
+            return $task_object;
+        }
+        else if(
+            $member_type == Member::SECOND_FRONTMAN || 
+            $member_type == Member::THIRD_FRONTMAN
+        )
+        {
+            $frontmen = array(
+                $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+                $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+                $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
+            );
+            $assignee_member_type = $this->batch_member->GetMemberTypeID(
+                $task_object->Assignee
+            );
+
+            if(in_array($assignee_member_type, $frontmen))
+            {
+                return $task_object;
+            }
+        
+            $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+                $task_object->Assignee
+            );
+            $scoped_committees = (
+                $this->committee->GetCommitteePermissionCommitteeIDs(
+                    $this->batch_member->GetBatchID($batch_member_id), 
+                    $this->batch_member->GetMemberTypeID($batch_member_id)
+                )
+            );
+
+            if(in_array($committee_id, $scoped_committees))
+            {
+                return $task_object;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if($member_type == Member::COMMITTEE_HEAD)
+        {
+            $frontmen = array(
+                Member::FIRST_FRONTMAN,
+                Member::SECOND_FRONTMAN,
+                Member::THIRD_FRONTMAN
+            );
+
+            $assignee_member_type = $this->member->GetMemberType(
+                $this->batch_member->GetMemberTypeID(
+                    $task_object->Assignee
+                )
+            );
+            if(in_array($assignee_member_type, $frontmen))
+            {
+                return false;
+            }
+
+            $assignee_committee_id = (
+                $this->committee->GetCommitteeIDByBatchMemberID(
+                    $task_object->Assignee
+                )
+            );
+            $head_committee_id = (
+                $this->committee->GetCommitteeIDByBatchMemberID(
+                    $batch_member_id
+                )
+            );
+            if($assignee_committee_id == $head_committee_id)
+            {
+                return $task_object;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if($this->task->IsTaskSubscriber($task_id, $batch_member_id))
+            {
+                return $task_object;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public function GetFrontmanTaskDetailsPageDetails(
+        $task_object, $batch_member_id, $batch_id, $is_first_front
+    )
+    {
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, true, true
+            );
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, true
+            );
+        }
+
+        $frontmen = array(
+            $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
+        );
+        $assignee_member_type = $this->batch_member->GetMemberTypeID(
+            $task_object->Assignee
+        );
+
+        if(in_array($assignee_member_type, $frontmen))
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, true
+            );
+        }
+
+        $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+            $task_object->Assignee
+        );
+        $scoped_committees = (
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
             )
         );
 
-        return $tasks;
+        if(in_array($committee_id, $scoped_committees))
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, true
+            );
+        }
+        else
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, false
+            );
+        }
+    }
+
+    public function GetCommitteeTaskDetailsPageDetails(
+        $task_object, $batch_member_id
+    )
+    {
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, true, true
+            );
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, true
+            );
+        }
+        else
+        {
+            return $this->GetTaskDetails(
+                $task_object, $batch_member_id, false, false
+            );
+        }
+    }
+
+    private function GetTaskDetails(
+        $task_object, $batch_member_id, $can_submit, $can_edit
+    )
+    {
+        return array(
+            "task" => array(
+                "details" => array(
+                    "id" => $task_object->TaskID,
+                    "title" => $task_object->TaskTitle,
+                    "description" => $task_object->TaskDescription,
+                    "deadline" => $task_object->TaskDeadline,
+                    "assignee" => $this->GetMemberName(
+                        $this->batch_member->GetMemberID($task_object->Assignee)
+                    ),
+                    "reporter" => $this->GetMemberName(
+                        $this->batch_member->GetMemberID($task_object->Reporter)
+                    ),
+                    "status" => array(
+                        "id" => $task_object->TaskStatusID,
+                        "name" => $this->task->GetTaskStatus(
+                            $task_object->TaskStatusID
+                        )
+                    )
+                ),
+                "parent" => $this->GetParentTask($task_object->TaskID),
+                "children" => $this->GetChildrenTasks($task_object->TaskID),
+                "comments" => $this->GetTaskComments($task_object->TaskID),
+                "flags" => array(
+                    "submit" => $can_submit,
+                    "edit" => $can_edit
+                )
+            )
+        );
+    }
+
+    private function GetParentTask($task_id)
+    {
+        if($this->task->HasParentTask($task_id))
+        {
+            $parent = $this->task->GetTask(
+                $this->task->GetParentTaskID($task_id)
+            );
+            return array(
+                "id" => $parent->TaskID,
+                "title" => $parent->TaskTitle
+            );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private function GetChildrenTasks($task_id)
+    {
+        $tasks = array();
+        foreach($this->task->GetChildrenTaskIDs($task_id) as $task_id)
+        {
+            $child = $this->task->GetTask($task_id);
+
+            $tasks[] = array(
+                "id" => $child->TaskID,
+                "title" => $child->TaskTitle,
+                "status" => $this->task->GetTaskStatus(
+                    $child->TaskStatusID
+                ),
+                "deadline" => $child->TaskDeadline
+            );
+        }
+        return (sizeof($tasks) > 0) ? $tasks : false;
+    }
+
+    private function GetTaskComments($task_id)
+    {
+        $comments = array();
+        foreach($this->task->GetTaskCommentsByTaskID($task_id) as $comment)
+        {
+            $comments[] = array(
+                "id" => $comment->TaskCommentID,
+                "comment" => $comment->Comment,
+                "commentor" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID(
+                        $this->task->GetTaskSubscriber(
+                            $comment->TaskSubscriberID
+                        )->BatchMemberID
+                    )
+                ),
+                "timestamp" => $comment->Timestamp
+            );
+        }
+        return Sort::AssociativeArray($comments, "timestamp", Sort::ASCENDING);
+    }
+
+    public function AddTaskComment($task_id, $task_comment, $batch_member_id)
+    {
+        $subscribers = $this->task->GetTaskSubscribersByTaskID($task_id);
+        if(!in_array($batch_member_id, $subscribers))
+        {
+            $task_subscriber = $this->task->AddSubscriber(
+                new TaskSubscriberModel(
+                    array(
+                        "TaskID" => $task_id, 
+                        "BatchMemberID" => $batch_member_id
+                    )
+                )
+            );
+
+            foreach($this->task->GetChildrenTaskIDs($task_id) as $child)
+            {
+                $this->task->AddSubscriber(
+                    new TaskSubscriberModel(
+                        array(
+                            "TaskID" => $child, 
+                            "BatchMemberID" => $batch_member_id
+                        )
+                    )
+                );
+            }
+        }
+        else 
+        {
+            $task_subscriber = $this->task->GetTaskSubscriberID(
+                $task_id, $batch_member_id
+            );
+        }
+
+        return $this->task->AddComment(
+            new TaskCommentModel(
+                array(
+                    "TaskID" => $task_id,
+                    "TaskSubscriberID" => $task_subscriber,
+                    "Comment" => $task_comment
+                )
+            )
+        );
+    }
+
+    public function CanModifyTask(
+        $task_id, $batch_member_id, $batch_id, $is_first_front
+    )
+    {
+        $task_object = $this->task->GetTask($task_id);
+
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return true;
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return true;
+        }
+
+        $frontmen = array(
+            $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
+        );
+        $assignee_member_type = $this->batch_member->GetMemberTypeID(
+            $task_object->Assignee
+        );
+
+        if(in_array($assignee_member_type, $frontmen))
+        {
+            return true;
+        }
+
+        $committee_id = $this->committee->GetCommitteeIDByBatchMemberID(
+            $task_object->Assignee
+        );
+        $scoped_committees = (
+            $this->committee->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $this->batch_member->GetMemberTypeID(
+                    $batch_member_id
+                )
+            )
+        );
+
+        if(in_array($committee_id, $scoped_committees))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function DeleteTask($task_id)
+    {
+        foreach($this->task->GetChildrenTaskIDs($task_id) as $child)
+        {
+            $this->task->DeleteTask($child);
+        }
+        
+        return $this->task->DeleteTask($task_id);
+    }
+
+    public function CanSubmitTask($task_object, $batch_member_id)
+    {
+        return ($task_object->Assignee == $batch_member_id);
+    }
+
+    public function CanUpload($status_id)
+    {
+        switch($this->task->GetTaskStatus($status_id))
+        {
+            case Task::IN_PROGRESS:
+                return true;
+            default:
+                return false;
+                break;
+        }
+    }
+
+    public function SubmitTask($task_id, $status_id, $upload, $submit_text)
+    {
+        switch($this->task->GetTaskStatus($status_id))
+        {
+            case Task::TODO:
+                return $this->ProcessToDoTask($task_id);
+            case Task::IN_PROGRESS:
+                return $this->ProcessInProgressTask(
+                    $upload, $submit_text, $task_id
+                );
+            default:
+                break;
+        }
+    }
+
+    private function ProcessToDoTask($task_id)
+    {
+        if($this->task->HasParentTask($task_id))
+        {
+            $parent_task = $this->task->GetTask(
+                $this->task->GetParentTaskID($task_id)
+            );
+            $parent_task_status = $this->task->GetTaskStatus(
+                $parent_task->TaskStatusID
+            );
+
+            if($parent_task_status == Task::TODO)
+            {
+                $this->task->UpdateTaskStatus(
+                    $parent_task->TaskID, new TaskModel(
+                        array(
+                            "TaskStatusID" => $this->task->GetTaskStatusID(
+                                Task::IN_PROGRESS
+                            )
+                        )
+                    )
+                );
+            }
+        }
+
+        $this->task->UpdateTaskStatus(
+            $task_id, new TaskModel(
+                array(
+                    "TaskStatusID" => $this->task->GetTaskStatusID(
+                        Task::IN_PROGRESS
+                    )
+                )
+            )
+        );
+
+        return $this->task->GetTask($task_id);
+    }
+
+    private function ProcessInProgressTask($upload, $submit_text, $task_id)
+    {
+
+        return $this->task->GetTask($task_id);
     }
 
     public function GetFrontmanAddTaskPageDetails(
@@ -621,7 +781,6 @@ class TaskActionOperations
 
         foreach($batch_member_ids as $batch_member_id)
         {
-            // members
             $member_name = $this->GetMemberName(
                 $this->batch_member->GetMemberID($batch_member_id)
             );
@@ -630,7 +789,6 @@ class TaskActionOperations
                 "name" => $member_name
             );
 
-            // tasks
             $task_ids = array();
             foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
             {
@@ -683,7 +841,6 @@ class TaskActionOperations
 
         foreach($batch_member_ids as $batch_member_id)
         {
-            // members
             $member_name = $this->GetMemberName(
                 $this->batch_member->GetMemberID($batch_member_id)
             );
@@ -692,7 +849,6 @@ class TaskActionOperations
                 "name" => $member_name
             );
 
-            // tasks
             $task_ids = array();
             foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
             {
@@ -726,17 +882,17 @@ class TaskActionOperations
 
     public function GetCommitteeMemberAddTaskPageDetails($committee_member_id)
     {
-        $members = array();
-        $members[] = array(
-            "id" => $committee_member_id,
-            "name" => $this->GetMemberName(
-                $this->batch_member->GetMemberID($committee_member_id)
+        $members = array(
+            array(
+                "id" => $committee_member_id,
+                "name" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID($committee_member_id)
+                )
             )
         );
 
-        $events = array();
-
         $tasks = array();
+
         $task_ids = array();
         foreach($this->task->GetAssignedTasks($committee_member_id) as $task)
         {
@@ -764,6 +920,8 @@ class TaskActionOperations
                 }
             }
         }
+
+        $events = array();
 
         return array(
             "events" => $events,
@@ -891,6 +1049,19 @@ class TaskActionOperations
 
         if($parent !== null)
         {
+            $parent_task = $this->task->GetTask($parent);
+
+            $parent_subscribers = (
+                $this->task->GetTaskSubscribersByTaskID($parent_task->TaskID)
+            );
+            foreach($parent_subscribers as $parent_subscriber_id)
+            {
+                if(!in_array($parent_subscriber_id, $subscribers))
+                {
+                    $subscribers[] = $parent_subscriber_id;
+                }
+            }
+
             $this->task->AddParentTask(
                 new TaskTreeModel(
                     array(
@@ -929,5 +1100,24 @@ class TaskActionOperations
                 $member->LastName
             )
         ); 
+    }
+
+    private function MutateTaskDetails($task)
+    {
+        return array(
+            "id" => $task->TaskID,
+            "title" => $task->TaskTitle,
+            "description" => $task->TaskDescription,
+            "deadline" => $task->TaskDeadline,
+            "reporter" => $this->GetMemberName(
+                $this->batch_member->GetMemberID($task->Reporter)
+            ),
+            "assignee" => $this->GetMemberName(
+                $this->batch_member->GetMemberID($task->Assignee)
+            ),
+            "status" => $this->task->GetTaskStatus(
+                $task->TaskStatusID
+            )
+        );
     }
 }

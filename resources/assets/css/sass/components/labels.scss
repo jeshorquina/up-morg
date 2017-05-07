@@ -1,0 +1,58 @@
+@import "../base/variables.scss";
+
+.label {
+    border-radius: 3px;
+    color: $color-text-inverted;
+    display: inline-block;
+    padding: 0.25rem 0.3rem;
+
+    &-gray {
+        background-color: #636c72;
+    }
+
+    &-yellow {
+        background-color: #f0ad4e;
+    }
+
+    &-red {
+        background-color: #d9534f;
+    }
+
+    &-green {
+        background-color: #5cb85c;
+    }
+
+    &-purple {
+        background-color: #6e5cb6;
+    }
+
+    &-blue {
+        background-color: #0275d8;
+    }
+}
+
+.label-text {
+    &-gray {
+        color: #636c72;
+    }
+
+    &-yellow {
+        color: #f0ad4e;
+    }
+
+    &-red {
+        color: #d9534f;
+    }
+
+    &-green {
+        color: #5cb85c;
+    }
+
+    &-purple {
+        color: #6e5cb6;
+    }
+
+    &-blue {
+        color: #0275d8;
+    }
+}

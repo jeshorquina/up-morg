@@ -156,6 +156,21 @@
         ]
     },
     {
+        "name": "user/task-view-details.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/task/view/details.js",
+            "resources/assets/js/operations/user/task/view/details.js",
+            "resources/assets/js/controllers/user/task/view/details.js"
+        ]
+    },
+    {
         "name": "user/task-add.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

@@ -1,8 +1,11 @@
 <?php
 namespace Jesh\Helpers;
 
+use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
 use \Jesh\Operations\Repository\Ledger;
+use \Jesh\Operations\Repository\Member;
+use \Jesh\Operations\Repository\Task;
 
 class PageRenderer
 {
@@ -16,6 +19,119 @@ class PageRenderer
         {
             return true;
         }
+    }
+
+    public static function HasTaskDetailsPageAccess($task_id = null)
+    {
+        if($task_id == null)
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+
+        $task_helper = new Task;
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$task_helper->HasTask($task_id))
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!$task_helper->IsTaskSubscriber($task_id, $batch_member_id))
+        {
+            if(UserSession::IsFirstFrontman())
+            {
+                return true;
+            }
+            else if(UserSession::IsFrontman())
+            {
+                $task_object = $task_helper->GetTask($task_id);
+
+                $batch_member_helper = new BatchMember;
+                $member_helper = new Member;
+
+                $frontmen = array(
+                    $member_helper->GetMemberTypeID(Member::FIRST_FRONTMAN),
+                    $member_helper->GetMemberTypeID(Member::SECOND_FRONTMAN),
+                    $member_helper->GetMemberTypeID(Member::THIRD_FRONTMAN)
+                );
+                $assignee_member_type = $batch_member_helper->GetMemberTypeID(
+                    $task_object->Assignee
+                );
+
+                if(!in_array($assignee_member_type, $frontmen))
+                {
+                    $batch_member_helper = new BatchMember;
+                    $committee_helper = new Committee;
+
+                    $committee_id = (
+                        $committee_helper->GetCommitteeIDByBatchMemberID(
+                            $task_object->Assignee
+                        )
+                    );
+                    $scoped_committees = (
+                        $committee_helper->GetCommitteePermissionCommitteeIDs(
+                            $batch_member_helper->GetBatchID($batch_member_id), 
+                            $batch_member_helper->GetMemberTypeID(
+                                $batch_member_id
+                            )
+                        )
+                    );
+
+                    if(!in_array($committee_id, $scoped_committees))
+                    {
+                        self::ShowForbiddenPage();
+                    }
+                }
+            }
+            else if(UserSession::IsCommitteeHead())
+            {
+                $task_object = $task_helper->GetTask($task_id);
+
+                $batch_member_helper = new BatchMember;
+                $committee_helper = new Committee;
+                $member_helper = new Member;
+
+                $frontmen = array(
+                    Member::FIRST_FRONTMAN,
+                    Member::SECOND_FRONTMAN,
+                    Member::THIRD_FRONTMAN
+                );
+
+                $assignee_member_type = $member_helper->GetMemberType(
+                    $batch_member_helper->GetMemberTypeID(
+                        $task_object->Assignee
+                    )
+                );
+                if(in_array($assignee_member_type, $frontmen))
+                {
+                    self::ShowForbiddenPage();
+                }
+
+                $assignee_committee_id = (
+                    $committee_helper->GetCommitteeIDByBatchMemberID(
+                        $task_object->Assignee
+                    )
+                );
+                $head_committee_id = (
+                    $committee_helper->GetCommitteeIDByBatchMemberID(
+                        $batch_member_id
+                    )
+                );
+                if($assignee_committee_id != $head_committee_id)
+                {
+                    self::ShowForbiddenPage();
+                }
+            }
+            else
+            {
+                self::ShowForbiddenPage();
+            }
+        }
+
+        return true;
     }
 
     public static function HasAddTaskPageAccess()
