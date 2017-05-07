@@ -221,7 +221,62 @@
     );
   }
 
-  TaskDetailsViewFactory.CreateInProgressSubmitSection = function (statusID) {
+  TaskDetailsViewFactory.CreateInProgressSubmitSection = function (
+    submissions, statusID
+  ) {
+
+    var submissionList = DomHelper.CreateElement(
+      "ul", { "class": "list list-strips margin-top-medium" }, [
+        DomHelper.CreateElement("li", {
+          "class": "list-header"
+        }, "Submissions")
+      ]
+    );
+
+    submissions.forEach(function (submission) {
+      DomHelper.AppendContent(
+        submissionList, DomHelper.CreateElement(
+          "li", {}, [
+            DomHelper.CreateElement(
+              "div", { "class": 'width-full' }, [
+                DomHelper.CreateElement(
+                  "strong", {}, "Description: "
+                ),
+                submission.description
+              ]
+            ),
+            DomHelper.CreateElement("hr", { "class": "margin-vertical-small" }),
+            DomHelper.CreateElement(
+              "div", { "class": 'flex-container' }, [
+                DomHelper.CreateElement(
+                  "div", { "class": 'flex flex-2' }, [
+                    DomHelper.CreateElement(
+                      "strong", {}, "File upload: "
+                    ),
+                    DomHelper.CreateElement(
+                      "a", {
+                        "href": submission.file.url,
+                        "target": "_blank"
+                      }, submission.file.name
+                    )
+                  ]
+                ),
+                DomHelper.CreateElement(
+                  "div", {
+                    "class": 'flex flex-1 text-right'
+                  }, [
+                    DomHelper.CreateElement(
+                      "strong", {}, "Timestamp: "
+                    ),
+                    submission.timestamp
+                  ]
+                )
+              ]
+            ),
+          ]
+        )
+      );
+    });
 
     return DomHelper.CreateElement(
       "div", { "class": "clearfix margin-top-medium" }, [
@@ -259,11 +314,15 @@
           ]
         ),
         DomHelper.CreateElement(
-          "button", {
-            "class": "button button-success button-small no-margin margin-top-small float-right",
-            "type": "submit"
-          }, "Submit Task"
-        )
+          "div", { "class": "text-right" },
+          DomHelper.CreateElement(
+            "button", {
+              "class": "button button-success button-small no-margin margin-top-small",
+              "type": "submit"
+            }, "Submit Task"
+          )
+        ),
+        submissionList
       ]
     );
   }
@@ -416,17 +475,128 @@
             "value": statusID
           }
         ),
-        DomHelper.CreateElement("div", { "class": "clearfix margin-top-small" },
+        DomHelper.CreateElement("div", {
+          "class": "margin-top-small form-group flex-container"
+        },
           [
-            DomHelper.CreateElement("button", {
-              "class": "button button-danger button-small float-right no-margin margin-right-small",
-              "type": "submit"
-            }, "Disapprove"),
-            DomHelper.CreateElement("button", {
-              "class": "button button-success button-small float-right no-margin margin-right-small",
-              "type": "submit"
-            }, "Approve")
+            DomHelper.CreateElement(
+              "div", { "class": "flex flex-1" }, [
+                DomHelper.CreateElement("input", {
+                  'id': "task-submission-approve",
+                  "class": "form-input hover",
+                  "type": "radio",
+                  "name": "action",
+                  "value": "approve",
+                  "selected": "selected"
+                }),
+                DomHelper.CreateElement("label", {
+                  "class": "width-full text-center hover block",
+                  "for": "task-submission-approve"
+                }, "Approve")
+              ]
+            ),
+            DomHelper.CreateElement(
+              "div", { "class": "flex flex-1" }, [
+                DomHelper.CreateElement("input", {
+                  'id': "task-submission-disapprove",
+                  "class": "form-input hover",
+                  "type": "radio",
+                  "name": "action",
+                  "value": "disapprove",
+                }),
+                DomHelper.CreateElement("label", {
+                  "class": "width-full text-center hover block",
+                  "for": "task-submission-disapprove"
+                }, "Disapprove")
+              ]
+            ),
           ]
+        ),
+        DomHelper.CreateElement("div", {
+          "class": "clearfix"
+        }, [
+            DomHelper.CreateElement("button", {
+              "class": "button button-success button-small no-margin float-right",
+              "type": "submit"
+            }, "Submit")
+          ]
+        )
+      ]
+    );
+  }
+
+  TaskDetailsViewFactory.CreateAcceptedSubmitSection = function (
+    submissions, statusID
+  ) {
+
+    var submissionList = DomHelper.CreateElement(
+      "ul", { "class": "list list-strips margin-top-small" }, [
+        DomHelper.CreateElement("li", {
+          "class": "list-header"
+        }, "Submissions")
+      ]
+    );
+
+    submissions.forEach(function (submission) {
+      DomHelper.AppendContent(
+        submissionList, DomHelper.CreateElement(
+          "li", {}, [
+            DomHelper.CreateElement(
+              "div", { "class": 'width-full' }, [
+                DomHelper.CreateElement(
+                  "strong", {}, "Description: "
+                ),
+                submission.description
+              ]
+            ),
+            DomHelper.CreateElement("hr", { "class": "margin-vertical-small" }),
+            DomHelper.CreateElement(
+              "div", { "class": 'flex-container' }, [
+                DomHelper.CreateElement(
+                  "div", { "class": 'flex flex-2' }, [
+                    DomHelper.CreateElement(
+                      "strong", {}, "File upload: "
+                    ),
+                    DomHelper.CreateElement(
+                      "a", {
+                        "href": submission.file.url,
+                        "target": "_blank"
+                      }, submission.file.name
+                    )
+                  ]
+                ),
+                DomHelper.CreateElement(
+                  "div", {
+                    "class": 'flex flex-1 text-right'
+                  }, [
+                    DomHelper.CreateElement(
+                      "strong", {}, "Timestamp: "
+                    ),
+                    submission.timestamp
+                  ]
+                )
+              ]
+            ),
+          ]
+        )
+      );
+    });
+
+    return DomHelper.CreateElement(
+      "div", { "class": "clearfix margin-top-medium" }, [
+        submissionList,
+        DomHelper.CreateElement(
+          "input", {
+            "type": "hidden",
+            "name": "task-status",
+            "value": statusID
+          }
+        ),
+        DomHelper.CreateElement("div", { "class": "clearfix margin-top-small" },
+          DomHelper.CreateElement("button", {
+            "class": "button button-success button-small float-right no-margin",
+            "type": "submit"
+          }, "Complete Task")
         )
       ]
     );

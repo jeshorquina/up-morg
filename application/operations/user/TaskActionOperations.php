@@ -735,11 +735,21 @@ class TaskActionOperations
         return ($task_object->Assignee == $batch_member_id);
     }
 
+    public function CanApproveTask(
+        $task_id, $batch_member_id, $batch_id, $is_first_front
+    )
+    {
+        return $this->CanModifyTask(
+            $task_id, $batch_member_id, $batch_id, $is_first_front
+        );
+    }
+
     public function CanUpload($status_id)
     {
         switch($this->task->GetTaskStatus($status_id))
         {
             case Task::IN_PROGRESS:
+            case Task::NEEDS_CHANGES:
                 return true;
             default:
                 return false;
@@ -755,14 +765,47 @@ class TaskActionOperations
             case Task::TODO:
                 return $this->ProcessToDoTask($task_id);
             case Task::IN_PROGRESS:
+            case Task::NEEDS_CHANGES:
                 return $this->ProcessInProgressTask(
                     $upload, $file_index, $submit_text, $task_id
                 );
             case Task::FOR_REVIEW:
                 return $this->ProcessForReviewTask($task_id);
+            case Task::ACCEPTED:
+                return $this->ProcessAcceptedTask($task_id);
             default:
                 break;
         }
+    }
+
+    public function ApproveTask($task_id, $is_approved)
+    {
+        if($is_approved)
+        {
+            $this->task->UpdateTaskStatus(
+                $task_id, new TaskModel(
+                    array(
+                        "TaskStatusID" => $this->task->GetTaskStatusID(
+                            Task::ACCEPTED
+                        )
+                    )
+                )
+            );
+        }
+        else
+        {
+            $this->task->UpdateTaskStatus(
+                $task_id, new TaskModel(
+                    array(
+                        "TaskStatusID" => $this->task->GetTaskStatusID(
+                            Task::NEEDS_CHANGES
+                        )
+                    )
+                )
+            );
+        }
+
+        return $this->task->GetTask($task_id);
     }
 
     private function ProcessToDoTask($task_id)
@@ -847,6 +890,57 @@ class TaskActionOperations
             )
         );
         
+        return $this->task->GetTask($task_id);
+    }
+
+    private function ProcessAcceptedTask($task_id)
+    {
+        $this->task->UpdateTaskStatus(
+            $task_id, new TaskModel(
+                array(
+                    "TaskStatusID" => $this->task->GetTaskStatusID(Task::DONE)
+                )
+            )
+        );
+
+        if($this->task->HasParentTask($task_id))
+        {
+            $parent_task = $this->task->GetTask(
+                $this->task->GetParentTaskID($task_id)
+            );
+
+            $all_done = true;
+            $done_id = $this->task->GetTaskStatusID(Task::DONE);
+            foreach(
+                $this->task->GetChildrenTaskIDs($parent_task->TaskID) 
+                as $child_id
+            ) 
+            {
+                $child = $this->task->GetTask($child_id);
+                if($child->TaskStatusID != $done_id)
+                {
+                    $all_done = false;
+                    break;
+                }
+            }
+
+            $parent_task_status = $this->task->GetTaskStatus(
+                $parent_task->TaskStatusID
+            );
+            if($all_done && $parent_task_status != Task::DONE)
+            {
+                $this->task->UpdateTaskStatus(
+                    $parent_task->TaskID, new TaskModel(
+                        array(
+                            "TaskStatusID" => $this->task->GetTaskStatusID(
+                                Task::DONE
+                            )
+                        )
+                    )
+                );
+            }
+        }
+
         return $this->task->GetTask($task_id);
     }
 

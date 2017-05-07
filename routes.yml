@@ -318,6 +318,11 @@
     controller: TaskActionController
     function: SubmitTask
     parent: number
+'action/task/view/details/(:num)/approve':
+    directory: api/user
+    controller: TaskActionController
+    function: ApproveTask
+    parent: number
 'action/task/view/details/(:num)/submission/download':
     directory: api/user
     controller: TaskActionController

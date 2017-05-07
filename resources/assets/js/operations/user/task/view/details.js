@@ -272,10 +272,11 @@
           );
           break;
         case "in progress":
+        case "needs changes":
           DomHelper.InsertContent(
             "task-submit-form-content",
             TaskDetailsViewFactory.CreateInProgressSubmitSection(
-              task.details.status.id
+              task.submissions, task.details.status.id
             )
           );
           break;
@@ -287,8 +288,14 @@
             )
           );
           break;
-        case "needs changes":
         case "accepted":
+          DomHelper.InsertContent(
+            "task-submit-form-content",
+            TaskDetailsViewFactory.CreateAcceptedSubmitSection(
+              task.submissions, task.details.status.id
+            )
+          );
+          break;
         case "done":
         default:
           if (document.getElementById("task-submit-form")) {
@@ -307,6 +314,8 @@
     if (task.flags.approve && task.parent != false && task.children == false) {
       switch (task.details.status.name.toLowerCase()) {
         case "for review":
+        case "needs changes":
+        case "accepted":
           DomHelper.InsertContent(
             "task-approve-form-content",
             TaskDetailsViewFactory.CreateForReviewApproveSection(
@@ -314,8 +323,6 @@
             )
           );
           break;
-        case "needs changes":
-        case "accepted":
         case "done":
         default:
           if (document.getElementById("task-approve-form")) {

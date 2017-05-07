@@ -496,7 +496,13 @@ class TaskActionController extends Controller
             $task_id, $task_submission_id
         ))
         {
-
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Submission is invalid!"
+                    )
+                )
+            );
         }
         else if(!$this->operations->CanDownloadSubmission(
             $task_id, $batch_member_id, UserSession::GetBatchID(),
@@ -513,6 +519,113 @@ class TaskActionController extends Controller
         }
 
         $this->operations->DownloadSubmission($task_submission_id);
+    }
+
+    public function ApproveTask($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanApproveTask(
+            $task_id, $batch_member_id, UserSession::GetBatchID(),
+            UserSession::IsFirstFrontman()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have submit access for this task!"
+                    )
+                )
+            );
+        }
+
+        $action = Http::Request(Http::POST, "action");
+        $is_approved = ($action == "approve") ? true : false;
+
+        if(!$task = $this->operations->ApproveTask($task_id, $is_approved))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Could not approve/disapprove 
+                        task. Please try again."
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanTaskDetailsPageDetails(
+                $task, $batch_member_id, UserSession::GetBatchID(),
+                UserSession::IsFirstFrontman()
+            );
+        }
+        else 
+        {
+            $details = (
+                $this->operations->GetCommitteeTaskDetailsPageDetails(
+                    $task, $batch_member_id
+                )
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Could not prepare task details page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Successfully changed task status."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
     }
 
     public function GetAddTaskPageDetails()
