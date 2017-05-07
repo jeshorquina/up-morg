@@ -41,6 +41,13 @@
     );
   }
 
+  var approveTaskCallback = function (event) {
+    event.preventDefault();
+    TaskDetailsViewOperations.ApproveTask(
+      source, taskID, this, controllerCallback
+    );
+  }
+
   var controllerCallback = function () {
 
     var subtaskRows = document.getElementsByClassName("view-task-details");
@@ -70,6 +77,12 @@
       document
         .getElementById("task-submit-form")
         .addEventListener("submit", submitTaskCallback);
+    }
+
+    if (document.getElementById("task-approve-form")) {
+      document
+        .getElementById("task-approve-form")
+        .addEventListener("submit", approveTaskCallback)
     }
 
     Loader.RemoveLoadingScreen();

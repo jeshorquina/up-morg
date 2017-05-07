@@ -62,14 +62,21 @@
 
     <form method="POST" id="task-submit-form" class="card margin-top-xlarge">
 
-        <h3 class="no-margin">Submit Form</h3>
-        <label class="margin-top-small subtitle">This is where you will submit your task references. If none, just describe it in free text.</label>
-
-        <hr>
+        <h3 class="no-margin">Submit Task</h3>
 
         <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
 
         <div id="task-submit-form-content"></div>
+
+    </form>
+
+    <form method="POST" id="task-approve-form" class="card margin-top-xlarge">
+
+        <h3 class="no-margin">Review Task Submission</h3>
+
+        <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
+
+        <div id="task-approve-form-content"></div>
 
     </form>
 

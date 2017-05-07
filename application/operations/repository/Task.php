@@ -5,6 +5,7 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
@@ -14,6 +15,7 @@ class Task
 {
     const TODO = "To Do";
     const IN_PROGRESS = "In Progress";
+    const FOR_REVIEW = "For Review";
 
     private $repository;
 
@@ -178,6 +180,35 @@ class Task
         return $is_found[0]["Name"];
     }
 
+    public function GetTaskSubmission($task_submission_id)
+    {
+        $is_found = $this->repository->GetTaskSubmission($task_submission_id);
+    
+        if(!$is_found)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cound not find task submission with id = `%s`.",
+                    $task_submission_id
+                )
+            );
+        }
+
+        return new TaskSubmissionModel($is_found[0]);
+    }
+
+    public function GetTaskSubmissionsByTaskID($task_id)
+    {
+        $submissions = array();
+
+        $db_subs = $this->repository->GetTaskSubmissionsByTaskID($task_id);
+        foreach($db_subs as $submission)
+        {
+            $submissions[] = new TaskSubmissionModel($submission);
+        }
+        return $submissions;
+    }
+
     public function HasTask($task_id)
     {
         return ($this->repository->GetTask($task_id)) ? true : false;
@@ -191,6 +222,13 @@ class Task
     public function IsTaskSubscriber($task_id, $batch_member_id)
     {
         return $this->repository->IsTaskSubscriber($task_id, $batch_member_id);
+    }
+
+    public function IsSubmissionFromTask($task_id, $task_submission_id)
+    {
+        return $this->repository->IsSubmissionFromTask(
+            $task_id, $task_submission_id
+        );
     }
 
     public function AddTask(TaskModel $task)
@@ -241,6 +279,20 @@ class Task
         {
             throw new \Exception(
                 "Cound not add task comment to the database."
+            );
+        }
+
+        return $is_added;
+    }
+
+    public function AddSubmission(TaskSubmissionModel $submission)
+    {
+        $is_added = $this->repository->AddSubmission($submission);
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Cound not add task submission to the database."
             );
         }
 

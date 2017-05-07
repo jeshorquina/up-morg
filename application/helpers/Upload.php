@@ -37,12 +37,13 @@ class Upload extends \CI_Upload
         else
         {
             $this->uploaded_data[$index] = $this->data();
+            return true;
         }
     }
 
-    public function GetUploadDetails($index)
+    public function GetUploadPath($index)
     {
-        return $this->uploaded_data[$index];
+        return $this->uploaded_data[$index]['full_path'];
     }
 
     private function CanUpload($index)

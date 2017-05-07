@@ -79,6 +79,22 @@
     });
   }
 
+  TaskDetailsViewOperations.ApproveTask = function (
+    source, taskID, form, controllerCallback
+  ) {
+
+    var data = new FormData(form);
+    var endpoint = source + "action/task/view/details/" + taskID + "/approve";
+
+    HttpHelper.Post(endpoint, data, function (status, responseText) {
+
+      form.reset();
+      RefreshRenderTaskDetailsViewCallback(
+        status, responseText, controllerCallback
+      );
+    });
+  }
+
   function RenderTaskDetailsViewCallback(
     status, responseText, controllerCallback
   ) {
@@ -141,6 +157,7 @@
     }
 
     FillSubmitSection(task);
+    FillApproveSection(task);
   }
 
   function FillTaskDetails(task) {
@@ -263,14 +280,52 @@
           );
           break;
         case "for review":
+          DomHelper.InsertContent(
+            "task-submit-form-content",
+            TaskDetailsViewFactory.CreateForReviewSubmitSection(
+              task.submissions, task.details.status.id
+            )
+          );
+          break;
         case "needs changes":
         case "accepted":
         case "done":
         default:
+          if (document.getElementById("task-submit-form")) {
+            DomHelper.RemoveElement("task-submit-form");
+          }
+          break;
       }
     }
     else if (document.getElementById("task-submit-form")) {
       DomHelper.RemoveElement("task-submit-form");
+    }
+  }
+
+  function FillApproveSection(task) {
+
+    if (task.flags.approve && task.parent != false && task.children == false) {
+      switch (task.details.status.name.toLowerCase()) {
+        case "for review":
+          DomHelper.InsertContent(
+            "task-approve-form-content",
+            TaskDetailsViewFactory.CreateForReviewApproveSection(
+              task.submissions, task.details.status.id
+            )
+          );
+          break;
+        case "needs changes":
+        case "accepted":
+        case "done":
+        default:
+          if (document.getElementById("task-approve-form")) {
+            DomHelper.RemoveElement("task-approve-form");
+          }
+          break;
+      }
+    }
+    else if (document.getElementById("task-approve-form")) {
+      DomHelper.RemoveElement("task-approve-form");
     }
   }
 

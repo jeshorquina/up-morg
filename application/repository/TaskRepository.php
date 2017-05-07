@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Repository;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
@@ -84,6 +85,20 @@ class TaskRepository extends Repository
         );
     }
 
+    public function GetTaskSubmission($task_submission_id)
+    {
+        return self::Get("TaskSubmission", "*", array(
+            "TaskSubmissionID" => $task_submission_id
+        ));
+    }
+
+    public function GetTaskSubmissionsByTaskID($task_id)
+    {
+        return self::Get(
+            "TaskSubmission", "*", array("TaskID" => $task_id)
+        );
+    }
+
     public function HasParentTask($task_id)
     {
         return self::Find(
@@ -96,6 +111,16 @@ class TaskRepository extends Repository
         return self::Find(
             "TaskSubscriber", "TaskID", array(
                 "TaskID" => $task_id, "BatchMemberID" => $batch_member_id
+            )
+        );
+    }
+
+    public function IsSubmissionFromTask($task_id, $task_submission_id)
+    {
+        return self::Find(
+            "TaskSubmission", "TaskSubmissionID", array(
+                "TaskSubmissionID" => $task_submission_id, 
+                "TaskID" => $task_id
             )
         );
     }
@@ -118,6 +143,11 @@ class TaskRepository extends Repository
     public function AddComment(TaskCommentModel $comment)
     {
         return self::Insert("TaskComment", $comment);
+    }
+
+    public function AddSubmission(TaskSubmissionModel $submission)
+    {
+        return self::Insert("TaskSubmission", $submission);
     }
 
     public function UpdateTaskStatus($task_id, TaskModel $task)

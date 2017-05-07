@@ -65,7 +65,7 @@
         labelClass = "label-yellow";
         break;
       case "for review":
-        labelClass = "label-yellow";
+        labelClass = "label-blue";
         break;
       case "needs changes":
         labelClass = "label-red";

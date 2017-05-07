@@ -3,10 +3,12 @@ namespace Jesh\Operations\User;
 
 use \Jesh\Helpers\Sort;
 use \Jesh\Helpers\StringHelper;
+use \Jesh\Helpers\Url;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
@@ -396,13 +398,13 @@ class TaskActionOperations
         if($task_object->Assignee == $batch_member_id)
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, true, true
+                $task_object, $batch_member_id, true, true, false
             );
         }
         else if($task_object->Reporter == $batch_member_id)
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, true
+                $task_object, $batch_member_id, false, true, true
             );
         }
 
@@ -418,7 +420,7 @@ class TaskActionOperations
         if(in_array($assignee_member_type, $frontmen))
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, true
+                $task_object, $batch_member_id, false, true, true
             );
         }
 
@@ -436,13 +438,13 @@ class TaskActionOperations
         if(in_array($committee_id, $scoped_committees))
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, true
+                $task_object, $batch_member_id, false, true, false
             );
         }
         else
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, false
+                $task_object, $batch_member_id, false, false, false
             );
         }
     }
@@ -454,25 +456,25 @@ class TaskActionOperations
         if($task_object->Assignee == $batch_member_id)
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, true, true
+                $task_object, $batch_member_id, true, true, false
             );
         }
         else if($task_object->Reporter == $batch_member_id)
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, true
+                $task_object, $batch_member_id, false, true, true
             );
         }
         else
         {
             return $this->GetTaskDetails(
-                $task_object, $batch_member_id, false, false
+                $task_object, $batch_member_id, false, false, false
             );
         }
     }
 
     private function GetTaskDetails(
-        $task_object, $batch_member_id, $can_submit, $can_edit
+        $task_object, $batch_member_id, $can_submit, $can_edit, $can_approve
     )
     {
         return array(
@@ -498,9 +500,13 @@ class TaskActionOperations
                 "parent" => $this->GetParentTask($task_object->TaskID),
                 "children" => $this->GetChildrenTasks($task_object->TaskID),
                 "comments" => $this->GetTaskComments($task_object->TaskID),
+                "submissions" => $this->GetSubmissions(
+                    $task_object->TaskID, ($can_approve || $can_submit)
+                ),
                 "flags" => array(
                     "submit" => $can_submit,
-                    "edit" => $can_edit
+                    "edit" => $can_edit,
+                    "approve" => $can_approve
                 )
             )
         );
@@ -562,6 +568,48 @@ class TaskActionOperations
             );
         }
         return Sort::AssociativeArray($comments, "timestamp", Sort::ASCENDING);
+    }
+
+    private function GetSubmissions($task_id, $can_see)
+    {
+        $submissions = array();
+
+        if($can_see)
+        {
+            foreach($this->task->GetTaskSubmissionsByTaskID($task_id) as $submit)
+            {
+                if($submit->FilePath != null)
+                {
+                    $file_path = explode("/", $submit->FilePath);
+
+                    $file_download_url = Url::GetBaseURL(
+                        sprintf(
+                            "action/task/view/details/%s%s%s",
+                            $task_id, "/submission/download/",
+                            $submit->TaskSubmissionID
+                        ) 
+                    );
+                    $file_name = $file_path[sizeof($file_path) - 1];
+                }
+                else
+                {
+                    $file_download_url = "";
+                    $file_name = "";
+                }
+
+                $submissions[] = array(
+                    "id" => $submit->TaskSubmissionID,
+                    "description" => $submit->Description,
+                    "file" => array(
+                        "url" => $file_download_url,
+                        "name" => $file_name
+                    ),
+                    "timestamp" => $submit->Timestamp
+                );
+            }
+        }
+
+        return $submissions;
     }
 
     public function AddTaskComment($task_id, $task_comment, $batch_member_id)
@@ -657,6 +705,20 @@ class TaskActionOperations
             return false;
         }
     }
+    
+    public function IsSubmissionFromTask($task_id, $task_submission_id)
+    {
+        return $this->task->IsSubmissionFromTask($task_id, $task_submission_id);
+    }
+
+    public function CanDownloadSubmission(
+        $task_id, $batch_member_id, $batch_id, $is_first_front
+    )
+    {
+        return $this->CanModifyTask(
+            $task_id, $batch_member_id, $batch_id, $is_first_front
+        );
+    }
 
     public function DeleteTask($task_id)
     {
@@ -681,11 +743,12 @@ class TaskActionOperations
                 return true;
             default:
                 return false;
-                break;
         }
     }
 
-    public function SubmitTask($task_id, $status_id, $upload, $submit_text)
+    public function SubmitTask(
+        $task_id, $status_id, $upload, $file_index, $submit_text
+    )
     {
         switch($this->task->GetTaskStatus($status_id))
         {
@@ -693,8 +756,10 @@ class TaskActionOperations
                 return $this->ProcessToDoTask($task_id);
             case Task::IN_PROGRESS:
                 return $this->ProcessInProgressTask(
-                    $upload, $submit_text, $task_id
+                    $upload, $file_index, $submit_text, $task_id
                 );
+            case Task::FOR_REVIEW:
+                return $this->ProcessForReviewTask($task_id);
             default:
                 break;
         }
@@ -738,10 +803,60 @@ class TaskActionOperations
         return $this->task->GetTask($task_id);
     }
 
-    private function ProcessInProgressTask($upload, $submit_text, $task_id)
+    private function ProcessInProgressTask(
+        $upload, $file_index, $submit_text, $task_id
+    )
     {
+        $task_submission = array(
+            "TaskID" => $task_id,
+            "Description" => $submit_text
+        );
+
+        if($upload !== null)
+        {
+            $task_submission["FilePath"] = $upload->GetUploadPath($file_index);
+        }
+
+        $this->task->AddSubmission(
+            new TaskSubmissionModel($task_submission)
+        );
+
+        $this->task->UpdateTaskStatus(
+            $task_id, 
+            new TaskModel(
+                array(
+                    "TaskStatusID" => (
+                        $this->task->GetTaskStatusID(Task::FOR_REVIEW)
+                    )
+                )
+            )
+        );
 
         return $this->task->GetTask($task_id);
+    }
+
+    private function ProcessForReviewTask($task_id)
+    {
+        $this->task->UpdateTaskStatus(
+            $task_id, new TaskModel(
+                array(
+                    "TaskStatusID" => $this->task->GetTaskStatusID(
+                        Task::IN_PROGRESS
+                    )
+                )
+            )
+        );
+        
+        return $this->task->GetTask($task_id);
+    }
+
+    public function DownloadSubmission($task_submission_id)
+    {
+        $submission = $this->task->GetTaskSubmission($task_submission_id);
+
+        force_download($submission->FilePath, NULL);
+
+        exit();
     }
 
     public function GetFrontmanAddTaskPageDetails(

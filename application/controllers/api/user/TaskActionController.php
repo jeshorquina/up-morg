@@ -376,11 +376,23 @@ class TaskActionController extends Controller
         $submit_text = Http::Request(Http::POST, "task-submission-text");
 
         $upload = new Upload;
+
         if($this->operations->CanUpload($status_id))
         {
             if(!$upload->UploadFile("task-submission-file"))
             {
                 $upload = null;
+            }
+
+            if($submit_text == null || $submit_text == "")
+            {
+                Http::Response(
+                    Http::UNPROCESSABLE_ENTITY, array(
+                        "message" => StringHelper::NoBreakString(
+                            "Please provide a description for the submission."
+                        )
+                    )
+                );
             }
         }
         else
@@ -389,7 +401,7 @@ class TaskActionController extends Controller
         }
 
         if(!$task = $this->operations->SubmitTask(
-            $task_id, $status_id, $upload, $submit_text
+            $task_id, $status_id, $upload, "task-submission-file", $submit_text
         ))
         {
             Http::Response(
@@ -441,6 +453,66 @@ class TaskActionController extends Controller
                 )
             );
         }
+    }
+
+    public function DownloadSubmission($task_id, $task_submission_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsSubmissionFromTask(
+            $task_id, $task_submission_id
+        ))
+        {
+
+        }
+        else if(!$this->operations->CanDownloadSubmission(
+            $task_id, $batch_member_id, UserSession::GetBatchID(),
+            UserSession::IsFirstFrontman()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You cannot download this particular!"
+                    )
+                )
+            );
+        }
+
+        $this->operations->DownloadSubmission($task_submission_id);
     }
 
     public function GetAddTaskPageDetails()
