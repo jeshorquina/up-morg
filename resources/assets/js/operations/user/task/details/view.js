@@ -261,7 +261,7 @@
 
   function FillSubmitSection(task) {
 
-    if (task.flags.submit && task.parent != false && task.children == false) {
+    if (task.flags.submit && task.children == false) {
       switch (task.details.status.name.toLowerCase()) {
         case "to do":
           DomHelper.InsertContent(
@@ -311,17 +311,19 @@
 
   function FillApproveSection(task) {
 
-    if (task.flags.approve && task.parent != false && task.children == false) {
+    if (task.flags.approve && task.children == false) {
       switch (task.details.status.name.toLowerCase()) {
         case "for review":
         case "needs changes":
         case "accepted":
-          DomHelper.InsertContent(
-            "task-approve-form-content",
-            TaskDetailsViewFactory.CreateForReviewApproveSection(
-              task.submissions, task.details.status.id
-            )
-          );
+          if (document.getElementById("task-approve-form-content").innerHTML == "") {
+            DomHelper.InsertContent(
+              "task-approve-form-content",
+              TaskDetailsViewFactory.CreateForReviewApproveSection(
+                task.submissions, task.details.status.id
+              )
+            );
+          }
           break;
         case "done":
         default:

@@ -50,7 +50,7 @@ class AccessActionController extends Controller
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Could not log out. Please try again."
+                    "message" => "Cannot log out. Please try again."
                 )
             );
         }

@@ -159,7 +159,7 @@ class BatchActionController extends Controller
         {
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
-                    "message" => "Could not delete batch. Batch selected is 
+                    "message" => "Cannot delete batch. Batch selected is 
                     the current active batch."
                 )
             );
@@ -201,7 +201,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -237,7 +237,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add member to batch. Please try again."
+                        "Cannot add member to batch. Please try again."
                     )
                 )
             );
@@ -247,7 +247,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -283,7 +283,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not remove member from batch. Please try again."
+                        "Cannot remove member from batch. Please try again."
                     )
                 )
             );
@@ -293,7 +293,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -317,7 +317,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch committee details using the
+                        "Cannot prepare batch committee details using the
                         given committee name."
                     )
                 )
@@ -332,7 +332,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch committee details. Please 
+                        "Cannot prepare batch committee details. Please 
                         refresh browser."
                     )
                 )
@@ -400,7 +400,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add batch member using the given 
+                        "Cannot add batch member using the given 
                         committee name."
                     )
                 )
@@ -440,7 +440,7 @@ class BatchActionController extends Controller
                 Http::Response(
                     Http::INTERNAL_SERVER_ERROR, array(
                         "message" => StringHelper::NoBreakString(
-                            "Could not prepare batch details. Please refresh
+                            "Cannot prepare batch details. Please refresh
                             browser."
                         )
                     )
@@ -467,7 +467,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not remove batch member from the given 
+                        "Cannot remove batch member from the given 
                         committee name."
                     )
                 )
@@ -507,7 +507,7 @@ class BatchActionController extends Controller
                 Http::Response(
                     Http::INTERNAL_SERVER_ERROR, array(
                         "message" => StringHelper::NoBreakString(
-                            "Could not prepare batch details. Please refresh
+                            "Cannot prepare batch details. Please refresh
                             browser."
                         )
                     )
@@ -534,7 +534,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not remove batch member from the given 
+                        "Cannot remove batch member from the given 
                         committee name."
                     )
                 )
@@ -573,7 +573,7 @@ class BatchActionController extends Controller
                 Http::Response(
                     Http::INTERNAL_SERVER_ERROR, array(
                         "message" => StringHelper::NoBreakString(
-                            "Could not prepare batch details. Please refresh
+                            "Cannot prepare batch details. Please refresh
                             browser."
                         )
                     )

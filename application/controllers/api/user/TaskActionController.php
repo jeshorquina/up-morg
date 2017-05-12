@@ -60,7 +60,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare task page details. 
+                        "Cannot prepare task page details. 
                         Please refresh browser."
                     )
                 )
@@ -139,7 +139,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare task details page details. 
+                        "Cannot prepare task details page details. 
                         Please refresh browser."
                     )
                 )
@@ -234,7 +234,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare task details page details. 
+                        "Cannot prepare task details page details. 
                         Please refresh browser."
                     )
                 )
@@ -307,7 +307,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "SOmething went wrong. Could not delete task. 
+                        "SOmething went wrong. Cannot delete task. 
                         Please try again."
                     )
                 )
@@ -407,7 +407,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Something went wrong. Could not submit task. 
+                        "Something went wrong. Cannot submit task. 
                         Please try again."
                     )
                 )
@@ -436,7 +436,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare task details page details. 
+                        "Cannot prepare task details page details. 
                         Please refresh browser."
                     )
                 )
@@ -580,7 +580,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Something went wrong. Could not approve/disapprove 
+                        "Something went wrong. Cannot approve/disapprove 
                         task. Please try again."
                     )
                 )
@@ -609,7 +609,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare task details page details. 
+                        "Cannot prepare task details page details. 
                         Please refresh browser."
                     )
                 )
@@ -621,6 +621,334 @@ class TaskActionController extends Controller
                 Http::CREATED, array(
                     "message" => StringHelper::NoBreakString(
                         "Successfully changed task status."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function EditTaskDetails($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanModifyTask(
+            $task_id, $batch_member_id, UserSession::GetBatchID(),
+            UserSession::IsFirstFrontman()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have submit access for this task!"
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanEditTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman(), $task_id
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
+                $task_id
+            );
+        }
+        else 
+        {
+            $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
+                UserSession::GetBatchMemberID(), $task_id
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot prepare edit task page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Edit task page details successfully processed."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function EditTask($task_id)
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+
+        if(!$this->operations->HasTask($task_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The task was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$task = $this->operations->HasTaskAccess(
+            $task_id, $batch_member_id
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this particular task!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanModifyTask(
+            $task_id, $batch_member_id, UserSession::GetBatchID(),
+            UserSession::IsFirstFrontman()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have submit access for this task!"
+                    )
+                )
+            );
+        }
+
+        $reporter = UserSession::GetBatchMemberID();
+
+        //$event = Http::Request(Http::POST, "task-event");
+
+        $title = Http::Request(Http::POST, "task-title");
+        $description = Http::Request(Http::POST, "task-description");
+        $deadline = Http::Request(Http::POST, "task-deadline");
+        $subscribers = json_decode(
+            Http::Request(Http::POST, "task-subscribers"), true
+        );
+
+        $validation = $this->operations->ValidateAddTaskData(
+            array(
+                "task-title"       => $title,
+                "task-description" => $description,
+                "task-deadline"    => $deadline,
+                "task-subscribers" => $subscribers,
+            )
+        );
+        if($validation["status"] === false)
+        {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
+        }
+        else if(!$this->operations->IsTaskDeadlineValid($deadline))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Task deadline cannot be in the past!"
+                    )
+                )
+            );
+        }
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanEditTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman(), $task_id
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
+                $task_id
+            );
+        }
+        else 
+        {
+            $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
+                UserSession::GetBatchMemberID(), $task_id
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot prepare edit task page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        
+        $assignee = $details["details"]["assignee"];
+
+        if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Assignee is a non-subordinate! Assignee should be a 
+                        subordinate."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsSubscriberArrayValid(
+            $subscribers, $assignee, $reporter
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Subscriber list is malformed!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AreSubscribersSubordinates(
+            $subscribers, $details
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Subscriber list contain non-subordinates!"
+                    )
+                )
+            );
+        }
+
+        $parent = Http::Request(Http::POST, "task-parent");
+        $parent = ((int)$parent <= -1) ? null : $parent;
+
+        if(!$this->operations->CheckParentTaskValidByID($parent))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Parent task is not a valid task for a parent!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->EditTask(
+            $task_id, $title, $description, $deadline, $subscribers, $parent
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot prepare edit task page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+
+
+        $details = array();
+        if(UserSession::IsFrontman())
+        {
+            $details = $this->operations->GetFrontmanEditTaskPageDetails(
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
+                UserSession::IsFirstFrontman(), $task_id
+            );
+        }
+        else if(UserSession::IsCommitteeHead())
+        {
+            $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
+                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
+                $task_id
+            );
+        }
+        else 
+        {
+            $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
+                UserSession::GetBatchMemberID(), $task_id
+            );
+        }
+
+        if(!$details)
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot prepare edit task page details. 
+                        Please refresh browser."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Task successfully edited."
                     ),
                     "data" => $details
                 )
@@ -667,7 +995,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare add task page details. 
+                        "Cannot prepare add task page details. 
                         Please refresh browser."
                     )
                 )
@@ -762,7 +1090,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare availability page details. 
+                        "Cannot prepare add task page details. 
                         Please refresh browser."
                     )
                 )
@@ -803,7 +1131,7 @@ class TaskActionController extends Controller
                 )
             );
         }
-        
+
         $parent = Http::Request(Http::POST, "task-parent");
 
         if(!$this->operations->CheckParentTaskValidByID($parent))
@@ -824,7 +1152,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Something went wrong. Could not add task. Please
+                        "Something went wrong. Cannot add task. Please
                         try again."
                     )
                 )
@@ -857,7 +1185,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare availability page details. 
+                        "Cannot prepare availability page details. 
                         Please refresh browser."
                     )
                 )

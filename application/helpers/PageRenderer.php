@@ -146,6 +146,100 @@ class PageRenderer
         }
     }
 
+    public static function HasEditTaskPageAccess($task_id = null)
+    {
+        if($task_id == null)
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else if(UserSession::IsFrontman())
+        {
+            return self::FrontmanHasEditTaskPageAccess($task_id);
+        }
+        else
+        {
+            return self::CommitteeHasEditTaskPageAccess($task_id);
+        }
+    }
+
+    private static function FrontmanHasEditTaskPageAccess($task_id)
+    {
+        $task_helper = new Task;
+        $member_helper = new Member;
+        $batch_member_helper = new BatchMember;
+        $committee_helper = new Committee;
+
+        $batch_member_id = UserSession::GetBatchMemberID();
+        $batch_id = UserSession::GetBatchID();
+
+        $task_object = $task_helper->GetTask($task_id);
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return true;
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return true;
+        }
+
+        $frontmen = array(
+            $member_helper->GetMemberTypeID(Member::FIRST_FRONTMAN),
+            $member_helper->GetMemberTypeID(Member::SECOND_FRONTMAN),
+            $member_helper->GetMemberTypeID(Member::THIRD_FRONTMAN)
+        );
+        $assignee_member_type = $batch_member_helper->GetMemberTypeID(
+            $task_object->Assignee
+        );
+
+        if(in_array($assignee_member_type, $frontmen))
+        {
+            return true;
+        }
+
+        $committee_id = $committee_helper->GetCommitteeIDByBatchMemberID(
+            $task_object->Assignee
+        );
+        $scoped_committees = (
+            $committee_helper->GetCommitteePermissionCommitteeIDs(
+                $batch_id, $batch_member_helper->GetMemberTypeID(
+                    $batch_member_id
+                )
+            )
+        );
+
+        if(in_array($committee_id, $scoped_committees))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private static function CommitteeHasEditTaskPageAccess($task_id)
+    {
+        $task_helper = new Task;
+
+        $task_object = $task_helper->GetTask($task_id);
+        if($task_object->Assignee == $batch_member_id)
+        {
+            return true;
+        }
+        else if($task_object->Reporter == $batch_member_id)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public static function HasModifyAvailabilityPageAccess()
     {
         if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())

@@ -63,7 +63,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare finance page details. 
+                        "Cannot prepare finance page details. 
                         Please refresh browser."
                     )
                 )
@@ -164,7 +164,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add ledger entry. Please try again."
+                        "Cannot add ledger entry. Please try again."
                     )
                 )
             );
@@ -179,7 +179,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add ledger entry. Please refresh browser."
+                        "Cannot add ledger entry. Please refresh browser."
                     )
                 )
             );
@@ -208,7 +208,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add ledger entry. Please try again."
+                        "Cannot add ledger entry. Please try again."
                     )
                 )
             );
@@ -223,7 +223,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add ledger entry. Please refresh browser."
+                        "Cannot add ledger entry. Please refresh browser."
                     )
                 )
             );
@@ -258,7 +258,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not verify ledger entry. Please try again."
+                        "Cannot verify ledger entry. Please try again."
                     )
                 )
             );
@@ -273,7 +273,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not verify ledger entry. Please refresh browser."
+                        "Cannot verify ledger entry. Please refresh browser."
                     )
                 )
             );
@@ -308,7 +308,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not close the current batch's ledger. Please
+                        "Cannot close the current batch's ledger. Please
                         have all ledger entries verified by the Finance Head 
                         first!"
                     )
@@ -320,7 +320,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not close ledger. Please try again."
+                        "Cannot close ledger. Please try again."
                     )
                 )
             );
@@ -377,7 +377,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare ledger activation details. 
+                        "Cannot prepare ledger activation details. 
                         Please refresh browser."
                     )
                 )
@@ -433,7 +433,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not activate ledger. Please try again."
+                        "Cannot activate ledger. Please try again."
                     )
                 )
             );
@@ -483,7 +483,7 @@ class FinanceActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare finance page details. 
+                        "Cannot prepare finance page details. 
                         Please refresh browser."
                     )
                 )

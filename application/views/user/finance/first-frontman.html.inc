@@ -26,6 +26,12 @@
             <tbody id="ledger-entries-container"></tbody>
         </table>
 
+        <p style="color: red;">
+            <br>
+            Important Note: You cannot reactivate the ledger after closing it. Do not close the ledger unless you are ready to
+            create a new batch.
+        </p>
+
         <form id="close-ledger-form">
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
             <div class="form-group clearfix">

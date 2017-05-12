@@ -428,7 +428,7 @@ class BatchActionOperations
             array(
                 "message" => (
                     StringHelper::NoBreakString(
-                        "Could not add batch 
+                        "Cannot add batch 
                         member to committee.Please try again."
                     )
                 ),
@@ -473,7 +473,7 @@ class BatchActionOperations
             array(
                 "message" => (
                     StringHelper::NoBreakString(
-                        "Could not completely remove batch member to committee. 
+                        "Cannot completely remove batch member to committee. 
                         Please try again."
                     )
                 ),
@@ -577,7 +577,7 @@ class BatchActionOperations
             array(
                 "message" => (
                     StringHelper::NoBreakString(
-                        "Could not completely change batch member to committee 
+                        "Cannot completely change batch member to committee 
                         head. Please try again."
                     )
                 ),

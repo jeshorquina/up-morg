@@ -118,8 +118,7 @@ class MemberActionController extends Controller
 
         $member_array = array(
             "id" => $member_id, 
-            "first-name" => $first_name, 
-            "middle-name" => $middle_name, 
+            "first-name" => $first_name,
             "last-name" => $last_name, 
             "email-address" => $email_address, 
             "phone-number" => $phone_number
@@ -131,7 +130,10 @@ class MemberActionController extends Controller
         {
             Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
-        else if(!$this->operations->ModifyMemberDetails($member_array))
+        
+        $member_array["middle-name"] = $middle_name;
+        
+        if(!$this->operations->ModifyMemberDetails($member_array))
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(

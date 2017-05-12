@@ -33,7 +33,12 @@ class Task
 
         if(!$task)
         {
-            throw new \Exception("Cound not find task in the database");
+            throw new \Exception(
+                sprintf(
+                    "Cannot find task with id = [%s] in the database",
+                    $task_id
+                )
+            );
         }
 
         return new TaskModel($task[0]);
@@ -75,7 +80,7 @@ class Task
 
         if(!$task)
         {
-            throw new \Exception("Cound not find parent task in the database");
+            throw new \Exception("Cannot find parent task in the database");
         }
 
         return $task[0]["ParentTaskID"];
@@ -111,7 +116,7 @@ class Task
 
         if(!$task_subscriber)
         {
-            throw new \Exception("Cound not find task subscriber in the database");
+            throw new \Exception("Cannot find task subscriber in the database");
         }
 
         return new TaskSubscriberModel($task_subscriber[0]);
@@ -128,7 +133,7 @@ class Task
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Cound not find task subscriber with task id = %s and 
+                        "Cannot find task subscriber with task id = %s and 
                         batch member id = %s in the database"
                     ), $task_id, $batch_member_id
                 )
@@ -158,7 +163,7 @@ class Task
         {
             throw new \Exception(
                 sprintf(
-                    "Cound not find task status `%s` in the database.",$name
+                    "Cannot find task status `%s` in the database.",$name
                 )
             );
         }
@@ -174,7 +179,7 @@ class Task
         {
             throw new \Exception(
                 sprintf(
-                    "Cound not find task status with id = `%s` in the database.",
+                    "Cannot find task status with id = `%s` in the database.",
                     $task_status_id
                 )
             );
@@ -191,7 +196,7 @@ class Task
         {
             throw new \Exception(
                 sprintf(
-                    "Cound not find task submission with id = `%s`.",
+                    "Cannot find task submission with id = `%s`.",
                     $task_submission_id
                 )
             );
@@ -240,7 +245,7 @@ class Task
 
         if(!$is_added)
         {
-            throw new \Exception("Cound not add task to the database.");
+            throw new \Exception("Cannot add task to the database.");
         }
 
         return $is_added;
@@ -253,7 +258,7 @@ class Task
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add task subscriber to the database."
+                "Cannot add task subscriber to the database."
             );
         }
 
@@ -267,7 +272,7 @@ class Task
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add task relationship to the database."
+                "Cannot add task relationship to the database."
             );
         }
 
@@ -281,7 +286,7 @@ class Task
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add task comment to the database."
+                "Cannot add task comment to the database."
             );
         }
 
@@ -295,21 +300,21 @@ class Task
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add task submission to the database."
+                "Cannot add task submission to the database."
             );
         }
 
         return $is_added;
     }
 
-    public function UpdateTaskStatus($task_id, TaskModel $task)
+    public function UpdateTask($task_id, TaskModel $task)
     {
-        $is_updated = $this->repository->UpdateTaskStatus($task_id, $task);
+        $is_updated = $this->repository->UpdateTask($task_id, $task);
 
         if(!$is_updated)
         {
             throw new \Exception(
-                "Cound not update task status from the database."
+                "Cannot update task from the database."
             );
         }
 
@@ -323,7 +328,35 @@ class Task
         if(!$is_deleted)
         {
             throw new \Exception(
-                "Cound not delete task from the database."
+                "Cannot delete task from the database."
+            );
+        }
+
+        return $is_deleted;
+    }
+
+    public function DeleteTaskTreeByChildID($task_id)
+    {
+        $is_deleted = $this->repository->DeleteTaskTreeByChildID($task_id);
+
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                "Cannot delete task tree from the database."
+            );
+        }
+
+        return $is_deleted;
+    }
+
+    public function DeleteSubscriber($task_subscriber_id)
+    {
+        $is_deleted = $this->repository->DeleteSubscriber($task_subscriber_id);
+
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                "Cannot delete task subscriber from the database."
             );
         }
 

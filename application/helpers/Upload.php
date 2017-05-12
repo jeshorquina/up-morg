@@ -29,7 +29,7 @@ class Upload extends \CI_Upload
         {
             throw new \Exception(
                 sprintf(
-                    "Cound not open upload stream. See errors: %s",
+                    "Cannot open upload stream. See errors: %s",
                     $this->display_errors()
                 )
             );

@@ -121,7 +121,7 @@ class DatabaseHelper
                     }
                     else 
                     {
-                        throw new \Exception("Could not define custom database group property.");
+                        throw new \Exception("Cannot define custom database group property.");
                     }
                 }
             }

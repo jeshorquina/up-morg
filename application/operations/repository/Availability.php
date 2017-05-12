@@ -152,7 +152,7 @@ class Availability
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add batch member availability to the database"
+                "Cannot add batch member availability to the database"
             );
         }
 
@@ -166,7 +166,7 @@ class Availability
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add availability group to the database."
+                "Cannot add availability group to the database."
             );
         }
 
@@ -180,7 +180,7 @@ class Availability
         if(!$is_added)
         {
             throw new \Exception(
-                "Cound not add availability group member to the database."
+                "Cannot add availability group member to the database."
             );
         }
 
@@ -198,7 +198,7 @@ class Availability
         {
             throw new \Exception(
                 sprintf(
-                    "Cound not update availability of batch member id = %s",
+                    "Cannot update availability of batch member id = %s",
                     $batch_member_id
                 )
             );
@@ -214,7 +214,7 @@ class Availability
         if(!$is_deleted)
         {
             throw new \Exception(
-                "Cound not delete availability group to the database"
+                "Cannot delete availability group to the database"
             );
         }
 
@@ -228,7 +228,7 @@ class Availability
         if(!$is_deleted)
         {
             throw new \Exception(
-                "Cound not delete availability group member to the database"
+                "Cannot delete availability group member to the database"
             );
         }
 

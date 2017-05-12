@@ -293,6 +293,13 @@ class TaskActionOperations
         {
             return $task_object;
         }
+        
+        $task_subscribers = $this->task->GetTaskSubscribersByTaskID($task_id);
+
+        if(in_array($batch_member_id, $task_subscribers))
+        {
+            return $task_object;
+        }
 
         $member_type = $this->member->GetMemberType(
             $this->batch_member->GetMemberTypeID(
@@ -782,7 +789,7 @@ class TaskActionOperations
     {
         if($is_approved)
         {
-            $this->task->UpdateTaskStatus(
+            $this->task->UpdateTask(
                 $task_id, new TaskModel(
                     array(
                         "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -794,7 +801,7 @@ class TaskActionOperations
         }
         else
         {
-            $this->task->UpdateTaskStatus(
+            $this->task->UpdateTask(
                 $task_id, new TaskModel(
                     array(
                         "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -821,7 +828,7 @@ class TaskActionOperations
 
             if($parent_task_status == Task::TODO)
             {
-                $this->task->UpdateTaskStatus(
+                $this->task->UpdateTask(
                     $parent_task->TaskID, new TaskModel(
                         array(
                             "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -833,7 +840,7 @@ class TaskActionOperations
             }
         }
 
-        $this->task->UpdateTaskStatus(
+        $this->task->UpdateTask(
             $task_id, new TaskModel(
                 array(
                     "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -864,7 +871,7 @@ class TaskActionOperations
             new TaskSubmissionModel($task_submission)
         );
 
-        $this->task->UpdateTaskStatus(
+        $this->task->UpdateTask(
             $task_id, 
             new TaskModel(
                 array(
@@ -880,7 +887,7 @@ class TaskActionOperations
 
     private function ProcessForReviewTask($task_id)
     {
-        $this->task->UpdateTaskStatus(
+        $this->task->UpdateTask(
             $task_id, new TaskModel(
                 array(
                     "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -895,7 +902,7 @@ class TaskActionOperations
 
     private function ProcessAcceptedTask($task_id)
     {
-        $this->task->UpdateTaskStatus(
+        $this->task->UpdateTask(
             $task_id, new TaskModel(
                 array(
                     "TaskStatusID" => $this->task->GetTaskStatusID(Task::DONE)
@@ -929,7 +936,7 @@ class TaskActionOperations
             );
             if($all_done && $parent_task_status != Task::DONE)
             {
-                $this->task->UpdateTaskStatus(
+                $this->task->UpdateTask(
                     $parent_task->TaskID, new TaskModel(
                         array(
                             "TaskStatusID" => $this->task->GetTaskStatusID(
@@ -951,6 +958,149 @@ class TaskActionOperations
         force_download($submission->FilePath, NULL);
 
         exit();
+    }
+
+    public function GetFrontmanEditTaskPageDetails(
+        $batch_id, $frontman_id, $is_first_frontman, $task_id
+    )
+    {
+        $add_details = $this->GetFrontmanAddTaskPageDetails(
+            $batch_id, $frontman_id, $is_first_frontman
+        );
+
+        $add_details['details'] = $this->GetEditTaskDetails($task_id);
+
+        return $add_details;
+    }
+
+    public function GetCommitteeHeadEditTaskPageDetails(
+        $committee_id, $committee_head_id, $task_id
+    )
+    {
+        $add_details = $this->GetCommitteeHeadAddTaskPageDetails(
+            $committee_id, $committee_head_id
+        );
+
+        $add_details['details'] = $this->GetEditTaskDetails($task_id);
+
+        return $add_details;
+    }
+
+    public function GetCommitteeMemberEditTaskPageDetails(
+        $committee_member_id, $task_id
+    )
+    {
+        $add_details = $this->GetCommitteeMemberAddTaskPageDetails(
+            $committee_member_id
+        );
+
+        $add_details['details'] = $this->GetEditTaskDetails($task_id);
+
+        return $add_details;
+    }
+
+    private function GetEditTaskDetails($task_id)
+    {
+        $task_object = $this->task->GetTask($task_id);
+
+        return array(
+            "id" => $task_object->TaskID,
+            "title" => $task_object->TaskTitle,
+            "description" => $task_object->TaskDescription,
+            "deadline" => $task_object->TaskDeadline,
+            "assignee" => array(
+                "id" => $task_object->Assignee,
+                "name" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID($task_object->Assignee)
+                )
+            ),
+            "reporter" => array(
+                "id" => $task_object->Reporter,
+                "name" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID($task_object->Reporter)
+                )
+            ),
+            "event" => array(),
+            "parent" => $this->GetParentTask($task_object->TaskID),
+            "children" => $this->GetChildrenTasks($task_object->TaskID),
+            "subscribers" => $this->task->GetTaskSubscribersByTaskID($task_id)
+        );
+    }
+
+    public function EditTask(
+        $task_id, $title, $description, $deadline, $subscribers, $parent
+    )
+    {
+        $this->task->UpdateTask(
+            $task_id, new TaskModel(
+                array(
+                    "TaskTitle" => $title,
+                    "TaskDescription" => $description,
+                    "TaskDeadline" => $deadline
+                )
+            )
+        );
+
+        if($this->task->HasParentTask($task_id))
+        {
+            $this->task->DeleteTaskTreeByChildID($task_id);
+        }
+
+        if($parent !== null)
+        {
+            $parent_task = $this->task->GetTask($parent);
+
+            $parent_subscribers = (
+                $this->task->GetTaskSubscribersByTaskID($parent_task->TaskID)
+            );
+            foreach($parent_subscribers as $parent_subscriber_id)
+            {
+                if(!in_array($parent_subscriber_id, $subscribers))
+                {
+                    $subscribers[] = $parent_subscriber_id;
+                }
+            }
+
+            $this->task->AddParentTask(
+                new TaskTreeModel(
+                    array(
+                        "ChildTaskID" => $task_id,
+                        "ParentTaskID" => $parent
+                    )
+                )
+            );
+        }
+
+        $old_subscribers = $this->task->GetTaskSubscribersByTaskID($task_id);
+
+        foreach($subscribers as $subscriber)
+        {
+            if(!in_array($subscriber, $old_subscribers))
+            {
+                $this->task->AddSubscriber(
+                    new TaskSubscriberModel(
+                        array(
+                            "TaskID"        => $task_id,
+                            "BatchMemberID" => $subscriber
+                        )
+                    )
+                );
+            }
+        }
+
+        foreach($old_subscribers as $old_subscriber)
+        {
+            if(!in_array($old_subscriber, $subscribers))
+            {
+                $this->task->DeleteSubscriber(
+                    $this->task->GetTaskSubscriberID(
+                        $task_id, $old_subscriber
+                    )
+                );
+            }
+        }
+
+        return true;
     }
 
     public function GetFrontmanAddTaskPageDetails(
@@ -1158,9 +1308,12 @@ class TaskActionOperations
         $validation->CheckDate(
             "task-deadline", $input_data["task-deadline"]
         );
-        $validation->CheckInteger(
-            "task-assignee", $input_data["task-assignee"]
-        );
+        if(array_key_exists("task-assignee", $input_data))
+        {
+            $validation->CheckInteger(
+                "task-assignee", $input_data["task-assignee"]
+            );
+        }
 
         return array(
             "status"  => $validation->GetStatus(),
@@ -1220,7 +1373,7 @@ class TaskActionOperations
 
     public function CheckParentTaskValidByID($task_id)
     {
-        if($task_id !== null)
+        if($task_id != null)
         {
             return $this->CheckParentTaskValid($this->task->GetTask($task_id));
         }
@@ -1232,10 +1385,14 @@ class TaskActionOperations
 
     private function CheckParentTaskValid($task)
     {
+        $task_status = $this->task->GetTaskStatus($task->TaskStatusID);
         return (
             !$this->task->HasParentTask($task->TaskID) &&
             $this->IsTaskDeadlineValid($task->TaskDeadline) &&
-            $this->task->GetTaskStatus($task->TaskStatusID) !== Task::DONE
+            (
+                $task_status == Task::TODO ||
+                $task_status == Task::IN_PROGRESS
+            )
         );
     }
 

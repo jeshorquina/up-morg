@@ -63,7 +63,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -93,7 +93,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -123,7 +123,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -170,7 +170,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add member to batch. Please try again."
+                        "Cannot add member to batch. Please try again."
                     )
                 )
             );
@@ -184,7 +184,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -231,7 +231,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not remove member from batch. Please try again."
+                        "Cannot remove member from batch. Please try again."
                     )
                 )
             );
@@ -245,7 +245,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare batch details. Please refresh
+                        "Cannot prepare batch details. Please refresh
                         browser."
                     )
                 )
@@ -305,7 +305,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please refresh
+                        "Cannot prepare committee details. Please refresh
                         browser."
                     )
                 )
@@ -352,7 +352,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please refresh
+                        "Cannot prepare committee details. Please refresh
                         browser."
                     )
                 )
@@ -398,7 +398,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please refresh
+                        "Cannot prepare committee details. Please refresh
                         browser."
                     )
                 )
@@ -466,7 +466,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add batch member to committee. Please try
+                        "Cannot add batch member to committee. Please try
                         again."
                     )
                 )
@@ -508,7 +508,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please 
+                        "Cannot prepare committee details. Please 
                         refresh browser."
                     )
                 )
@@ -655,7 +655,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not remove batch member to committee. Please try
+                        "Cannot remove batch member to committee. Please try
                         again."
                     )
                 )
@@ -697,7 +697,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please 
+                        "Cannot prepare committee details. Please 
                         refresh browser."
                     )
                 )
@@ -861,7 +861,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare committee details. Please 
+                        "Cannot prepare committee details. Please 
                         refresh browser."
                     )
                 )
@@ -931,7 +931,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare frontman details. Please 
+                        "Cannot prepare frontman details. Please 
                         refresh browser."
                     )
                 )
@@ -996,7 +996,7 @@ class SubordinateActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not modify the frontmen. Please 
+                        "Cannot modify the frontmen. Please 
                         refresh browser."
                     )
                 )

@@ -33,7 +33,7 @@ class BatchMember
 
         if(!$batch_member)
         {
-            throw new \Exception("Cound not find batch member in the database");
+            throw new \Exception("Cannot find batch member in the database");
         }
 
         return new BatchMemberModel($batch_member[0]);
@@ -45,7 +45,7 @@ class BatchMember
 
         if(!$batch_member)
         {
-            throw new \Exception("Cound not find batch member in the database");
+            throw new \Exception("Cannot find batch member in the database");
         }
 
         return new BatchMemberModel($batch_member[0]);
@@ -111,7 +111,7 @@ class BatchMember
 
         if(!$is_added)
         {
-            throw new \Exception("Cound not add batch member to the database");
+            throw new \Exception("Cannot add batch member to the database");
         }
 
         return $is_added;
@@ -128,7 +128,7 @@ class BatchMember
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Could not update member type id of batch member with
+                        "Cannot update member type id of batch member with
                         batch member id = %s"
                     ), $batch_member_id
                 )
@@ -147,7 +147,7 @@ class BatchMember
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Could not remove batch member with id = %s"
+                        "Cannot remove batch member with id = %s"
                     ), $batch_member_id
                 )
             );
@@ -165,7 +165,7 @@ class BatchMember
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Could not remove member type of batch member 
+                        "Cannot remove member type of batch member 
                         with batch member id = %s"
                     ), $batch_member_id
                 )

@@ -212,6 +212,11 @@
     controller: TaskPageController
     function: ViewTaskDetailsPage
     parameter: number
+'task/view/details/(:num)/edit':
+    directory: pages/user
+    controller: TaskPageController
+    function: EditTaskPage
+    parent: number
 'task/add':
     directory: pages/user
     controller: TaskPageController
@@ -312,6 +317,16 @@
     directory: api/user
     controller: TaskActionController
     function: DeleteTask
+    parent: number
+'action/task/view/details/(:num)/edit-details':
+    directory: api/user
+    controller: TaskActionController
+    function: EditTaskDetails
+    parent: number
+'action/task/view/details/(:num)/edit':
+    directory: api/user
+    controller: TaskActionController
+    function: EditTask
     parent: number
 'action/task/view/details/(:num)/submit':
     directory: api/user

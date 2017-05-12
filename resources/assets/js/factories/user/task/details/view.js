@@ -487,7 +487,7 @@
                   "type": "radio",
                   "name": "action",
                   "value": "approve",
-                  "selected": "selected"
+                  "checked": "checked"
                 }),
                 DomHelper.CreateElement("label", {
                   "class": "width-full text-center hover block",

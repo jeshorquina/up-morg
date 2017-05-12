@@ -1,12 +1,29 @@
-<div class="container">
+<div class="container" id="task-details-container" data-task-id="<?= $page['details']['task_id'] ?>">
 
-    <div class="card margin-vertical-xlarge">
+    <div class="card margin-top-xlarge">
 
         <h2 class="text-center">Task Manager</h2>
 
         <hr>
 
-        <form id="add-task-form">
+        <div class="breadcrumb flex flex-3">
+            <span class="crumb">
+                <a href="<?= $page['urls']['task_page'] ?>" >Task Manager</a>
+            </span>
+            <span id="parent-task-title-container" class="crumb">
+                <span id="parent-task-title"></span>
+            </span>
+            <span class="crumb">
+                <a href="<?= $page['urls']['task_page'].'/details/'. $page['details']['task_id'] ?>">
+                    <span id="task-breadcrumb-title"></span>
+            </a>
+            </span>
+            <span class="crumb">
+                Edit Task
+            </span>
+        </div>
+
+        <form id="edit-task-form" class="margin-top-medium">
 
             <h3 class="margin-bottom-medium">Task Details</h3>
 
@@ -32,10 +49,15 @@
                 <span class="form-error" id="task-description-error"></span>
             </div>
 
-            <div class="form-group">
-                <span class="form-label">Assignee</span>
-                <select name="task-assignee" id="task-assignee" class="form-input width-full"></select>
-                <span class="form-error" id="task-assignee-error"></span>
+            <div class="flex-container">
+                <div class="form-group flex flex-1">
+                    <label class="form-label">Assignee</label>
+                    <p class="task-assignee"></p>
+                </div>
+                <div class="form-group flex flex-1">
+                    <label class="form-label">Reporter</label>
+                    <p class="task-reporter"></p>
+                </div>
             </div>
 
             <h3 class="margin-vertical-medium">Other Details</h3>
@@ -67,7 +89,7 @@
             </div>
 
             <div class="form-group clearfix margin-top-small">
-                <input type="submit" class="button button-success no-margin float-right" value="Add New Task">
+                <input type="submit" class="button button-success no-margin float-right" value="Edit Task">
             </div>
 
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">

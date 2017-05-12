@@ -42,7 +42,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare availability page details. 
+                        "Cannot prepare availability page details. 
                         Please refresh browser."
                     )
                 )
@@ -83,7 +83,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not update availability. 
+                        "Cannot update availability. 
                         Please Try again."
                     )
                 )
@@ -125,7 +125,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups view details. 
+                        "Cannot get availability groups view details. 
                         Please refresh browser."
                     )
                 )
@@ -167,7 +167,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups. 
+                        "Cannot get availability groups. 
                         Please refresh browser."
                     )
                 )
@@ -207,7 +207,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY,
                 array(
-                    "message" => "Group name could not be empty!"
+                    "message" => "Group name cannot empty!"
                 )
             );
         }
@@ -219,7 +219,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add availability group. 
+                        "Cannot add availability group. 
                         Please Try again."
                     )
                 )
@@ -233,7 +233,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups. 
+                        "Cannot get availability groups. 
                         Please refresh browser."
                     )
                 )
@@ -271,7 +271,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not delete selected availability group."
+                        "Cannot delete selected availability group."
                     )
                 )
             );
@@ -281,7 +281,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add availability group. 
+                        "Cannot add availability group. 
                         Please Try again."
                     )
                 )
@@ -295,7 +295,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups. 
+                        "Cannot get availability groups. 
                         Please refresh browser."
                     )
                 )
@@ -346,7 +346,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups view details. 
+                        "Cannot get availability groups view details. 
                         Please refresh browser."
                     )
                 )
@@ -401,7 +401,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups view details. 
+                        "Cannot get availability groups view details. 
                         Please refresh browser."
                     )
                 )
@@ -475,7 +475,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not add member to group. Please try again."
+                        "Cannot add member to group. Please try again."
                     )
                 )
             );
@@ -491,7 +491,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups view details. 
+                        "Cannot get availability groups view details. 
                         Please refresh browser."
                     )
                 )
@@ -564,7 +564,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not delete member to group. Please try again."
+                        "Cannot delete member to group. Please try again."
                     )
                 )
             );
@@ -580,7 +580,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not get availability groups view details. 
+                        "Cannot get availability groups view details. 
                         Please refresh browser."
                     )
                 )
@@ -622,7 +622,7 @@ class AvailabilityActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Could not prepare member availability page details. 
+                        "Cannot prepare member availability page details. 
                         Please refresh browser."
                     )
                 )

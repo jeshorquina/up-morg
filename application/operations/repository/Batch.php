@@ -101,7 +101,7 @@ class Batch
 
         if(!$is_added)
         {
-            throw new \Exception("Cound not add batch to the database");
+            throw new \Exception("Cannot add batch to the database");
         }
 
         return $is_added;
@@ -116,7 +116,7 @@ class Batch
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Cound not activate batch with batch id = %s in the
+                        "Cannot activate batch with batch id = %s in the
                         database"
                     ), $batch_id
                 )
@@ -135,7 +135,7 @@ class Batch
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Cound not delete batch with batch id = %s in the
+                        "Cannot delete batch with batch id = %s in the
                         database"
                     ), $batch_id
                 )
@@ -154,7 +154,7 @@ class Batch
             throw new \Exception(
                 sprintf(
                     StringHelper::NoBreakString(
-                        "Cound not remove active batch from the database."
+                        "Cannot remove active batch from the database."
                     ), $batch_id
                 )
             );

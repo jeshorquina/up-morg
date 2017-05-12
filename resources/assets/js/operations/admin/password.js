@@ -39,7 +39,7 @@
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
       AlertFactory.GenerateDangerAlert(
-        container, "Could not change password. Please check validation errors."
+        container, "Cannot change password. Please check validation errors."
       );
       window.scrollTo(0, 0);
 

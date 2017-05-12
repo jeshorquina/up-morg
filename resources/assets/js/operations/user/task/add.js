@@ -1,5 +1,5 @@
 (function (
-  DomHelper, HttpHelper, StringHelper, UrlHelper, AlertFactory,
+  DomHelper, HttpHelper, UrlHelper, AlertFactory,
   TaskAddFactory, TaskAddOperations
 ) {
 
@@ -268,7 +268,7 @@
   }
 
 })(
-  DomHelper, HttpHelper, StringHelper, UrlHelper,
+  DomHelper, HttpHelper, UrlHelper,
   AlertFactory, TaskAddFactory,
   this.TaskAddOperations = (
     this.TaskAddOperations == undefined

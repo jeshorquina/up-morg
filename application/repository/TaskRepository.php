@@ -150,7 +150,7 @@ class TaskRepository extends Repository
         return self::Insert("TaskSubmission", $submission);
     }
 
-    public function UpdateTaskStatus($task_id, TaskModel $task)
+    public function UpdateTask($task_id, TaskModel $task)
     {
         return self::Update("Task", array("TaskID" => $task_id), $task);
     }
@@ -158,5 +158,17 @@ class TaskRepository extends Repository
     public function DeleteTask($task_id)
     {
         return self::Delete("Task", "TaskID", $task_id);
+    }
+
+    public function DeleteTaskTreeByChildID($task_id)
+    {
+        return self::Delete("TaskTree", "ChildTaskID", $task_id);
+    }
+
+    public function DeleteSubscriber($task_subscriber_id)
+    {
+        return self::Delete(
+            "TaskSubscriber", "TaskSubscriberID", $task_subscriber_id
+        );
     }
 }

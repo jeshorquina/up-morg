@@ -49,7 +49,7 @@
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
       AlertFactory.GenerateDangerAlert(
-        container, "Could not sign up. Please check validation errors."
+        container, "Cannot sign up. Please check validation errors."
       );
       window.scrollTo(0, 0);
 

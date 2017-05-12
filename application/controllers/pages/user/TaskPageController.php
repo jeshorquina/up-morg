@@ -67,10 +67,38 @@ class TaskPageController extends Controller
                 ),
             );
 
-            self::SetBody("user/task/view/details.html.inc");
+            self::SetBody("user/task/details/view.html.inc");
             self::RenderView(
                 PageRenderer::GetUserPageData(
-                    "task-view-details", $other_details
+                    "task-details-view", $other_details
+                )
+            );
+        }
+    }
+
+    public function EditTaskPage($task_id)
+    {
+        if(PageRenderer::HasEditTaskPageAccess($task_id))
+        {
+            $other_details = array(
+            Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Task Manager",
+                        "urls" => array(
+                            "task_page" => Url::GetBaseURL("task/view")
+                        ),
+                        "details" => array(
+                            "task_id" => $task_id
+                        )
+                    )
+                ),
+            );
+
+            self::SetBody("user/task/details/edit.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "task-details-edit", $other_details
                 )
             );
         }

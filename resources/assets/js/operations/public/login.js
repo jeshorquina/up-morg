@@ -37,7 +37,7 @@
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
       AlertFactory.GenerateDangerAlert(
-        container, "Could not log in. Please check validation errors."
+        container, "Cannot log in. Please check validation errors."
       );
       window.scrollTo(0, 0);
 
