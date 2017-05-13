@@ -843,8 +843,8 @@ class TaskActionController extends Controller
                 )
             );
         }
-        
-        $assignee = $details["details"]["assignee"];
+
+        $assignee = $details["details"]["assignee"]["id"];
 
         if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
         {

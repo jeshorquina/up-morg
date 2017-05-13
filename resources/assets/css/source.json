@@ -387,6 +387,28 @@
         ]
     },
     {
+        "name": "user/calendar-tasks.css",
+        "src": [
+            "resources/assets/css/vendor/normalize.css",
+            "resources/assets/css/vendor/fullcalendar.css",
+            "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/base/base.css",
+            "resources/assets/css/base/helpers.css",
+            "resources/assets/css/components/alerts.css",
+            "resources/assets/css/components/breadcrumb.css",
+            "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
+            "resources/assets/css/components/flex.css",
+            "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/icons.css",
+            "resources/assets/css/components/labels.css",
+            "resources/assets/css/components/list.css",
+            "resources/assets/css/components/loader.css",
+            "resources/assets/css/components/nav.css",
+            "resources/assets/css/pages/user/calendar/main.css"
+        ]
+    },
+    {
         "name": "user/calendar-events.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
@@ -408,7 +430,7 @@
         ]
     },
     {
-        "name": "user/calendar-tasks.css",
+        "name": "user/calendar-event-view.css",
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/fullcalendar.css",
@@ -422,11 +444,10 @@
             "resources/assets/css/components/flex.css",
             "resources/assets/css/components/forms.css",
             "resources/assets/css/components/icons.css",
-            "resources/assets/css/components/labels.css",
             "resources/assets/css/components/list.css",
             "resources/assets/css/components/loader.css",
             "resources/assets/css/components/nav.css",
-            "resources/assets/css/pages/user/calendar/main.css"
+            "resources/assets/css/pages/user/calendar/event/details.css"
         ]
     },
     {

@@ -112,20 +112,7 @@
 
     if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
 
-      TaskEditOperations.self = response.data.self;
-
       FillNonSelectDetails(response.data.details);
-
-      GenerateSubscriberList(
-        response.data.members, response.data.details.subscribers,
-        response.data.details.assignee
-      );
-
-      FillTaskSubscribersSelect();
-      FillTaskSubscriberList();
-
-      FillTaskEventSelect(response.data.events);
-      FillTaskParentSelect(response.data.tasks, response.data.details);
 
       controllerCallback();
 

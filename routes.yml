@@ -259,14 +259,19 @@
     directory: pages/user
     controller: CalendarPageController
     function: CalendarIndex
-'calendar/events':
-    directory: pages/user
-    controller: CalendarPageController
-    function: ViewCalendarEventsPage
 'calendar/tasks':
     directory: pages/user
     controller: CalendarPageController
     function: ViewCalendarTasksPage
+'calendar/events':
+    directory: pages/user
+    controller: CalendarPageController
+    function: ViewCalendarEventsPage
+'calendar/events/details':
+    directory: pages/user
+    controller: CalendarPageController
+    function: ViewCalendarEventDetailsPage
+    parameter: number
 
 
 'finance':
@@ -412,14 +417,14 @@
     function: GetMemberAvailability
 
 
-'action/calendar/events':
-    directory: api/user
-    controller: CalendarActionController
-    function: GetCalendarEventsPageDetails
 'action/calendar/tasks':
     directory: api/user
     controller: CalendarActionController
     function: GetCalendarTasksPageDetails
+'action/calendar/events':
+    directory: api/user
+    controller: CalendarActionController
+    function: GetCalendarEventsPageDetails
 
 
 'action/finance':

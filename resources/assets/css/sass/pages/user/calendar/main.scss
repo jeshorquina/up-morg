@@ -1,6 +1,8 @@
 @import "../../../base/variables.scss";
 
 #calendar {
+    font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif !important;
+    font-size: 14px !important;
 
     .fc-button {
         background: $color-info;
@@ -46,4 +48,7 @@
         }
     }
 
+    .fc-list-item {
+        background: none !important;
+    }
 }

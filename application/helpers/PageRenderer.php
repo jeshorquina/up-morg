@@ -300,6 +300,18 @@ class PageRenderer
         }
     }
 
+    public static function HasCalendarViewPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public static function HasFinancePageAccess()
     {
         if(!UserSession::IsFinanceMember())

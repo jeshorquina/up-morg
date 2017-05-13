@@ -9,9 +9,11 @@ class EventModel implements ModelInterface
     public $EventOwner;
     public $EventName;
     public $EventDescription;
-    public $EventDate;
+    public $EventStartDate;
+    public $EventEndDate;
     public $EventTime;
     public $IsPublic;
+    public $Timestamp;
 
     public function __construct($array)
     {    

@@ -5,6 +5,7 @@ use \Jesh\Helpers\Url;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Event;
 use \Jesh\Operations\Repository\Member;
 use \Jesh\Operations\Repository\Task;
 
@@ -12,6 +13,7 @@ class CalendarActionOperations
 {
     private $batch_member;
     private $committee;
+    private $event;
     private $member;
     private $task;
 
@@ -19,20 +21,55 @@ class CalendarActionOperations
     {
         $this->batch_member = new BatchMember;
         $this->committee = new Committee;
+        $this->event = new Event;
         $this->member = new Member;
         $this->task = new Task;
     }
 
     public function GetCalendarEventsPageDetails($batch_id)
     {
-        return array(
-            array(
-                'title' => "Hello",
-                'start' => '2017-05-07',
-                'end' => '2017-05-10',
-                "url" => Url::GetBaseURL()
-            )
-        );
+        $events = array();
+
+        $batch_members = $this->batch_member->GetBatchMemberIDs($batch_id);
+        foreach($batch_members as $batch_member_id)
+        {
+            $events = array_merge(
+                $events, $this->event->GetEvents($batch_member_id)
+            );
+        }
+
+        $return_events = array();
+        foreach($events as $event)
+        {
+            $temp_event = array(
+                "title" => $event->EventName,
+                "url" => Url::GetBaseURL(
+                    sprintf("calendar/events/details/%s", $event->EventID)
+                )
+            );
+
+            if($event->EventEndDate != null)
+            {
+                $temp_event["start"] = $event->EventStartDate;
+                $temp_event["end"] = $event->EventEndDate;
+            }
+            else if($event->EventTime != null)
+            {
+                $temp_event["start"] = sprintf(
+                    "%sT%s",
+                    $event->EventStartDate,
+                    $event->EventTime
+                );
+            }
+            else
+            {
+                $temp_event["start"] = $event->EventStartDate;
+            }
+
+            $return_events[] = $temp_event;
+        }
+
+        return $return_events;
     }
 
     public function GetFrontmanCalendarTaskPageDetails(

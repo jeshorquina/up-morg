@@ -14,10 +14,7 @@ class CalendarPageController extends Controller
     {
         parent::__construct();
 
-        if(PageRenderer::HasUserPageAccess("calendar"))
-        {
-            $this->SetTemplates();
-        }
+        $this->SetTemplates();
     }
 
     private function SetTemplates()
@@ -32,39 +29,63 @@ class CalendarPageController extends Controller
         Url::Redirect("calendar/events");
     }
 
-    public function ViewCalendarEventsPage()
-    {
-        $other_details = array(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Calendar"
-                )
-            ),
-        );
-
-        self::SetBody("user/calendar/main.html.inc");
-        self::RenderView(
-            PageRenderer::GetUserPageData("calendar-events", $other_details)
-        );
-    }
-
-
-
     public function ViewCalendarTasksPage()
     {
-        $other_details = array(
-            Security::GetCSRFData(),
-            array(
-                "page" => array(
-                    "title" => "Calendar"
-                )
-            ),
-        );
+        if(PageRenderer::HasCalendarViewPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Calendar"
+                    )
+                ),
+            );
 
-        self::SetBody("user/calendar/main.html.inc");
-        self::RenderView(
-            PageRenderer::GetUserPageData("calendar-tasks", $other_details)
-        );
+            self::SetBody("user/calendar/main.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("calendar-tasks", $other_details)
+            );
+        }
+    }
+
+    public function ViewCalendarEventsPage()
+    {
+        if(PageRenderer::HasCalendarViewPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Calendar"
+                    )
+                ),
+            );
+
+            self::SetBody("user/calendar/main.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("calendar-events", $other_details)
+            );
+        }
+    }
+
+    public function ViewCalendarEventDetailsPage($event_id)
+    {
+        if(PageRenderer::HasCalendarViewPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Calendar"
+                    )
+                ),
+            );
+
+            self::SetBody("user/calendar/event/view.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData("calendar-event-view", $other_details)
+            );
+        }
     }
 }
