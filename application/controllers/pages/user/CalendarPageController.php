@@ -26,7 +26,7 @@ class CalendarPageController extends Controller
 
     public function CalendarIndex()
     {
-        Url::Redirect("calendar/events");
+        Url::Redirect("calendar/tasks");
     }
 
     public function ViewCalendarTasksPage()
@@ -77,7 +77,13 @@ class CalendarPageController extends Controller
                 Security::GetCSRFData(),
                 array(
                     "page" => array(
-                        "title" => "Calendar"
+                        "title" => "Calendar",
+                        "urls" => array(
+                            "calendar_page" => Url::GetBaseURL("calendar/events")
+                        ),
+                        "details" => array(
+                            "event_id" => $event_id
+                        )
                     )
                 ),
             );
@@ -85,6 +91,34 @@ class CalendarPageController extends Controller
             self::SetBody("user/calendar/event/view.html.inc");
             self::RenderView(
                 PageRenderer::GetUserPageData("calendar-event-view", $other_details)
+            );
+        }
+    }
+
+    public function EditCalendarEventDetailsPage($event_id)
+    {
+        if(PageRenderer::HasCalendarEditPageAccess($event_id))
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Calendar",
+                        "urls" => array(
+                            "calendar_page" => Url::GetBaseURL("calendar/events")
+                        ),
+                        "details" => array(
+                            "event_id" => $event_id
+                        )
+                    )
+                ),
+            );
+
+            self::SetBody("user/calendar/event/edit.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "calendar-event-edit", $other_details
+                )
             );
         }
     }

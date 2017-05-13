@@ -23,4 +23,31 @@ class Event
         }
         return $events;
     }
+
+    public function GetEvent($event_id)
+    {
+        $event = $this->repository->GetEvent($event_id);
+
+        if(!$event)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cannot find event with id = %s in the database",
+                    $event_id
+                )
+            );
+        }
+
+        return new EventModel($event[0]);
+    }
+
+    public function HasEvent($event_id)
+    {
+        return $this->repository->HasEvent($event_id);
+    }
+
+    public function DeleteEvent($event_id)
+    {
+        return $this->repository->DeleteEvent($event_id);
+    }
 }

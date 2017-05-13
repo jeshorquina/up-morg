@@ -3,6 +3,7 @@ namespace Jesh\Helpers;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Event;
 use \Jesh\Operations\Repository\Ledger;
 use \Jesh\Operations\Repository\Member;
 use \Jesh\Operations\Repository\Task;
@@ -309,6 +310,66 @@ class PageRenderer
         else
         {
             return true;
+        }
+    }
+
+    public static function HasCalendarEditPageAccess($event_id)
+    {
+        $batch_member_helper = new BatchMember;
+        $committee_helper = new Committee;
+        $event_helper = new Event;
+        $member_helper = new Member;
+
+        $event_object = $event_helper->GetEvent($event_id);
+        $batch_member_id = UserSession::GetBatchMemberID();
+        $batch_id = UserSession::GetBatchID();
+        $committee_id = UserSession::GetCommitteeID();
+
+        if($event_object->EventOwner == $batch_member_id)
+        {
+            return true;
+        }
+
+        $member_type_id = $batch_member_helper->GetMemberTypeID(
+            $batch_member_id
+        );
+        $member_type = $member_helper->GetMemberType($member_type_id);
+
+        if($member_type == Member::FIRST_FRONTMAN)
+        {
+            return true;
+        }
+        else if($member_type == Member::COMMITTEE_MEMBER)
+        {
+            return false;
+        }
+        else if($member_type == Member::COMMITTEE_HEAD)
+        {
+            $batch_member_ids = (
+                $committee_helper->GetApprovedBatchMemberIDs($committee_id)
+            );
+
+            return in_array($event_object->EventOwner, $batch_member_ids);
+        }
+        else
+        {
+            $batch_member_ids = array();
+
+            $scoped_committees = (
+                $committee_helper->GetCommitteePermissionCommitteeIDs(
+                    $batch_id, $member_type_id
+                )
+            );
+
+            foreach($scoped_committees as $committee_id) 
+            {
+                $batch_member_ids = array_merge(
+                    $batch_member_ids, 
+                    $committee_helper->GetApprovedBatchMemberIDs($committee_id)
+                );
+            }
+
+            return in_array($event_object->EventOwner, $batch_member_ids);
         }
     }
 
@@ -644,13 +705,13 @@ class PageRenderer
         else if(strpos($page_name, 'calendar-') !== false)
         {
             $navs[] = array(
-                "name" => "View Events Calendar",
-                "url" => Url::GetBaseURL("calendar/events")
+                "name" => "View Tasks Calendar",
+                "url" => Url::GetBaseURL("calendar/tasks")
             );
 
             $navs[] = array(
-                "name" => "View Tasks Calendar",
-                "url" => Url::GetBaseURL("calendar/tasks")
+                "name" => "View Events Calendar",
+                "url" => Url::GetBaseURL("calendar/events")
             );
 
             return array(

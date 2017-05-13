@@ -292,4 +292,138 @@ class CalendarActionOperations
             "textColor" => "#FFF"
         );
     }
+
+    public function HasEvent($event_id)
+    {
+        return $this->event->HasEvent($event_id);
+    }
+
+    public function GetCalendarEventDetails(
+        $event_id, $batch_id, $batch_member_id, $committee_id
+    )
+    {
+        $event_object = $this->event->GetEvent($event_id);
+
+        return array(
+            "details" => array(
+                "name" => $event_object->EventName,
+                "owner" => $this->GetMemberName(
+                    $this->batch_member->GetMemberID($event_object->EventOwner)
+                ),
+                "date" => $this->MutateEventDate($event_object),
+                "description" => $event_object->EventDescription
+            ),
+            "flags" => array(
+                "edit" => $this->CanEditEvent(
+                    $event_object, $batch_id, $batch_member_id, $committee_id
+                )
+            )
+        );
+    }
+
+    private function GetMemberName($member_id)
+    {
+        $member = $this->member->GetMember($member_id);
+
+        return str_replace(
+            "  ", " ",
+            sprintf(
+                "%s %s %s", 
+                $member->FirstName, 
+                $member->MiddleName, 
+                $member->LastName
+            )
+        ); 
+    }
+
+    private function MutateEventDate($event_object)
+    {
+        if($event_object->EventEndDate != null)
+        {
+            return sprintf(
+                "%s to %s", 
+                $event_object->EventStartDate, 
+                $event_object->EventEndDate
+            );
+        }
+        else if($event_object->EventTime != null)
+        {
+            return sprintf(
+                "%s - %s", 
+                $event_object->EventStartDate, 
+                $event_object->EventTime
+            );
+        }
+        else
+        {
+            return $event_object->EventStartDate;
+        }
+    }
+
+    public function CanEditEventByID(
+        $event_id, $batch_id, $batch_member_id, $committee_id
+    )
+    {
+        $event_object = $this->event->GetEvent($event_id);
+        return $this->CanEditEvent(
+            $event_object, $batch_id, $batch_member_id, $committee_id
+        );
+    }
+
+    private function CanEditEvent(
+        $event_object, $batch_id, $batch_member_id, $committee_id
+    )
+    {
+        if($event_object->EventOwner == $batch_member_id)
+        {
+            return true;
+        }
+
+        $member_type_id = $this->batch_member->GetMemberTypeID(
+            $batch_member_id
+        );
+        $member_type = $this->member->GetMemberType($member_type_id);
+
+        if($member_type == Member::FIRST_FRONTMAN)
+        {
+            return true;
+        }
+        else if($member_type == Member::COMMITTEE_MEMBER)
+        {
+            return false;
+        }
+        else if($member_type == Member::COMMITTEE_HEAD)
+        {
+            $batch_member_ids = (
+                $this->committee->GetApprovedBatchMemberIDs($committee_id)
+            );
+
+            return in_array($event_object->EventOwner, $batch_member_ids);
+        }
+        else
+        {
+            $batch_member_ids = array();
+
+            $scoped_committees = (
+                $this->committee->GetCommitteePermissionCommitteeIDs(
+                    $batch_id, $member_type_id
+                )
+            );
+
+            foreach($scoped_committees as $committee_id) 
+            {
+                $batch_member_ids = array_merge(
+                    $batch_member_ids, 
+                    $this->committee->GetApprovedBatchMemberIDs($committee_id)
+                );
+            }
+
+            return in_array($event_object->EventOwner, $batch_member_ids);
+        }
+    }
+
+    public function DeleteEvent($event_id)
+    {
+        return $this->event->DeleteEvent($event_id);
+    }
 }

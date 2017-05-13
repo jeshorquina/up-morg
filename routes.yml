@@ -272,6 +272,11 @@
     controller: CalendarPageController
     function: ViewCalendarEventDetailsPage
     parameter: number
+'calendar/events/details/(:num)/edit':
+    directory: pages/user
+    controller: CalendarPageController
+    function: EditCalendarEventDetailsPage
+    parent: number
 
 
 'finance':
@@ -425,6 +430,26 @@
     directory: api/user
     controller: CalendarActionController
     function: GetCalendarEventsPageDetails
+'action/calendar/events/details':
+    directory: api/user
+    controller: CalendarActionController
+    function: GetCalendarEventDetailsPageDetails
+    parameter: number
+'action/calendar/events/details/(:num)/delete':
+    directory: api/user
+    controller: CalendarActionController
+    function: DeleteCalendarEvent
+    parent: number
+'action/calendar/events/details/(:num)/edit-details':
+    directory: api/user
+    controller: CalendarActionController
+    function: GetCalendarEventEditDetailsPageDetails
+    parent: number
+'action/calendar/events/details/(:num)/edit-details':
+    directory: api/user
+    controller: CalendarActionController
+    function: EditCalendarEvent
+    parent: number
 
 
 'action/finance':
