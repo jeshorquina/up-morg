@@ -629,6 +629,22 @@ class PageRenderer
                 "nav_secondary" => $navs
             );
         }
+        else if(strpos($page_name, 'calendar-') !== false)
+        {
+            $navs[] = array(
+                "name" => "View Events Calendar",
+                "url" => Url::GetBaseURL("calendar/events")
+            );
+
+            $navs[] = array(
+                "name" => "View Tasks Calendar",
+                "url" => Url::GetBaseURL("calendar/tasks")
+            );
+
+            return array(
+                "nav_secondary" => $navs
+            );
+        }
         else 
         {
             return array();

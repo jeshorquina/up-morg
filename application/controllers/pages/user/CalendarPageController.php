@@ -29,6 +29,11 @@ class CalendarPageController extends Controller
 
     public function CalendarIndex()
     {
+        Url::Redirect("calendar/events");
+    }
+
+    public function ViewCalendarEventsPage()
+    {
         $other_details = array(
             Security::GetCSRFData(),
             array(
@@ -38,9 +43,28 @@ class CalendarPageController extends Controller
             ),
         );
 
-        self::SetBody("user/calendar.html.inc");
+        self::SetBody("user/calendar/main.html.inc");
         self::RenderView(
-            PageRenderer::GetUserPageData("calendar", $other_details)
-        );   
+            PageRenderer::GetUserPageData("calendar-events", $other_details)
+        );
+    }
+
+
+
+    public function ViewCalendarTasksPage()
+    {
+        $other_details = array(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" => "Calendar"
+                )
+            ),
+        );
+
+        self::SetBody("user/calendar/main.html.inc");
+        self::RenderView(
+            PageRenderer::GetUserPageData("calendar-tasks", $other_details)
+        );
     }
 }

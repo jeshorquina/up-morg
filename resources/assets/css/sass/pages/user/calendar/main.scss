@@ -1,0 +1,49 @@
+@import "../../../base/variables.scss";
+
+#calendar {
+
+    .fc-button {
+        background: $color-info;
+        border: none;
+        box-shadow: none;
+        color: $color-text-inverted; 
+        text-shadow: none;
+
+        &.fc-prev-button,
+        &.fc-next-button {
+            border-radius: 3px !important;
+            margin: 0 0.5rem 0 0;
+        }
+
+        &.fc-state-active {
+            background: darken($color-info, $button-hover-darken-percentage);
+        }
+
+        &:hover, &:focus {
+            background: darken($color-info, $button-hover-darken-percentage);
+        }
+    }
+
+    th.fc-day-header {
+        padding: 0.25rem;
+    }
+
+    td.fc-past {
+        background: darken($color-background, 2%) !important;
+    }
+
+    td.fc-today {
+        background: lighten($color-success, 40%) !important;
+    }
+
+    .fc-event,
+    .fc-event-dot {
+        background: #FE4365;
+        border: none;
+
+        .fc-content {
+            padding: 0.1rem 0.2rem;
+        }
+    }
+
+}

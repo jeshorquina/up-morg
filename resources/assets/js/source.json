@@ -291,8 +291,11 @@
         ]
     },
     {
-        "name": "user/calendar.js",
+        "name": "user/calendar-events.js",
         "src": [
+            "resources/assets/js/vendor/fullcalendar/jquery.min.js",
+            "resources/assets/js/vendor/fullcalendar/moment.min.js",
+            "resources/assets/js/vendor/fullcalendar.js",
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/helpers/loader.js",
@@ -300,9 +303,27 @@
             "resources/assets/js/libraries/httpHelper.js",
             "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
-            "resources/assets/js/factories/user/calendar.js",
-            "resources/assets/js/operations/user/calendar.js",
-            "resources/assets/js/controllers/user/calendar.js"
+            "resources/assets/js/factories/user/calendar/events.js",
+            "resources/assets/js/operations/user/calendar/events.js",
+            "resources/assets/js/controllers/user/calendar/events.js"
+        ]
+    },
+    {
+        "name": "user/calendar-tasks.js",
+        "src": [
+            "resources/assets/js/vendor/fullcalendar/jquery.min.js",
+            "resources/assets/js/vendor/fullcalendar/moment.min.js",
+            "resources/assets/js/vendor/fullcalendar.js",
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/user/calendar/tasks.js",
+            "resources/assets/js/operations/user/calendar/tasks.js",
+            "resources/assets/js/controllers/user/calendar/tasks.js"
         ]
     },
     {
@@ -368,8 +389,8 @@
         "name": "user/finance-closed-frontman.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/vendor/pdfmake/vfs_fonts.js",
             "resources/assets/js/vendor/pdfmake.js",
-            "resources/assets/js/vendor/vfs_fonts.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
