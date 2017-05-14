@@ -5,6 +5,7 @@ use \Jesh\Core\Wrappers\Repository;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskEventModel;
 use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
@@ -99,6 +100,20 @@ class TaskRepository extends Repository
         );
     }
 
+    public function GetTaskEventByTaskID($task_id)
+    {
+        return self::Get(
+            "TaskEvent", "*", array("TaskID" => $task_id)
+        );
+    }
+
+    public function GetTaskEventsByEventID($event_id)
+    {
+        return self::Get(
+            "TaskEvent", "*", array("EventID" => $event_id)
+        );
+    }
+
     public function HasParentTask($task_id)
     {
         return self::Find(
@@ -113,6 +128,11 @@ class TaskRepository extends Repository
                 "TaskID" => $task_id, "BatchMemberID" => $batch_member_id
             )
         );
+    }
+
+    public function HasEvent($task_id)
+    {
+        return self::Find("TaskEvent", "TaskID", array("TaskID" => $task_id));
     }
 
     public function IsSubmissionFromTask($task_id, $task_submission_id)
@@ -150,6 +170,11 @@ class TaskRepository extends Repository
         return self::Insert("TaskSubmission", $submission);
     }
 
+    public function AddTaskEvent(TaskEventModel $task_event)
+    {
+        return self::Insert("TaskEvent", $task_event);
+    }
+
     public function UpdateTask($task_id, TaskModel $task)
     {
         return self::Update("Task", array("TaskID" => $task_id), $task);
@@ -170,5 +195,10 @@ class TaskRepository extends Repository
         return self::Delete(
             "TaskSubscriber", "TaskSubscriberID", $task_subscriber_id
         );
+    }
+
+    public function DeleteEventByTaskID($task_id)
+    {
+        return self::Delete("TaskEvent", "TaskID", $task_id);
     }
 }

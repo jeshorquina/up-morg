@@ -6,6 +6,12 @@
     .getElementById("event-details-container")
     .getAttribute("data-event-id");
 
+  var viewOtherTaskCallback = function () {
+    EventDetailsViewOperations.ViewOtherTaskDetails(
+      source, this.getAttribute("data-task-id")
+    );
+  }
+
   var editEventCallback = function () {
     EventDetailsViewOperations.EditEvent(
       source, eventID, controllerCallback
@@ -22,6 +28,11 @@
   }
 
   var controllerCallback = function () {
+
+    var taskRows = document.getElementsByClassName("view-task-details");
+    for (var i = 0; i < taskRows.length; i++) {
+      taskRows[i].addEventListener("click", viewOtherTaskCallback);
+    }
 
     document
       .getElementById("edit-event-button")

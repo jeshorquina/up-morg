@@ -5,6 +5,7 @@ use \Jesh\Helpers\StringHelper;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskEventModel;
 use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
@@ -217,6 +218,33 @@ class Task
         return $submissions;
     }
 
+    public function GetTaskEventByTaskID($task_id)
+    {
+        $is_found = $this->repository->GetTaskEventByTaskID($task_id);
+    
+        if(!$is_found)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cannot find task submission with id = `%s`.",
+                    $task_submission_id
+                )
+            );
+        }
+
+        return new TaskEventModel($is_found[0]);
+    }
+
+    public function GetTaskEventsByEventID($event_id)
+    {
+        $events = array();
+        foreach($this->repository->GetTaskEventsByEventID($event_id) as $event)
+        {
+            $events[] = new TaskEVentModel($event);
+        }
+        return $events;
+    }
+
     public function HasTask($task_id)
     {
         return ($this->repository->GetTask($task_id)) ? true : false;
@@ -225,6 +253,11 @@ class Task
     public function HasParentTask($task_id)
     {
         return $this->repository->HasParentTask($task_id);
+    }
+
+    public function HasEvent($task_id)
+    {
+        return $this->repository->HasEvent($task_id);
     }
 
     public function IsTaskSubscriber($task_id, $batch_member_id)
@@ -307,6 +340,20 @@ class Task
         return $is_added;
     }
 
+    public function AddTaskEvent(TaskEventModel $task_event)
+    {
+        $is_added = $this->repository->AddTaskEvent($task_event);
+
+        if(!$is_added)
+        {
+            throw new \Exception(
+                "Cannot add task event to the database."
+            );
+        }
+
+        return $is_added;
+    }
+
     public function UpdateTask($task_id, TaskModel $task)
     {
         $is_updated = $this->repository->UpdateTask($task_id, $task);
@@ -357,6 +404,20 @@ class Task
         {
             throw new \Exception(
                 "Cannot delete task subscriber from the database."
+            );
+        }
+
+        return $is_deleted;
+    }
+
+    public function DeleteEventByTaskID($task_id)
+    {
+        $is_deleted = $this->repository->DeleteEventByTaskID($task_id);
+
+        if(!$is_deleted)
+        {
+            throw new \Exception(
+                "Cannot delete task event from the database."
             );
         }
 

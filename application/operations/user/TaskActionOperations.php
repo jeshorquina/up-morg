@@ -8,12 +8,14 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\TaskModel;
 use \Jesh\Models\TaskCommentModel;
+use \Jesh\Models\TaskEventModel;
 use \Jesh\Models\TaskSubmissionModel;
 use \Jesh\Models\TaskSubscriberModel;
 use \Jesh\Models\TaskTreeModel;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Event;
 use \Jesh\Operations\Repository\Member;
 use \Jesh\Operations\Repository\Task;
 
@@ -21,6 +23,7 @@ class TaskActionOperations
 {
     private $batch_member;
     private $committee;
+    private $event;
     private $member;
     private $task;
 
@@ -28,6 +31,7 @@ class TaskActionOperations
     {
         $this->batch_member = new BatchMember;
         $this->committee = new Committee;
+        $this->event = new Event;
         $this->member = new Member;
         $this->task = new Task;
     }
@@ -506,6 +510,7 @@ class TaskActionOperations
                 ),
                 "parent" => $this->GetParentTask($task_object->TaskID),
                 "children" => $this->GetChildrenTasks($task_object->TaskID),
+                "event" => $this->GetEvent($task_object->TaskID),
                 "comments" => $this->GetTaskComments($task_object->TaskID),
                 "submissions" => $this->GetSubmissions(
                     $task_object->TaskID, ($can_approve || $can_submit)
@@ -554,6 +559,27 @@ class TaskActionOperations
             );
         }
         return (sizeof($tasks) > 0) ? $tasks : false;
+    }
+
+    private function GetEvent($task_id)
+    {
+        if($this->task->HasEvent($task_id))
+        {
+            $event = $this->event->GetEvent(
+                $this->task->GetTaskEventByTaskID($task_id)->EventID
+            );
+            return array(
+                "id" => $event->EventID,
+                "name" => $event->EventName,
+                "url" => Url::GetBaseURL(
+                    sprintf("calendar/events/details/%s", $event->EventID)
+                )
+            );
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private function GetTaskComments($task_id)
@@ -1020,7 +1046,7 @@ class TaskActionOperations
                     $this->batch_member->GetMemberID($task_object->Reporter)
                 )
             ),
-            "event" => array(),
+            "event" => $this->GetEvent($task_object->TaskID),
             "parent" => $this->GetParentTask($task_object->TaskID),
             "children" => $this->GetChildrenTasks($task_object->TaskID),
             "subscribers" => $this->task->GetTaskSubscribersByTaskID($task_id)
@@ -1028,7 +1054,7 @@ class TaskActionOperations
     }
 
     public function EditTask(
-        $task_id, $title, $description, $deadline, $subscribers, $parent
+        $task_id, $title, $description, $deadline, $subscribers, $parent, $event
     )
     {
         $this->task->UpdateTask(
@@ -1066,6 +1092,23 @@ class TaskActionOperations
                     array(
                         "ChildTaskID" => $task_id,
                         "ParentTaskID" => $parent
+                    )
+                )
+            );
+        }
+
+        if($this->task->HasEvent($task_id))
+        {
+            $this->task->DeleteEventByTaskID($task_id);
+        }
+
+        if($event !== null)
+        {
+            $this->task->AddTaskEvent(
+                new TaskEventModel(
+                    array(
+                        "TaskID" => $task_id,
+                        "EventID" => $event
                     )
                 )
             );
@@ -1175,8 +1218,20 @@ class TaskActionOperations
 
         $events = array();
 
+        $batch_members = $this->batch_member->GetBatchMemberIDs($batch_id);
+        foreach($batch_members as $batch_member_id)
+        {
+             foreach($this->event->GetEvents($batch_member_id) as $event)
+            {
+                $events[] = array(
+                    "id" => $event->EventID,
+                    "name" => $event->EventName
+                );
+            }
+        }
+
         return array(
-            "events" => $events,
+            "events" => Sort::AssociativeArray($events, "id", Sort::DESCENDING),
             "members" => Sort::AssociativeArray(
                 $members, "name", Sort::ASCENDING
             ),
@@ -1226,6 +1281,18 @@ class TaskActionOperations
         }
 
         $events = array();
+
+        $batch_members = $this->batch_member->GetBatchMemberIDs($batch_id);
+        foreach($batch_members as $batch_member_id)
+        {
+             foreach($this->event->GetEvents($batch_member_id) as $event)
+            {
+                $events[] = array(
+                    "id" => $event->EventID,
+                    "name" => $event->EventName
+                );
+            }
+        }
 
         return array(
             "events" => $events,
@@ -1280,7 +1347,20 @@ class TaskActionOperations
             }
         }
 
+
         $events = array();
+
+        $batch_members = $this->batch_member->GetBatchMemberIDs($batch_id);
+        foreach($batch_members as $batch_member_id)
+        {
+             foreach($this->event->GetEvents($batch_member_id) as $event)
+            {
+                $events[] = array(
+                    "id" => $event->EventID,
+                    "name" => $event->EventName
+                );
+            }
+        }
 
         return array(
             "events" => $events,
@@ -1330,6 +1410,13 @@ class TaskActionOperations
     {
         return (
             \DateTime::createFromFormat("Y-m-d", $deadline) >= new \DateTime()
+        );
+    }
+
+    public function IsEventStartDateValid($date)
+    {
+       return (
+            \DateTime::createFromFormat("Y-m-d", $date) >= new \DateTime()
         );
     }
 
@@ -1398,7 +1485,7 @@ class TaskActionOperations
 
     public function AddTask(
         $title, $description, $deadline, $reporter, $assignee, $subscribers,
-        $parent
+        $parent, $event
     )
     {
         $task_id = $this->task->AddTask(
@@ -1434,6 +1521,18 @@ class TaskActionOperations
                     array(
                         "ChildTaskID" => $task_id,
                         "ParentTaskID" => $parent
+                    )
+                )
+            );
+        }
+
+        if($event !== null)
+        {
+            $this->task->AddTaskEvent(
+                new TaskEventModel(
+                    array(
+                        "TaskID" => $task_id,
+                        "EventID" => $event
                     )
                 )
             );

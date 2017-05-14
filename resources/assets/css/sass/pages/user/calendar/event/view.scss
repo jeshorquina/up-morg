@@ -1,0 +1,28 @@
+@import "../../../../base/variables.scss";
+
+ul.list {
+    font-size: 0.9rem;
+
+    li {
+
+        .label {
+            font-size: 0.7rem;
+        }
+
+        .align-middle {
+            display: table;
+            height: 100%;
+
+            & .cell {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+
+        &.hover {
+            &:hover, &:focus {
+                background-color: lighten($color-border, 10%) !important;
+            }
+        }
+    }
+}

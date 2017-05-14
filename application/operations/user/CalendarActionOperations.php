@@ -321,8 +321,28 @@ class CalendarActionOperations
                 "edit" => $this->CanEditEvent(
                     $event_object, $batch_id, $batch_member_id, $committee_id
                 )
-            )
+            ),
+            "tasks" => $this->GetTaskReferences($event_id)
         );
+    }
+
+    private function GetTaskReferences($event_id)
+    {
+        $tasks = array();
+        foreach($this->task->GetTaskEventsByEventID($event_id) as $event)
+        {
+            $task = $this->task->GetTask($event->TaskID);
+
+            $tasks[] = array(
+                "id" => $task->TaskID,
+                "title" => $task->TaskTitle,
+                "status" => $this->task->GetTaskStatus(
+                    $task->TaskStatusID
+                ),
+                "deadline" => $task->TaskDeadline
+            );
+        }
+        return (sizeof($tasks) > 0) ? $tasks : false;
     }
 
     private function GetMemberName($member_id)

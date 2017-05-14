@@ -208,6 +208,22 @@
       DomHelper.InsertContent(taskReporter[i], details.reporter);
     }
 
+    if (task.event) {
+      var taskEvent = document.getElementsByClassName('task-event');
+      for (var i = 0; i < taskEvent.length; i++) {
+        DomHelper.InsertContent(
+          taskEvent[i],
+          TaskDetailsViewFactory.CreateEventLink(task.event)
+        );
+      }
+    }
+    else {
+      var taskEvent = document.getElementsByClassName('task-event');
+      for (var i = 0; i < taskEvent.length; i++) {
+        DomHelper.InsertContent(taskEvent[i], "No event linked.");
+      }
+    }
+
     var taskDeadline = document.getElementsByClassName('task-deadline');
     for (var i = 0; i < taskDeadline.length; i++) {
       DomHelper.InsertContent(

@@ -778,8 +778,6 @@ class TaskActionController extends Controller
 
         $reporter = UserSession::GetBatchMemberID();
 
-        //$event = Http::Request(Http::POST, "task-event");
-
         $title = Http::Request(Http::POST, "task-title");
         $description = Http::Request(Http::POST, "task-description");
         $deadline = Http::Request(Http::POST, "task-deadline");
@@ -885,6 +883,9 @@ class TaskActionController extends Controller
         $parent = Http::Request(Http::POST, "task-parent");
         $parent = ((int)$parent <= -1) ? null : $parent;
 
+        $event = Http::Request(Http::POST, "task-event");
+        $event = ((int)$event <= -1) ? null : $event;
+
         if(!$this->operations->CheckParentTaskValidByID($parent))
         {
             Http::Response(
@@ -896,7 +897,8 @@ class TaskActionController extends Controller
             );
         }
         else if(!$this->operations->EditTask(
-            $task_id, $title, $description, $deadline, $subscribers, $parent
+            $task_id, $title, $description, $deadline, $subscribers, $parent,
+            $event
         ))
         {
             Http::Response(
@@ -1029,8 +1031,6 @@ class TaskActionController extends Controller
 
         $reporter = UserSession::GetBatchMemberID();
 
-        //$event = Http::Request(Http::POST, "task-event");
-
         $title = Http::Request(Http::POST, "task-title");
         $description = Http::Request(Http::POST, "task-description");
         $deadline = Http::Request(Http::POST, "task-deadline");
@@ -1133,6 +1133,7 @@ class TaskActionController extends Controller
         }
 
         $parent = Http::Request(Http::POST, "task-parent");
+        $event = Http::Request(Http::POST, "task-event");
 
         if(!$this->operations->CheckParentTaskValidByID($parent))
         {
@@ -1146,7 +1147,7 @@ class TaskActionController extends Controller
         }
         else if(!$this->operations->AddTask(
             $title, $description, $deadline, $reporter, $assignee, $subscribers,
-            $parent
+            $parent, $event
         ))
         {
             Http::Response(

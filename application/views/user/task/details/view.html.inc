@@ -52,6 +52,10 @@
                     <label class="form-label">Reporter</label>
                     <p class="task-reporter"></p>
                 </div>
+                <div class="form-group flex flex-1">
+                    <label class="form-label">Event Reference</label>
+                    <p class="task-event"></p>
+                </div>
             </div>
 
         </div>

@@ -12,6 +12,13 @@
     }, parentTitle);
   }
 
+  TaskDetailsViewFactory.CreateEventLink = function (event) {
+
+    return DomHelper.CreateElement("a", {
+      "href": event.url
+    }, event.name);
+  }
+
   TaskDetailsViewFactory.CreateDeadline = function (deadline) {
 
     var q = new Date();

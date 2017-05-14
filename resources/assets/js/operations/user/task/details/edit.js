@@ -88,7 +88,7 @@
       FillTaskSubscribersSelect();
       FillTaskSubscriberList();
 
-      FillTaskEventSelect(response.data.events);
+      FillTaskEventSelect(response.data.events, response.data.details);
       FillTaskParentSelect(response.data.tasks, response.data.details);
 
       controllerCallback();
@@ -196,15 +196,19 @@
     });
   }
 
-  function FillTaskEventSelect(events) {
+  function FillTaskEventSelect(events, details) {
 
     var eventSelect = document.getElementById("task-event");
     DomHelper.InsertContent(
-      eventSelect, TaskEditFactory.CreateDefaultOption("No event reference")
+      eventSelect,
+      TaskEditFactory.CreateNonDisabledDefaultOption("No event reference")
     );
     events.forEach(function (event) {
       DomHelper.AppendContent(
-        eventSelect, TaskEditFactory.CreateOption(event)
+        eventSelect,
+        (details.event.id == event.id) ?
+          TaskEditFactory.CreateSelectedOption(event) :
+          TaskEditFactory.CreateOption(event)
       );
     });
   }
@@ -235,7 +239,7 @@
         TaskEditFactory.CreateParentTaskLink(details.parent)
       );
     }
-    else {
+    else if (document.getElementById("parent-task-title-container")) {
       DomHelper.RemoveElement("parent-task-title-container");
     }
 

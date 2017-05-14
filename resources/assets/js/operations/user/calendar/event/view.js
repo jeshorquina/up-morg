@@ -40,6 +40,10 @@
     }
   }
 
+  EventDetailsViewOperations.ViewOtherTaskDetails = function (source, taskID) {
+    UrlHelper.Redirect(source + "task/view/details/" + taskID);
+  }
+
   function RenderEventDetailsViewCallback(
     status, responseText, controllerCallback
   ) {
@@ -94,6 +98,7 @@
   function RenderEventDetailsSections(event) {
 
     FillEventDetails(event.details);
+    FillTaskList(event.tasks);
     FillEventButtonContainer(event.flags, event.details.id);
   }
 
@@ -123,6 +128,13 @@
     for (var i = 0; i < eventDescription.length; i++) {
       DomHelper.InsertContent(eventDescription[i], event.description);
     }
+  }
+
+  function FillTaskList(tasks) {
+
+    DomHelper.InsertContent(
+      "event-tasks", EventDetailsViewFactory.CreateTaskList(tasks)
+    );
   }
 
   function FillEventButtonContainer(flags, eventID) {
