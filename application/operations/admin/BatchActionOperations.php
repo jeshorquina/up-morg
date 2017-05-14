@@ -46,7 +46,7 @@ class BatchActionOperations
             $batch->IsActive = ($batch->BatchID == $activeBatch);
             $batches[] = $batch;
         }
-        return (sizeof($batches) == 0) ? false : Sort::ObjectArray(
+        return Sort::ObjectArray(
             $batches, "AcadYear", Sort::DESCENDING
         );
     }

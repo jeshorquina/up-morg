@@ -25,7 +25,8 @@ class BatchActionController extends Controller
 
     public function GetBatches()
     {
-        if(!$batches = $this->operations->GetBatches()) 
+        $batches = $this->operations->GetBatches();
+        if($batches != false) 
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
