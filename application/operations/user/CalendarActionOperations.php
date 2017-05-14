@@ -1,7 +1,11 @@
 <?php
 namespace Jesh\Operations\User;
 
+use \Jesh\Helpers\StringHelper;
 use \Jesh\Helpers\Url;
+use \Jesh\Helpers\ValidationDataBuilder;
+
+use \Jesh\Models\EventModel;
 
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
@@ -342,21 +346,26 @@ class CalendarActionOperations
         {
             return sprintf(
                 "%s to %s", 
-                $event_object->EventStartDate, 
-                $event_object->EventEndDate
+                date("F j, Y", strtotime($event_object->EventStartDate)),
+                date("F j, Y", strtotime($event_object->EventEndDate))
             );
         }
         else if($event_object->EventTime != null)
         {
-            return sprintf(
-                "%s - %s", 
-                $event_object->EventStartDate, 
-                $event_object->EventTime
+            return date(
+                "F j, Y - g:i a",
+                strtotime(
+                    sprintf(
+                        "%s %s", 
+                        $event_object->EventStartDate, 
+                        $event_object->EventTime
+                    )
+                )
             );
         }
         else
         {
-            return $event_object->EventStartDate;
+            return date("F j, Y", strtotime($event_object->EventStartDate));
         }
     }
 
@@ -425,5 +434,115 @@ class CalendarActionOperations
     public function DeleteEvent($event_id)
     {
         return $this->event->DeleteEvent($event_id);
+    }
+
+    public function GetEditEventDetails($event_id)
+    {
+        $event = $this->event->GetEvent($event_id);
+
+        return array(
+            "id" => $event->EventID,
+            "name" => $event->EventName,
+            "description" => $event->EventDescription,
+            "date" => array(
+                "start" => $event->EventStartDate,
+                "end" => $event->EventEndDate
+            ),
+            "time" => $event->EventTime,
+            "public" => (bool)$event->IsPublic
+        );
+    }
+
+    public function ValidateEventData($input_data)
+    {
+        $validation = new ValidationDataBuilder;
+
+        $validation->CheckString("event-name", $input_data["event-name"]);
+        $validation->CheckString(
+            "event-description", $input_data["event-description"]
+        );
+        $validation->CheckDate(
+            "event-start-date", $input_data["event-start-date"]
+        );
+        if($input_data["event-end-date"] != null)
+        {
+            $validation->CheckDate(
+                "event-end-date", $input_data["event-end-date"]
+            );
+        }
+        if($input_data["event-time"] != null)
+        {
+            $validation->CheckTime(
+                "event-time", $input_data["event-time"]
+            );
+        }
+
+        return array(
+            "status"  => $validation->GetStatus(),
+            "message" => array(
+                "message" => StringHelper::NoBreakString(
+                    "There are validation errors. Please check input data."
+                ),
+                "data" => $validation->GetValidationData()
+            )
+        );
+    }
+
+    public function HasValidEventDate($event_start_date, $event_end_date)
+    {
+        $now = new \DateTime();
+        $start = \DateTime::createFromFormat("Y-m-d", $event_start_date);
+
+        if($event_end_date != null)
+        {
+            $end = \DateTime::createFromFormat("Y-m-d", $event_end_date);
+        }
+        else
+        {
+            $end = $start;
+        }
+
+        return ($start <= $end && $start >= $now && $end >= $now);
+    }
+
+    public function AddEvent(
+        $event_name, $event_start_date, $event_end_date, $event_time, 
+        $event_owner, $is_public, $event_description
+    ) 
+    {
+        return $this->event->AddEvent(
+            new EventModel(
+                array(
+                    "EventOwner" => $event_owner,
+                    "EventName" => $event_name,
+                    "EventDescription" => $event_description,
+                    "EventStartDate" => $event_start_date,
+                    "EventEndDate" => $event_end_date,
+                    "EventTime" => $event_time,
+                    "IsPublic" => $is_public
+                )
+            )
+        );
+    }
+
+    public function EditEvent(
+        $event_id, $event_name, $event_start_date, $event_end_date, 
+        $event_time, $event_owner, $is_public, $event_description
+    )
+    {
+        return $this->event->EditEvent(
+            $event_id,
+            new EventModel(
+                array(
+                    "EventOwner" => $event_owner,
+                    "EventName" => $event_name,
+                    "EventDescription" => $event_description,
+                    "EventStartDate" => $event_start_date,
+                    "EventEndDate" => $event_end_date,
+                    "EventTime" => $event_time,
+                    "IsPublic" => $is_public
+                )
+            )
+        );
     }
 }

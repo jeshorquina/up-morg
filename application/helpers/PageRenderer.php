@@ -313,6 +313,18 @@ class PageRenderer
         }
     }
 
+    public static function HasCalendarAddPageAccess()
+    {
+        if(UserSession::IsFrontman() || UserSession::IsCommitteeHead())
+        {
+            return true;
+        }
+        else
+        {
+            self::ShowForbiddenPage();
+        }
+    }
+
     public static function HasCalendarEditPageAccess($event_id)
     {
         $batch_member_helper = new BatchMember;
@@ -713,6 +725,14 @@ class PageRenderer
                 "name" => "View Events Calendar",
                 "url" => Url::GetBaseURL("calendar/events")
             );
+
+            if(UserSession::IsFrontman() || UserSession::IsCommitteeHead())
+            {
+                $navs[] = array(
+                    "name" => "Add Event",
+                    "url" => Url::GetBaseURL("calendar/add/event")
+                );
+            }
 
             return array(
                 "nav_secondary" => $navs

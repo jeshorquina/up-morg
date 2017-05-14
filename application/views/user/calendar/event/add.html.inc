@@ -1,4 +1,4 @@
-<div class="container" id="event-details-container" data-event-id="<?= $page['details']['event_id'] ?>">
+<div class="container">
 
     <div class="card margin-vertical-xlarge">
 
@@ -6,21 +6,7 @@
 
         <hr>
 
-        <div class="breadcrumb">
-            <span class="crumb">
-                <a href="<?= $page['urls']['calendar_page'] ?>" >Events Calendar</a>
-            </span>
-            <span class="crumb">
-                <a href="<?= $page['urls']['event_view_page'] ?>">
-                    <span id="event-breadcrumb-name"></span>
-            </a>
-            </span>
-            <span class="crumb">
-                Edit Event
-            </span>
-        </div>
-
-        <form id="edit-event-form" class="margin-top-large clearfix">
+        <form id="add-event-form" class="clearfix">
 
             <div class="flex-container">
                 <div class="form-group flex flex-3">

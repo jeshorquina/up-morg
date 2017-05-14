@@ -126,16 +126,42 @@ class ValidationDataBuilder
             );
         }
 
-        $is_valid = filter_var(
-            preg_match("/[0-9]{4}-[0-1][0-9]-[0-3][0-9]/", $value), 
-            FILTER_VALIDATE_BOOLEAN
+        if(!\DateTime::createFromFormat("Y-m-d", $value))
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Malformed date for %s. Should have YYYY-MM-DD format.", 
+                StringHelper::UnmakeIndex($name)
+            );
+        }
+    }
+
+    public function CheckTime($name, $value)
+    {
+        if(strtolower(gettype($value)) !== "string") 
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Incorrect data type for %s", StringHelper::UnmakeIndex($name)
+            );
+        }
+        else if(strlen($value) === 0) 
+        {
+            $this->valid        = false;
+            $this->array[$name] = sprintf(
+                "Empty %s", StringHelper::UnmakeIndex($name)
+            );
+        }
+
+        $is_valid = \DateTime::createFromFormat(
+            "d/m/Y H:i", sprintf("10/10/2010 %s", $value)
         );
 
         if(!$is_valid)
         {
             $this->valid        = false;
             $this->array[$name] = sprintf(
-                "Malformed date for %s. Should have YYYY-MM-DD format.", 
+                "Malformed time for %s. Should have HH:MM format.", 
                 StringHelper::UnmakeIndex($name)
             );
         }

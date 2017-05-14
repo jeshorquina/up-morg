@@ -277,6 +277,10 @@
     controller: CalendarPageController
     function: EditCalendarEventDetailsPage
     parent: number
+'calendar/add/event':
+    directory: pages/user
+    controller: CalendarPageController
+    function: AddCalendarEventPage
 
 
 'finance':
@@ -445,11 +449,15 @@
     controller: CalendarActionController
     function: GetCalendarEventEditDetailsPageDetails
     parent: number
-'action/calendar/events/details/(:num)/edit-details':
+'action/calendar/events/details/(:num)/edit':
     directory: api/user
     controller: CalendarActionController
     function: EditCalendarEvent
     parent: number
+'action/calendar/add/event':
+    directory: api/user
+    controller: CalendarActionController
+    function: AddCalendarEvent
 
 
 'action/finance':

@@ -105,7 +105,12 @@ class CalendarPageController extends Controller
                     "page" => array(
                         "title" => "Calendar",
                         "urls" => array(
-                            "calendar_page" => Url::GetBaseURL("calendar/events")
+                            "calendar_page" => Url::GetBaseURL("calendar/events"),
+                            "event_view_page" => Url::GetBaseURL(
+                                sprintf(
+                                    "calendar/events/details/%s", $event_id
+                                )
+                            )
                         ),
                         "details" => array(
                             "event_id" => $event_id
@@ -118,6 +123,28 @@ class CalendarPageController extends Controller
             self::RenderView(
                 PageRenderer::GetUserPageData(
                     "calendar-event-edit", $other_details
+                )
+            );
+        }
+    }
+
+    public function AddCalendarEventPage()
+    {
+        if(PageRenderer::HasCalendarAddPageAccess())
+        {
+            $other_details = array(
+                Security::GetCSRFData(),
+                array(
+                    "page" => array(
+                        "title" => "Calendar"
+                    )
+                ),
+            );
+
+            self::SetBody("user/calendar/event/add.html.inc");
+            self::RenderView(
+                PageRenderer::GetUserPageData(
+                    "calendar-event-add", $other_details
                 )
             );
         }

@@ -46,8 +46,49 @@ class Event
         return $this->repository->HasEvent($event_id);
     }
 
+    public function AddEvent(EventModel $event)
+    {
+        $is_added = $this->repository->AddEvent($event);
+
+         if(!$is_added)
+        {
+            throw new \Exception("Cannot add event in the database");
+        }
+
+        return $is_added;
+    }
+
+    public function EditEvent($event_id, EventModel $event)
+    {
+        $is_edited = $this->repository->EditEvent($event_id, $event);
+
+         if(!$is_edited)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cannot edit event with id = %s in the database",
+                    $event_id
+                )
+            );
+        }
+
+        return $is_edited;
+    }
+
     public function DeleteEvent($event_id)
     {
-        return $this->repository->DeleteEvent($event_id);
+        $is_deleted = $this->repository->DeleteEvent($event_id);
+
+         if(!$is_deleted)
+        {
+            throw new \Exception(
+                sprintf(
+                    "Cannot delete event with id = %s from the database",
+                    $event_id
+                )
+            );
+        }
+
+        return $is_deleted;
     }
 }

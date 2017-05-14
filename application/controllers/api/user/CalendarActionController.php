@@ -228,13 +228,7 @@ class CalendarActionController extends Controller
 
     public function GetCalendarEventEditDetailsPageDetails($event_id)
     {
-
-    }
-
-    public function EditCalendarEvent($event_id)
-    {
-        
-        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        if(!UserSession::IsCommitteeHead() && !UserSession::IsFrontman())
         {
             Http::Response(
                 Http::FORBIDDEN, array(
@@ -259,7 +253,235 @@ class CalendarActionController extends Controller
             UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
         ))
         {
-            
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$details = $this->operations->GetEditEventDetails($event_id))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Cannot get event. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Event successfully retrieved."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function EditCalendarEvent($event_id)
+    {
+        if(!UserSession::IsCommitteeHead() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->HasEvent($event_id))
+        {
+            Http::Response(
+                Http::NOT_FOUND, array(
+                    "message" => StringHelper::NoBreakString(
+                        "The event was not found in the database!"
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->CanEditEventByID(
+            $event_id, UserSession::GetBatchID(), 
+            UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
+        ))
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+        
+        $event_name = Http::Request(Http::POST, "event-name");
+        $event_description = Http::Request(Http::POST, "event-description");
+        $event_start_date = Http::Request(Http::POST, "event-start-date");
+
+        $event_end_date = Http::Request(Http::POST, "event-end-date");
+        $event_end_date = ($event_end_date == "") ? null : $event_end_date;
+
+        $event_time = Http::Request(Http::POST, "event-time");
+        $event_time = ($event_time == "") ? null : $event_time;
+
+        $event_visibility = Http::Request(Http::POST, "event-visibility");
+        $is_public = ($event_visibility == "public") ? True : False;
+
+        $event_owner = UserSession::GetBatchMemberID();
+
+        $validation = $this->operations->ValidateEventData(
+            array(
+                "event-name"        => $event_name,
+                "event-start-date"  => $event_start_date,
+                "event-end-date"    => $event_end_date,
+                "event-time"        => $event_time,
+                "event-description" => $event_description,
+            )
+        );
+        if($validation["status"] === false)
+        {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
+        }
+        else if(!$this->operations->HasValidEventDate(
+            $event_start_date, $event_end_date
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "message" => StringHelper::NoBreakString(
+                        "Event dates are invalid. Please enter valid dates."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->EditEvent(
+            $event_id, $event_name, $event_start_date, $event_end_date, 
+            $event_time, $event_owner, $is_public, $event_description
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Cannot get event. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+        else if(!$details = $this->operations->GetEditEventDetails($event_id))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Cannot get event. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::OK, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Event successfully edit."
+                    ),
+                    "data" => $details
+                )
+            );
+        }
+    }
+
+    public function AddCalendarEvent()
+    {
+        if(!UserSession::IsCommitteeHead() && !UserSession::IsFrontman())
+        {
+            Http::Response(
+                Http::FORBIDDEN, array(
+                    "message" => StringHelper::NoBreakString(
+                        "You do not have access to this endpoint!"
+                    )
+                )
+            );
+        }
+
+        $event_name = Http::Request(Http::POST, "event-name");
+        $event_description = Http::Request(Http::POST, "event-description");
+        $event_start_date = Http::Request(Http::POST, "event-start-date");
+
+        $event_end_date = Http::Request(Http::POST, "event-end-date");
+        $event_end_date = ($event_end_date == "") ? null : $event_end_date;
+
+        if($event_start_date == $event_end_date)
+        {
+            $event_end_date = null;
+        }
+
+        $event_time = Http::Request(Http::POST, "event-time");
+        $event_time = ($event_time == "") ? null : $event_time;
+
+        $event_visibility = Http::Request(Http::POST, "event-visibility");
+        $is_public = ($event_visibility == "public") ? True : False;
+
+        $event_owner = UserSession::GetBatchMemberID();
+
+        $validation = $this->operations->ValidateEventData(
+            array(
+                "event-name"        => $event_name,
+                "event-start-date"  => $event_start_date,
+                "event-end-date"    => $event_end_date,
+                "event-time"        => $event_time,
+                "event-description" => $event_description,
+            )
+        );
+        if($validation["status"] === false)
+        {
+            Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
+        }
+        else if(!$this->operations->HasValidEventDate(
+            $event_start_date, $event_end_date
+        ))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array(
+                    "message" => StringHelper::NoBreakString(
+                        "Event dates are invalid. Please enter valid dates."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->AddEvent(
+            $event_name, $event_start_date, $event_end_date, $event_time, 
+            $event_owner, $is_public, $event_description
+        ))
+        {
+            Http::Response(
+                Http::INTERNAL_SERVER_ERROR, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Something went wrong. Cannot get event. 
+                        Please try again."
+                    )
+                )
+            );
+        }
+        else
+        {
+            Http::Response(
+                Http::CREATED, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Event successfully added."
+                    )
+                )
+            );
         }
     }
 }

@@ -18,6 +18,7 @@
 
   DomHelper.HasClass = function (element, className) {
 
+    element = mutateEl(element);
     return element.classList.contains(className);
   }
 
