@@ -10,7 +10,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        Url::Redirect("login");
+        Url::Redirect("events");
     }
 
     public function UserHomepage()

@@ -71,4 +71,21 @@ class LoggedOutPagesController extends Controller
             PageRenderer::GetPublicPageData("signup", $other_details)
         );
     }
+
+    public function Events()
+    {
+        $other_details = array(
+            Security::GetCSRFData(),
+            array(
+                "page" => array(
+                    "title" =>  "MOrg Events"
+                )
+            )
+        );
+
+        self::SetBody("public/events.html.inc");
+        self::RenderView(
+            PageRenderer::GetPublicPageData("events", $other_details)
+        );
+    }
 }

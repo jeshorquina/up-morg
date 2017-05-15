@@ -3,6 +3,7 @@ namespace Jesh\Operations\LoggedOut;
 
 use \Jesh\Helpers\Security;
 use \Jesh\Helpers\Session;
+use \Jesh\Helpers\Sort;
 use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\MemberModel;
@@ -10,6 +11,7 @@ use \Jesh\Models\MemberModel;
 use \Jesh\Operations\Repository\Batch;
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
+use \Jesh\Operations\Repository\Event;
 use \Jesh\Operations\Repository\Member;
 
 class LoggedOutActionOperations
@@ -17,6 +19,7 @@ class LoggedOutActionOperations
     private $batch;
     private $batch_member;
     private $committee;
+    private $event;
     private $member;
 
     public function __construct()
@@ -24,6 +27,7 @@ class LoggedOutActionOperations
         $this->batch = new Batch;
         $this->batch_member = new BatchMember;
         $this->committee = new Committee;
+        $this->event = new Event;
         $this->member = new Member;
     }
 
@@ -239,5 +243,74 @@ class LoggedOutActionOperations
     public function SetLoggedOutState()
     {
         return Session::End();
+    }
+
+    public function GetPublicEvents()
+    {
+        $events = array();
+        foreach($this->event->GetAllEvents() as $event)
+        {
+            if((bool)$event->IsPublic)
+            {
+                $events[] = array(
+                    "id" => $event->EventID,
+                    "owner" => $this->GetMemberName(
+                        $this->member->GetMember(
+                            $this->batch_member->GetMemberID($event->EventOwner)
+                        )
+                    ),
+                    "name" => $event->EventName,
+                    "description" => $event->EventDescription,
+                    "date" => $this->MutateEventDate($event),
+                    "timestamp" => $this->MutateTimestamp($event->Timestamp)
+                );
+            }
+        }
+        return Sort::AssociativeArray($events, "timestamp", SORT::DESCENDING);
+    }
+
+    private function GetMemberName(MemberModel $member)
+    {
+        return str_replace('  ', ' ', sprintf(
+                "%s %s %s", 
+                $member->FirstName, 
+                $member->MiddleName, 
+                $member->LastName
+            )
+        );
+    }
+
+    private function MutateEventDate($event_object)
+    {
+        if($event_object->EventEndDate != null)
+        {
+            return sprintf(
+                "%s to %s", 
+                date("F j, Y", strtotime($event_object->EventStartDate)),
+                date("F j, Y", strtotime($event_object->EventEndDate))
+            );
+        }
+        else if($event_object->EventTime != null)
+        {
+            return date(
+                "F j, Y - g:i a",
+                strtotime(
+                    sprintf(
+                        "%s %s", 
+                        $event_object->EventStartDate, 
+                        $event_object->EventTime
+                    )
+                )
+            );
+        }
+        else
+        {
+            return date("F j, Y", strtotime($event_object->EventStartDate));
+        }
+    }
+    
+    private function MutateTimestamp($timestamp)
+    {
+        return date("F j, Y - g:i a", strtotime($timestamp));
     }
 }

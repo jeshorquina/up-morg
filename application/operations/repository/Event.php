@@ -14,6 +14,16 @@ class Event
         $this->repository = new EventRepository;
     }
 
+    public function GetAllEvents()
+    {
+        $events = array();
+        foreach($this->repository->GetAllEvents() as $event)
+        {
+            $events[] = new EventModel($event);
+        }
+        return $events;
+    }
+
     public function GetEvents($batch_member_id)
     {
         $events = array();

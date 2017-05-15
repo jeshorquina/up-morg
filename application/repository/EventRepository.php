@@ -7,6 +7,11 @@ use \Jesh\Models\EventModel;
 
 class EventRepository extends Repository
 {
+    public function GetAllEvents()
+    {
+        return self::Get("Event", "*");
+    }
+
     public function GetEvents($batch_member_id)
     {
         return self::Get("Event", "*", array("EventOwner" => $batch_member_id));

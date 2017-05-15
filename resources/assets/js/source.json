@@ -26,6 +26,20 @@
         ]
     },
     {
+        "name": "public/events.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/helpers/loader.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/factories/public/events.js",
+            "resources/assets/js/operations/public/events.js",
+            "resources/assets/js/controllers/public/events.js"
+        ]
+    },
+    {
         "name": "admin/login.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

@@ -5,6 +5,7 @@
     function: UserHomepage
 
 
+
 # **************************************************
 # Pages - Public pages
 # **************************************************
@@ -16,6 +17,10 @@
     directory: pages/public
     controller: LoggedOutPagesController
     function: Signup
+'events':
+    directory: pages/public
+    controller: LoggedOutPagesController
+    function: Events
 
 
 
@@ -34,6 +39,10 @@
     directory: api/public
     controller: LoggedOutActionController
     function: Signup
+'action/events':
+    directory: api/public
+    controller: LoggedOutActionController
+    function: GetPublicEvents
 
 
 
@@ -97,7 +106,6 @@
     directory: api/admin
     controller: AccessActionController
     function: Logout
-
 
 
 'action/admin/account/password/change':
