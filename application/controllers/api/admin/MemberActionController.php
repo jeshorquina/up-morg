@@ -25,23 +25,12 @@ class MemberActionController extends Controller
 
     public function GetMembers()
     {
-        if(!$members = $this->operations->GetMembers()) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to get members. Please try again."
-                )    
-            );
-        }
-        else 
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => "Members successfully retrieved.",
-                    "data" => $members
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => "Members successfully retrieved.",
+                "data" => $this->operations->GetMembers()
+            )
+        );
     }
 
     public function DeleteMember()
@@ -66,20 +55,12 @@ class MemberActionController extends Controller
                 )
             );
         }
-        elseif(!$members = $this->operations->GetMembers())
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to get members. Please try again."
-                )    
-            );
-        }
         else 
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Successfully deleted member.",
-                    "data" => $members
+                    "data" => $this->operations->GetMembers()
                 )
             );
         }
@@ -87,25 +68,12 @@ class MemberActionController extends Controller
 
     public function GetMemberDetails($member_id)
     {
-        if(!$member = $this->operations->GetMemberDetails($member_id)) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Unable to get member details. Please try again."
-                    )
-                )    
-            );
-        }
-        else 
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => "Successfully retrieved member details.",
-                    "data" => $member
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => "Successfully retrieved member details.",
+                "data" => $this->operations->GetMemberDetails($member_id)
+            )
+        );
     }
 
     public function ModifyMemberDetails($member_id)
@@ -143,22 +111,12 @@ class MemberActionController extends Controller
                 )
             );
         }
-        else if(!$member = $this->operations->GetMemberDetails($member_id)) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Unable to get member details. Please try again."
-                    )
-                )    
-            );
-        }
         else 
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Successfully modified member details.",
-                    "data" => $member
+                    "data" => $this->operations->GetMemberDetails($member_id)
                 )
             );
         }

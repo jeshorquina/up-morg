@@ -61,20 +61,12 @@ class BatchActionController extends Controller
                 )
             );
         }
-        elseif(!$batches = $this->operations->GetBatches())
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to get batches. Please try again."
-                )    
-            );
-        }
         else 
         {
             Http::Response(
                 Http::CREATED, array(
                     "message" => "Successfully added batch.",
-                    "data" => $batches
+                    "data" => $this->operations->GetBatches()
                 )
             );
         }
@@ -113,20 +105,12 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$batches = $this->operations->GetBatches())
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to get batches. Please try again."
-                )
-            );
-        }
         else 
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Successfully activated batch.",
-                    "data" => $batches
+                    "data" => $this->operations->GetBatches()
                 )
             );
         }
@@ -164,20 +148,12 @@ class BatchActionController extends Controller
                 )
             );
         }
-        elseif(!$batches = $this->operations->GetBatches())
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to get batches. Please try again."
-                )    
-            );
-        }
         else 
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Successfully deleted batch.",
-                    "data" => $batches
+                    "data" => $this->operations->GetBatches()
                 )
             );
         }
@@ -185,26 +161,12 @@ class BatchActionController extends Controller
 
     public function GetBatchDetails($batch_id) 
     {
-        if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare batch details. Please refresh
-                        browser."
-                    )
-                )
-            );
-        }
-        else 
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => "Batch details successfully processed.",
-                    "data" => $batch_details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => "Batch details successfully processed.",
+                "data" => $this->operations->GetBatchDetails($batch_id)
+            )
+        );
     }
 
     public function AddBatchMember($batch_id)
@@ -231,23 +193,12 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare batch details. Please refresh
-                        browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
                 Http::CREATED, array(
                     "message" => "Member successfully added to batch.",
-                    "data" => $batch_details
+                    "data" => $this->operations->GetBatchDetails($batch_id)
                 )
             );
         }
@@ -277,23 +228,12 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$batch_details = $this->operations->GetBatchDetails($batch_id)) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare batch details. Please refresh
-                        browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Member successfully removed from batch.",
-                    "data" => $batch_details
+                    "data" => $this->operations->GetBatchDetails($batch_id)
                 )
             );
         }
@@ -312,21 +252,6 @@ class BatchActionController extends Controller
                 )
             );
         }
-        else if(!$batch_committee_details = (
-            $this->operations->GetBatchCommitteeDetails(
-                $batch_id, $committee_name
-            )
-        )) 
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare batch committee details. Please 
-                        refresh browser."
-                    )
-                )
-            );
-        }
         else 
         {
             Http::Response(
@@ -334,7 +259,9 @@ class BatchActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Batch committee details successfully processed."
                     ),
-                    "data" => $batch_committee_details
+                    "data" => $this->operations->GetBatchCommitteeDetails(
+                        $batch_id, $committee_name
+                    )
                 )
             );
         }
@@ -419,28 +346,14 @@ class BatchActionController extends Controller
                     )
                 );
             }
-            
-            $batch_details = $this->operations->GetBatchCommitteeDetails(
-                $batch_id, $committee_name
-            );
-
-            if(!$batch_details) 
-            {
-                Http::Response(
-                    Http::INTERNAL_SERVER_ERROR, array(
-                        "message" => StringHelper::NoBreakString(
-                            "Cannot prepare batch details. Please refresh
-                            browser."
-                        )
-                    )
-                );
-            }
-            else
+            else 
             {
                 Http::Response(
                     Http::CREATED, array(
                         "message" => $response["message"],
-                        "data" => $batch_details
+                        "data" => $this->operations->GetBatchCommitteeDetails(
+                            $batch_id, $committee_name
+                        )
                     )
                 );
             }
@@ -486,28 +399,14 @@ class BatchActionController extends Controller
                     )
                 );
             }
-            
-            $batch_details = $this->operations->GetBatchCommitteeDetails(
-                $batch_id, $committee_name
-            );
-
-            if(!$batch_details) 
-            {
-                Http::Response(
-                    Http::INTERNAL_SERVER_ERROR, array(
-                        "message" => StringHelper::NoBreakString(
-                            "Cannot prepare batch details. Please refresh
-                            browser."
-                        )
-                    )
-                );
-            }
             else
             {
                 Http::Response(
                     Http::OK, array(
                         "message" => $response["message"],
-                        "data" => $batch_details
+                        "data" => $this->operations->GetBatchCommitteeDetails(
+                            $batch_id, $committee_name
+                        )
                     )
                 );
             }
@@ -553,27 +452,14 @@ class BatchActionController extends Controller
                     )
                 );
             }
-            
-            $batch_details = $this->operations->GetBatchCommitteeDetails(
-                $batch_id, $committee_name
-            );
-            if(!$batch_details) 
-            {
-                Http::Response(
-                    Http::INTERNAL_SERVER_ERROR, array(
-                        "message" => StringHelper::NoBreakString(
-                            "Cannot prepare batch details. Please refresh
-                            browser."
-                        )
-                    )
-                );
-            }
             else
             {
                 Http::Response(
                     Http::CREATED, array(
                         "message" => $response["message"],
-                        "data" => $batch_details
+                        "data" => $this->operations->GetBatchCommitteeDetails(
+                            $batch_id, $committee_name
+                        )
                     )
                 );
             }

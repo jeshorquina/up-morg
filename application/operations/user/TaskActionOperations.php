@@ -419,7 +419,7 @@ class TaskActionOperations
                 return $this->GetTaskDetails(
                     $task_object, $batch_member_id, true, false, false
                 );
-            } 
+            }
         }
         else if($task_object->Reporter == $batch_member_id)
         {
@@ -486,7 +486,7 @@ class TaskActionOperations
                 return $this->GetTaskDetails(
                     $task_object, $batch_member_id, true, false, false
                 );
-            } 
+            }
         }
         else if($task_object->Reporter == $batch_member_id)
         {

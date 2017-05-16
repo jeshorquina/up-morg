@@ -32,22 +32,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetAvailability(
-            UserSession::GetBatchMemberID()
-        );
-        
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare availability page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -55,7 +39,9 @@ class AvailabilityActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Availability page details successfully processed."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetAvailability(
+                        UserSession::GetBatchMemberID()
+                    )
                 )
             );
         }
@@ -113,24 +99,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $details = (
-            $this->operations->GetAvailabilityCommitteeDetails(
-                UserSession::GetCommitteeID()
-            )
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups view details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -139,7 +107,12 @@ class AvailabilityActionController extends Controller
                         "Availability group view details successfully 
                         processed."
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetAvailabilityCommitteeDetails(
+                            UserSession::GetCommitteeID(), 
+                            UserSession::GetBatchID()
+                        )
+                    )
                 )
             );
         }
@@ -157,22 +130,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetAvailabilityGroups(
-            UserSession::GetBatchMemberID()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -181,7 +138,9 @@ class AvailabilityActionController extends Controller
                         "Group availability page details successfully 
                         processed."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetAvailabilityGroups(
+                        UserSession::GetBatchMemberID()
+                    )
                 )
             );
         }
@@ -211,10 +170,9 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $frontman_id = UserSession::GetBatchMemberID();
-
-        if(!$this->operations->AddAvailabilityGroup($frontman_id, $group_name))
+        else if(!$this->operations->AddAvailabilityGroup(
+            UserSession::GetBatchMemberID(), $group_name
+        ))
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
@@ -225,26 +183,14 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetAvailabilityGroups($frontman_id);
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
                 Http::CREATED, array(
                     "message" => "Availability group successfully added.",
-                    "data" => $details
+                    "data" =>  $this->operations->GetAvailabilityGroups(
+                        UserSession::GetBatchMemberID()
+                    )
                 )
             );
         }
@@ -264,9 +210,10 @@ class AvailabilityActionController extends Controller
         }
 
         $group_id = Http::Request(Http::POST, "group-id");
-        $frontman_id = UserSession::GetBatchMemberID();
 
-        if(!$this->operations->CheckGroupOwnership($group_id, $frontman_id))
+        if(!$this->operations->CheckGroupOwnership(
+            $group_id, UserSession::GetBatchMemberID()
+        ))
         {
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
@@ -287,26 +234,14 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetAvailabilityGroups($frontman_id);
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
                 Http::OK, array(
                     "message" => "Availability group successfully deleted.",
-                    "data" => $details
+                    "data" => $this->operations->GetAvailabilityGroups(
+                        UserSession::GetBatchMemberID()
+                    )
                 )
             );
         }
@@ -324,30 +259,14 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $frontman_id = UserSession::GetBatchMemberID();
-        if(!$this->operations->CheckGroupOwnership($group_id, $frontman_id))
+        else if(!$this->operations->CheckGroupOwnership(
+            $group_id, UserSession::GetBatchMemberID()
+        ))
         {
             Http::Response(
                 Http::FORBIDDEN, array(
                     "message" => StringHelper::NoBreakString(
                         "You do not have access to this specific group!"
-                    )
-                )
-            );
-        }
-
-        $details = (
-            $this->operations->GetAvailabilityGroupViewDetails($group_id)
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups view details. 
-                        Please refresh browser."
                     )
                 )
             );
@@ -360,7 +279,11 @@ class AvailabilityActionController extends Controller
                         "Availability group view details successfully 
                         processed."
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetAvailabilityGroupViewDetails(
+                            $group_id
+                        )
+                    )
                 )
             );
         }
@@ -378,31 +301,14 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $frontman_id = UserSession::GetBatchMemberID();
-        if(!$this->operations->CheckGroupOwnership($group_id, $frontman_id))
+        else if(!$this->operations->CheckGroupOwnership(
+            $group_id, UserSession::GetBatchMemberID()
+        ))
         {
             Http::Response(
                 Http::FORBIDDEN, array(
                     "message" => StringHelper::NoBreakString(
                         "You do not have access to this specific group!"
-                    )
-                )
-            );
-        }
-
-        $details = $this->operations->GetAvailabilityGroupEditDetails(
-            $group_id, UserSession::GetBatchID(),
-            UserSession::GetBatchMemberID(), UserSession::IsFirstFrontman()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups view details. 
-                        Please refresh browser."
                     )
                 )
             );
@@ -415,7 +321,13 @@ class AvailabilityActionController extends Controller
                         "Availability group edit details successfully 
                         processed."
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetAvailabilityGroupEditDetails(
+                            $group_id, UserSession::GetBatchID(),
+                            UserSession::GetBatchMemberID(), 
+                            UserSession::IsFirstFrontman()
+                        )
+                    )
                 )
             );
         }
@@ -433,9 +345,9 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $frontman_id = UserSession::GetBatchMemberID();
-        if(!$this->operations->CheckGroupOwnership($group_id, $frontman_id))
+        else if(!$this->operations->CheckGroupOwnership(
+            $group_id, UserSession::GetBatchMemberID()
+        ))
         {
             Http::Response(
                 Http::FORBIDDEN, array(
@@ -480,23 +392,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $details = $this->operations->GetAvailabilityGroupEditDetails(
-            $group_id, UserSession::GetBatchID(),
-            UserSession::GetBatchMemberID(), UserSession::IsFirstFrontman()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups view details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -504,7 +399,13 @@ class AvailabilityActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Member successfully added to group!"
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetAvailabilityGroupEditDetails(
+                            $group_id, UserSession::GetBatchID(),
+                            UserSession::GetBatchMemberID(), 
+                            UserSession::IsFirstFrontman()
+                        )
+                    )
                 )
             );
         }
@@ -522,9 +423,9 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $frontman_id = UserSession::GetBatchMemberID();
-        if(!$this->operations->CheckGroupOwnership($group_id, $frontman_id))
+        else if(!$this->operations->CheckGroupOwnership(
+            $group_id, UserSession::GetBatchMemberID()
+        ))
         {
             Http::Response(
                 Http::FORBIDDEN, array(
@@ -569,23 +470,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $details = $this->operations->GetAvailabilityGroupEditDetails(
-            $group_id, UserSession::GetBatchID(),
-            UserSession::GetBatchMemberID(), UserSession::IsFirstFrontman()
-        );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot get availability groups view details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -593,7 +477,13 @@ class AvailabilityActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Member successfully deleted from group!"
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetAvailabilityGroupEditDetails(
+                            $group_id, UserSession::GetBatchID(),
+                            UserSession::GetBatchMemberID(), 
+                            UserSession::IsFirstFrontman()
+                        )
+                    )
                 )
             );
         }
@@ -611,23 +501,6 @@ class AvailabilityActionController extends Controller
                 )
             );
         }
-
-        $details = $this->operations->GetMemberAvailability(
-            UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
-            UserSession::IsFirstFrontman()
-        );
-        
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare member availability page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -636,7 +509,13 @@ class AvailabilityActionController extends Controller
                         "Member availability page details successfully 
                         processed."
                     ),
-                    "data" => $details
+                    "data" => (
+                        $this->operations->GetMemberAvailability(
+                            UserSession::GetBatchID(), 
+                            UserSession::GetBatchMemberID(),
+                            UserSession::IsFirstFrontman()
+                        )
+                    )
                 )
             );
         }

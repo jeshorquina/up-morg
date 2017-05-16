@@ -35,7 +35,8 @@
     DomHelper.InsertContent(
       taskList, EventDetailsViewFactory.CreateListHeader("Referenced Tasks")
     );
-    if(tasks != false) {
+
+    if (tasks != false) {
       tasks.forEach(function (task, index) {
         DomHelper.AppendContent(
           taskList, EventDetailsViewFactory.CreateListRow(task, index)
