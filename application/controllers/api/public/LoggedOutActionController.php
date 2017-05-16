@@ -153,21 +153,10 @@ class LoggedOutActionController extends Controller
 
     public function GetPublicEvents()
     {
-        if(!$events = $this->operations->GetPublicEvents())
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to create session data for log in."
-                )
-            );
-        }
-        else
-        {
-            Http::Response(Http::OK, array(
-                    "message"      => "Events successfully retrived.",
-                    "data" => $events
-                )
-            );
-        }
+        Http::Response(Http::OK, array(
+                "message" => "Events successfully retrived.",
+                "data" => $this->operations->GetPublicEvents()
+            )
+        );
     }
 }

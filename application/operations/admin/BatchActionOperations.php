@@ -673,9 +673,9 @@ class BatchActionOperations
 
         $member_type = $this->member->GetMemberType($member_type_id);
 
-        switch(StringHelper::MakeIndex($member_type)) {
-            case "committee-head":
-            case "committee-member":
+        switch($member_type) {
+            case Member::COMMITTEE_HEAD:
+            case Member::COMMITTEE_MEMBER:
                 return $this->committee->GetCommitteeName(
                     $this->committee->GetCommitteeIDByBatchMemberID(
                         $batch_member_id

@@ -34,13 +34,17 @@
       taskRows[i].addEventListener("click", viewOtherTaskCallback);
     }
 
-    document
-      .getElementById("edit-event-button")
-      .addEventListener("click", editEventCallback);
-
-    document
-      .getElementById("delete-event-button")
-      .addEventListener("click", deleteEventCallback);
+    var editButton = document.getElementById("edit-event-button");
+    if(editButton)
+    {
+      editButton.addEventListener("click", editEventCallback);
+    }
+    
+    var deleteButton = document.getElementById("delete-event-button");
+    if(deleteButton)
+    {
+      deleteButton.addEventListener("click", deleteEventCallback);
+    }
 
     Loader.RemoveLoadingScreen();
   }

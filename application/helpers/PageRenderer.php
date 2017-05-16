@@ -225,6 +225,7 @@ class PageRenderer
     private static function CommitteeHasEditTaskPageAccess($task_id)
     {
         $task_helper = new Task;
+        $batch_member_id = UserSession::GetBatchMemberID();
 
         $task_object = $task_helper->GetTask($task_id);
         if($task_object->Assignee == $batch_member_id)

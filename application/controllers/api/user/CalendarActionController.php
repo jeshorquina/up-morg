@@ -39,12 +39,12 @@ class CalendarActionController extends Controller
             UserSession::GetBatchID()
         );
         
-        if(!$details)
+        if($details == false)
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Cannot prepare availability page details. 
+                        "Cannot prepare calendar page details. 
                         Please refresh browser."
                     )
                 )
@@ -101,7 +101,7 @@ class CalendarActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Cannot prepare availability page details. 
+                        "Cannot prepare calendar page details. 
                         Please refresh browser."
                     )
                 )
@@ -150,7 +150,7 @@ class CalendarActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Cannot prepare availability page details. 
+                        "Cannot prepare calendar page details. 
                         Please refresh browser."
                     )
                 )

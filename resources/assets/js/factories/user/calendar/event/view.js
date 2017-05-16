@@ -35,11 +35,13 @@
     DomHelper.InsertContent(
       taskList, EventDetailsViewFactory.CreateListHeader("Referenced Tasks")
     );
-    tasks.forEach(function (task, index) {
-      DomHelper.AppendContent(
-        taskList, EventDetailsViewFactory.CreateListRow(task, index)
-      )
-    });
+    if(tasks != false) {
+      tasks.forEach(function (task, index) {
+        DomHelper.AppendContent(
+          taskList, EventDetailsViewFactory.CreateListRow(task, index)
+        )
+      });
+    }
 
     return taskList;
   }

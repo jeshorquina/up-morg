@@ -65,13 +65,17 @@
       .getElementById("task-comment-form")
       .addEventListener("submit", addTaskCommentCallback);
 
-    document
-      .getElementById("edit-task-button")
-      .addEventListener("click", editTaskCallback);
-
-    document
-      .getElementById("delete-task-button")
-      .addEventListener("click", deleteTaskCallback);
+    var editButton = document.getElementById("edit-task-button");
+    if(editButton)
+    {
+      editButton.addEventListener("click", editTaskCallback);
+    }
+    
+    var deleteButton = document.getElementById("delete-task-button");
+    if(deleteButton)
+    {
+      deleteButton.addEventListener("click", deleteTaskCallback);
+    }
 
     if (document.getElementById("task-submit-form")) {
       document

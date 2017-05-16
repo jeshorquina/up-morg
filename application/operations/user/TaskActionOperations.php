@@ -408,9 +408,18 @@ class TaskActionOperations
     {
         if($task_object->Assignee == $batch_member_id)
         {
-            return $this->GetTaskDetails(
-                $task_object, $batch_member_id, true, true, false
-            );
+            if($task_object->Reporter == $batch_member_id)
+            {
+                return $this->GetTaskDetails(
+                    $task_object, $batch_member_id, true, true, false
+                );
+            }
+            else
+            {
+                return $this->GetTaskDetails(
+                    $task_object, $batch_member_id, true, false, false
+                );
+            } 
         }
         else if($task_object->Reporter == $batch_member_id)
         {
@@ -466,9 +475,18 @@ class TaskActionOperations
     {
         if($task_object->Assignee == $batch_member_id)
         {
-            return $this->GetTaskDetails(
-                $task_object, $batch_member_id, true, true, false
-            );
+            if($task_object->Reporter == $batch_member_id)
+            {
+                return $this->GetTaskDetails(
+                    $task_object, $batch_member_id, true, true, false
+                );
+            }
+            else
+            {
+                return $this->GetTaskDetails(
+                    $task_object, $batch_member_id, true, false, false
+                );
+            } 
         }
         else if($task_object->Reporter == $batch_member_id)
         {
@@ -1000,11 +1018,11 @@ class TaskActionOperations
     }
 
     public function GetCommitteeHeadEditTaskPageDetails(
-        $committee_id, $committee_head_id, $task_id
+        $batch_id, $committee_id, $committee_head_id, $task_id
     )
     {
         $add_details = $this->GetCommitteeHeadAddTaskPageDetails(
-            $committee_id, $committee_head_id
+            $batch_id, $committee_id, $committee_head_id
         );
 
         $add_details['details'] = $this->GetEditTaskDetails($task_id);
@@ -1013,11 +1031,11 @@ class TaskActionOperations
     }
 
     public function GetCommitteeMemberEditTaskPageDetails(
-        $committee_member_id, $task_id
+        $batch_id, $committee_member_id, $task_id
     )
     {
         $add_details = $this->GetCommitteeMemberAddTaskPageDetails(
-            $committee_member_id
+            $batch_id, $committee_member_id
         );
 
         $add_details['details'] = $this->GetEditTaskDetails($task_id);
@@ -1243,7 +1261,7 @@ class TaskActionOperations
     }
 
     public function GetCommitteeHeadAddTaskPageDetails(
-        $committee_id, $committee_head_id
+        $batch_id, $committee_id, $committee_head_id
     )
     {
         $batch_member_ids = (
@@ -1306,7 +1324,9 @@ class TaskActionOperations
         );
     }
 
-    public function GetCommitteeMemberAddTaskPageDetails($committee_member_id)
+    public function GetCommitteeMemberAddTaskPageDetails(
+        $batch_id, $committee_member_id
+    )
     {
         $members = array(
             array(

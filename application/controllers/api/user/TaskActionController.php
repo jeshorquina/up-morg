@@ -690,14 +690,15 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
-                $task_id
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID(), $task_id
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
-                UserSession::GetBatchMemberID(), $task_id
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(), 
+                $task_id
             );
         }
 
@@ -819,14 +820,15 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
-                $task_id
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID(), $task_id
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
-                UserSession::GetBatchMemberID(), $task_id
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(), 
+                $task_id
             );
         }
 
@@ -923,14 +925,15 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadEditTaskPageDetails(
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID(), 
-                $task_id
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID(), $task_id
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberEditTaskPageDetails(
-                UserSession::GetBatchMemberID(), $task_id
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(), 
+                $task_id
             );
         }
 
@@ -982,13 +985,14 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
+                UserSession::GetBatchID(),
                 UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
-                UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID()
             );
         }
 
@@ -1075,13 +1079,14 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID()
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
-                UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID()
             );
         }
 
@@ -1171,13 +1176,14 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID()
             );
         }
         else 
         {
             $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
-                UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID()
             );
         }
 
@@ -1186,7 +1192,7 @@ class TaskActionController extends Controller
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
                     "message" => StringHelper::NoBreakString(
-                        "Cannot prepare availability page details. 
+                        "Cannot prepare task page details. 
                         Please refresh browser."
                     )
                 )
