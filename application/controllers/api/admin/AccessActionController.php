@@ -22,8 +22,18 @@ class AccessActionController extends Controller
 
     public function Login()
     {
+        $username = Http::Request(Http::POST, "username");
         $password = Http::Request(Http::POST, "password");
-        
+
+        if(strtoupper($username) != "ADMIN")
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => "Incorrect username!"
+                )
+            );
+        }
+
         if(!$this->operations->MatchingPassword($password))
         {
             Http::Response(

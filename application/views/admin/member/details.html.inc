@@ -55,7 +55,7 @@
 
             </div>
 
-            <input type="submit" class="button button-success no-margin margin-top-medium" value="Edit Member">
+            <input type="submit" class="button button-success no-margin margin-top-medium" value="Save">
 
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
 

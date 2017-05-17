@@ -36,7 +36,7 @@
             </div>
 
             <div class="clearfix margin-top-medium">
-                <input type="submit" class="button button-success float-right" value="Change Frontmen">
+                <input type="submit" class="button button-success float-right" value="Save">
             </div>
 
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">

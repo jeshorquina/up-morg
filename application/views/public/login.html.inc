@@ -2,7 +2,7 @@
 
     <form id="login-form" class="card login-card">
 
-        <h2 class="text-center">Log in</h2>
+        <h2 class="text-center">Login</h2>
 
         <hr>
 
@@ -22,7 +22,7 @@
 
         <hr>
 
-        <input value="Login" type="submit" class="button button-success button-large">
+        <input value="Login" type="submit" class="button">
 
     </form>
 

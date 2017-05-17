@@ -25,7 +25,7 @@
 
         <hr>
 
-        <input type="submit" value="Change Password" class="button button-success">
+        <input type="submit" value="Save" class="button button-success">
 
         <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
 

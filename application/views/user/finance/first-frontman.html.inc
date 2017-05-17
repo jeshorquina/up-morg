@@ -26,7 +26,7 @@
             <tbody id="ledger-entries-container"></tbody>
         </table>
 
-        <p style="color: red;">
+        <p style="color: crimson;">
             <br>
             Important Note: You cannot reactivate the ledger after closing it. Do not close the ledger unless you are ready to
             create a new batch.

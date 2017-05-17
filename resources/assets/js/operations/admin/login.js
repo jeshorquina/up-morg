@@ -4,6 +4,7 @@
 
     var form = document.getElementById("login-form");
     var password = form.elements["password"].value;
+    var username = form.elements["username"].value;
 
     if (ValidateLoginData(password)) {
 

@@ -761,17 +761,17 @@ class PageRenderer
 
         $navs = array(
             array(
+                "name" => "Calendar",
+                "url" => Url::GetBaseURL('calendar')
+            ),
+            array(
                 "name" => "Task Manager",
                 "url" => Url::GetBaseURL('task')
             ),
             array(
                 "name" => "Availability Tracker",
                 "url" => Url::GetBaseURL('availability')
-            ),
-            array(
-                "name" => "Calendar",
-                "url" => Url::GetBaseURL('calendar')
-            ),
+            ), 
         );
         
         if(UserSession::IsFinanceMember())

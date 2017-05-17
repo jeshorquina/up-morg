@@ -89,7 +89,7 @@
             </div>
 
             <div class="form-group clearfix margin-top-small">
-                <input type="submit" class="button button-success no-margin float-right" value="Edit Task">
+                <input type="submit" class="button button-success no-margin float-right" value="Save">
             </div>
 
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">

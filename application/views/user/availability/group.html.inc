@@ -8,7 +8,7 @@
 
         <form id="add-group-form">
             <div class="form-group">
-                <input type="text" class="form-input" name="group-name" id="group-name" placeholder="e.g. Awesomest Group Ever">
+                <input type="text" class="form-input" name="group-name" id="group-name" placeholder="e.g. Team Rocket">
                 <input type="submit" value="Add Group" class="button button-success">
             </div>
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
