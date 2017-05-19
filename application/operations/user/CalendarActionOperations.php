@@ -133,6 +133,11 @@ class CalendarActionOperations
             );
         }
 
+        $batch_member_ids = array_intersect(
+            $batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
+        );
+
         foreach($batch_member_ids as $batch_member_id)
         {
             foreach($this->task->GetAssignedTasks($batch_member_id) as $task)
@@ -167,7 +172,7 @@ class CalendarActionOperations
     }
 
     public function GetCommitteeHeadCalendarTaskPageDetails(
-        $batch_member_id, $committee_id
+        $batch_id, $batch_member_id, $committee_id
     )
     {
         $tasks = array();
@@ -196,8 +201,9 @@ class CalendarActionOperations
             }
         }
 
-        $batch_member_ids = (
-            $this->committee->GetApprovedBatchMemberIDs($committee_id)
+        $batch_member_ids = array_intersect(
+            $this->committee->GetApprovedBatchMemberIDs($committee_id),
+            $this->batch_member->GetBatchMemberIDs($batch_id)
         );
 
         $other_tasks = array();
@@ -423,8 +429,9 @@ class CalendarActionOperations
         }
         else if($member_type == Member::COMMITTEE_HEAD)
         {
-            $batch_member_ids = (
-                $this->committee->GetApprovedBatchMemberIDs($committee_id)
+            $batch_member_ids = array_intersect(
+                $this->committee->GetApprovedBatchMemberIDs($committee_id),
+                $this->batch_member->GetBatchMemberIDs($batch_id)
             );
 
             return in_array($event_object->EventOwner, $batch_member_ids);
@@ -446,6 +453,11 @@ class CalendarActionOperations
                     $this->committee->GetApprovedBatchMemberIDs($committee_id)
                 );
             }
+
+            $batch_member_ids = array_intersect(
+                $batch_member_ids, 
+                $this->batch_member->GetBatchMemberIDs($batch_id)
+            );
 
             return in_array($event_object->EventOwner, $batch_member_ids);
         }

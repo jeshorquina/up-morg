@@ -2,14 +2,13 @@
 
   FinanceCommitteeFactory.CreatePreviousTotalRow = function (previousTotal) {
 
-    return DomHelper.CreateElement("tr", { "class": "previous-balance" },
-      [
-        DomHelper.CreateElement("td", { "colspan": "5" },
-          DomHelper.CreateElement("strong", {}, "Previous balance")
-        ),
-        DomHelper.CreateElement("td", { "class": "text-right" }, previousTotal)
-      ]
-    );
+    return DomHelper.CreateElement("tr", { "class": "previous-balance" }, [
+      DomHelper.CreateElement("td", { "colspan": "6" }),
+      DomHelper.CreateElement("td", { "class": "text-right", "colspan": "2" }, [
+        DomHelper.CreateElement("div", {}, previousTotal),
+        DomHelper.CreateElement("small", {}, "(Previous balance)")
+      ])
+    ]);
   }
 
   FinanceCommitteeFactory.CreateNoLedgerEntriesRow = function () {

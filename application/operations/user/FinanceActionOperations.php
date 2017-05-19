@@ -65,7 +65,8 @@ class FinanceActionOperations
         }
 
         $total = $debit - $credit;
-        $new_total = $total;
+        $projected_total = $total;
+        $actual_total = $total;
 
         $formatted_entries = array();
         foreach($entries as $entry)
@@ -73,7 +74,11 @@ class FinanceActionOperations
             $debit = ((bool)$entry->IsDebit) ? (float)$entry->Amount : 0;
             $credit = (!(bool)$entry->IsDebit) ? (float)$entry->Amount : 0;
 
-            $new_total = $new_total + $debit - $credit;
+            $projected_total = $projected_total + $debit - $credit;
+            if((bool)$entry->IsVerified)
+            {
+                $actual_total = $actual_total + $debit - $credit;
+            }
 
             $formatted_entries[] = array(
                 "id" => $entry->LedgerInputID,
@@ -89,7 +94,10 @@ class FinanceActionOperations
                     "Php ".number_format($debit, 2) : "-",
                 "credit" => ($credit !== 0) ? 
                     "Php ".number_format($credit, 2) : "-",
-                "total" => "Php ".number_format($new_total, 2)
+                "total" => array(
+                    "projected" => "Php ".number_format($projected_total),
+                    "actual" => "Php ".number_format($actual_total, 2)
+                )
             );
         }
 

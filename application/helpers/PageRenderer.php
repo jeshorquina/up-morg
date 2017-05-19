@@ -358,8 +358,11 @@ class PageRenderer
         }
         else if($member_type == Member::COMMITTEE_HEAD)
         {
-            $batch_member_ids = (
-                $committee_helper->GetApprovedBatchMemberIDs($committee_id)
+            $batch_member_ids = array_intersect(
+                $committee_helper->GetApprovedBatchMemberIDs($committee_id),
+                $batch_member_helper->GetBatchMemberIDs(
+                    UserSession::GetBatchID()
+                )
             );
 
             return in_array($event_object->EventOwner, $batch_member_ids);
@@ -381,6 +384,13 @@ class PageRenderer
                     $committee_helper->GetApprovedBatchMemberIDs($committee_id)
                 );
             }
+
+            $batch_member_ids = array_intersect(
+                $batch_member_ids,
+                $batch_member_helper->GetBatchMemberIDs(
+                    UserSession::GetBatchID()
+                )
+            );
 
             return in_array($event_object->EventOwner, $batch_member_ids);
         }

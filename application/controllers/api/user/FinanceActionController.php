@@ -53,33 +53,17 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetFinancePageDetails(
-            UserSession::GetBatchID()
-        );
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare finance page details. 
-                        Please refresh browser."
-                    )
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "FInance page details successfully processed."
+                ),
+                "data" => $this->operations->GetFinancePageDetails(
+                    UserSession::GetBatchID()
                 )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "FInance page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+            )
+        );
     }
 
     public function AddLedgerEntry()
@@ -169,32 +153,17 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetFinancePageDetails(
-            UserSession::GetBatchID()
-        );
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot add ledger entry. Please refresh browser."
-                    )
+        Http::Response(
+            Http::CREATED, array(
+                "message" => StringHelper::NoBreakString(
+                    "Ledger entry successfully added."
+                ),
+                "data" => $this->operations->GetFinancePageDetails(
+                    UserSession::GetBatchID()
                 )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::CREATED, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Ledger entry successfully added."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+            )
+        );
     }
 
     private function AddCommitteeMemberLedgerEntry($amount, $type, $description)
@@ -214,31 +183,16 @@ class FinanceActionController extends Controller
             );
         }
 
-        $details = $this->operations->GetFinancePageDetails(
-            UserSession::GetBatchID()
+        Http::Response(
+            Http::CREATED, array(
+                "message" => StringHelper::NoBreakString(
+                    "Ledger entry successfully added."
+                ),
+                "data" => $this->operations->GetFinancePageDetails(
+                    UserSession::GetBatchID()
+                )
+            )
         );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot add ledger entry. Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::CREATED, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Ledger entry successfully added."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
     }
 
     public function VerifyLedgerEntry($ledger_input_id)
@@ -264,31 +218,16 @@ class FinanceActionController extends Controller
             );
         }
 
-        $details = $this->operations->GetFinancePageDetails(
-            UserSession::GetBatchID()
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Ledger entry successfully verified."
+                ),
+                "data" => $this->operations->GetFinancePageDetails(
+                    UserSession::GetBatchID()
+                )
+            )
         );
-
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot verify ledger entry. Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Ledger entry successfully verified."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
     }
 
     public function CloseLedger()
@@ -370,19 +309,6 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        else if(!$details = $this->operations->GetActivationDetails(
-            UserSession::GetBatchID()
-        ))
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare ledger activation details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -390,7 +316,9 @@ class FinanceActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Ledger activation details successfully processed."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetActivationDetails(
+                        UserSession::GetBatchID()
+                    )
                 )
             );
         }
@@ -473,32 +401,16 @@ class FinanceActionController extends Controller
                 )
             );
         }
-        
-        $details = $this->operations->GetFinancePageDetails(
-            UserSession::GetBatchID()
-        );
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare finance page details. 
-                        Please refresh browser."
-                    )
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "FInance page details successfully processed."
+                ),
+                "data" => $this->operations->GetFinancePageDetails(
+                    UserSession::GetBatchID()
                 )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "FInance page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+            )
+        );
     }
 }

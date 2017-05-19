@@ -774,13 +774,13 @@ class SubordinateActionController extends Controller
         if(UserSession::IsFirstFrontman())
         {
             $this->FirstFrontmanAssignCommitteeHead(
-                $batch_member_id, $committee_name
+                UserSession::GetBatchID(), $batch_member_id, $committee_name
             );
         }
         else if(UserSession::IsFrontman())
         {
             $this->FrontmanAssignCommitteeHead(
-                $batch_member_id, $committee_name
+                UserSession::GetBatchID(), $batch_member_id, $committee_name
             );
         }
         else
@@ -799,7 +799,7 @@ class SubordinateActionController extends Controller
     }
     
     private function FirstFrontmanAssignCommitteeHead(
-        $batch_member_id, $committee_name
+        $batch_id, $batch_member_id, $committee_name
     )
     {
         if(!$this->operations->IsMemberTypeCommitteeMember($batch_member_id)) 
@@ -814,7 +814,7 @@ class SubordinateActionController extends Controller
             );
         }
         else if(!$this->operations->AssignCommitteeHead(
-            $batch_member_id, $committee_name
+            $batch_id, $batch_member_id, $committee_name
         ))
         {
             Http::Response(
@@ -881,7 +881,7 @@ class SubordinateActionController extends Controller
     }
 
     private function FrontmanAssignCommitteeHead(
-        $batch_member_id, $committee_name
+        $batch_id, $batch_member_id, $committee_name
     )
     {
         if(!$this->operations->HasCommitteeAccess(
@@ -901,7 +901,7 @@ class SubordinateActionController extends Controller
         else 
         {
             $this->FirstFrontmanAssignCommitteeHead(
-                $batch_member_id, $committee_name
+                $batch_id, $batch_member_id, $committee_name
             );
         }
     }

@@ -101,6 +101,11 @@ class TaskActionOperations
             );
         }
 
+        $batch_member_ids = array_intersect(
+            $batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
+        );
+
         $other_tasks = array();
         foreach($batch_member_ids as $batch_member_id)
         {
@@ -155,7 +160,7 @@ class TaskActionOperations
     }
 
     public function GetCommitteeHeadViewTaskPageDetails(
-        $batch_member_id, $committee_id
+        $batch_id, $batch_member_id, $committee_id
     )
     {
         $task_ids = array();
@@ -190,6 +195,11 @@ class TaskActionOperations
 
         $batch_member_ids = (
             $this->committee->GetApprovedBatchMemberIDs($committee_id)
+        );
+
+        $batch_member_ids = array_intersect(
+            $batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
         );
 
         $other_tasks = array();
@@ -1196,6 +1206,11 @@ class TaskActionOperations
             );
         }
 
+        $batch_member_ids = array_intersect(
+            $batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
+        );
+
         $members = array();
         $tasks = array();
 
@@ -1266,6 +1281,11 @@ class TaskActionOperations
     {
         $batch_member_ids = (
             $this->committee->GetApprovedBatchMemberIDs($committee_id)
+        );
+
+        $batch_member_ids = array_intersect(
+            $batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
         );
 
         $members = array();

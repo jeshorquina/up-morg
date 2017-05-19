@@ -45,7 +45,8 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadViewTaskPageDetails(
-                UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(), 
+                UserSession::GetCommitteeID()
             );
         }
         else 
@@ -55,28 +56,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task page details successfully processed."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function GetViewTaskDetailsPageDetails($task_id)
@@ -134,28 +121,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task details page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task details page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task details page details successfully processed."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function AddTaskComment($task_id)
@@ -229,28 +202,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task details page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::CREATED, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task comment successfully added."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::CREATED, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task comment successfully added."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function DeleteTask($task_id)
@@ -431,28 +390,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task details page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::CREATED, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Successfully changed task status."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::CREATED, array(
+                "message" => StringHelper::NoBreakString(
+                    "Successfully changed task status."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function DownloadSubmission($task_id, $task_submission_id)
@@ -604,28 +549,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task details page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::CREATED, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Successfully changed task status."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::CREATED, array(
+                "message" => StringHelper::NoBreakString(
+                    "Successfully changed task status."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function EditTaskDetails($task_id)
@@ -702,28 +633,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare edit task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Edit task page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Edit task page details successfully processed."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function EditTask($task_id)
@@ -832,18 +749,6 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare edit task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-
         $assignee = $details["details"]["assignee"]["id"];
 
         if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
@@ -937,28 +842,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare edit task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task successfully edited."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task successfully edited."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function GetAddTaskPageDetails()
@@ -985,8 +876,8 @@ class TaskActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
-                UserSession::GetBatchID(),
-                UserSession::GetCommitteeID(), UserSession::GetBatchMemberID()
+                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
+                UserSession::GetBatchMemberID()
             );
         }
         else 
@@ -996,28 +887,14 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare add task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Add task page details successfully processed."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Add task page details successfully processed."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function AddTask()
@@ -1090,18 +967,7 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare add task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
+        if(!$this->operations->IsAssigneeSubordinate($assignee, $details))
         {
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
@@ -1187,27 +1053,13 @@ class TaskActionController extends Controller
             );
         }
 
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare task page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task successfully added!"
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task successfully added!"
+                ),
+                "data" => $details
+            )
+        );
     }
 }

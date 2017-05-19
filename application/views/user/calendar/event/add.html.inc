@@ -10,12 +10,12 @@
 
             <div class="flex-container">
                 <div class="form-group flex flex-3">
-                    <span class="form-label">Event Name</span><span style="color: crimson">*</span>
+                    <span class="form-label form-label-required">Event Name</span>
                     <input type="text" name="event-name" id="event-name" class="form-input" placeholder="Enter event name">
                     <span class="form-error" id="event-name-error"></span>
                 </div>
                 <div class="form-group flex flex-1">
-                    <span class="form-label">Visibility</span>
+                    <span class="form-label form-label-required">Visibility</span>
                     <select name="event-visibility" id="event-visibility" class="form-input" required="required">
                         <option value="public" selected="selected">Public</option>
                         <option value="internal">Internal</option>
@@ -25,7 +25,7 @@
 
             <div class="flex-container">
                 <div class="form-group flex flex-1">
-                    <span class="form-label">Start Date</span><span style="color: crimson">*</span>
+                    <span class="form-label form-label-required">Start Date</span>
                     <input type="text" name="event-start-date" id="event-start-date" class="form-input flatpickr-input-date" placeholder="Select start date">
                     <span class="form-error" id="event-start-date-error"></span>
                 </div>
@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group">
-                <span class="form-label">Description</span><span style="color: crimson">*</span>
+                <span class="form-label form-label-required">Description</span>
                 <textarea name="event-description" id="event-description" class="form-input width-full"></textarea>
                 <span class="form-error" id="event-description-error"></span>
             </div>

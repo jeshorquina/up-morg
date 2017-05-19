@@ -67,6 +67,12 @@ button:focus, button:hover {
         display: block;
         font-size: 0.9rem;
         margin: 0 0 0.25rem;
+
+        &-required::after {
+            content: '*';
+            color: $color-text-required;
+            padding: 0 0.25rem;
+        }
     }
 
     & .form-error {

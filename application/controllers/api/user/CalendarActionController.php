@@ -86,7 +86,8 @@ class CalendarActionController extends Controller
         else if(UserSession::IsCommitteeHead())
         {
             $details = $this->operations->GetCommitteeHeadCalendarTaskPageDetails(
-                UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
+                UserSession::GetBatchID(), UserSession::GetBatchMemberID(), 
+                UserSession::GetCommitteeID()
             );
         }
         else 
@@ -95,29 +96,15 @@ class CalendarActionController extends Controller
                 UserSession::GetBatchMemberID()
             );
         }
-        
-        if(!$details)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare calendar page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task successfully edited."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task successfully edited."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function GetCalendarEventDetailsPageDetails($event_id)
@@ -142,20 +129,6 @@ class CalendarActionController extends Controller
                 )
             );
         }
-        else if(!$details = $this->operations->GetCalendarEventDetails(
-            $event_id, UserSession::GetBatchID(), 
-            UserSession::GetBatchMemberID(), UserSession::GetCommitteeID()
-        ))
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare calendar page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -163,7 +136,11 @@ class CalendarActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Task successfully edited."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetCalendarEventDetails(
+                        $event_id, UserSession::GetBatchID(), 
+                        UserSession::GetBatchMemberID(), 
+                        UserSession::GetCommitteeID()
+                    )
                 )
             );
         }
@@ -261,17 +238,6 @@ class CalendarActionController extends Controller
                 )
             );
         }
-        else if(!$details = $this->operations->GetEditEventDetails($event_id))
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Something went wrong. Cannot get event. 
-                        Please try again."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -279,7 +245,7 @@ class CalendarActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Event successfully retrieved."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetEditEventDetails($event_id)
                 )
             );
         }
@@ -376,17 +342,6 @@ class CalendarActionController extends Controller
                 )
             );
         }
-        else if(!$details = $this->operations->GetEditEventDetails($event_id))
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Something went wrong. Cannot get event. 
-                        Please try again."
-                    )
-                )
-            );
-        }
         else
         {
             Http::Response(
@@ -394,7 +349,7 @@ class CalendarActionController extends Controller
                     "message" => StringHelper::NoBreakString(
                         "Event successfully edit."
                     ),
-                    "data" => $details
+                    "data" => $this->operations->GetEditEventDetails($event_id)
                 )
             );
         }

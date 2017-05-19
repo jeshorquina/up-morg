@@ -113,6 +113,11 @@ class AvailabilityActionOperations
             );
         }
 
+        $scoped_batch_member_ids = array_intersect(
+            $scoped_batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
+        );
+
         $final_details = array();
         foreach($scoped_batch_member_ids as $batch_member_id) {
             $final_details[] = array(
@@ -251,6 +256,11 @@ class AvailabilityActionOperations
             );
         }
 
+        $scoped_batch_member_ids = array_intersect(
+            $scoped_batch_member_ids,
+            $this->batch_member->GetBatchMemberIDs($batch_id)
+        );
+
         $non_members = array();
         foreach($scoped_batch_member_ids as $batch_member_id) 
         {
@@ -310,13 +320,15 @@ class AvailabilityActionOperations
         );
     }
 
-    public function GetAvailabilityCommitteeDetails($committee_id)
+    public function GetAvailabilityCommitteeDetails($batch_id, $committee_id)
     {
         $members = array();
 
-        $committee_batch_member_ids = (
-            $this->committee->GetApprovedBatchMemberIDs($committee_id)
+        $committee_batch_member_ids = array_intersect(
+            $this->committee->GetApprovedBatchMemberIDs($committee_id),
+            $this->batch_member->GetBatchMemberIDs($batch_id)
         );
+
         foreach($committee_batch_member_ids as $batch_member_id)
         {
             $member = $this->availability->GetAvailabilityByBatchMemberID(

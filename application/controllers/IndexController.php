@@ -25,7 +25,7 @@ class IndexController extends Controller
         }
         else
         {
-            Url::Redirect("task");
+            Url::Redirect("calendar");
         }
     }
 }

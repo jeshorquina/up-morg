@@ -109,8 +109,8 @@ class AvailabilityActionController extends Controller
                     ),
                     "data" => (
                         $this->operations->GetAvailabilityCommitteeDetails(
-                            UserSession::GetCommitteeID(), 
-                            UserSession::GetBatchID()
+                            UserSession::GetBatchID(),
+                            UserSession::GetCommitteeID()
                         )
                     )
                 )

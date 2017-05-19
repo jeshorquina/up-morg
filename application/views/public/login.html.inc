@@ -22,7 +22,7 @@
 
         <hr>
 
-        <input value="Login" type="submit" class="button">
+        <input value="Login" type="submit" class="button button-success">
 
     </form>
 

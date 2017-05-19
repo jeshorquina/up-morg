@@ -275,12 +275,17 @@ class SubordinateActionOperations
         }
     }
 
-    public function AssignCommitteeHead($batch_member_id, $committee_name)
+    public function AssignCommitteeHead(
+        $batch_id, $batch_member_id, $committee_name
+    )
     {
-        $batch_member_ids = $this->committee->GetApprovedBatchMemberIDs(
-            $this->committee->GetCommitteeIDByCommitteeName(
-                $committee_name
-            )
+        $batch_member_ids = array_intersect(
+            $this->committee->GetApprovedBatchMemberIDs(
+                $this->committee->GetCommitteeIDByCommitteeName(
+                    $committee_name
+                )
+            ),
+            $this->batch_member->GetBatchMemberIDs($batch_id)
         );
 
         foreach($batch_member_ids as $id)

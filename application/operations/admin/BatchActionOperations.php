@@ -524,8 +524,9 @@ class BatchActionOperations
         $committee_head_type_id = $this->member->GetMemberTypeID(
             Member::COMMITTEE_HEAD
         );
-        $committee_member_ids = $this->committee->GetApprovedBatchMemberIDs(
-            $committee_id
+        $committee_member_ids = array_intersect(
+            $this->batch_member->GetBatchMemberIDs($batch_id),
+            $this->committee->GetApprovedBatchMemberIDs($committee_id)
         );
 
         $committee_batch_members = array();

@@ -9,7 +9,7 @@
         <table class="table table-compact">
             <thead>
                 <tr>
-                    <th colspan="7">
+                    <th colspan="8">
                         <h3 class="no-margin">Current Batch Ledger Entries</h3>
                     </th>
                 </tr>
@@ -18,18 +18,18 @@
                     <th width="10%">Is Verified</th>
                     <th width="20%">Finance Member</th>
                     <th width="20%">Description</th>
-                    <th width="13%">Debit</th>
-                    <th width="13%">Credit</th>
-                    <th width="14%">Total</th>
+                    <th width="10%">Debit</th>
+                    <th width="10%">Credit</th>
+                    <th width="10%">Projected Total</th>
+                    <th width="10%">Verified Total</th>
                 </tr>
             </thead>
             <tbody id="ledger-entries-container"></tbody>
         </table>
 
         <p style="color: crimson;">
-            <br>
-            Important Note: You cannot reactivate the ledger after closing it. Do not close the ledger unless you are ready to
-            create a new batch.
+            <br> Important Note: You cannot reactivate the ledger after closing it. Do not close the ledger unless you are
+            ready to create a new batch.
         </p>
 
         <form id="close-ledger-form">

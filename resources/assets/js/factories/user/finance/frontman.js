@@ -2,21 +2,20 @@
 
   FinanceFrontmanFactory.CreatePreviousTotalRow = function (previousTotal) {
 
-    return DomHelper.CreateElement("tr", { "class": "previous-balance" },
-      [
-        DomHelper.CreateElement("td", { "colspan": "6" },
-          DomHelper.CreateElement("strong", {}, "Previous balance")
-        ),
-        DomHelper.CreateElement("td", { "class": "text-right" }, previousTotal)
-      ]
-    );
+    return DomHelper.CreateElement("tr", { "class": "previous-balance" }, [
+      DomHelper.CreateElement("td", { "colspan": "6" }),
+      DomHelper.CreateElement("td", { "class": "text-right", "colspan": "2" }, [
+        DomHelper.CreateElement("div", {}, previousTotal),
+        DomHelper.CreateElement("small", {}, "(Previous balance)")
+      ])
+    ]);
   }
 
   FinanceFrontmanFactory.CreateNoLedgerEntriesRow = function () {
 
     return DomHelper.CreateElement("tr", {},
       DomHelper.CreateElement("td", {
-        "colspan": "7",
+        "colspan": "8",
         "class": "text-center"
       }, "There are currently no ledger entries for this batch.")
     );
@@ -33,7 +32,8 @@
       DomHelper.CreateElement("td", {}, entry.description),
       DomHelper.CreateElement("td", { "class": "text-right" }, entry.debit),
       DomHelper.CreateElement("td", { "class": "text-right" }, entry.credit),
-      DomHelper.CreateElement("td", { "class": "text-right" }, entry.total)
+      DomHelper.CreateElement("td", { "class": "text-right" }, entry.total.projected),
+      DomHelper.CreateElement("td", { "class": "text-right" }, entry.total.actual),
     ]);
   }
 
