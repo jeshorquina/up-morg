@@ -44,6 +44,7 @@ class BatchActionOperations
         foreach($this->batch->GetBatches() as $batch)
         {
             $batch->IsActive = ($batch->BatchID == $activeBatch);
+            $batch->IsSucceeding = $this->IsSucceedingBatch($batch->BatchID);
             $batches[] = $batch;
         }
         return Sort::ObjectArray(
@@ -102,6 +103,21 @@ class BatchActionOperations
         return $this->batch_member->HasMemberType(
             $batch_id, $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN)
         );
+    }
+
+    public function HasOpenLedger()
+    {
+        return $this->ledger->IsActivated() && $this->ledger->IsOpen();
+    }
+
+    public function IsSucceedingBatch($batch_id)
+    {
+        $new_acad_year = explode("-", $this->batch->GetAcadYear($batch_id));
+        $current_acad_year = explode("-", $this->batch->GetAcadYear(
+            $this->batch->GetActiveBatchID()
+        ));
+
+        return (int)$new_acad_year[0] > (int)$current_acad_year[0];
     }
 
     public function ActivateBatch($batch_id)

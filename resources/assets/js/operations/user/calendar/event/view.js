@@ -128,6 +128,16 @@
     for (var i = 0; i < eventDescription.length; i++) {
       DomHelper.InsertContent(eventDescription[i], event.description);
     }
+
+    if (new Boolean(event.image) != false) {
+      DomHelper.InsertContent(
+        "event-image-container",
+        EventDetailsViewFactory.CreateEventImage(event.image)
+      )
+    }
+    else if (document.getElementById("event-image-container")) {
+      DomHelper.RemoveElement("event-image-container");
+    }
   }
 
   function FillTaskList(tasks) {

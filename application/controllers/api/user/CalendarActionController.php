@@ -321,7 +321,7 @@ class CalendarActionController extends Controller
         else if(!$this->operations->EditEvent(
             $event_id, $event_name, $event_start_date, $event_end_date, 
             $event_start_time, $event_end_time, $event_owner, $is_public, 
-            $event_description
+            $event_description, "event-image"
         ))
         {
             Http::Response(
@@ -409,9 +409,11 @@ class CalendarActionController extends Controller
                 )
             );
         }
-        else if(!$this->operations->AddEvent(
+
+        if(!$this->operations->AddEvent(
             $event_name, $event_start_date, $event_end_date, $event_start_time, 
-            $event_end_time, $event_owner, $is_public, $event_description
+            $event_end_time, $event_owner, $is_public, $event_description,
+            "event-image"
         ))
         {
             Http::Response(

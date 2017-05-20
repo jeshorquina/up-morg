@@ -189,6 +189,7 @@
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
             "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/vendor/flatpickr.js",
             "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
@@ -445,8 +446,8 @@
         "name": "user/finance-closed-frontman.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",
-            "resources/assets/js/vendor/pdfmake/vfs_fonts.js",
             "resources/assets/js/vendor/pdfmake.js",
+            "resources/assets/js/vendor/pdfmake/vfs_fonts.js",
             "resources/assets/js/helpers/stickyfill.js",
             "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",

@@ -2,6 +2,17 @@
 
   EventsFactory.CreateEventSection = function (event) {
 
+    var image = "";
+    if (new Boolean(event.image) != false) {
+      image = DomHelper.CreateElement("div", {}, [
+        DomHelper.CreateElement("img", {
+          "src": event.image,
+          "class": "width-full"
+        }),
+        DomHelper.CreateElement("hr", {})
+      ]);
+    }
+
     return DomHelper.CreateElement("div", { "class": "card margin-top-xlarge" },
       [
         DomHelper.CreateElement("div", {
@@ -20,6 +31,7 @@
           ]
         ),
         DomHelper.CreateElement("hr", {}),
+        image,
         DomHelper.CreateElement("p", {}, event.description),
         DomHelper.CreateElement("hr", {}),
         DomHelper.CreateElement("div", { "class": "flex-container" }, [

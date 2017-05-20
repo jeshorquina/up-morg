@@ -9,7 +9,6 @@
   TaskEditOperations.RenderTaskEditPage = function (
     source, taskID, controllerCallback
   ) {
-
     var endpoint = (
       source + "action/task/view/details/" + taskID + "/edit-details"
     );
@@ -254,8 +253,9 @@
     }
 
     document.getElementById("task-title").value = details.title;
-    document.getElementById("task-deadline").value = details.deadline;
     document.getElementById("task-description").value = details.description;
+
+    RenderDatePicker(details.deadline);
 
     var taskAssignee = document.getElementsByClassName('task-assignee');
     for (var i = 0; i < taskAssignee.length; i++) {
@@ -266,6 +266,15 @@
     for (var i = 0; i < taskReporter.length; i++) {
       DomHelper.InsertContent(taskReporter[i], details.reporter.name);
     }
+  }
+
+  function RenderDatePicker(deadline) {
+
+    flatpickr(".flatpickr-input-date", {
+      enableTime: false,
+      altInput: true,
+      defaultDate: deadline
+    });
   }
 
 })(

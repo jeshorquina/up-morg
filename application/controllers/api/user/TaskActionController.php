@@ -334,8 +334,10 @@ class TaskActionController extends Controller
         $status_id = Http::Request(Http::POST, "task-status");
         $submit_text = Http::Request(Http::POST, "task-submission-text");
 
-        $upload = new Upload;
-
+        $upload = new Upload(
+            Upload::UPLOAD_DIRECTORY_INTERNAL, 
+            Upload::UPLOAD_TYPE_SUMBISSIONS
+        );
         if($this->operations->CanUpload($status_id))
         {
             if(!$upload->UploadFile("task-submission-file"))

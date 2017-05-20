@@ -80,7 +80,7 @@
     FinanceFrontmanOperations.data.entries.current.forEach(function (entry) {
       preparedBody.push([
         entry.date, entry.member, entry.description, entry.debit,
-        entry.credit, entry.total
+        entry.credit, entry.total.actual
       ]);
     })
 

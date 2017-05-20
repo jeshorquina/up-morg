@@ -261,6 +261,7 @@ class LoggedOutActionOperations
                     ),
                     "name" => $event->EventName,
                     "description" => $event->EventDescription,
+                    "image" => $this->GetEventImage($event),
                     "date" => $this->MutateEventDate($event),
                     "timestamp" => $this->MutateTimestamp($event->Timestamp)
                 );
@@ -339,6 +340,18 @@ class LoggedOutActionOperations
         }
     }
     
+    private function GetEventImage($event)
+    {
+        if($event->EventImage != null)
+        {
+            return $event->EventImage;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private function MutateTimestamp($timestamp)
     {
         return date("F j, Y - g:i a", strtotime($timestamp));

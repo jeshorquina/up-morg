@@ -18,9 +18,11 @@
             <div id="event-buttons-container" class="form-group flex flex-1 text-right"></div>
         </div>
 
-        <div id="task-container" class="margin-top-large">
+        <div id="event-container" class="margin-top-medium">
 
-            <div class="flex-container">
+            <div id="event-image-container" class="text-center"></div>
+
+            <div class="flex-container margin-top-medium">
                 <div class="form-group flex flex-2">
                     <label class="form-label">Event Name</label>
                     <h3 class="event-name"></h3>

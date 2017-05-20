@@ -2,6 +2,7 @@
 namespace Jesh\Operations\User;
 
 use \Jesh\Helpers\StringHelper;
+use \Jesh\Helpers\Upload;
 use \Jesh\Helpers\Url;
 use \Jesh\Helpers\ValidationDataBuilder;
 
@@ -358,7 +359,8 @@ class CalendarActionOperations
                     $this->batch_member->GetMemberID($event_object->EventOwner)
                 ),
                 "date" => $this->MutateEventDate($event_object),
-                "description" => $event_object->EventDescription
+                "description" => $event_object->EventDescription,
+                "image" => $this->GetEventImage($event_object)
             ),
             "flags" => array(
                 "edit" => $this->CanEditEvent(
@@ -459,6 +461,18 @@ class CalendarActionOperations
         else
         {
             return date("F j, Y", strtotime($event_object->EventStartDate));
+        }
+    }
+
+    private function GetEventImage($event)
+    {
+        if($event->EventImage != null)
+        {
+            return $event->EventImage;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -639,9 +653,26 @@ class CalendarActionOperations
 
     public function AddEvent(
         $event_name, $event_start_date, $event_end_date, $event_start_time, 
-        $event_end_time, $event_owner, $is_public, $event_description
-    ) 
+        $event_end_time, $event_owner, $is_public, $event_description,
+        $upload_image_index
+    )
     {
+        $upload = new Upload(
+            Upload::UPLOAD_DIRECTORY_PUBLIC, Upload::UPLOAD_TYPE_IMAGES_ONLY
+        );
+        if($upload->UploadFile($upload_image_index))
+        {
+            $event_image = Url::GetBaseURL(sprintf(
+                "%s%s", 
+                Upload::UPLOAD_DIRECTORY_PUBLIC, 
+                $upload->GetUploadFileName($upload_image_index)
+            ));
+        }
+        else
+        {
+            $event_image = null;
+        }
+
         return $this->event->AddEvent(
             new EventModel(
                 array(
@@ -652,6 +683,7 @@ class CalendarActionOperations
                     "EventEndDate" => $event_end_date,
                     "EventStartTime" => $event_start_time,
                     "EventEndTime" => $event_end_time,
+                    "EventImage" => $event_image,
                     "IsPublic" => $is_public
                 )
             )
@@ -661,9 +693,25 @@ class CalendarActionOperations
     public function EditEvent(
         $event_id, $event_name, $event_start_date, $event_end_date, 
         $event_start_time, $event_end_time, $event_owner, $is_public, 
-        $event_description
+        $event_description, $upload_image_index
     )
     {
+        $upload = new Upload(
+            Upload::UPLOAD_DIRECTORY_PUBLIC, Upload::UPLOAD_TYPE_IMAGES_ONLY
+        );
+        if($upload->UploadFile($upload_image_index))
+        {
+            $event_image = Url::GetBaseURL(sprintf(
+                "%s%s", 
+                Upload::UPLOAD_DIRECTORY_PUBLIC, 
+                $upload->GetUploadFileName($upload_image_index)
+            ));
+        }
+        else
+        {
+            $event_image = null;
+        }
+
         return $this->event->EditEvent(
             $event_id,
             new EventModel(
@@ -675,6 +723,7 @@ class CalendarActionOperations
                     "EventEndDate" => $event_end_date,
                     "EventStartTime" => $event_start_time,
                     "EventEndTime" => $event_end_time,
+                    "EventImage" => $event_image,
                     "IsPublic" => $is_public
                 )
             )

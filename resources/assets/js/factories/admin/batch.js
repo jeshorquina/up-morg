@@ -10,7 +10,7 @@
       ]
     );
 
-    var activeButton;
+    var activeButton = "";
     if ((new Boolean(batchEntry.IsActive)) == true) {
 
       activeButton = DomHelper.CreateElement(
@@ -20,7 +20,7 @@
         }, "Active Batch"
       );
     }
-    else {
+    else if ((new Boolean(batchEntry.IsSucceeding)) == true) {
 
       activeButton = DomHelper.CreateElement(
         "button", {

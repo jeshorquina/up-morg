@@ -66,6 +66,12 @@
                 <span class="form-error" id="event-description-error"></span>
             </div>
 
+            <div class="form-group">
+                <span class="form-label">Event Image <small>(optional)</small><span>
+                <input type="file" name="event-image" id="event-image" class="form-input width-full">
+                <span class="form-error" id="event-description-error"></span>
+            </div>
+
             <input type="hidden" name="<?=$csrf['name'];?>" value="<?=$csrf['hash'];?>">
 
             <button type="submit" class="button button-success no-margin margin-top-small float-right">Add Event</button>

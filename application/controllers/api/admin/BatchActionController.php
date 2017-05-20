@@ -86,11 +86,32 @@ class BatchActionController extends Controller
                 )
             );
         }
+        else if($this->operations->HasOpenLedger())
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot make batch active because the current active
+                        batch still has an unclosed ledger."
+                    )
+                )
+            );
+        }
+        else if(!$this->operations->IsSucceedingBatch($batch_id))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, array(
+                    "message" => StringHelper::NoBreakString(
+                        "Cannot make a preceeding batch active."
+                    )
+                )
+            );
+        }
         else if(!$this->operations->ActivateBatch($batch_id)) 
         {
             Http::Response(
                 Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => "Unable to activate batch. PLease try again."
+                    "message" => "Unable to activate batch. Please try again."
                 )
             );
         }

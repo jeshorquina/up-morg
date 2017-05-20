@@ -244,6 +244,7 @@
         "src": [
             "resources/assets/css/vendor/normalize.css",
             "resources/assets/css/vendor/stickyfill.css",
+            "resources/assets/css/vendor/flatpickr.css",
             "resources/assets/css/base/base.css",
             "resources/assets/css/base/helpers.css",
             "resources/assets/css/components/alerts.css",

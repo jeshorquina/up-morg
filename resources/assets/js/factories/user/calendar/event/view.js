@@ -113,6 +113,20 @@
       ]);
   }
 
+  EventDetailsViewFactory.CreateEventImage = function (image) {
+
+    return DomHelper.CreateElement("a", {
+      "class": "event-image-container",
+      "href": image,
+      "target": "_blank"
+    }, [
+        DomHelper.CreateElement("img", {
+          "class": "event-image",
+          "src": image
+        })
+      ]);
+  }
+
 })(
   DomHelper, this.EventDetailsViewFactory = (
     this.EventDetailsViewFactory == undefined

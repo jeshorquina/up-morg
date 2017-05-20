@@ -46,15 +46,17 @@
     source, batchID, csrfObject, controllerCallback
   ) {
 
-    var data = new FormData();
-    data.append("batch-id", batchID);
-    data.append(csrfObject.name, csrfObject.value);
+    if (confirm("Are you sure you want to activate a new batch? Previous batches can no longer be activated.")) {
+      var data = new FormData();
+      data.append("batch-id", batchID);
+      data.append(csrfObject.name, csrfObject.value);
 
-    var endpoint = source + "action/admin/batch/activate";
+      var endpoint = source + "action/admin/batch/activate";
 
-    HttpHelper.Post(endpoint, data, function (status, responseText) {
-      ActivateBatchCallback(status, responseText, controllerCallback);
-    });
+      HttpHelper.Post(endpoint, data, function (status, responseText) {
+        ActivateBatchCallback(status, responseText, controllerCallback);
+      });
+    }
   }
 
   function AddBatchCallback(status, responseText, controllerCallback) {

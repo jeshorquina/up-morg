@@ -26,3 +26,15 @@ ul.list {
         }
     }
 }
+
+.event-image-container {
+    background: lighten($color-border, 15%) !important;
+    border: 1px solid $color-border;
+    display: block;
+
+    .event-image {
+        display: block;
+        margin: 0 auto;
+        max-height: 500px;
+    }
+}
