@@ -28,14 +28,26 @@
     var container = document.getElementById("notifications");
 
     DomHelper.ClearContent(container);
-    DomHelper.RemoveClass("password", "form-input-error");
+
+    ["username", "password"].forEach(function (value) {
+      DomHelper.RemoveClass(value, "form-input-error");
+      DomHelper.ClearContent(value + "-error");
+    });
 
     if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
-      AlertFactory.GenerateDangerAlert(container, data.message);
+      AlertFactory.GenerateDangerAlert(
+        container, "Cannot log in. Please check validation errors."
+      );
       window.scrollTo(0, 0);
 
-      DomHelper.AddClass("password", "form-input-error");
+      Object.keys(data).forEach(function (id) {
+        if (id === 'password') {
+          DomHelper.InputValue(id, "");
+        }
+        DomHelper.AddClass(id, "form-input-error");
+        DomHelper.InsertContent(id + "-error", data[id]);
+      });
     }
     else if (status == HttpHelper.OK) {
 

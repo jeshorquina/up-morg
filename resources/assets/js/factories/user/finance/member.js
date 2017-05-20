@@ -23,6 +23,8 @@
 
   FinanceMemberFactory.CreateLedgerEntryRow = function (entry) {
 
+    var projected = (!Boolean(entry.status)) ? entry.total.projected : "";
+
     return DomHelper.CreateElement("tr", {}, [
       DomHelper.CreateElement("td", { "class": "text-center" }, entry.date),
       DomHelper.CreateElement("td", { "class": "text-center" },
@@ -32,7 +34,7 @@
       DomHelper.CreateElement("td", {}, entry.description),
       DomHelper.CreateElement("td", { "class": "text-right" }, entry.debit),
       DomHelper.CreateElement("td", { "class": "text-right" }, entry.credit),
-      DomHelper.CreateElement("td", { "class": "text-right" }, entry.total.projected),
+      DomHelper.CreateElement("td", { "class": "text-right" }, projected),
       DomHelper.CreateElement("td", { "class": "text-right" }, entry.total.actual),
     ]);
   }

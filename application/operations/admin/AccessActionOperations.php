@@ -33,4 +33,22 @@ class AccessActionOperations
     {
         return Session::End();
     }
+
+    public function ValidateLoginData($username, $password)
+    {
+        $validation = new ValidationDataBuilder;
+
+        $validation->CheckString("username", $username);
+        $validation->CheckString("password", $password);
+
+        return array(
+            "status"  => $validation->GetStatus(),
+            "message" => $validation->GetValidationData()
+        );
+    }
+
+    public function ExistingUsername($username)
+    {
+        return (trim(strtoupper($username)) == "ADMIN");
+    }
 }

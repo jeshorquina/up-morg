@@ -25,29 +25,34 @@ class AccessActionController extends Controller
         $username = Http::Request(Http::POST, "username");
         $password = Http::Request(Http::POST, "password");
 
-        if(strtoupper($username) != "ADMIN")
+        $validation = $this->operations->ValidateLoginData($username, $password);
+
+        if($validation["status"] === false)
         {
             Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "message" => "Incorrect username!"
-                )
+                Http::UNPROCESSABLE_ENTITY, 
+                $validation["message"]
             );
         }
-
-        if(!$this->operations->MatchingPassword($password))
+        else if(!$this->operations->ExistingUsername($username))
         {
             Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "message" => "Password does not match!"
-                )
+                Http::UNPROCESSABLE_ENTITY, 
+                array("username" => "Username does not exist!")
+            );
+        }
+        else if(!$this->operations->MatchingPassword($password))
+        {
+            Http::Response(
+                Http::UNPROCESSABLE_ENTITY, 
+                array("password" => "Password is incorrect. Try again!")
             );
         }
         else 
         {
-            $this->operations->SetLoggedInState();
-            Http::Response(
-                Http::OK, array(
-                    "message" => "Successfully logged in.",
+            $this->operations->SetLoggedInState($username);
+            Http::Response(Http::OK, array(
+                    "message"      => "Successfully logged in.",
                     "redirect_url" => Url::GetBaseURL('admin')
                 )
             );

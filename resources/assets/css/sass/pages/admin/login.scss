@@ -1,12 +1,7 @@
-.flex-container {
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: absolute;
-    width: 100%;
-
-    & .flex-item {
-        margin: auto;
-    }
+.login-card {
+    margin: 3rem auto;
+    width: 500px;
 }
+    .login-card input {
+        width: 100%;
+    }

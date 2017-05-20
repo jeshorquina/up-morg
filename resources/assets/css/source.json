@@ -53,7 +53,9 @@
             "resources/assets/css/base/helpers.css",
             "resources/assets/css/components/alerts.css",
             "resources/assets/css/components/buttons.css",
+            "resources/assets/css/components/cards.css",
             "resources/assets/css/components/forms.css",
+            "resources/assets/css/components/nav.css",
             "resources/assets/css/pages/admin/login.css"
         ]
     },

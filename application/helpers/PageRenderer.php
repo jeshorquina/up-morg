@@ -630,27 +630,15 @@ class PageRenderer
            $page_array = array_merge($page_array, $array);
         }
 
-        if($has_nav)
-        {
-            return array_merge_recursive(
-                $page_array,
-                array(
-                    "page" => array_merge(
-                        self::GetAdminNavigationLinks(),
-                        self::GetAdminPageURLs($page_name)
-                    )
+        return array_merge_recursive(
+            $page_array,
+            array(
+                "page" => array_merge(
+                    self::GetAdminNavigationLinks($has_nav),
+                    self::GetAdminPageURLs($page_name)
                 )
-            );
-        }
-        else 
-        {
-            return array_merge_recursive(
-                $page_array,
-                array(
-                    "page" => self::GetAdminPageURLs($page_name)
-                )
-            );
-        }
+            )
+        );
     }
 
     public static function GetUserPageData(
@@ -808,28 +796,35 @@ class PageRenderer
         return array("nav" => $navs);
     }
 
-    private static function GetAdminNavigationLinks()
+    private static function GetAdminNavigationLinks($has_nav)
     {
-        return array(
-            "nav" => array(
-                array(
-                    "name" => "Manage Batch",
-                    "url" => Url::GetBaseURL('admin/batch')
-                ),
-                array(
-                    "name" => "Manage Members",
-                    "url" => Url::GetBaseURL('admin/member')
-                ),
-                array(
-                    "name" => "Change Password",
-                    "url" => Url::GetBaseURL('admin/account/password')
-                ),
-                array(
-                    "name" => "Logout",
-                    "url" => Url::GetBaseURL('action/admin/logout')
+        if($has_nav)
+        {
+            return array(
+                "nav" => array(
+                    array(
+                        "name" => "Manage Batch",
+                        "url" => Url::GetBaseURL('admin/batch')
+                    ),
+                    array(
+                        "name" => "Manage Members",
+                        "url" => Url::GetBaseURL('admin/member')
+                    ),
+                    array(
+                        "name" => "Change Password",
+                        "url" => Url::GetBaseURL('admin/account/password')
+                    ),
+                    array(
+                        "name" => "Logout",
+                        "url" => Url::GetBaseURL('action/admin/logout')
+                    )
                 )
-            )
-        );
+            );
+        }
+        else
+        {
+            return array("nav" => array());
+        }
     }
 
     private static function GetPublicNavigationLinks()
