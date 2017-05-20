@@ -95,7 +95,7 @@ class FinanceActionOperations
                 "credit" => ($credit !== 0) ? 
                     "Php ".number_format($credit, 2) : "-",
                 "total" => array(
-                    "projected" => "Php ".number_format($projected_total),
+                    "projected" => "Php ".number_format($projected_total, 2),
                     "actual" => "Php ".number_format($actual_total, 2)
                 )
             );

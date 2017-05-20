@@ -313,14 +313,6 @@ class BatchActionOperations
                         $new_frontman_id, $frontman_type
                     );   
                 }
-                else if(
-                    $this->batch->IsActive($batch_id) &&
-                    $this->HasFirstFrontmen($batch_id)
-                )
-                {
-                    $this->batch->RemoveActiveBatch();
-                    $this->ledger->DeactivateLedger();
-                }
             }
         }
 
@@ -336,13 +328,33 @@ class BatchActionOperations
                 "status" => false
             );
         }
+        else if(
+            $this->batch->IsActive($batch_id) &&
+            !$this->HasFirstFrontmen($batch_id)
+        )
+        {
+            $this->batch->RemoveActiveBatch();
+            $this->ledger->DeactivateLedger();
 
-        return array(
-            "data" => array(
-                "message" => "Frontmen has been successfully changed!"
-            ),
-            "status" => true
-        );
+            return array(
+                "data" => array(
+                    "message" => StringHelper::NoBreakString(
+                        "Frontmen has been successfully changed but batch has 
+                        been made inactive due to lack of a first frontman."
+                    )
+                ),
+                "status" => true
+            );
+        }
+        else
+        {
+            return array(
+                "data" => array(
+                    "message" => "Frontmen has been successfully changed!"
+                ),
+                "status" => true
+            );
+        }
     }
     
     public function AddBatchCommitteeMember(
@@ -708,6 +720,14 @@ class BatchActionOperations
             foreach($committee_members as $committee_member)
             {
                 $filter_ids[] = $committee_member["id"];
+            }
+
+            foreach($batch_members as $batch_member)
+            {
+                if($batch_member->MemberTypeID != 0)
+                {
+                    $filter_ids[] = $batch_member->BatchMemberID;
+                }
             }
         }
         

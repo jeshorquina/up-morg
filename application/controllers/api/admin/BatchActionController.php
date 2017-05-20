@@ -81,7 +81,7 @@ class BatchActionController extends Controller
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
-                        "Please select all frontmen before activating batch."
+                        "Please select first frontman before activating batch."
                     )
                 )
             );
