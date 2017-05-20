@@ -823,7 +823,12 @@ class PageRenderer
         }
         else
         {
-            return array("nav" => array());
+            return array("nav" => array(
+                array(
+                    "name" => "Back to Public Pages",
+                    "url" => Url::GetBaseURL()
+                )
+            ));
         }
     }
 
