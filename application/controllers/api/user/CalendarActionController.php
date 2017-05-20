@@ -306,7 +306,7 @@ class CalendarActionController extends Controller
             Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
         else if(!$this->operations->HasValidEventDate(
-            $event_start_date, $event_end_date
+            UserSession::GetBatchID(), $event_start_date, $event_end_date
         ))
         {
             Http::Response(
@@ -397,7 +397,7 @@ class CalendarActionController extends Controller
             Http::Response(Http::UNPROCESSABLE_ENTITY, $validation["message"]);
         }
         else if(!$this->operations->HasValidEventDate(
-            $event_start_date, $event_end_date
+            UserSession::GetBatchID(), $event_start_date, $event_end_date
         ))
         {
             Http::Response(

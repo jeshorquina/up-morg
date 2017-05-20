@@ -21,4 +21,18 @@ class StaticDataRepository extends Repository
             new StaticDataModel(array("Value" => $password))
         );
     }
+
+    public function GetAcadYearStartMonth()
+    {
+        return self::Get(
+            "StaticData", "Value", array("Name" => "AcadYearStartMonth")
+        );
+    }
+
+    public function GetAcadYearEndMonth()
+    {
+        return self::Get(
+            "StaticData", "Value", array("Name" => "AcadYearEndMonth")
+        );
+    }
 }

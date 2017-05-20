@@ -7,26 +7,32 @@ use \Jesh\Helpers\ValidationDataBuilder;
 
 use \Jesh\Models\EventModel;
 
+use \Jesh\Operations\Repository\Batch;
 use \Jesh\Operations\Repository\BatchMember;
 use \Jesh\Operations\Repository\Committee;
 use \Jesh\Operations\Repository\Event;
 use \Jesh\Operations\Repository\Member;
+use \Jesh\Operations\Repository\StaticData;
 use \Jesh\Operations\Repository\Task;
 
 class CalendarActionOperations
 {
+    private $batch;
     private $batch_member;
     private $committee;
     private $event;
     private $member;
     private $task;
+    private $static_data;
 
     public function __construct()
     {
+        $this->batch = new Batch;
         $this->batch_member = new BatchMember;
         $this->committee = new Committee;
         $this->event = new Event;
         $this->member = new Member;
+        $this->static_data = new StaticData;
         $this->task = new Task;
     }
 
@@ -590,7 +596,9 @@ class CalendarActionOperations
         );
     }
 
-    public function HasValidEventDate($event_start_date, $event_end_date)
+    public function HasValidEventDate(
+        $batch_id, $event_start_date, $event_end_date
+    )
     {
         $now = new \DateTime();
         $start = \DateTime::createFromFormat("Y-m-d", $event_start_date);
@@ -604,7 +612,29 @@ class CalendarActionOperations
             $end = $start;
         }
 
-        return ($start <= $end && $start >= $now && $end >= $now);
+        $acad_year = explode("-", $this->batch->GetAcadYear($batch_id));
+
+        $start_acad_year = \DateTime::createFromFormat(
+            "Y-m-d", sprintf(
+                "%s-%s-01",
+                $acad_year[0],
+                $this->static_data->GetAcadYearStartMonth()
+            )
+        );
+
+        $end_acad_year = \DateTime::createFromFormat(
+            "Y-m-d", sprintf(
+                "%s-%s-31",
+                $acad_year[1],
+                $this->static_data->GetAcadYearEndMonth()
+            )
+        );
+
+        return (
+            ($start >= $now && $end >= $now && $start <= $end) &&
+            ($start >= $start_acad_year && $start <= $end_acad_year) &&
+            ($end >= $start_acad_year && $end <= $end_acad_year)
+        );
     }
 
     public function AddEvent(
