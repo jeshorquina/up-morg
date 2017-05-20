@@ -10,6 +10,8 @@
     source, controllerCallback
   ) {
 
+    RenderDatePicker();
+
     var endpoint = source + "action/task/add";
 
     HttpHelper.Get(endpoint, function (status, responseText) {
@@ -264,6 +266,14 @@
       if (value != "task-assignee" || value != "task-subscribers") {
         DomHelper.InputValue(value, "");
       }
+    });
+  }
+
+  function RenderDatePicker() {
+
+    flatpickr(".flatpickr-input-date", {
+      enableTime: false,
+      altInput: true,
     });
   }
 

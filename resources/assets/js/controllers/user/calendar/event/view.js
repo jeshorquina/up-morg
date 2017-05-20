@@ -1,4 +1,4 @@
-(function (EventDetailsViewOperations) {
+(function (EventDetailsViewOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -35,14 +35,12 @@
     }
 
     var editButton = document.getElementById("edit-event-button");
-    if(editButton)
-    {
+    if (editButton) {
       editButton.addEventListener("click", editEventCallback);
     }
-    
+
     var deleteButton = document.getElementById("delete-event-button");
-    if(deleteButton)
-    {
+    if (deleteButton) {
       deleteButton.addEventListener("click", deleteEventCallback);
     }
 
@@ -53,4 +51,4 @@
     source, eventID, controllerCallback
   );
 
-})(EventDetailsViewOperations);
+})(EventDetailsViewOperations, Loader);

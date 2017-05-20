@@ -226,7 +226,7 @@ class AvailabilityActionOperations
             )
         );
 
-        $scoped_batch_member_ids = array();
+        $scoped_batch_member_ids = array($frontman_id);
 
         if($is_first_frontman) 
         {

@@ -1,4 +1,4 @@
-(function (TaskViewOperations) {
+(function (TaskViewOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -25,4 +25,4 @@
 
   TaskViewOperations.RenderTaskViewPage(source, controllerCallback);
 
-})(TaskViewOperations);
+})(TaskViewOperations, Loader);

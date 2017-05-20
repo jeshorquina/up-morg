@@ -284,13 +284,43 @@ class LoggedOutActionOperations
     {
         if($event_object->EventEndDate != null)
         {
-            return sprintf(
-                "%s to %s", 
-                date("F j, Y", strtotime($event_object->EventStartDate)),
-                date("F j, Y", strtotime($event_object->EventEndDate))
-            );
+            if(
+                $event_object->EventStartTime != null && 
+                $event_object->EventEndTime != null
+            )
+            {
+                return sprintf(
+                    "%s to %s", 
+                    date("F j, Y - g:i a", 
+                        strtotime(
+                            sprintf(
+                                "%s %s", 
+                                $event_object->EventStartDate, 
+                                $event_object->EventStartTime
+                            )
+                        )
+                    ),
+                    date("F j, Y - g:i a", 
+                        strtotime(
+                            sprintf(
+                                "%s %s", 
+                                $event_object->EventEndDate, 
+                                $event_object->EventEndTime
+                            )
+                        )
+                    )
+                );
+            }
+            else
+            {
+                return sprintf(
+                    "%s to %s", 
+                    date("F j, Y", strtotime($event_object->EventStartDate)),
+                    date("F j, Y", strtotime($event_object->EventEndDate))
+                );
+            }   
         }
-        else if($event_object->EventTime != null)
+        else if($event_object->EventStartTime != null)
         {
             return date(
                 "F j, Y - g:i a",
@@ -298,7 +328,7 @@ class LoggedOutActionOperations
                     sprintf(
                         "%s %s", 
                         $event_object->EventStartDate, 
-                        $event_object->EventTime
+                        $event_object->EventStartTime
                     )
                 )
             );

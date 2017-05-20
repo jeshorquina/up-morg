@@ -1,4 +1,4 @@
-(function (CommitteeDetailsOperations) {
+(function (CommitteeDetailsOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -64,4 +64,4 @@
     source, committeeName, controllerCallback
   );
 
-})(CommitteeDetailsOperations);
+})(CommitteeDetailsOperations, Loader);

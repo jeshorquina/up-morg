@@ -113,8 +113,18 @@
       defaultDate: event.date.end
     });
 
-    flatpickr("#event-time.flatpickr-input-time", {
-      defaultDate: event.time,
+    flatpickr("#event-start-time.flatpickr-input-time", {
+      defaultDate: event.time.start,
+      enableTime: true,
+      altInput: true,
+      noCalendar: true,
+      enableSeconds: false,
+      time_24hr: false,
+      dateFormat: "H:i",
+    });
+
+    flatpickr("#event-end-time.flatpickr-input-time", {
+      defaultDate: event.time.end,
       enableTime: true,
       altInput: true,
       noCalendar: true,

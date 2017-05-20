@@ -1,4 +1,4 @@
-(function (FinanceHeadOperations) {
+(function (FinanceHeadOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -33,4 +33,4 @@
 
   FinanceHeadOperations.RenderFinancePage(source, controllerCallback);
 
-})(FinanceHeadOperations);
+})(FinanceHeadOperations, Loader);

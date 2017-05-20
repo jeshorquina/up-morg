@@ -1,4 +1,4 @@
-(function (FinanceCommitteeOperations) {
+(function (FinanceCommitteeOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -10,4 +10,4 @@
 
   FinanceCommitteeOperations.RenderFinancePage(source, controllerCallback);
 
-})(FinanceCommitteeOperations);
+})(FinanceCommitteeOperations, Loader);

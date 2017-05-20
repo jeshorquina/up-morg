@@ -20,7 +20,7 @@
 
                 <div class="form-group flex flex-1">
                     <span class="form-label form-label-required">Deadline</span>
-                    <input type="text" name="task-deadline" id="task-deadline" class="form-input width-full" placeholder="2017-04-30">
+                    <input type="text" name="task-deadline" id="task-deadline" class="form-input width-full flatpickr-input-date" placeholder="e.g. 2017-04-30">
                     <span class="form-error" id="task-deadline-error"></span>
                 </div>
 

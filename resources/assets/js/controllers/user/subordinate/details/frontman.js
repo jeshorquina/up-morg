@@ -1,4 +1,4 @@
-(function (FrontmanDetailsOperations) {
+(function (FrontmanDetailsOperations, Loader) {
 
   var source = (
     document
@@ -24,4 +24,4 @@
     source, controllerCallback
   );
 
-})(FrontmanDetailsOperations);
+})(FrontmanDetailsOperations, Loader);

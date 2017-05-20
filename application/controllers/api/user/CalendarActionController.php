@@ -38,29 +38,15 @@ class CalendarActionController extends Controller
         $details = $this->operations->GetCalendarEventsPageDetails(
             UserSession::GetBatchID()
         );
-        
-        if($details == false)
-        {
-            Http::Response(
-                Http::INTERNAL_SERVER_ERROR, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Cannot prepare calendar page details. 
-                        Please refresh browser."
-                    )
-                )
-            );
-        }
-        else
-        {
-            Http::Response(
-                Http::OK, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Task successfully edited."
-                    ),
-                    "data" => $details
-                )
-            );
-        }
+
+        Http::Response(
+            Http::OK, array(
+                "message" => StringHelper::NoBreakString(
+                    "Task successfully edited."
+                ),
+                "data" => $details
+            )
+        );
     }
 
     public function GetCalendarTasksPageDetails()
@@ -294,8 +280,11 @@ class CalendarActionController extends Controller
         $event_end_date = Http::Request(Http::POST, "event-end-date");
         $event_end_date = ($event_end_date == "") ? null : $event_end_date;
 
-        $event_time = Http::Request(Http::POST, "event-time");
-        $event_time = ($event_time == "") ? null : $event_time;
+        $event_start_time = Http::Request(Http::POST, "event-start-time");
+        $event_start_time = ($event_start_time == "") ? null : $event_start_time;
+
+        $event_end_time = Http::Request(Http::POST, "event-end-time");
+        $event_end_time = ($event_end_time == "") ? null : $event_end_time;
 
         $event_visibility = Http::Request(Http::POST, "event-visibility");
         $is_public = ($event_visibility == "public") ? True : False;
@@ -307,7 +296,8 @@ class CalendarActionController extends Controller
                 "event-name"        => $event_name,
                 "event-start-date"  => $event_start_date,
                 "event-end-date"    => $event_end_date,
-                "event-time"        => $event_time,
+                "event-start-time"  => $event_start_time,
+                "event-end-time"    => $event_end_time,
                 "event-description" => $event_description,
             )
         );
@@ -330,7 +320,8 @@ class CalendarActionController extends Controller
         }
         else if(!$this->operations->EditEvent(
             $event_id, $event_name, $event_start_date, $event_end_date, 
-            $event_time, $event_owner, $is_public, $event_description
+            $event_start_time, $event_end_time, $event_owner, $is_public, 
+            $event_description
         ))
         {
             Http::Response(
@@ -380,8 +371,11 @@ class CalendarActionController extends Controller
             $event_end_date = null;
         }
 
-        $event_time = Http::Request(Http::POST, "event-time");
-        $event_time = ($event_time == "") ? null : $event_time;
+        $event_start_time = Http::Request(Http::POST, "event-start-time");
+        $event_start_time = ($event_start_time == "") ? null : $event_start_time;
+
+        $event_end_time = Http::Request(Http::POST, "event-end-time");
+        $event_end_time = ($event_end_time == "") ? null : $event_end_time;
 
         $event_visibility = Http::Request(Http::POST, "event-visibility");
         $is_public = ($event_visibility == "public") ? True : False;
@@ -393,7 +387,8 @@ class CalendarActionController extends Controller
                 "event-name"        => $event_name,
                 "event-start-date"  => $event_start_date,
                 "event-end-date"    => $event_end_date,
-                "event-time"        => $event_time,
+                "event-start-time"  => $event_start_time,
+                "event-end-time"    => $event_end_time,
                 "event-description" => $event_description,
             )
         );
@@ -415,8 +410,8 @@ class CalendarActionController extends Controller
             );
         }
         else if(!$this->operations->AddEvent(
-            $event_name, $event_start_date, $event_end_date, $event_time, 
-            $event_owner, $is_public, $event_description
+            $event_name, $event_start_date, $event_end_date, $event_start_time, 
+            $event_end_time, $event_owner, $is_public, $event_description
         ))
         {
             Http::Response(

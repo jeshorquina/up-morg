@@ -97,35 +97,11 @@ class BatchActionOperations
         }
     }
 
-    public function HasFrontmen($batch_id)
+    public function HasFirstFrontmen($batch_id)
     {
         return $this->batch_member->HasMemberType(
             $batch_id, $this->member->GetMemberTypeID(Member::FIRST_FRONTMAN)
-        ) && $this->batch_member->HasMemberType(
-            $batch_id, $this->member->GetMemberTypeID(Member::SECOND_FRONTMAN)
-        ) && $this->batch_member->HasMemberType(
-            $batch_id, $this->member->GetMemberTypeID(Member::THIRD_FRONTMAN)
         );
-    }
-
-    public function HasCommitteeHeads($batch_id)
-    {
-        $batch_members = Sort::ObjectArray(
-            $this->batch_member->GetBatchMembers($batch_id), 
-            "BatchMemberID", Sort::ASCENDING
-        );
-
-        $committee_head_type = $this->member->GetMemberTypeID(Member::COMMITTEE_HEAD);
-        $committee_head_count = sizeof($this->committee->GetCommittees());
-        foreach($batch_members as $batch_member)
-        {
-            if($batch_member->MemberTypeID == $committee_head_type)
-            {
-                $committee_head_count--;
-            }
-        }
-
-        return $committee_head_count == 0;
     }
 
     public function ActivateBatch($batch_id)
@@ -310,7 +286,6 @@ class BatchActionOperations
         }
 
         $has_change = false;
-        $active_batch_removed = false;
         foreach($old_frontmen as $key => $old_frontman_id)
         {
             $new_frontman_id = $new_frontmen[$key];
@@ -338,7 +313,10 @@ class BatchActionOperations
                         $new_frontman_id, $frontman_type
                     );   
                 }
-                else if($this->batch->IsActive($batch_id))
+                else if(
+                    $this->batch->IsActive($batch_id) &&
+                    $this->HasFirstFrontmen($batch_id)
+                )
                 {
                     $this->batch->RemoveActiveBatch();
                     $this->ledger->DeactivateLedger();
@@ -356,33 +334,6 @@ class BatchActionOperations
                     )
                 ),
                 "status" => false
-            );
-        }
-        
-        if($active_batch_removed && !$this->HasFrontmen($batch_id))
-        {
-            return array(
-                "data" => array(
-                    "message" => StringHelper::NoBreakString(
-                        "Frontmen has been successfully changed but batch was 
-                        made inactive due to unassigned frontman position."
-                    )  
-                ),
-                "status" => true
-            );
-        }
-
-        if($active_batch_removed && !$this->HasCommitteeHeads($batch_id))
-        {
-            return array(
-                "data" => array(
-                    "message" => StringHelper::NoBreakString(
-                        "Frontmen has been successfully changed but batch was 
-                        made inactive due to unassigned committee head 
-                        position."
-                    )
-                ),
-                "status" => true
             );
         }
 
@@ -436,21 +387,6 @@ class BatchActionOperations
             );
         }
 
-        $is_batch_active = $this->batch->IsActive($batch_id);
-        if($is_batch_active && !$this->HasCommitteeHeads($batch_id))
-        {
-            $this->batch->RemoveActiveBatch();
-            $this->ledger->DeactivateLedger();
-            return array(
-                "message" => StringHelper::NoBreakString(
-                    "Batch member has been successfully added to committee but 
-                    batch was made inactive due to unassigned committee head 
-                    position."
-                ),
-                "status" => "success"
-            );
-        }
-
         return array(
             "message" => StringHelper::NoBreakString(
                 "Batch member successfully added to committee."
@@ -479,27 +415,6 @@ class BatchActionOperations
                 ),
                 "status" => false
             );
-        }
-
-        $is_batch_active = false;
-        if($this->batch->IsActive($batch_id))
-        {
-            $this->batch->RemoveActiveBatch();
-            $this->ledger->DeactivateLedger();
-
-            $is_batch_active = true;
-
-            if(!$this->HasCommitteeHeads($batch_id))
-            {
-                return array(
-                    "message" => StringHelper::NoBreakString(
-                        "Batch member has been successfully removed from 
-                        committee but batch was made inactive due to unassigned 
-                        committee head position."
-                    ),
-                    "status" => true
-                );
-            }
         }
 
         return array(

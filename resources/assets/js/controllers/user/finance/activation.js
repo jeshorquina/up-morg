@@ -1,4 +1,4 @@
-(function (FinanceActivationOperations) {
+(function (FinanceActivationOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -13,7 +13,7 @@
     document
       .getElementById("activate-form")
       .addEventListener("submit", activateCallback);
-    
+
     Loader.RemoveLoadingScreen();
   }
 
@@ -21,4 +21,4 @@
     source, controllerCallback
   );
 
-})(FinanceActivationOperations);
+})(FinanceActivationOperations, Loader);

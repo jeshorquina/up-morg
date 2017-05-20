@@ -36,8 +36,13 @@
                 </div>
                 <div class="form-group flex flex-1">
                     <span class="form-label">Start Time <small>(optional)</small></span>
-                    <input type="text" name="event-time" id="event-time" class="form-input flatpickr-input-time" placeholder="Select event start time">
-                    <span class="form-error" id="event-time-error"></span>
+                    <input type="text" name="event-start-time" id="event-start-time" class="form-input flatpickr-input-time" placeholder="Select event start time">
+                    <span class="form-error" id="event-start-time-error"></span>
+                </div>
+                <div class="form-group flex flex-1">
+                    <span class="form-label">End Time <small>(optional)</small></span>
+                    <input type="text" name="event-end-time" id="event-end-time" class="form-input flatpickr-input-time" placeholder="Select event end time">
+                    <span class="form-error" id="event-end-time-error"></span>
                 </div>
             </div>
 

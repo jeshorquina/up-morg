@@ -1,4 +1,4 @@
-(function (FirstFrontmanDetailsOperations) {
+(function (FirstFrontmanDetailsOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -60,4 +60,4 @@
     source, controllerCallback
   );
 
-})(FirstFrontmanDetailsOperations);
+})(FirstFrontmanDetailsOperations, Loader);

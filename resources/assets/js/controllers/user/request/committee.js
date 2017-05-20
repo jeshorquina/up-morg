@@ -1,4 +1,4 @@
-(function (RequestCommitteeOperations) {
+(function (RequestCommitteeOperations, Loader) {
 
   var source = (
     document
@@ -19,8 +19,10 @@
     document
       .getElementById("select-committee-form")
       .addEventListener("submit", requestCommitteeCallback);
+
+    Loader.RemoveLoadingScreen();
   }
 
   RequestCommitteeOperations.RenderRequestPage(source, controllerCallback);
 
-})(RequestCommitteeOperations);
+})(RequestCommitteeOperations, Loader);

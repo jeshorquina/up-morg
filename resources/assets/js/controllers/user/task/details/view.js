@@ -1,4 +1,4 @@
-(function (TaskDetailsViewOperations) {
+(function (TaskDetailsViewOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -66,14 +66,12 @@
       .addEventListener("submit", addTaskCommentCallback);
 
     var editButton = document.getElementById("edit-task-button");
-    if(editButton)
-    {
+    if (editButton) {
       editButton.addEventListener("click", editTaskCallback);
     }
-    
+
     var deleteButton = document.getElementById("delete-task-button");
-    if(deleteButton)
-    {
+    if (deleteButton) {
       deleteButton.addEventListener("click", deleteTaskCallback);
     }
 
@@ -96,4 +94,4 @@
     source, taskID, controllerCallback
   );
 
-})(TaskDetailsViewOperations);
+})(TaskDetailsViewOperations, Loader);

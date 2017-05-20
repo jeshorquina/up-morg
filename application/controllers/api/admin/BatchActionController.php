@@ -76,23 +76,12 @@ class BatchActionController extends Controller
     {
         $batch_id = Http::Request(Http::POST, "batch-id");
 
-        if(!$this->operations->HasFrontmen($batch_id))
+        if(!$this->operations->HasFirstFrontmen($batch_id))
         {
             Http::Response(
                 Http::UNPROCESSABLE_ENTITY, array(
                     "message" => StringHelper::NoBreakString(
                         "Please select all frontmen before activating batch."
-                    )
-                )
-            );
-        }
-        else if(!$this->operations->HasCommitteeHeads($batch_id))
-        {
-            Http::Response(
-                Http::UNPROCESSABLE_ENTITY, array(
-                    "message" => StringHelper::NoBreakString(
-                        "Please assign committee heads to all committees 
-                        before activating batch."
                     )
                 )
             );

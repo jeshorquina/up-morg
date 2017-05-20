@@ -45,24 +45,55 @@ class CalendarActionOperations
         $return_events = array();
         foreach($events as $event)
         {
+            $class = "";
+            if((bool)$event->IsPublic)
+            {
+                $class = "label-purple";
+            }
+            else
+            {
+                $class = "label-blue";
+            }
+
             $temp_event = array(
                 "title" => $event->EventName,
                 "url" => Url::GetBaseURL(
                     sprintf("calendar/events/details/%s", $event->EventID)
-                )
+                ),
+                "className" => $class,
+                "textColor" => "#FFF"
             );
 
             if($event->EventEndDate != null)
             {
-                $temp_event["start"] = $event->EventStartDate;
-                $temp_event["end"] = $event->EventEndDate;
+                if(
+                    $event->EventStartTime != null && 
+                    $event->EventEndTime != null
+                )
+                {
+                    $temp_event["start"] = sprintf(
+                        "%sT%s",
+                        $event->EventStartDate,
+                        $event->EventStartTime
+                    );
+                    $temp_event["end"] = sprintf(
+                        "%sT%s",
+                        $event->EventEndDate,
+                        $event->EventEndTime
+                    );
+                }
+                else
+                {
+                    $temp_event["start"] = $event->EventStartDate;
+                    $temp_event["end"] = $event->EventEndDate;
+                }
             }
-            else if($event->EventTime != null)
+            else if($event->EventStartTime != null)
             {
                 $temp_event["start"] = sprintf(
                     "%sT%s",
                     $event->EventStartDate,
-                    $event->EventTime
+                    $event->EventStartTime
                 );
             }
             else
@@ -370,13 +401,43 @@ class CalendarActionOperations
     {
         if($event_object->EventEndDate != null)
         {
-            return sprintf(
-                "%s to %s", 
-                date("F j, Y", strtotime($event_object->EventStartDate)),
-                date("F j, Y", strtotime($event_object->EventEndDate))
-            );
+            if(
+                $event_object->EventStartTime != null && 
+                $event_object->EventEndTime != null
+            )
+            {
+                return sprintf(
+                    "%s to %s", 
+                    date("F j, Y - g:i a", 
+                        strtotime(
+                            sprintf(
+                                "%s %s", 
+                                $event_object->EventStartDate, 
+                                $event_object->EventStartTime
+                            )
+                        )
+                    ),
+                    date("F j, Y - g:i a", 
+                        strtotime(
+                            sprintf(
+                                "%s %s", 
+                                $event_object->EventEndDate, 
+                                $event_object->EventEndTime
+                            )
+                        )
+                    )
+                );
+            }
+            else
+            {
+                return sprintf(
+                    "%s to %s", 
+                    date("F j, Y", strtotime($event_object->EventStartDate)),
+                    date("F j, Y", strtotime($event_object->EventEndDate))
+                );
+            }   
         }
-        else if($event_object->EventTime != null)
+        else if($event_object->EventStartTime != null)
         {
             return date(
                 "F j, Y - g:i a",
@@ -384,7 +445,7 @@ class CalendarActionOperations
                     sprintf(
                         "%s %s", 
                         $event_object->EventStartDate, 
-                        $event_object->EventTime
+                        $event_object->EventStartTime
                     )
                 )
             );
@@ -480,7 +541,10 @@ class CalendarActionOperations
                 "start" => $event->EventStartDate,
                 "end" => $event->EventEndDate
             ),
-            "time" => $event->EventTime,
+            "time" => array(
+                "start" => $event->EventStartTime,
+                "end" => $event->EventEndTime
+            ),
             "public" => (bool)$event->IsPublic
         );
     }
@@ -502,10 +566,16 @@ class CalendarActionOperations
                 "event-end-date", $input_data["event-end-date"]
             );
         }
-        if($input_data["event-time"] != null)
+        if($input_data["event-start-time"] != null)
         {
             $validation->CheckTime(
-                "event-time", $input_data["event-time"]
+                "event-start-time", $input_data["event-start-time"]
+            );
+        }
+        if($input_data["event-end-time"] != null)
+        {
+            $validation->CheckTime(
+                "event-end-time", $input_data["event-end-time"]
             );
         }
 
@@ -538,8 +608,8 @@ class CalendarActionOperations
     }
 
     public function AddEvent(
-        $event_name, $event_start_date, $event_end_date, $event_time, 
-        $event_owner, $is_public, $event_description
+        $event_name, $event_start_date, $event_end_date, $event_start_time, 
+        $event_end_time, $event_owner, $is_public, $event_description
     ) 
     {
         return $this->event->AddEvent(
@@ -550,7 +620,8 @@ class CalendarActionOperations
                     "EventDescription" => $event_description,
                     "EventStartDate" => $event_start_date,
                     "EventEndDate" => $event_end_date,
-                    "EventTime" => $event_time,
+                    "EventStartTime" => $event_start_time,
+                    "EventEndTime" => $event_end_time,
                     "IsPublic" => $is_public
                 )
             )
@@ -559,7 +630,8 @@ class CalendarActionOperations
 
     public function EditEvent(
         $event_id, $event_name, $event_start_date, $event_end_date, 
-        $event_time, $event_owner, $is_public, $event_description
+        $event_start_time, $event_end_time, $event_owner, $is_public, 
+        $event_description
     )
     {
         return $this->event->EditEvent(
@@ -571,7 +643,8 @@ class CalendarActionOperations
                     "EventDescription" => $event_description,
                     "EventStartDate" => $event_start_date,
                     "EventEndDate" => $event_end_date,
-                    "EventTime" => $event_time,
+                    "EventStartTime" => $event_start_time,
+                    "EventEndTime" => $event_end_time,
                     "IsPublic" => $is_public
                 )
             )

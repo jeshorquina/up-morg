@@ -1,4 +1,4 @@
-(function (FinanceMemberOperations) {
+(function (FinanceMemberOperations, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -13,10 +13,10 @@
     document
       .getElementById("add-ledger-entry-form")
       .addEventListener("submit", addLedgerEntryCallback);
-    
+
     Loader.RemoveLoadingScreen();
   }
 
   FinanceMemberOperations.RenderFinancePage(source, controllerCallback);
 
-})(FinanceMemberOperations);
+})(FinanceMemberOperations, Loader);

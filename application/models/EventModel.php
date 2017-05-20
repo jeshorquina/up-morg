@@ -11,7 +11,8 @@ class EventModel implements ModelInterface
     public $EventDescription;
     public $EventStartDate;
     public $EventEndDate;
-    public $EventTime;
+    public $EventStartTime;
+    public $EventEndTime;
     public $IsPublic;
     public $Timestamp;
 

@@ -6,3 +6,8 @@
 .flatpickr-calendar {
     z-index: 999999999 !important;
 }
+
+.flatpickr-input-date,
+.flatpickr-input-time {
+    min-width: 0px !important;
+}
