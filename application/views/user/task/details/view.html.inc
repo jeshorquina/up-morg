@@ -89,7 +89,7 @@
         <h3>Task Comments</h3>
 
         <div class="form-group">
-            <label class="form-label">Add Comment</label>
+            <label class="form-label form-label-required">Add Comment</label>
             <textarea name="task-comment" class="form-input width-full" row="3" required="required" placeholder="Type comment here..."></textarea>
         </div>
 

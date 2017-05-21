@@ -25,7 +25,7 @@
             <div class="flex-container">
                 <div class="form-group flex flex-3">
                     <span class="form-label form-label-required">Event Name</span>
-                    <input type="text" name="event-name" id="event-name" class="form-input" placeholder="Enter event name">
+                    <input type="text" name="event-name" id="event-name" class="form-input" placeholder="Enter event name" required="required">
                     <span class="form-error" id="event-name-error"></span>
                 </div>
                 <div class="form-group flex flex-1">
