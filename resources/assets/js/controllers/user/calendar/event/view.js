@@ -1,4 +1,4 @@
-(function (EventDetailsViewOperations, Loader) {
+(function (EventDetailsViewOperations, ProfileDropdown, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -44,6 +44,7 @@
       deleteButton.addEventListener("click", deleteEventCallback);
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -51,4 +52,4 @@
     source, eventID, controllerCallback
   );
 
-})(EventDetailsViewOperations, Loader);
+})(EventDetailsViewOperations, ProfileDropdown, ProfileDropdown, Loader);

@@ -1,4 +1,4 @@
-(function (FinanceActivationOperations, Loader) {
+(function (FinanceActivationOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -14,6 +14,7 @@
       .getElementById("activate-form")
       .addEventListener("submit", activateCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -21,4 +22,4 @@
     source, controllerCallback
   );
 
-})(FinanceActivationOperations, Loader);
+})(FinanceActivationOperations, ProfileDropdown, Loader);

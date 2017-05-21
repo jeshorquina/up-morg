@@ -1,4 +1,4 @@
-(function (AvailabilityGroupOperations, Loader) {
+(function (AvailabilityGroupOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -59,6 +59,7 @@
     addForm.removeEventListener("submit", addCallback);
     addForm.addEventListener("submit", addCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -66,4 +67,4 @@
     source, controllerCallback
   );
 
-})(AvailabilityGroupOperations, Loader);
+})(AvailabilityGroupOperations, ProfileDropdown, Loader);

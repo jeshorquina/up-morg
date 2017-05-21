@@ -1,4 +1,4 @@
-(function (AvailabilityGroupViewOperations, Loader) {
+(function (AvailabilityGroupViewOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -18,6 +18,7 @@
       .getElementById("time-range-button")
       .addEventListener("click", changeTimeRangeCallback)
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -25,4 +26,4 @@
     source, groupID, controllerCallback
   );
 
-})(AvailabilityGroupViewOperations, Loader);
+})(AvailabilityGroupViewOperations, ProfileDropdown, Loader);

@@ -1,4 +1,4 @@
-(function (TaskViewOperations, Loader) {
+(function (TaskViewOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -20,9 +20,10 @@
       );
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   TaskViewOperations.RenderTaskViewPage(source, controllerCallback);
 
-})(TaskViewOperations, Loader);
+})(TaskViewOperations, ProfileDropdown, Loader);

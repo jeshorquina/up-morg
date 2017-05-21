@@ -1,4 +1,4 @@
-(function (RequestCommitteeOperations, Loader) {
+(function (RequestCommitteeOperations, ProfileDropdown, Loader) {
 
   var source = (
     document
@@ -20,9 +20,10 @@
       .getElementById("select-committee-form")
       .addEventListener("submit", requestCommitteeCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   RequestCommitteeOperations.RenderRequestPage(source, controllerCallback);
 
-})(RequestCommitteeOperations, Loader);
+})(RequestCommitteeOperations, ProfileDropdown, Loader);

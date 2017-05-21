@@ -1,4 +1,4 @@
-(function (FrontmanDetailsOperations, Loader) {
+(function (FrontmanDetailsOperations, ProfileDropdown, Loader) {
 
   var source = (
     document
@@ -17,6 +17,7 @@
       .getElementById("modify-frontmen-form")
       .addEventListener("submit", modifyFrontmanCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -24,4 +25,4 @@
     source, controllerCallback
   );
 
-})(FrontmanDetailsOperations, Loader);
+})(FrontmanDetailsOperations, ProfileDropdown, Loader);

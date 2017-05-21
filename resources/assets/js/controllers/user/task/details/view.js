@@ -1,4 +1,4 @@
-(function (TaskDetailsViewOperations, Loader) {
+(function (TaskDetailsViewOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0];
   var source = body.getAttribute("data-source");
@@ -87,6 +87,7 @@
         .addEventListener("submit", approveTaskCallback)
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -94,4 +95,4 @@
     source, taskID, controllerCallback
   );
 
-})(TaskDetailsViewOperations, Loader);
+})(TaskDetailsViewOperations, ProfileDropdown, Loader);

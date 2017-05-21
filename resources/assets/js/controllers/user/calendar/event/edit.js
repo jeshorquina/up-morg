@@ -1,4 +1,4 @@
-(function (EventEditOperations, Loader) {
+(function (EventEditOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -18,9 +18,10 @@
       .getElementById("edit-event-form")
       .addEventListener("submit", editEventCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   EventEditOperations.RenderEventEditPage(source, eventID, controllerCallback);
 
-})(EventEditOperations, Loader);
+})(EventEditOperations, ProfileDropdown, Loader);

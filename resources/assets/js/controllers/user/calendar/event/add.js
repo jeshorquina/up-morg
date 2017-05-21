@@ -1,4 +1,4 @@
-(function (EventAddOperations, Loader) {
+(function (EventAddOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -12,7 +12,8 @@
         EventAddOperations.AddEvent(source, this);
       });
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   });
 
-})(EventAddOperations, Loader);
+})(EventAddOperations, ProfileDropdown, Loader);

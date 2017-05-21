@@ -1,4 +1,4 @@
-(function (FinanceHeadOperations, Loader) {
+(function (FinanceHeadOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -28,9 +28,10 @@
       verifyButtons[i].addEventListener("click", verifyEntryCallback)
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   FinanceHeadOperations.RenderFinancePage(source, controllerCallback);
 
-})(FinanceHeadOperations, Loader);
+})(FinanceHeadOperations, ProfileDropdown, Loader);

@@ -1,4 +1,4 @@
-(function (FinanceFrontmanOperations, Loader) {
+(function (FinanceFrontmanOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -14,9 +14,10 @@
       .getElementById("generate-report-form")
       .addEventListener("submit", generateReportCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   FinanceFrontmanOperations.RenderFinancePage(source, controllerCallback);
 
-})(FinanceFrontmanOperations, Loader);
+})(FinanceFrontmanOperations, ProfileDropdown, Loader);

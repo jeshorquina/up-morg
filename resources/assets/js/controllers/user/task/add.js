@@ -1,4 +1,4 @@
-(function (TaskAddOperations, Loader) {
+(function (TaskAddOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -52,9 +52,10 @@
       );
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
   TaskAddOperations.RenderTaskAddPage(source, controllerCallback);
 
-})(TaskAddOperations, Loader);
+})(TaskAddOperations, ProfileDropdown, Loader);

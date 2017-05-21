@@ -1,4 +1,4 @@
-(function (CommitteeDetailsOperations, Loader) {
+(function (CommitteeDetailsOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -57,6 +57,7 @@
       )
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -64,4 +65,4 @@
     source, committeeName, controllerCallback
   );
 
-})(CommitteeDetailsOperations, Loader);
+})(CommitteeDetailsOperations, ProfileDropdown, Loader);

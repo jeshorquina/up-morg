@@ -1,4 +1,4 @@
-(function (AvailabilityModifyOperations, Loader) {
+(function (AvailabilityModifyOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source"),
@@ -47,6 +47,7 @@
       .getElementById("button-update-schedule")
       .addEventListener("click", updateScheduleCallback);
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -54,4 +55,4 @@
     source, controllerCallback
   );
 
-})(AvailabilityModifyOperations, Loader);
+})(AvailabilityModifyOperations, ProfileDropdown, Loader);

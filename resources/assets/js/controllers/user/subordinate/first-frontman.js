@@ -1,4 +1,4 @@
-(function (FirstFrontmanDetailsOperations, Loader) {
+(function (FirstFrontmanDetailsOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
@@ -53,6 +53,7 @@
       );
     }
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -60,4 +61,4 @@
     source, controllerCallback
   );
 
-})(FirstFrontmanDetailsOperations, Loader);
+})(FirstFrontmanDetailsOperations, ProfileDropdown, Loader);
