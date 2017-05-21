@@ -41,6 +41,19 @@ class UserSession
             return false;
         }
     }
+
+    public static function GetMemberID()
+    {
+        $member = self::GetSessionData()["member"];
+        if(array_key_exists("id", $member))
+        {
+            return $member["id"];
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     public static function GetMemberTypeID()
     {

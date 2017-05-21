@@ -527,6 +527,18 @@ class PageRenderer
         }
     }
 
+    public static function HasAccountPasswordPageAccess()
+    {
+        if(!UserSession::IsCommitteeMember() && !UserSession::IsFrontman())
+        {
+            self::ShowForbiddenPage();
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public static function HasAdminPageAccess()
     {
         if(Url::GetCurrentURI() === "admin/login") 
@@ -732,6 +744,17 @@ class PageRenderer
                     "url" => Url::GetBaseURL("calendar/add/event")
                 );
             }
+
+            return array(
+                "nav_secondary" => $navs
+            );
+        }
+        else if(strpos($page_name, 'account-') !== false)
+        {
+            $navs[] = array(
+                "name" => "Edit Password",
+                "url" => Url::GetBaseURL("account/password")
+            );
 
             return array(
                 "nav_secondary" => $navs

@@ -207,6 +207,16 @@
     parameter: any
 
 
+'account':
+    directory: pages/user
+    controller: UserAccountPageController
+    function: AccountIndex
+'account/password':
+    directory: pages/user
+    controller: UserAccountPageController
+    function: AccounPasswordPage
+
+
 'task':
     directory: pages/user
     controller: TaskPageController
@@ -327,6 +337,12 @@
     directory: api/user
     controller: RequestActionController
     function: RequestCommittee
+
+
+'action/account/password/change':
+    directory: api/user
+    controller: UserAccountActionController
+    function: ChangePassword
 
 
 'action/task/view':

@@ -155,6 +155,22 @@
         ]
     },
     {
+        "name": "user/account-password.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/vendor/drop/tether.js",
+            "resources/assets/js/vendor/drop.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
+            "resources/assets/js/helpers/profile-dropdown.js",
+            "resources/assets/js/factories/libraries/alertFactory.js",
+            "resources/assets/js/operations/user/account/password.js",
+            "resources/assets/js/controllers/user/account/password.js"
+        ]
+    },
+    {
         "name": "user/task-view.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

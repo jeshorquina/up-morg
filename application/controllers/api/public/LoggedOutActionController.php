@@ -65,7 +65,7 @@ class LoggedOutActionController extends Controller
             Http::Response(
                 Http::FOUND,
                 "Successfully logged out.",
-                "Location: " . Url::GetBaseURL()
+                "Location: " . Url::GetBaseURL("login")
             );
         }
         else
