@@ -516,6 +516,18 @@
         ]
     },
     {
+        "name": "user/finance-activation-nonhead.js",
+        "src": [
+            "resources/assets/js/vendor/stickyfill.min.js",
+            "resources/assets/js/vendor/drop/tether.js",
+            "resources/assets/js/vendor/drop.js",
+            "resources/assets/js/helpers/stickyfill.js",
+            "resources/assets/js/libraries/domHelper.js",
+            "resources/assets/js/helpers/profile-dropdown.js",
+            "resources/assets/js/controllers/user/finance/activation-nonhead.js"
+        ]
+    },
+    {
         "name": "user/finance-closed-frontman.js",
         "src": [
             "resources/assets/js/vendor/stickyfill.min.js",

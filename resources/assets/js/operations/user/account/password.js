@@ -43,8 +43,6 @@
 
       AlertFactory.GenerateSuccessAlert(container, data.message);
       window.scrollTo(0, 0);
-
-      UrlHelper.Redirect(data.redirect_url, 1000);
     }
   }
 
