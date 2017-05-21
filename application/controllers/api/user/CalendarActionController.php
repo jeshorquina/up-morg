@@ -410,7 +410,7 @@ class CalendarActionController extends Controller
             );
         }
 
-        if(!$this->operations->AddEvent(
+        if(!$event_id = $this->operations->AddEvent(
             $event_name, $event_start_date, $event_end_date, $event_start_time, 
             $event_end_time, $event_owner, $is_public, $event_description,
             "event-image"
@@ -431,6 +431,9 @@ class CalendarActionController extends Controller
                 Http::CREATED, array(
                     "message" => StringHelper::NoBreakString(
                         "Event successfully added."
+                    ),
+                    "redirect_url" => Url::GetBaseURL(
+                        sprintf('calendar/events/details/%s', $event_id)
                     )
                 )
             );

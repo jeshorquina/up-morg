@@ -119,25 +119,12 @@
     ResetFormValidation();
     window.scrollTo(0, 0);
 
-    if (status == HttpHelper.OK || status == HttpHelper.CREATED) {
-
-      TaskAddOperations.self = response.data.self;
-
-      FillTaskAssigneeSelect(response.data.members);
-
-      GenerateSubscriberList(response.data.members);
-
-      FillTaskSubscribersSelect();
-      FillTaskSubscriberList();
-
-      FillTaskEventSelect(response.data.events);
-      FillTaskParentSelect(response.data.tasks);
-
-      controllerCallback();
+    if (status == HttpHelper.CREATED) {
 
       AlertFactory.GenerateSuccessAlert(
         document.getElementById("notifications"), response.message
       );
+      UrlHelper.Redirect(response.redirect_url, 1000);
     }
     else if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 

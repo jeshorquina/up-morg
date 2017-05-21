@@ -1018,7 +1018,7 @@ class TaskActionController extends Controller
                 )
             );
         }
-        else if(!$this->operations->AddTask(
+        else if(!$task_id = $this->operations->AddTask(
             $title, $description, $deadline, $reporter, $assignee, $subscribers,
             $parent, $event
         ))
@@ -1033,34 +1033,15 @@ class TaskActionController extends Controller
             );
         }
 
-        $details = array();
-        if(UserSession::IsFrontman())
-        {
-            $details = $this->operations->GetFrontmanAddTaskPageDetails(
-                UserSession::GetBatchID(), UserSession::GetBatchMemberID(),
-                UserSession::IsFirstFrontman()
-            );
-        }
-        else if(UserSession::IsCommitteeHead())
-        {
-            $details = $this->operations->GetCommitteeHeadAddTaskPageDetails(
-                UserSession::GetBatchID(), UserSession::GetCommitteeID(), 
-                UserSession::GetBatchMemberID()
-            );
-        }
-        else 
-        {
-            $details = $this->operations->GetCommitteeMemberAddTaskPageDetails(
-                UserSession::GetBatchID(), UserSession::GetBatchMemberID()
-            );
-        }
-
         Http::Response(
-            Http::OK, array(
+            Http::CREATED, array(
                 "message" => StringHelper::NoBreakString(
                     "Task successfully added!"
                 ),
-                "data" => $details
+                "data" => $details,
+                "redirect_url" => Url::GetBaseURL(
+                    sprintf("task/view/details/%s", $task_id)
+                )
             )
         );
     }

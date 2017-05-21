@@ -421,6 +421,7 @@
             "resources/assets/js/helpers/loader.js",
             "resources/assets/js/libraries/domHelper.js",
             "resources/assets/js/libraries/httpHelper.js",
+            "resources/assets/js/libraries/urlHelper.js",
             "resources/assets/js/helpers/profile-dropdown.js",
             "resources/assets/js/factories/libraries/alertFactory.js",
             "resources/assets/js/operations/user/calendar/event/add.js",

@@ -1590,7 +1590,7 @@ class TaskActionOperations
             );
         }
 
-        return true;
+        return $task_id;
     }
 
     private function GetMemberName($member_id)

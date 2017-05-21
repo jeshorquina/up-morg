@@ -1,4 +1,4 @@
-(function (DomHelper, HttpHelper, AlertFactory, EventAddOperations) {
+(function (DomHelper, HttpHelper, UrlHelper, AlertFactory, EventAddOperations) {
 
   EventAddOperations.RenderEventAddPage = function (controllerCallback) {
 
@@ -29,6 +29,8 @@
       AlertFactory.GenerateSuccessAlert(
         document.getElementById("notifications"), response.message
       );
+
+      UrlHelper.Redirect(response.redirect_url, 1000);
     }
     else if (status == HttpHelper.UNPROCESSABLE_ENTITY) {
 
@@ -78,7 +80,7 @@
   }
 
 })(
-  DomHelper, HttpHelper, AlertFactory,
+  DomHelper, HttpHelper, UrlHelper, AlertFactory,
   this.EventAddOperations = (
     this.EventAddOperations == undefined
   ) ? {} : this.EventAddOperations
