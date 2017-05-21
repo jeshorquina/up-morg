@@ -55,6 +55,31 @@ class UserSession
         }
     }
 
+    public static function GetMemberName()
+    {
+        $member = self::GetSessionData()["member"];
+
+        return sprintf(
+            "%s %s %s", 
+            $member["first_name"],
+            $member["middle_name"],
+            $member["last_name"]
+        );
+    }
+
+    public static function GetMemberPosition()
+    {
+        $batch = self::GetSessionData()["batch"];
+        if(array_key_exists("member_type", $batch))
+        {
+            return $batch["member_type"];
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public static function IsFirstFrontman()
     {
         return (bool) self::GetSessionData()["flags"]["is_first_frontman"];

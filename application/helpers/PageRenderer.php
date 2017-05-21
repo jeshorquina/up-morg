@@ -788,12 +788,19 @@ class PageRenderer
             );
         }
 
-        $navs[] = array(
-            "name" => "Logout",
-            "url" => Url::GetBaseURL('action/logout')
+        return array(
+            "nav" => $navs,
+            "profile" => array(
+                "urls" => array(
+                    "logout" => Url::GetBaseURL('action/logout'),
+                    "account" => Url::GetBaseURL('account'),
+                ),
+                "details" => array(
+                    "name" => UserSession::GetMemberName(),
+                    "position" => UserSession::GetMemberPosition()
+                )
+            )
         );
-
-        return array("nav" => $navs);
     }
 
     private static function GetAdminNavigationLinks($has_nav)

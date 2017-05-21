@@ -121,6 +121,16 @@ class LoggedOutActionOperations
                             $committee_array["id"]
                         ) === Committee::FINANCE
                     );
+
+                    $batch_array["member_type"] = sprintf(
+                        "%s %s",
+                        $this->committee->GetCommitteeName(
+                            $committee_array["id"]
+                        ),
+                        $this->member->GetMemberType(
+                            $batch_member->MemberTypeID
+                        )
+                    );
                 }
                 else // unapproved
                 {
@@ -156,6 +166,10 @@ class LoggedOutActionOperations
                     $this->member->GetMemberType(
                         $batch_member->MemberTypeID
                     ) === Member::FIRST_FRONTMAN
+                );
+
+                $batch_array["member_type"] = $this->member->GetMemberType(
+                    $batch_member->MemberTypeID
                 );
             }
         }

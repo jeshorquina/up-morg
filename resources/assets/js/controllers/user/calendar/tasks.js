@@ -1,10 +1,11 @@
-(function (CalendarTasksViewOperations, Loader) {
+(function (CalendarTasksViewOperations, ProfileDropdown, Loader) {
 
   var body = document.getElementsByTagName("body")[0],
     source = body.getAttribute("data-source");
 
   var controllerCallback = function () {
 
+    ProfileDropdown.Initialize();
     Loader.RemoveLoadingScreen();
   }
 
@@ -12,4 +13,4 @@
     source, controllerCallback
   );
 
-})(CalendarTasksViewOperations, Loader);
+})(CalendarTasksViewOperations, ProfileDropdown, Loader);

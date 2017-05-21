@@ -61,3 +61,37 @@
         font-size: 0.9rem;
     }
 }
+
+.profile-dropdown-key {
+    margin-left: 0.5rem;
+}
+
+.drop-element {
+  z-index: 99999999;
+  .drop-content {
+      @include box-shadow(3px);
+
+      background: $color-background;
+      border: 1px solid $color-border;
+      margin-top: 0.5rem;
+      padding: 0;
+
+      .profile-details {
+          padding: 1rem;
+          width: 250px;
+      }
+
+      .profile-links {
+          border-top: 1px solid $color-border;
+          color: $color-text;
+          display: block;
+          padding: 0.5rem 1rem;
+          text-decoration: none;
+
+          &:focus, &:hover {
+              background: darken($color-background, 10%);
+              text-decoration: underline;
+          }
+      }
+  }
+}
