@@ -66,6 +66,22 @@
     margin-left: 0.5rem;
 }
 
+.drop-element, .drop-element:after, .drop-element:before, .drop-element *, .drop-element *:after, .drop-element *:before {
+  box-sizing: border-box; }
+
+.drop-element {
+  position: absolute;
+  display: none; }
+  .drop-element.drop-open {
+    display: block; }
+
+.drop-element.drop-theme-basic {
+  max-width: 100%;
+  max-height: 100%; }
+  .drop-element.drop-theme-basic .drop-content {
+    border-radius: 3px;
+    font-family: inherit; }
+
 .drop-element {
   z-index: 99999999;
   .drop-content {
