@@ -109,12 +109,19 @@ class FinanceActionOperations
 
     private function IsPreviousBatchEntry($batch_id, $entry)
     {
-        $entry_acad_year = $this->batch->GetAcadYear(
-            $this->batch_member->GetBatchID($entry->BatchMemberID)
-        );
-        $current_acad_year = $this->batch->GetAcadYear($batch_id);
+        if($entry->BatchMemberID != null)
+        {
+            $entry_acad_year = $this->batch->GetAcadYear(
+                $this->batch_member->GetBatchID($entry->BatchMemberID)
+            );
+            $current_acad_year = $this->batch->GetAcadYear($batch_id);
 
-        return strcmp($entry_acad_year, $current_acad_year) < 0;
+            return strcmp($entry_acad_year, $current_acad_year) < 0;
+        }
+        else 
+        {
+            return true;
+        }
     }
 
     private function GetMemberName(MemberModel $member)

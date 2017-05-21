@@ -8,7 +8,7 @@
         </div>
         <div class="right-content align-right">
             <?php foreach($page['nav'] as $nav_item) { ?>
-            <a class="item <?php if(strpos(base_url(uri_string()),  $nav_item['url']) !== false) { ?>active<?php } ?>"
+            <a class="item <?php if($nav_item['name'] == 'Logout' || $nav_item['name'] == 'Sign Up') { ?>button <?php } if(strpos(base_url(uri_string()),  $nav_item['url']) !== false) { ?>active<?php } ?>"
                 href="<?= $nav_item['url'] ?>"><!--
                 --><?= $nav_item['name'] ?><!--
             --></a>
